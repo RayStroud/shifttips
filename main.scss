@@ -1,0 +1,209 @@
+//colors
+$blue: #449;
+$lightgrey: #eaeaea;
+$darkgrey: #888;
+
+//palette
+$body-bgcolor: $blue;
+$content-bgcolor: $lightgrey;
+$header-text-color: white;
+$border-color: lightgray;
+$border-hover-color: $blue;
+$label-color: $darkgrey;
+
+$monday-color: purple;
+
+//fonts
+$heading-font: "Trebuchet MS", Helvetica, sans-serif;
+$content-font: Arial, Helvetica, sans-serif;
+$serif-font: Georgia, serif;
+$mono-font: Consolas, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
+
+//effects
+$shadow: 2px 4px 3px rgba(0,0,0,0.3);
+$glow: 0px 0px 8px rgba(255,255,255,0.7);
+$glow-big: 0px 0px 16px rgba(255,255,255,0.7);
+
+/* ############################################
+	CLEANUP
+############################################ */
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, code, img, small, strike, var, b, u, i, center, ol, ul, li, fieldset, form, input, textarea, label, legend, table, tbody, tfoot, thead, tr, th, td, footer, header, hgroup {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+body {line-height: 1;}
+ol, ul {list-style: none;}
+table {border-collapse: collapse; border-spacing: 0;}
+
+/* ############################################
+	LAYOUT
+############################################ */
+body {
+	background-color: $body-bgcolor;
+	font-family: sans-serif;
+}
+h1 {
+	text-align: center;
+	font-family: $serif-font;
+	font-weight: bold;
+	font-size: 1.8em;
+	margin: 2% 1% 1%;
+}
+#header {
+	color: $header-text-color;
+	padding: 3% 1% 2% 5%;
+	.name {
+		font-family: $serif-font;
+		font-size: 3em;
+		font-weight: bold;
+		font-variant: small-caps;
+	}
+}
+#header:hover {
+	.name {text-shadow: $glow-big;}
+}
+#content {
+	background-color: $content-bgcolor;
+	line-height: 22px;
+	padding: 0 3%;
+	overflow: hidden;
+}
+.wrapper {
+	max-width: 1300px;
+	margin: 2% auto;
+}
+.clickable { position: relative;}
+.clickable:hover { border-color: $border-hover-color;}
+.link-spanner {
+	position: absolute; 
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+@media screen and (max-width: 700px) {
+	h1 {margin: 1em 0 0.5em;}
+	.wrapper {margin-bottom: 1em;}
+}
+
+/* ############################################
+	SHIFT BOX
+############################################ */
+.shift-date {
+	font-weight: bold;
+	font-variant: small-caps;
+	text-align: center;
+} 
+.shift-time {
+	text-align: center;
+	margin-bottom: 3px;
+}
+hr {
+	margin-top: 1%;
+	margin-bottom: 1%;
+}
+.shift-info {
+	.label {
+		display: inline-block;
+		width: 35%;
+		margin-right: 5%;
+		margin-bottom: 0;
+		color: $label-color;
+		text-align: right;
+		vertical-align: top;
+	}
+	.value {
+		display: inline-block;
+		width: 60%;
+	}
+}
+.mon-shift {background-color: $monday-color}
+.tue-shift {background-color: $monday-color}
+.wed-shift {background-color: $monday-color}
+.thu-shift {background-color: $monday-color}
+.fri-shift {background-color: $monday-color}
+.sat-shift {background-color: $monday-color}
+.sun-shift {background-color: $monday-color}
+
+/* ############################################
+	ALL SHIFTS
+############################################ */
+#shifts {
+	display: flex;
+	flex-flow: row wrap;
+}
+.shift-summary {
+	flex: 1 1 160px;
+	padding: 1%;
+	margin: 1%;
+	//background-color: white;
+	border: 1px solid $border-color;
+}
+.filler {
+	flex: 1 1 160px;
+	height: 0px;
+	margin: 0 1%;
+}
+
+@media screen and (max-width: 700px) {
+	.shift-summary {margin: 0.5em 1%;}
+
+}
+
+/* ############################################
+	SHIFT DETAILS
+############################################ */
+.shift-details {
+	max-width: 450px;
+	padding: 1%;
+	margin: 2% auto 1%;
+	background-color: white;
+	border: 1px solid $border-color;
+	.shift-date {
+		font-size: 1.2em;
+	}
+	.shift-info {
+		display: inline-block;
+		width: 49%;
+		.value {
+			width: 55%;
+		}
+	}
+	.full-width {
+		width: 98%;
+		.label {
+			width: 17.5%;
+			margin-right: 2.5%;
+		}
+		.value {width: 78%;}
+	}
+}
+
+@media screen and (max-width: 700px) {
+
+}
+
+/* ############################################
+	ADD SHIFT
+############################################ */
+form {
+	margin: 2% auto 1%;
+	max-width: 600px;
+	button {
+		margin: 0 25%;
+		width: 50%;
+	}
+}
+
+////////////////////////////
+body {
+	//transform: scale(0.5);
+}
