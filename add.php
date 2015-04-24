@@ -22,7 +22,7 @@
 		$section = (!empty($_POST['section']) ? $_POST['section'] : null);
 		$notes = (!empty($_POST['notes']) ? $_POST['notes'] : null);
 
-		/* DEBUG */ echo '<p>' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p>';
+		//* DEBUG */ echo '<p>' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p>';
 
 		//check if start date isn't null and already exists
 		if(isset($startTime))
@@ -33,7 +33,7 @@
 			$checkSQL->bind_result($checkSQLResult);
 			$checkSQL->store_result();
 			$checkSQLNumber = $checkSQL->num_rows;
-			/* DEBUG */ echo '<p>Number of results: ' . $checkSQLNumber . '</p>';
+			//* DEBUG */ echo '<p>Number of results: ' . $checkSQLNumber . '</p>';
 
 			//don't insert a duplicate record
 			//if($checkSQLNumber == 0)
@@ -50,7 +50,7 @@
 					$endTimeDateTime = new DateTime($endTime);
 					$endTimeDateTime->modify("+ 1day");
 					$endTime = $endTimeDateTime->format('Y-m-d H:i:s');
-					/* DEBUG */ echo '<p>Changed endTime to: ' . $endTime . '</p>';
+					//* DEBUG */ echo '<p>Changed endTime to: ' . $endTime . '</p>';
 				}
 
 				//calculate values
@@ -68,13 +68,13 @@
 				$lunchDinner = calculateLunchDinner($startTime);
 				$dayOfWeek = calculateDayOfWeek($startTime);
 
-				/* DEBUG */ echo '<p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
+				//* DEBUG */ echo '<p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
 
 				//insert record
 				$insertSQL = $db->prepare("INSERT INTO shift (wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 				$insertSQL->bind_param('dsssddiidiisssdiiiiiiddiiss', $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
 				$insertSQL->execute();
-				/* DEBUG */ echo '<p>Row inserted</p>';
+				//* DEBUG */ echo '<p>Row inserted</p>';
 			}
 		}
 	}
