@@ -133,6 +133,7 @@ hr {border-color: $border-color;}
 	.value {
 		display: inline-block;
 		width: 60%;
+		word-wrap: break-word;
 	}
 }
 .mon-shift {.shift-datetime {background-color: rgba($monday-color,0.1);		border-color: rgba($monday-color,0.3);}}
@@ -203,6 +204,7 @@ hr {border-color: $border-color;}
 		}
 		.full-width {
 			margin-top: 0.5em;
+			.value {width: 78%;}
 		}
 	}
 }

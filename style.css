@@ -111,7 +111,8 @@ hr {
   vertical-align: top; }
 .shift-info .value {
   display: inline-block;
-  width: 60%; }
+  width: 60%;
+  word-wrap: break-word; }
 
 .mon-shift .shift-datetime {
   background-color: rgba(255, 0, 0, 0.1);
@@ -191,7 +192,9 @@ hr {
     .shift-detailed .shift-info .value {
       width: 55%; }
   .shift-detailed .full-width {
-    margin-top: 0.5em; } }
+    margin-top: 0.5em; }
+    .shift-detailed .full-width .value {
+      width: 78%; } }
 /* ############################################
 	ADD SHIFT
 ############################################ */

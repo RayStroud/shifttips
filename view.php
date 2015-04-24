@@ -63,7 +63,7 @@
 						<div class="value"><?php echo (isset($firstTable) ? $firstTable : null); ?></div>
 					</div>
 					<div class="shift-info">
-						<div class="label">Camp Hrs</div>
+						<div class="label">CampHrs</div>
 						<div class="value"><?php echo (isset($campHours) ? $campHours . ' hours' : null); ?></div>
 					</div>
 
