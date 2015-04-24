@@ -208,4 +208,7 @@ form {
     margin: 0 25%;
     width: 50%; }
 
+input {
+  -webkit-appearance: none; }
+
 /*# sourceMappingURL=style.css.map */
