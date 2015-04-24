@@ -106,27 +106,19 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="date">Date</label>
-					<div class="form-control form-datetime">
-						<input required type="date" id="date" name="date" />
-					</div>
+					<input required class="form-control" type="date" id="date" name="date" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="startTime">Start</label>
-					<div class="form-control form-datetime">
-						<input required type="time" id="startTime" name="startTime" />
-					</div>
+					<input required class="form-control" type="time" id="startTime" name="startTime" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="endTime">End</label>
-					<div class="form-control form-datetime">
-						<input type="time" id="endTime" name="endTime" />
-					</div>
+					<input class="form-control" type="time" id="endTime" name="endTime" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="endTime">First Table</label>
-					<div class="form-control form-datetime">
-						<input type="time" id="firstTable" name="firstTable" />
-					</div>
+					<input class="form-control" type="time" id="firstTable" name="firstTable" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="campHours">Camp Hours</label>

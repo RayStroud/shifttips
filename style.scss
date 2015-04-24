@@ -229,10 +229,8 @@ input {
 	-moz-appearance: none;
 }
 input[type=date], input[type=time] {
-	height: 1.2em;
-    width: 100%;
+	display: inline-flex;
 }
-.form-datetime {padding-top:0;}
 
 /* ############################################
 	OTHER
