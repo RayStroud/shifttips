@@ -11,13 +11,13 @@ $border-color: lightgray;
 $border-hover-color: black;
 $label-color: $darkgrey;
 
-$monday-color: #F00;
-$tuesday-color: #FF0;
-$wednesday-color: #0F0;
-$thursday-color: #0FF;
-$friday-color: #00F;
-$saturday-color: #F0F;
-$sunday-color: #000;
+$monday-color: red;
+$tuesday-color: yellow;
+$wednesday-color: lime;
+$thursday-color: cyan;
+$friday-color: blue;
+$saturday-color: magenta;
+$sunday-color: black;
 
 //fonts
 $heading-font: "Trebuchet MS", Helvetica, sans-serif;
@@ -82,7 +82,7 @@ h1 {
 	overflow: hidden;
 }
 .wrapper {
-	max-width: 1300px;
+	//max-width: 1300px;
 	margin: 2% auto;
 }
 .clickable { position: relative;}
@@ -103,6 +103,11 @@ h1 {
 /* ############################################
 	SHIFT BOX
 ############################################ */
+.shift-datetime {
+	padding: 5% 5% 1%;
+	border-bottom: 1px solid $border-color;
+}
+.shift-details {padding: 2% 5% 5%;}
 .shift-date {
 	font-weight: bold;
 	font-variant: small-caps;
@@ -110,13 +115,8 @@ h1 {
 } 
 .shift-time {
 	text-align: center;
-	margin-bottom: 3px;
 }
-hr {
-	margin-top: 1%;
-	margin-bottom: 1%;
-	border-color: $border-color;
-}
+hr {border-color: $border-color;}
 .shift-info {
 	.label {
 		display: inline-block;
@@ -132,13 +132,13 @@ hr {
 		width: 60%;
 	}
 }
-div.mon-shift {background: linear-gradient(rgba($monday-color,0.1), white, white); 		hr{border-color:rgba($monday-color,0.3);}}
-div.tue-shift {background: linear-gradient(rgba($tuesday-color,0.1), white, white); 		hr{border-color:rgba($tuesday-color,0.3);}}
-div.wed-shift {background: linear-gradient(rgba($wednesday-color,0.1), white, white); 	hr{border-color:rgba($wednesday-color,0.3);}}
-div.thu-shift {background: linear-gradient(rgba($thursday-color,0.1), white, white); 	hr{border-color:rgba($thursday-color,0.3);}}
-div.fri-shift {background: linear-gradient(rgba($friday-color,0.1), white, white); 		hr{border-color:rgba($friday-color,0.3);}}
-div.sat-shift {background: linear-gradient(rgba($saturday-color,0.1), white, white); 	hr{border-color:rgba($saturday-color,0.3);}}
-div.sun-shift {background: linear-gradient(rgba($sunday-color,0.1), white, white); 		hr{border-color:rgba($sunday-color,0.3);}}
+.mon-shift {.shift-datetime {background-color: rgba($monday-color,0.1);		border-color: rgba($monday-color,0.3);}}
+.tue-shift {.shift-datetime {background-color: rgba($tuesday-color,0.1);	border-color: rgba(darken($tuesday-color,20%),0.3);}}
+.wed-shift {.shift-datetime {background-color: rgba($wednesday-color,0.1);	border-color: rgba(darken($wednesday-color,10%),0.3);}}
+.thu-shift {.shift-datetime {background-color: rgba($thursday-color,0.1);	border-color: rgba(darken($thursday-color,10%),0.3);}}
+.fri-shift {.shift-datetime {background-color: rgba($friday-color,0.1);		border-color: rgba($friday-color,0.3);}}
+.sat-shift {.shift-datetime {background-color: rgba($saturday-color,0.1);	border-color: rgba($saturday-color,0.3);}}
+.sun-shift {.shift-datetime {background-color: rgba($sunday-color,0.1);		border-color: rgba($sunday-color,0.3);}}
 
 /* ############################################
 	ALL SHIFTS
@@ -148,15 +148,14 @@ div.sun-shift {background: linear-gradient(rgba($sunday-color,0.1), white, white
 	flex-flow: row wrap;
 }
 .shift-summary {
-	flex: 1 1 160px;
-	padding: 1%;
+	flex: 1 1 165px;
 	margin: 1%;
 	background-color: white;
 	border: 1px solid $border-color;
 }
 .filler {
 	flex: 1 1 160px;
-	height: 0px;
+	height: 0;
 	margin: 0 1%;
 }
 
@@ -168,9 +167,8 @@ div.sun-shift {background: linear-gradient(rgba($sunday-color,0.1), white, white
 /* ############################################
 	SHIFT DETAILS
 ############################################ */
-.shift-details {
+.shift-detailed {
 	max-width: 450px;
-	padding: 1%;
 	margin: 2% auto 1%;
 	background-color: white;
 	border: 1px solid $border-color;

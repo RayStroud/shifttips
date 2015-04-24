@@ -55,7 +55,6 @@ h1 {
   overflow: hidden; }
 
 .wrapper {
-  max-width: 1300px;
   margin: 2% auto; }
 
 .clickable {
@@ -81,18 +80,22 @@ h1 {
 /* ############################################
 	SHIFT BOX
 ############################################ */
+.shift-datetime {
+  padding: 5% 5% 1%;
+  border-bottom: 1px solid lightgray; }
+
+.shift-details {
+  padding: 2% 5% 5%; }
+
 .shift-date {
   font-weight: bold;
   font-variant: small-caps;
   text-align: center; }
 
 .shift-time {
-  text-align: center;
-  margin-bottom: 3px; }
+  text-align: center; }
 
 hr {
-  margin-top: 1%;
-  margin-bottom: 1%;
   border-color: lightgray; }
 
 .shift-info .label {
@@ -107,40 +110,33 @@ hr {
   display: inline-block;
   width: 60%; }
 
-div.mon-shift {
-  background: linear-gradient(rgba(255, 0, 0, 0.1), white, white); }
-  div.mon-shift hr {
-    border-color: rgba(255, 0, 0, 0.3); }
+.mon-shift .shift-datetime {
+  background-color: rgba(255, 0, 0, 0.1);
+  border-color: rgba(255, 0, 0, 0.3); }
 
-div.tue-shift {
-  background: linear-gradient(rgba(255, 255, 0, 0.1), white, white); }
-  div.tue-shift hr {
-    border-color: rgba(255, 255, 0, 0.3); }
+.tue-shift .shift-datetime {
+  background-color: rgba(255, 255, 0, 0.1);
+  border-color: rgba(153, 153, 0, 0.3); }
 
-div.wed-shift {
-  background: linear-gradient(rgba(0, 255, 0, 0.1), white, white); }
-  div.wed-shift hr {
-    border-color: rgba(0, 255, 0, 0.3); }
+.wed-shift .shift-datetime {
+  background-color: rgba(0, 255, 0, 0.1);
+  border-color: rgba(0, 204, 0, 0.3); }
 
-div.thu-shift {
-  background: linear-gradient(rgba(0, 255, 255, 0.1), white, white); }
-  div.thu-shift hr {
-    border-color: rgba(0, 255, 255, 0.3); }
+.thu-shift .shift-datetime {
+  background-color: rgba(0, 255, 255, 0.1);
+  border-color: rgba(0, 204, 204, 0.3); }
 
-div.fri-shift {
-  background: linear-gradient(rgba(0, 0, 255, 0.1), white, white); }
-  div.fri-shift hr {
-    border-color: rgba(0, 0, 255, 0.3); }
+.fri-shift .shift-datetime {
+  background-color: rgba(0, 0, 255, 0.1);
+  border-color: rgba(0, 0, 255, 0.3); }
 
-div.sat-shift {
-  background: linear-gradient(rgba(255, 0, 255, 0.1), white, white); }
-  div.sat-shift hr {
-    border-color: rgba(255, 0, 255, 0.3); }
+.sat-shift .shift-datetime {
+  background-color: rgba(255, 0, 255, 0.1);
+  border-color: rgba(255, 0, 255, 0.3); }
 
-div.sun-shift {
-  background: linear-gradient(rgba(0, 0, 0, 0.1), white, white); }
-  div.sun-shift hr {
-    border-color: rgba(0, 0, 0, 0.3); }
+.sun-shift .shift-datetime {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.3); }
 
 /* ############################################
 	ALL SHIFTS
@@ -150,15 +146,14 @@ div.sun-shift {
   flex-flow: row wrap; }
 
 .shift-summary {
-  flex: 1 1 160px;
-  padding: 1%;
+  flex: 1 1 165px;
   margin: 1%;
   background-color: white;
   border: 1px solid lightgray; }
 
 .filler {
   flex: 1 1 160px;
-  height: 0px;
+  height: 0;
   margin: 0 1%; }
 
 @media screen and (max-width: 700px) {
@@ -167,25 +162,24 @@ div.sun-shift {
 /* ############################################
 	SHIFT DETAILS
 ############################################ */
-.shift-details {
+.shift-detailed {
   max-width: 450px;
-  padding: 1%;
   margin: 2% auto 1%;
   background-color: white;
   border: 1px solid lightgray; }
-  .shift-details .shift-date {
+  .shift-detailed .shift-date {
     font-size: 1.2em; }
-  .shift-details .shift-info {
+  .shift-detailed .shift-info {
     display: inline-block;
     width: 49%; }
-    .shift-details .shift-info .value {
+    .shift-detailed .shift-info .value {
       width: 55%; }
-  .shift-details .full-width {
+  .shift-detailed .full-width {
     width: 98%; }
-    .shift-details .full-width .label {
+    .shift-detailed .full-width .label {
       width: 17.5%;
       margin-right: 2.5%; }
-    .shift-details .full-width .value {
+    .shift-detailed .full-width .value {
       width: 78%; }
 
 /* ############################################
