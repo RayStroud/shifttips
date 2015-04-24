@@ -106,25 +106,25 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="date">Date</label>
-					<div class="form-control">
+					<div class="form-control form-datetime">
 						<input required type="date" id="date" name="date" />
 					</div>
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="startTime">Start</label>
-					<div class="form-control">
+					<div class="form-control form-datetime">
 						<input required type="time" id="startTime" name="startTime" />
 					</div>
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="endTime">End</label>
-					<div class="form-control">
+					<div class="form-control form-datetime">
 						<input type="time" id="endTime" name="endTime" />
 					</div>
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="endTime">First Table</label>
-					<div class="form-control">
+					<div class="form-control form-datetime">
 						<input type="time" id="firstTable" name="firstTable" />
 					</div>
 				</div>
