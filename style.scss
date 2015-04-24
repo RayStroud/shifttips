@@ -223,13 +223,20 @@ form {
 		width: 50%;
 	}
 }
-
-////////////////////////////
-body {
-	//transform: scale(0.5);
-}
 input {
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
+}
+input[type=date], input[type=time] {
+	height: 1.2em;
+    width: 100%;
+}
+.form-datetime {padding-top:0;}
+
+/* ############################################
+	OTHER
+############################################ */
+body {
+	//transform: scale(0.5);
 }
