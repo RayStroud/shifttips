@@ -229,5 +229,7 @@ body {
 	//transform: scale(0.5);
 }
 input {
-    -webkit-appearance: none;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
 }
