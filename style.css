@@ -81,7 +81,7 @@ h1 {
 	SHIFT BOX
 ############################################ */
 .shift-datetime {
-  padding: 5% 5% 1%;
+  padding: 5% 5% 2%;
   border-bottom: 1px solid lightgray; }
 
 .shift-details {
@@ -94,6 +94,9 @@ h1 {
 
 .shift-time {
   text-align: center; }
+
+.shift-time-detail {
+  display: inline-block; }
 
 hr {
   border-color: lightgray; }
@@ -182,6 +185,13 @@ hr {
     .shift-detailed .full-width .value {
       width: 78%; }
 
+@media screen and (max-width: 500px) {
+  .shift-detailed .shift-info {
+    width: 98%; }
+    .shift-detailed .shift-info .value {
+      width: 55%; }
+  .shift-detailed .full-width {
+    margin-top: 0.5em; } }
 /* ############################################
 	ADD SHIFT
 ############################################ */

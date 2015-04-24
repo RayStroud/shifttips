@@ -104,7 +104,7 @@ h1 {
 	SHIFT BOX
 ############################################ */
 .shift-datetime {
-	padding: 5% 5% 1%;
+	padding: 5% 5% 2%;
 	border-bottom: 1px solid $border-color;
 }
 .shift-details {padding: 2% 5% 5%;}
@@ -115,6 +115,9 @@ h1 {
 } 
 .shift-time {
 	text-align: center;
+}
+.shift-time-detail {
+	display: inline-block;
 }
 hr {border-color: $border-color;}
 .shift-info {
@@ -192,8 +195,16 @@ hr {border-color: $border-color;}
 	}
 }
 
-@media screen and (max-width: 700px) {
-
+@media screen and (max-width: 500px) {
+	.shift-detailed {
+		.shift-info {
+			width: 98%;
+			.value {width: 55%;}
+		}
+		.full-width {
+			margin-top: 0.5em;
+		}
+	}
 }
 
 /* ############################################

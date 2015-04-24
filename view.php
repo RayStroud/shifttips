@@ -55,7 +55,7 @@
 				<div class="shift-datetime">
 					<div class="shift-date"><?php echo (isset($date) ? $date : 'Unknown Date'); ?></div>
 
-					<div class="shift-time"><?php echo (isset($startTime) ? $startTime : '?:?? ??') . (isset($endTime) ? ' - ' . $endTime : null) . (isset($hours) ? ' (' . $hours . ' hours)' : null) . (isset($wage) ? ' @ $' . $wage . '/h' : null); ?></div>
+					<div class="shift-time"><div class="shift-time-detail"><?php echo (isset($startTime) ? $startTime : '?:?? ??') . (isset($endTime) ? ' - ' . $endTime : null); ?></div> <div class="shift-time-detail"><?php echo (isset($hours) ? ' (' . $hours . ' hours)' : null); ?></div> <div class="shift-time-detail"><?php echo (isset($wage) ? ' @ $' . $wage . '/h' : null); ?></div></div>
 				</div>
 				<div class="shift-details">
 					<div class="shift-info">
