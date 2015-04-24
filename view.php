@@ -49,7 +49,7 @@
 		<a href="."><span class="link-spanner"></span></a>
 	</div>
 	<div id="content">
-		<div class="wrapper">
+		<div id="wrapper">
 			<h1>Shift Details</h1>
 			<div class=<?php echo (isset($day) ? '"shift-detailed ' . strtolower($day) . '-shift"' : '"shift-detailed"') ?>>
 				<div class="shift-datetime">
@@ -153,7 +153,8 @@
 				</div>
 			</div>
 		</div>
-
+	</div>
+	<div id="footer">
 	</div>
 </body>
 </html>

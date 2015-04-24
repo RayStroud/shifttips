@@ -67,7 +67,7 @@
 		<a href="."><span class="link-spanner"></span></a>
 	</div>
 	<div id="content">
-		<div class="wrapper">
+		<div id="wrapper">
 			<h1>All Shifts</h1>
 			<div id="shifts">
 				<?php echo (isset($shiftsHtml) ? $shiftsHtml : 'No shifts found'); ?>
@@ -98,6 +98,8 @@
 				<div class="filler"></div>
 			</div>
 		</div>
+	</div>
+	<div id="footer">
 	</div>
 </body>
 </html>

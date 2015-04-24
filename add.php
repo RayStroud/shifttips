@@ -88,8 +88,7 @@
 	<title>Add Shift - Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link rel="stylesheet" type="text/css" href="app/styles/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="app/styles/vendor/bootstrap/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -98,7 +97,7 @@
 		<a href="."><span class="link-spanner"></span></a>
 	</div>
 	<div id="content">
-		<div class="wrapper">
+		<div id="wrapper">
 			<h1>Add Shift</h1>
 			<form role="form" method="post" action="#">
 				<div class="form-group col-xs-6">
@@ -167,6 +166,7 @@
 			</form>
 		</div>
 	</div>
-	<script src="scripts/vendor/bootstrap/bootstrap.min.js"></script>
+	<div id="footer">
+	</div>
 </body>
 </html>

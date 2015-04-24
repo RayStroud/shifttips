@@ -54,8 +54,11 @@ h1 {
   padding: 0 3%;
   overflow: hidden; }
 
-.wrapper {
+#wrapper {
   margin: 2% auto; }
+
+#footer {
+  padding: 1.5em; }
 
 .clickable {
   position: relative; }

@@ -81,9 +81,12 @@ h1 {
 	padding: 0 3%;
 	overflow: hidden;
 }
-.wrapper {
+#wrapper {
 	//max-width: 1300px;
 	margin: 2% auto;
+}
+#footer {
+	padding: 1.5em;
 }
 .clickable { position: relative;}
 .clickable:hover { border-color: $border-hover-color;}
