@@ -1,6 +1,6 @@
 <?php
-	include 'dbconnect.php';
-	include 'functions.php';
+	include 'include/dbconnect.php';
+	include 'include/functions.php';
 
 	$sid = isset($_GET['id']) ? $_GET['id'] : null;
 
@@ -39,9 +39,9 @@
 <html lang="en">
 <head>
 	<title>View Shift - Shift Tips</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div id="header" class="clickable">

@@ -1,6 +1,6 @@
 <?php
-	include 'dbconnect.php';
-	include 'functions.php';
+	include 'include/dbconnect.php';
+	include 'include/functions.php';
 
 	//get today's date as the end date range, and two weeks earlier for the start range
 	$endDateRange = (new DateTime())->format('Y-m-d H:i:s');
@@ -58,8 +58,8 @@
 <html lang="en">
 <head>
 	<title>All Shifts - Shift Tips</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div id="header" class="clickable">

@@ -1,6 +1,6 @@
 <?php
-	include 'dbconnect.php';
-	include 'functions.php';
+	include 'include/dbconnect.php';
+	include 'include/functions.php';
 
 	//if submitted
 	if( isset($_POST['submit']))
@@ -36,8 +36,8 @@
 			//* DEBUG */ echo '<p>Number of results: ' . $checkSQLNumber . '</p>';
 
 			//don't insert a duplicate record
-			//if($checkSQLNumber == 0)
-			/* DEBUG */ if(true)
+			if($checkSQLNumber == 0)
+			//* DEBUG */ if(true)
 			{
 				//refresh connection -- it needed this before it was in the conditional
 				$db->close();
@@ -86,10 +86,11 @@
 <html lang="en">
 <head>
 	<title>Add Shift - Shift Tips</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
 	
-	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div id="header" class="clickable">
