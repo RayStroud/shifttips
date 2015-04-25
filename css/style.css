@@ -150,16 +150,20 @@ hr {
 ############################################ */
 #shifts {
   display: flex;
-  flex-flow: row wrap; }
+  display: -webkit-flex;
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap; }
 
 .shift-summary {
-  flex: 1 1 165px;
-  margin: 1%;
+  flex: 1 1 175px;
+  -webkit-flex: 1 1 175px;
+  margin: 0.5em;
   background-color: white;
   border: 1px solid lightgray; }
 
 .filler {
-  flex: 1 1 160px;
+  flex: 1 1 175px;
+  -webkit-flex: 1 1 175px;
   height: 0;
   margin: 0 1%; }
 
@@ -214,7 +218,7 @@ input {
   -moz-appearance: none; }
 
 input[type=date], input[type=time] {
-  display: inline-flex; }
+  line-height: 20px; }
 
 /* ############################################
 	OTHER
