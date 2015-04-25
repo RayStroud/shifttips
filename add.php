@@ -107,55 +107,55 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="date">Date</label>
-					<input required class="form-control" type="date" id="date" name="date" />
+					<input required class="form-control" type="date" id="date" name="date" placeholder="yyyy-mm-dd" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="startTime">Start</label>
-					<input required class="form-control" type="time" id="startTime" name="startTime" />
+					<input required class="form-control" type="time" id="startTime" name="startTime" placeholder="hh:mm" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="endTime">End</label>
-					<input class="form-control" type="time" id="endTime" name="endTime" />
+					<input class="form-control" type="time" id="endTime" name="endTime" placeholder="hh:mm" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="endTime">First Table</label>
-					<input class="form-control" type="time" id="firstTable" name="firstTable" />
+					<input class="form-control" type="time" id="firstTable" name="firstTable" placeholder="hh:mm" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="campHours">Camp Hours</label>
-					<input class="form-control" type="number" min="0" step="0.5" id="campHours" name="campHours"/>
+					<input class="form-control" type="number" min="0" step="0.5" id="campHours" name="campHours" placeholder="#" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="sales">Sales</label>
-					<input class="form-control" type="number" min="0" step="any" id="sales" name="sales"/>
+					<input class="form-control" type="number" min="0" step="any" id="sales" name="sales" placeholder="$???.??" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="covers">Covers</label>
-					<input class="form-control" type="number" min="0" step="1" id="covers" name="covers"/>
+					<input class="form-control" type="number" min="0" step="1" id="covers" name="covers" placeholder="#" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="tipout">Tipout</label>
-					<input class="form-control" type="number" min="0" step="1" id="tipout" name="tipout"/>
+					<input class="form-control" type="number" min="0" step="1" id="tipout" name="tipout" placeholder="$??" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="transfers">Transfers</label>
-					<input class="form-control" type="number" min="0" step="1" id="transfers" name="transfers"/>
+					<input class="form-control" type="number" min="0" step="1" id="transfers" name="transfers" placeholder="#" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="cash">Cash</label>
-					<input class="form-control" type="number" min="0" step="1" id="cash" name="cash"/>
+					<input class="form-control" type="number" min="0" step="1" id="cash" name="cash" placeholder="$??" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="due">Due</label>
-					<input class="form-control" type="number" min="0" step="1" id="due" name="due"/>
+					<input class="form-control" type="number" min="0" step="1" id="due" name="due" placeholder="$??" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="section">Section</label>
-					<input class="form-control" maxlength="25" id="section" name="section"/>
+					<input class="form-control" maxlength="25" id="section" name="section" placeholder="#,#,#" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="cut">Cut</label>
-					<input class="form-control" maxlength="1" id="cut" name="cut"/>
+					<input class="form-control" maxlength="1" id="cut" name="cut" placeholder="S or G" />
 				</div>
 				<div class="form-group col-xs-12">
 					<label for="notes">Notes</label>
