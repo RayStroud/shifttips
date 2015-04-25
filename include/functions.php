@@ -1,8 +1,4 @@
-ƒ<?php
-	// #######################################################################
-	// stored calculated fields
-	// #######################################################################
-
+<?php
 	function calculateHours($startTime, $endTime)
 	{
 		if(isset($startTime) && isset($endTime))
@@ -156,7 +152,6 @@
 			//pull hour from startTime
 			$startTimeDateTime = new DateTime($startTime);
 			$startTimeHour = $startTimeDateTime->format('H');
-			//* DEBUG */ echo '<p>Shift Hour is: ' . $startTimeHour . '</p>';
 
 			//if startTime is before 2 oclock, it's lunch
 			if($startTimeHour < 14)
@@ -189,9 +184,4 @@
 		}
 		return $dayOfWeek;
 	}
-
-
-	// #######################################################################
-	// summary calculated fields
-	// #######################################################################
 ?>

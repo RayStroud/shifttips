@@ -1,6 +1,5 @@
 <?php
 	include 'include/dbconnect.php';
-	include 'include/functions.php';
 
 	//get today's date as the end date range, and two weeks earlier for the start range
 	$endDateRange = (new DateTime())->format('Y-m-d H:i:s');

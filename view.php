@@ -1,6 +1,5 @@
 <?php
 	include 'include/dbconnect.php';
-	include 'include/functions.php';
 
 	$sid = isset($_GET['id']) ? $_GET['id'] : null;
 
