@@ -235,6 +235,21 @@ input {
 input[type=date], input[type=time] {
 	line-height: 20px;
 }
+#abbr {
+	#font-size: 0.8em;
+	line-height: 0.6em;
+	padding: 0.3em;
+	background-color: rgba($label-color,0.5);
+	color: white;
+	border-radius: 10px;
+}
+#abbr:hover {background-color: $label-color;}
+.abbr-wrap {
+	display: inline-block;
+	height: 0px;
+	vertical-align: top;
+}
+label {color: $label-color;}
 
 /* ############################################
 	OTHER
