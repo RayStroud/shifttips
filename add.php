@@ -87,7 +87,6 @@
 <head>
 	<title>Add Shift - Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
 	
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
@@ -127,7 +126,7 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="sales">Sales</label>
-					<input class="form-control" type="number" min="0" step="any" id="sales" name="sales" placeholder="$???.??" />
+					<input class="form-control" type="number" min="0" step="any" id="sales" name="sales" placeholder="$" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="covers">Covers</label>
@@ -135,7 +134,7 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="tipout">Tipout</label>
-					<input class="form-control" type="number" min="0" step="1" id="tipout" name="tipout" placeholder="$??" />
+					<input class="form-control" type="number" min="0" step="1" id="tipout" name="tipout" placeholder="$" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="transfers">Transfers</label>
@@ -143,19 +142,19 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="cash">Cash</label>
-					<input class="form-control" type="number" min="0" step="1" id="cash" name="cash" placeholder="$??" />
+					<input class="form-control" type="number" min="0" step="1" id="cash" name="cash" placeholder="$" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="due">Due</label>
-					<input class="form-control" type="number" min="0" step="1" id="due" name="due" placeholder="$??" />
+					<input class="form-control" type="number" min="0" step="1" id="due" name="due" placeholder="$" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="section">Section</label>
 					<input class="form-control" maxlength="25" id="section" name="section" placeholder="#,#,#" />
 				</div>
 				<div class="form-group col-xs-6">
-					<label for="cut">Cut</label>
-					<input class="form-control" maxlength="1" id="cut" name="cut" placeholder="S or G" />
+					<label for="cut">Cut <div class="abbr-wrap"><div id="abbr" title="[S]tay, [G]o, [O]pen, [C]lose, [/]Split, [X]None">?</div></div></label>
+					<input class="form-control" maxlength="1" id="cut" name="cut" placeholder="(G,S,O,C,/,X)" />
 				</div>
 				<div class="form-group col-xs-12">
 					<label for="notes">Notes</label>
