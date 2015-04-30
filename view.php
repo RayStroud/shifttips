@@ -54,100 +54,100 @@
 				<div class="shift-datetime">
 					<div class="shift-date"><?php echo (isset($date) ? $date : 'Unknown Date'); ?></div>
 
-					<div class="shift-time"><div class="shift-time-detail"><?php echo (isset($startTime) ? $startTime : '?:?? ??') . (isset($endTime) ? ' - ' . $endTime : null); ?></div> <div class="shift-time-detail"><?php echo (isset($hours) ? ' (' . $hours . ' hours)' : null); ?></div> <div class="shift-time-detail"><?php echo (isset($wage) ? ' @ $' . $wage . '/h' : null); ?></div></div>
+					<div class="shift-time"><div class="shift-time-detail"><?php echo (isset($startTime) ? $startTime : '?:??') . (isset($endTime) ? ' to ' . $endTime : ' to ?:??'); ?></div> <div class="shift-time-detail"><?php echo (isset($hours) ? ' (' . $hours . ' hours)' : null); ?></div> <div class="shift-time-detail"><?php echo (isset($wage) ? ' @ $' . $wage . '/h' : null); ?></div></div>
 				</div>
 				<div class="shift-details">
 					<div class="shift-info">
 						<div class="label">1st Table</div>
-						<div class="value"><?php echo (isset($firstTable) ? $firstTable : null); ?></div>
+						<div class="value"><?php echo (isset($firstTable) ? $firstTable : '-'); ?></div>
 					</div>
 					<div class="shift-info">
 						<div class="label">CampHrs</div>
-						<div class="value"><?php echo (isset($campHours) ? $campHours . ' hours' : null); ?></div>
+						<div class="value"><?php echo (isset($campHours) ? $campHours . ' hours' : '-'); ?></div>
 					</div>
 
 					<div class="shift-info">
 						<div class="label">Sales</div>
-						<div class="value"><?php echo (isset($sales) ? '$' . $sales : null); ?></div>
+						<div class="value"><?php echo (isset($sales) ? '$' . $sales : '-'); ?></div>
 					</div>
 					<div class="shift-info">
 						<div class="label">Covers</div>
-						<div class="value"><?php echo (isset($covers) ? $covers : null); ?></div>
+						<div class="value"><?php echo (isset($covers) ? $covers : '-'); ?></div>
 					</div>
 
 					<div class="shift-info">
 						<div class="label">Tipout</div>
-						<div class="value"><?php echo (isset($tipout) ? '$' . $tipout : null); ?></div>
+						<div class="value"><?php echo (isset($tipout) ? '$' . $tipout : '-'); ?></div>
 					</div>
 					<div class="shift-info">
 						<div class="label">Transfers</div>
-						<div class="value"><?php echo (isset($transfers) ? '$' . $transfers : null); ?></div>
+						<div class="value"><?php echo (isset($transfers) ? '$' . $transfers : '-'); ?></div>
 					</div>
 
 					<div class="shift-info">
 						<div class="label">Cash</div>
-						<div class="value"><?php echo (isset($cash) ? '$' . $cash : null); ?></div>
+						<div class="value"><?php echo (isset($cash) ? '$' . $cash : '-'); ?></div>
 					</div>
 					<div class="shift-info">
 						<div class="label">Due</div>
-						<div class="value"><?php echo (isset($due) ? '$' . $due : null); ?></div>
+						<div class="value"><?php echo (isset($due) ? '$' . $due : '-'); ?></div>
 					</div>
 
 					<div class="shift-info">
 						<div class="label">Section</div>
-						<div class="value"><?php echo (isset($section) ? $section : null); ?></div>
+						<div class="value"><?php echo (isset($section) ? $section : '-'); ?></div>
 					</div>
 					<div class="shift-info">
 						<div class="label">Cut</div>
-						<div class="value"><?php echo (isset($cut) ? $cut : null); ?></div>
+						<div class="value"><?php echo (isset($cut) ? $cut : '-'); ?></div>
 					</div>
 
 					<div class="shift-info full-width">
 						<div class="label">Notes</div>
-						<div class="value"><?php echo (isset($notes) ? $notes : null); ?></div>
+						<div class="value"><?php echo (isset($notes) ? $notes : '-'); ?></div>
 					</div>
 
 					<hr>
 
 					<div class="shift-info">
 						<div class="label">Wage</div>
-						<div class="value"><?php echo (isset($earnedWage) ? '$' . $earnedWage : null); ?></div>
+						<div class="value"><?php echo (isset($earnedWage) ? '$' . $earnedWage : '-'); ?></div>
 					</div>
 					<div class="shift-info">
 						<div class="label">Tips</div>
-						<div class="value"><?php echo (isset($earnedTips) ? '$' . $earnedTips : null); ?></div>
+						<div class="value"><?php echo (isset($earnedTips) ? '$' . $earnedTips : '-'); ?></div>
 					</div>
 
 					<div class="shift-info">
 						<div class="label">Total</div>
-						<div class="value"><?php echo (isset($earnedTotal) ? '$' . $earnedTotal : null); ?></div>
+						<div class="value"><?php echo (isset($earnedTotal) ? '$' . $earnedTotal : '-'); ?></div>
 					</div>
 					<div class="shift-info">
 						<div class="label">%TvW</div>
-						<div class="value"><?php echo (isset($tipsVsWage) ? $tipsVsWage . '%' : null); ?></div>
+						<div class="value"><?php echo (isset($tipsVsWage) ? $tipsVsWage . '%' : '-'); ?></div>
 					</div>
 
 					<div class="shift-info">
 						<div class="label">Sales/Hr</div>
-						<div class="value"><?php echo (isset($salesPerHour) ? '$' . $salesPerHour . '/h' : null); ?></div>
+						<div class="value"><?php echo (isset($salesPerHour) ? '$' . $salesPerHour . '/h' : '-'); ?></div>
 					</div>
 					<div class="shift-info">
 						<div class="label">Sales/Cov</div>
-						<div class="value"><?php echo (isset($salesPerCover) ? '$' . $salesPerCover . '/cov' : null); ?></div>
+						<div class="value"><?php echo (isset($salesPerCover) ? '$' . $salesPerCover . '/cov' : '-'); ?></div>
 					</div>
 
 					<div class="shift-info">
 						<div class="label">%Tips</div>
-						<div class="value"><?php echo (isset($tipsPercent) ? $tipsPercent . '%' : null); ?></div>
+						<div class="value"><?php echo (isset($tipsPercent) ? $tipsPercent . '%' : '-'); ?></div>
 					</div>
 					<div class="shift-info">
 						<div class="label">%Tipout</div>
-						<div class="value"><?php echo (isset($tipoutPercent) ? $tipoutPercent . '%' : null); ?></div>
+						<div class="value"><?php echo (isset($tipoutPercent) ? $tipoutPercent . '%' : '-'); ?></div>
 					</div>
 
 					<div class="shift-info">
 						<div class="label">$/Hour</div>
-						<div class="value"><?php echo (isset($earnedHourly) ? '$' . $earnedHourly . '/h'  : null); ?></div>
+						<div class="value"><?php echo (isset($earnedHourly) ? '$' . $earnedHourly . '/h'  : '-'); ?></div>
 					</div>
 				</div>
 			</div>
