@@ -32,6 +32,8 @@ BEGIN
 	CALL calculateSummary(p_startDate, p_endDate, "%", "Fri");
 	CALL calculateSummary(p_startDate, p_endDate, "%", "Sat");
 	CALL calculateSummary(p_startDate, p_endDate, "%", "Sun");
+	
+	SELECT * FROM summaries;
 END //
 DELIMITER ;
 
@@ -155,9 +157,6 @@ BEGIN
 
 	INSERT INTO summaries (avgHours, totalHours, avgWage, totalWage, avgTips, totalTips, avgTipout, totalTipout, avgSales, totalSales, avgCovers, totalCovers, avgCampHours, totalCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timedate)
 		VALUES (v_avgHours, v_totalHours, v_avgWage, v_totalWage, v_avgTips, v_totalTips, v_avgTipout, v_totalTipout, v_avgSales, v_totalSales, v_avgCovers, v_totalCovers, v_avgCampHours, v_totalCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, p_lunchDinner, p_dayOfWeek, CURRENT_TIMESTAMP);
-
-	SELECT * FROM summaries;
-
 END //
 DELIMITER ;
 
