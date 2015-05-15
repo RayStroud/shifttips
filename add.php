@@ -41,7 +41,7 @@
 			{
 				//refresh connection -- it needed this before it was in the conditional
 				$db->close();
-				include 'dbconnect.php';
+				include 'include/dbconnect.php';
 
 				//adjust endTime if rolls over to next day
 				if(isset($endTime) && $endTime < $startTime)
