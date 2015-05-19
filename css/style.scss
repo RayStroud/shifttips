@@ -252,6 +252,39 @@ input[type=date], input[type=time] {
 label {color: $label-color;}
 
 /* ############################################
+	SUMMARY
+############################################ */
+.summary-table {
+	border: none;
+	border-collapse: collapse;
+	tr {
+		border: none;
+	}
+	td {
+		background-color: white;
+		color: black;
+		border: 1px solid dimgray;
+		padding: 3px 5px;
+		vertical-align: center;
+		text-align: right;
+	}
+	th {
+		background-color: dimgray;
+		color: white;
+		border: 1px solid dimgray;
+		padding: 3px 5px;
+		vertical-align: center;
+		text-align: center;
+	}
+	.lun-avg-cell {background-color: orange;}
+	.lun-total-cell {background-color: lighten(orange,10%);}
+	.din-avg-cell {background-color: skyblue;}
+	.din-total-cell {background-color: lighten(skyblue,10%);}
+	.both-avg-cell {background-color: orchid;}
+	.both-total-cell {background-color: lighten(orchid,10%);}
+}
+
+/* ############################################
 	OTHER
 ############################################ */
 body {

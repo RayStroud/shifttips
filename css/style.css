@@ -238,6 +238,41 @@ label {
   color: #888; }
 
 /* ############################################
+	SUMMARY
+############################################ */
+.summary-table {
+  border: none;
+  border-collapse: collapse; }
+  .summary-table tr {
+    border: none; }
+  .summary-table td {
+    background-color: white;
+    color: black;
+    border: 1px solid dimgray;
+    padding: 3px 5px;
+    vertical-align: center;
+    text-align: right; }
+  .summary-table th {
+    background-color: dimgray;
+    color: white;
+    border: 1px solid dimgray;
+    padding: 3px 5px;
+    vertical-align: center;
+    text-align: center; }
+  .summary-table .lun-avg-cell {
+    background-color: orange; }
+  .summary-table .lun-total-cell {
+    background-color: #ffb733; }
+  .summary-table .din-avg-cell {
+    background-color: skyblue; }
+  .summary-table .din-total-cell {
+    background-color: #b3e0f2; }
+  .summary-table .both-avg-cell {
+    background-color: orchid; }
+  .summary-table .both-total-cell {
+    background-color: #e499e2; }
+
+/* ############################################
 	OTHER
 ############################################ */
 
