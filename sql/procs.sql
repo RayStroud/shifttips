@@ -32,7 +32,7 @@ BEGIN
 	CALL calculateSummary(p_startDate, p_endDate, "%", "Fri");
 	CALL calculateSummary(p_startDate, p_endDate, "%", "Sat");
 	CALL calculateSummary(p_startDate, p_endDate, "%", "Sun");
-	
+
 	SELECT * FROM summaries;
 END //
 DELIMITER ;
@@ -47,18 +47,18 @@ BEGIN
 	DECLARE v_totalHours 		DECIMAL(7,2);
 	DECLARE v_avgWage 			DECIMAL(5,2);
 	DECLARE v_totalWage 		DECIMAL(7,2);
-	DECLARE v_avgTips 			INT;
+	DECLARE v_avgTips 			DECIMAL(5,2);
 	DECLARE v_totalTips 		INT;
-	DECLARE v_avgTipout 		INT;
+	DECLARE v_avgTipout 		DECIMAL(5,2);
 	DECLARE v_totalTipout 		INT;
-	DECLARE v_avgSales 			INT;
-	DECLARE v_totalSales 		INT;
-	DECLARE v_avgCovers 		INT;
+	DECLARE v_avgSales 			DECIMAL(7,2);
+	DECLARE v_totalSales 		DECIMAL(10,2);
+	DECLARE v_avgCovers 		DECIMAL(5,2);
 	DECLARE v_totalCovers 		INT;
 	DECLARE v_avgCampHours 		DECIMAL(4,2);
-	DECLARE v_totalCampHours 	DECIMAL(5,2);
-	DECLARE v_salesPerHour 		INT;
-	DECLARE v_salesPerCover 	INT;
+	DECLARE v_totalCampHours 	DECIMAL(8,2);
+	DECLARE v_salesPerHour 		DECIMAL(7,2);
+	DECLARE v_salesPerCover 	DECIMAL(7,2);
 	DECLARE v_tipsPercent 		DECIMAL(4,1);
 	DECLARE v_tipoutPercent 	DECIMAL(4,1);
 	DECLARE v_tipsVsWage 		INT;
