@@ -43,6 +43,7 @@ DROP PROCEDURE IF EXISTS calculateSummary;
 DELIMITER //
 CREATE PROCEDURE calculateSummary (p_startDate TIMESTAMP, p_endDate TIMESTAMP, p_lunchDinner CHAR(1), p_dayOfWeek CHAR(3))
 BEGIN
+	DECLARE v_count 			INT;
 	DECLARE v_avgHours 			DECIMAL(5,2);
 	DECLARE v_totalHours 		DECIMAL(7,2);
 	DECLARE v_avgWage 			DECIMAL(5,2);
@@ -64,7 +65,13 @@ BEGIN
 	DECLARE v_tipsVsWage 		INT;
 	DECLARE v_hourlyWage 		DECIMAL(4,2);
 
-	SELECT SUM(hours) / COUNT(sid) 
+	SELECT COUNT(sid) 
+		FROM shift 
+		WHERE startTime BETWEEN p_startDate AND p_endDate
+			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
+			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
+		INTO v_count;
+	SELECT SUM(hours) / v_count 
 		FROM shift 
 		WHERE startTime BETWEEN p_startDate AND p_endDate
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
@@ -76,7 +83,7 @@ BEGIN
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totalHours;
-	SELECT SUM(hours * wage) / COUNT(sid) 
+	SELECT SUM(hours * wage) / v_count 
 		FROM shift 
 		WHERE startTime BETWEEN p_startDate AND p_endDate
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
@@ -88,7 +95,7 @@ BEGIN
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totalWage;
-	SELECT SUM(earnedTips) / COUNT(sid) 
+	SELECT SUM(earnedTips) / v_count 
 		FROM shift 
 		WHERE startTime BETWEEN p_startDate AND p_endDate
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
@@ -100,7 +107,7 @@ BEGIN
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totalTips;
-	SELECT SUM(tipout) / COUNT(sid) 
+	SELECT SUM(tipout) / v_count 
 		FROM shift 
 		WHERE startTime BETWEEN p_startDate AND p_endDate
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
@@ -112,7 +119,7 @@ BEGIN
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totalTipout;
-	SELECT SUM(sales) / COUNT(sid) 
+	SELECT SUM(sales) / v_count 
 		FROM shift 
 		WHERE startTime BETWEEN p_startDate AND p_endDate
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
@@ -124,7 +131,7 @@ BEGIN
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totalSales;
-	SELECT SUM(covers) / COUNT(sid) 
+	SELECT SUM(covers) / v_count 
 		FROM shift 
 		WHERE startTime BETWEEN p_startDate AND p_endDate
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
@@ -136,7 +143,7 @@ BEGIN
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totalCovers;
-	SELECT SUM(campHours) / COUNT(sid)
+	SELECT SUM(campHours) / v_count
 		FROM shift 
 		WHERE startTime BETWEEN p_startDate AND p_endDate
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
@@ -155,8 +162,8 @@ BEGIN
 	SET v_tipsVsWage = v_totalTips * 100 / v_totalWage;
 	SET v_hourlyWage = (v_totalWage + v_totalTips) / v_totalHours;
 
-	INSERT INTO summaries (avgHours, totalHours, avgWage, totalWage, avgTips, totalTips, avgTipout, totalTipout, avgSales, totalSales, avgCovers, totalCovers, avgCampHours, totalCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timedate)
-		VALUES (v_avgHours, v_totalHours, v_avgWage, v_totalWage, v_avgTips, v_totalTips, v_avgTipout, v_totalTipout, v_avgSales, v_totalSales, v_avgCovers, v_totalCovers, v_avgCampHours, v_totalCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, p_lunchDinner, p_dayOfWeek, CURRENT_TIMESTAMP);
+	INSERT INTO summaries (count, avgHours, totalHours, avgWage, totalWage, avgTips, totalTips, avgTipout, totalTipout, avgSales, totalSales, avgCovers, totalCovers, avgCampHours, totalCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timedate)
+		VALUES (v_count, v_avgHours, v_totalHours, v_avgWage, v_totalWage, v_avgTips, v_totalTips, v_avgTipout, v_totalTipout, v_avgSales, v_totalSales, v_avgCovers, v_totalCovers, v_avgCampHours, v_totalCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, p_lunchDinner, p_dayOfWeek, CURRENT_TIMESTAMP);
 END //
 DELIMITER ;
 

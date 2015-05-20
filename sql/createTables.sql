@@ -39,6 +39,7 @@ CREATE TABLE summaries
 (
 	id				INT 			NOT NULL AUTO_INCREMENT,
 
+	count	 		INT,
 	avgHours 		DECIMAL(5,2),
 	totalHours 		DECIMAL(7,2),
 	avgWage 		DECIMAL(5,2),

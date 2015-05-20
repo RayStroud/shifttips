@@ -58,11 +58,11 @@
 				</div>
 				<div class="shift-details">
 					<div class="shift-info">
-						<div class="label">1st Table</div>
+						<div class="label">1st Tbl</div>
 						<div class="value"><?php echo (isset($firstTable) ? $firstTable : '-'); ?></div>
 					</div>
 					<div class="shift-info">
-						<div class="label">CampHrs</div>
+						<div class="label">Camp</div>
 						<div class="value"><?php echo (isset($campHours) ? $campHours . ' hours' : '-'); ?></div>
 					</div>
 
@@ -80,7 +80,7 @@
 						<div class="value"><?php echo (isset($tipout) ? '$' . $tipout : '-'); ?></div>
 					</div>
 					<div class="shift-info">
-						<div class="label">Transfers</div>
+						<div class="label">Transfer</div>
 						<div class="value"><?php echo (isset($transfers) ? '$' . $transfers : '-'); ?></div>
 					</div>
 
@@ -128,11 +128,11 @@
 					</div>
 
 					<div class="shift-info">
-						<div class="label">Sales/Hr</div>
+						<div class="label">Sale/h</div>
 						<div class="value"><?php echo (isset($salesPerHour) ? '$' . $salesPerHour . '/h' : '-'); ?></div>
 					</div>
 					<div class="shift-info">
-						<div class="label">Sales/Cov</div>
+						<div class="label">Sale/cov</div>
 						<div class="value"><?php echo (isset($salesPerCover) ? '$' . $salesPerCover . '/cov' : '-'); ?></div>
 					</div>
 
@@ -146,7 +146,7 @@
 					</div>
 
 					<div class="shift-info">
-						<div class="label">$/Hour</div>
+						<div class="label">Earn/h</div>
 						<div class="value"><?php echo (isset($earnedHourly) ? '$' . $earnedHourly . '/h'  : '-'); ?></div>
 					</div>
 				</div>

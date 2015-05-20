@@ -11,13 +11,17 @@ $border-color: lightgray;
 $border-hover-color: black;
 $label-color: $darkgrey;
 
-$monday-color: red;
-$tuesday-color: yellow;
-$wednesday-color: lime;
-$thursday-color: cyan;
-$friday-color: blue;
-$saturday-color: magenta;
-$sunday-color: black;
+$lun-color: #E69138;
+$din-color: #3C78D8;
+$both-color: #674EA7;
+
+$mon-color: darken(red,10%);
+$tue-color: darken(yellow,10%);
+$wed-color: darken(lime,10%);
+$thu-color: darken(cyan,10%);
+$fri-color: darken(blue,10%);
+$sat-color: darken(magenta,10%);
+$sun-color: lighten(black,10%);
 
 //fonts
 $heading-font: "Trebuchet MS", Helvetica, sans-serif;
@@ -139,13 +143,13 @@ hr {border-color: $border-color;}
 		word-wrap: break-word;
 	}
 }
-.mon-shift {.shift-datetime {background-color: rgba($monday-color,0.1);		border-color: rgba($monday-color,0.3);}}
-.tue-shift {.shift-datetime {background-color: rgba($tuesday-color,0.1);	border-color: rgba(darken($tuesday-color,20%),0.3);}}
-.wed-shift {.shift-datetime {background-color: rgba($wednesday-color,0.1);	border-color: rgba(darken($wednesday-color,10%),0.3);}}
-.thu-shift {.shift-datetime {background-color: rgba($thursday-color,0.1);	border-color: rgba(darken($thursday-color,10%),0.3);}}
-.fri-shift {.shift-datetime {background-color: rgba($friday-color,0.1);		border-color: rgba($friday-color,0.3);}}
-.sat-shift {.shift-datetime {background-color: rgba($saturday-color,0.1);	border-color: rgba($saturday-color,0.3);}}
-.sun-shift {.shift-datetime {background-color: rgba($sunday-color,0.1);		border-color: rgba($sunday-color,0.3);}}
+.mon-shift {.shift-datetime {background-color: rgba($mon-color,0.1);	border-color: rgba($mon-color,0.3);}}
+.tue-shift {.shift-datetime {background-color: rgba($tue-color,0.1);	border-color: rgba(darken($tue-color,15%),0.3);}}
+.wed-shift {.shift-datetime {background-color: rgba($wed-color,0.1);	border-color: rgba(darken($wed-color,10%),0.3);}}
+.thu-shift {.shift-datetime {background-color: rgba($thu-color,0.1);	border-color: rgba(darken($thu-color,10%),0.3);}}
+.fri-shift {.shift-datetime {background-color: rgba($fri-color,0.1);	border-color: rgba($fri-color,0.3);}}
+.sat-shift {.shift-datetime {background-color: rgba($sat-color,0.1);	border-color: rgba($sat-color,0.3);}}
+.sun-shift {.shift-datetime {background-color: rgba($sun-color,0.1);	border-color: rgba($sun-color,0.3);}}
 
 /* ############################################
 	ALL SHIFTS
@@ -282,6 +286,28 @@ label {color: $label-color;}
 	.din-total-cell {background-color: lighten(skyblue,10%);}
 	.both-avg-cell {background-color: orchid;}
 	.both-total-cell {background-color: lighten(orchid,10%);}
+
+	.lun-avg-cell {background-color: rgba($lun-color,0.8);}
+	.lun-total-cell {background-color: rgba($lun-color,0.6);}
+	.din-avg-cell {background-color: rgba($din-color,0.8);}
+	.din-total-cell {background-color: rgba($din-color,0.6);}
+	.both-avg-cell {background-color: rgba($both-color,0.8);}
+	.both-total-cell {background-color: rgba($both-color,0.6);}
+
+	.mon-avg-cell {background-color: rgba($mon-color,0.45);}
+	.mon-total-cell {background-color: rgba($mon-color,0.33);}
+	.tue-avg-cell {background-color: rgba($tue-color,0.45);}
+	.tue-total-cell {background-color: rgba($tue-color,0.33);}
+	.wed-avg-cell {background-color: rgba($wed-color,0.45);}
+	.wed-total-cell {background-color: rgba($wed-color,0.33);}
+	.thu-avg-cell {background-color: rgba($thu-color,0.45);}
+	.thu-total-cell {background-color: rgba($thu-color,0.33);}
+	.fri-avg-cell {background-color: rgba($fri-color,0.45);}
+	.fri-total-cell {background-color: rgba($fri-color,0.33);}
+	.sat-avg-cell {background-color: rgba($sat-color,0.45);}
+	.sat-total-cell {background-color: rgba($sat-color,0.33);}
+	.sun-avg-cell {background-color: rgba($sun-color,0.45);}
+	.sun-total-cell {background-color: rgba($sun-color,0.33);}
 }
 
 /* ############################################

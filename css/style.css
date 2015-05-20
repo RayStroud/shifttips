@@ -118,32 +118,32 @@ hr {
   word-wrap: break-word; }
 
 .mon-shift .shift-datetime {
-  background-color: rgba(255, 0, 0, 0.1);
-  border-color: rgba(255, 0, 0, 0.3); }
+  background-color: rgba(204, 0, 0, 0.1);
+  border-color: rgba(204, 0, 0, 0.3); }
 
 .tue-shift .shift-datetime {
-  background-color: rgba(255, 255, 0, 0.1);
-  border-color: rgba(153, 153, 0, 0.3); }
+  background-color: rgba(204, 204, 0, 0.1);
+  border-color: rgba(127, 128, 0, 0.3); }
 
 .wed-shift .shift-datetime {
-  background-color: rgba(0, 255, 0, 0.1);
-  border-color: rgba(0, 204, 0, 0.3); }
+  background-color: rgba(0, 204, 0, 0.1);
+  border-color: rgba(0, 153, 0, 0.3); }
 
 .thu-shift .shift-datetime {
-  background-color: rgba(0, 255, 255, 0.1);
-  border-color: rgba(0, 204, 204, 0.3); }
+  background-color: rgba(0, 204, 204, 0.1);
+  border-color: rgba(0, 153, 153, 0.3); }
 
 .fri-shift .shift-datetime {
-  background-color: rgba(0, 0, 255, 0.1);
-  border-color: rgba(0, 0, 255, 0.3); }
+  background-color: rgba(0, 0, 204, 0.1);
+  border-color: rgba(0, 0, 204, 0.3); }
 
 .sat-shift .shift-datetime {
-  background-color: rgba(255, 0, 255, 0.1);
-  border-color: rgba(255, 0, 255, 0.3); }
+  background-color: rgba(204, 0, 204, 0.1);
+  border-color: rgba(204, 0, 204, 0.3); }
 
 .sun-shift .shift-datetime {
-  background-color: rgba(0, 0, 0, 0.1);
-  border-color: rgba(0, 0, 0, 0.3); }
+  background-color: rgba(26, 26, 26, 0.1);
+  border-color: rgba(26, 26, 26, 0.3); }
 
 /* ############################################
 	ALL SHIFTS
@@ -271,6 +271,46 @@ label {
     background-color: orchid; }
   .summary-table .both-total-cell {
     background-color: #e499e2; }
+  .summary-table .lun-avg-cell {
+    background-color: rgba(230, 145, 56, 0.8); }
+  .summary-table .lun-total-cell {
+    background-color: rgba(230, 145, 56, 0.6); }
+  .summary-table .din-avg-cell {
+    background-color: rgba(60, 120, 216, 0.8); }
+  .summary-table .din-total-cell {
+    background-color: rgba(60, 120, 216, 0.6); }
+  .summary-table .both-avg-cell {
+    background-color: rgba(103, 78, 167, 0.8); }
+  .summary-table .both-total-cell {
+    background-color: rgba(103, 78, 167, 0.6); }
+  .summary-table .mon-avg-cell {
+    background-color: rgba(204, 0, 0, 0.45); }
+  .summary-table .mon-total-cell {
+    background-color: rgba(204, 0, 0, 0.33); }
+  .summary-table .tue-avg-cell {
+    background-color: rgba(204, 204, 0, 0.45); }
+  .summary-table .tue-total-cell {
+    background-color: rgba(204, 204, 0, 0.33); }
+  .summary-table .wed-avg-cell {
+    background-color: rgba(0, 204, 0, 0.45); }
+  .summary-table .wed-total-cell {
+    background-color: rgba(0, 204, 0, 0.33); }
+  .summary-table .thu-avg-cell {
+    background-color: rgba(0, 204, 204, 0.45); }
+  .summary-table .thu-total-cell {
+    background-color: rgba(0, 204, 204, 0.33); }
+  .summary-table .fri-avg-cell {
+    background-color: rgba(0, 0, 204, 0.45); }
+  .summary-table .fri-total-cell {
+    background-color: rgba(0, 0, 204, 0.33); }
+  .summary-table .sat-avg-cell {
+    background-color: rgba(204, 0, 204, 0.45); }
+  .summary-table .sat-total-cell {
+    background-color: rgba(204, 0, 204, 0.33); }
+  .summary-table .sun-avg-cell {
+    background-color: rgba(26, 26, 26, 0.45); }
+  .summary-table .sun-total-cell {
+    background-color: rgba(26, 26, 26, 0.33); }
 
 /* ############################################
 	OTHER
