@@ -293,57 +293,58 @@ label {color: $label-color;}
 /* ############################################
 	SUMMARY
 ############################################ */
+div.mobile-table {
+	max-width: 100%;
+	overflow-x: scroll;
+}
 .summary-table {
 	border: none;
 	border-collapse: collapse;
 	tr {
+		border: 1px solid dimgray;
 		border: none;
 	}
-	td {
+	td, th {
 		background-color: white;
-		color: black;
-		border: 1px solid dimgray;
 		padding: 3px 5px;
-		vertical-align: center;
+		border: 1px solid dimgray;
+		vertical-align: middle;
+	}
+	td {
+		color: black;
+		white-space: nowrap;
 		text-align: right;
 	}
 	th {
-		background-color: dimgray;
 		color: white;
-		border: 1px solid dimgray;
-		padding: 3px 5px;
-		vertical-align: center;
+		border: none;
 		text-align: center;
 	}
-	.lun-avg-cell {background-color: orange;}
-	.lun-total-cell {background-color: lighten(orange,10%);}
-	.din-avg-cell {background-color: skyblue;}
-	.din-total-cell {background-color: lighten(skyblue,10%);}
-	.both-avg-cell {background-color: orchid;}
-	.both-total-cell {background-color: lighten(orchid,10%);}
-
-	.lun-avg-cell {background-color: rgba($lun-color,0.8);}
-	.lun-total-cell {background-color: rgba($lun-color,0.6);}
-	.din-avg-cell {background-color: rgba($din-color,0.8);}
-	.din-total-cell {background-color: rgba($din-color,0.6);}
-	.both-avg-cell {background-color: rgba($both-color,0.8);}
-	.both-total-cell {background-color: rgba($both-color,0.6);}
-
-	.mon-avg-cell {background-color: rgba($mon-color,0.45);}
-	.mon-total-cell {background-color: rgba($mon-color,0.33);}
-	.tue-avg-cell {background-color: rgba($tue-color,0.45);}
-	.tue-total-cell {background-color: rgba($tue-color,0.33);}
-	.wed-avg-cell {background-color: rgba($wed-color,0.45);}
-	.wed-total-cell {background-color: rgba($wed-color,0.33);}
-	.thu-avg-cell {background-color: rgba($thu-color,0.45);}
-	.thu-total-cell {background-color: rgba($thu-color,0.33);}
-	.fri-avg-cell {background-color: rgba($fri-color,0.45);}
-	.fri-total-cell {background-color: rgba($fri-color,0.33);}
-	.sat-avg-cell {background-color: rgba($sat-color,0.45);}
-	.sat-total-cell {background-color: rgba($sat-color,0.33);}
-	.sun-avg-cell {background-color: rgba($sun-color,0.45);}
-	.sun-total-cell {background-color: rgba($sun-color,0.33);}
 }
+th.hdr-avg-cell {background-color: dimgrey;}
+th.hdr-tot-cell {background-color: grey;}
+
+td.lun-avg-cell {background-color: rgba($lun-color,0.8);}
+td.lun-tot-cell {background-color: rgba($lun-color,0.6);}
+td.din-avg-cell {background-color: rgba($din-color,0.8);}
+td.din-tot-cell {background-color: rgba($din-color,0.6);}
+td.bth-avg-cell {background-color: rgba($both-color,0.8);}
+td.bth-tot-cell {background-color: rgba($both-color,0.6);}
+
+td.mon-avg-cell {background-color: rgba($mon-color,0.45);}
+td.mon-tot-cell {background-color: rgba($mon-color,0.33);}
+td.tue-avg-cell {background-color: rgba($tue-color,0.45);}
+td.tue-tot-cell {background-color: rgba($tue-color,0.33);}
+td.wed-avg-cell {background-color: rgba($wed-color,0.45);}
+td.wed-tot-cell {background-color: rgba($wed-color,0.33);}
+td.thu-avg-cell {background-color: rgba($thu-color,0.45);}
+td.thu-tot-cell {background-color: rgba($thu-color,0.33);}
+td.fri-avg-cell {background-color: rgba($fri-color,0.45);}
+td.fri-tot-cell {background-color: rgba($fri-color,0.33);}
+td.sat-avg-cell {background-color: rgba($sat-color,0.45);}
+td.sat-tot-cell {background-color: rgba($sat-color,0.33);}
+td.sun-avg-cell {background-color: rgba($sun-color,0.45);}
+td.sun-tot-cell {background-color: rgba($sun-color,0.33);}
 
 /* ############################################
 	OTHER

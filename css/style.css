@@ -269,77 +269,95 @@ label {
 /* ############################################
 	SUMMARY
 ############################################ */
+div.mobile-table {
+  max-width: 100%;
+  overflow-x: scroll; }
+
 .summary-table {
   border: none;
   border-collapse: collapse; }
   .summary-table tr {
-    border: none; }
-  .summary-table td {
-    background-color: white;
-    color: black;
     border: 1px solid dimgray;
+    border: none; }
+  .summary-table td, .summary-table th {
+    background-color: white;
     padding: 3px 5px;
-    vertical-align: center;
+    border: 1px solid dimgray;
+    vertical-align: middle; }
+  .summary-table td {
+    color: black;
+    white-space: nowrap;
     text-align: right; }
   .summary-table th {
-    background-color: dimgray;
     color: white;
-    border: 1px solid dimgray;
-    padding: 3px 5px;
-    vertical-align: center;
+    border: none;
     text-align: center; }
-  .summary-table .lun-avg-cell {
-    background-color: orange; }
-  .summary-table .lun-total-cell {
-    background-color: #ffb733; }
-  .summary-table .din-avg-cell {
-    background-color: skyblue; }
-  .summary-table .din-total-cell {
-    background-color: #b3e0f2; }
-  .summary-table .both-avg-cell {
-    background-color: orchid; }
-  .summary-table .both-total-cell {
-    background-color: #e499e2; }
-  .summary-table .lun-avg-cell {
-    background-color: rgba(230, 145, 56, 0.8); }
-  .summary-table .lun-total-cell {
-    background-color: rgba(230, 145, 56, 0.6); }
-  .summary-table .din-avg-cell {
-    background-color: rgba(60, 120, 216, 0.8); }
-  .summary-table .din-total-cell {
-    background-color: rgba(60, 120, 216, 0.6); }
-  .summary-table .both-avg-cell {
-    background-color: rgba(103, 78, 167, 0.8); }
-  .summary-table .both-total-cell {
-    background-color: rgba(103, 78, 167, 0.6); }
-  .summary-table .mon-avg-cell {
-    background-color: rgba(204, 0, 0, 0.45); }
-  .summary-table .mon-total-cell {
-    background-color: rgba(204, 0, 0, 0.33); }
-  .summary-table .tue-avg-cell {
-    background-color: rgba(204, 204, 0, 0.45); }
-  .summary-table .tue-total-cell {
-    background-color: rgba(204, 204, 0, 0.33); }
-  .summary-table .wed-avg-cell {
-    background-color: rgba(0, 204, 0, 0.45); }
-  .summary-table .wed-total-cell {
-    background-color: rgba(0, 204, 0, 0.33); }
-  .summary-table .thu-avg-cell {
-    background-color: rgba(0, 204, 204, 0.45); }
-  .summary-table .thu-total-cell {
-    background-color: rgba(0, 204, 204, 0.33); }
-  .summary-table .fri-avg-cell {
-    background-color: rgba(0, 0, 204, 0.45); }
-  .summary-table .fri-total-cell {
-    background-color: rgba(0, 0, 204, 0.33); }
-  .summary-table .sat-avg-cell {
-    background-color: rgba(204, 0, 204, 0.45); }
-  .summary-table .sat-total-cell {
-    background-color: rgba(204, 0, 204, 0.33); }
-  .summary-table .sun-avg-cell {
-    background-color: rgba(26, 26, 26, 0.45); }
-  .summary-table .sun-total-cell {
-    background-color: rgba(26, 26, 26, 0.33); }
+
+th.hdr-avg-cell {
+  background-color: dimgrey; }
+
+th.hdr-tot-cell {
+  background-color: grey; }
+
+td.lun-avg-cell {
+  background-color: rgba(230, 145, 56, 0.8); }
+
+td.lun-tot-cell {
+  background-color: rgba(230, 145, 56, 0.6); }
+
+td.din-avg-cell {
+  background-color: rgba(60, 120, 216, 0.8); }
+
+td.din-tot-cell {
+  background-color: rgba(60, 120, 216, 0.6); }
+
+td.bth-avg-cell {
+  background-color: rgba(103, 78, 167, 0.8); }
+
+td.bth-tot-cell {
+  background-color: rgba(103, 78, 167, 0.6); }
+
+td.mon-avg-cell {
+  background-color: rgba(204, 0, 0, 0.45); }
+
+td.mon-tot-cell {
+  background-color: rgba(204, 0, 0, 0.33); }
+
+td.tue-avg-cell {
+  background-color: rgba(204, 204, 0, 0.45); }
+
+td.tue-tot-cell {
+  background-color: rgba(204, 204, 0, 0.33); }
+
+td.wed-avg-cell {
+  background-color: rgba(0, 204, 0, 0.45); }
+
+td.wed-tot-cell {
+  background-color: rgba(0, 204, 0, 0.33); }
+
+td.thu-avg-cell {
+  background-color: rgba(0, 204, 204, 0.45); }
+
+td.thu-tot-cell {
+  background-color: rgba(0, 204, 204, 0.33); }
+
+td.fri-avg-cell {
+  background-color: rgba(0, 0, 204, 0.45); }
+
+td.fri-tot-cell {
+  background-color: rgba(0, 0, 204, 0.33); }
+
+td.sat-avg-cell {
+  background-color: rgba(204, 0, 204, 0.45); }
+
+td.sat-tot-cell {
+  background-color: rgba(204, 0, 204, 0.33); }
+
+td.sun-avg-cell {
+  background-color: rgba(26, 26, 26, 0.45); }
+
+td.sun-tot-cell {
+  background-color: rgba(26, 26, 26, 0.33); }
 
 /* ############################################
 	OTHER
