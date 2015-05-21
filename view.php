@@ -43,9 +43,13 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div id="header" class="clickable">
-		<div class="name">Shift Tips</div>
-		<a href="."><span class="link-spanner"></span></a>
+	<div id="header">
+		<div class="name"><a href=".">Shift Tips</a></div>
+		<ul class="menu">
+			<li><a href="all.php">View All</a></li>
+			<li><a href="add.php">Add</a></li>
+			<li><a href="summary.php">Summary</a></li>
+		</ul>
 	</div>
 	<div id="content">
 		<div id="wrapper">
@@ -154,7 +158,7 @@
 		</div>
 	</div>
 	<div id="footer">
-		<a href="#" target="popup" onClick="wopen('#', 'popup', 320, 480); return false;">DEBUG MOBILE - POPUP</a>
+		<a class="debug" href="#" target="popup" onClick="wopen('#', 'popup', 320, 480); return false;">debug mobile popup</a>
 	</div>
 	<script>
 		function wopen(url, name, w, h)

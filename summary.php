@@ -62,9 +62,13 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div id="header" class="clickable">
-		<div class="name">Shift Tips</div>
-		<a href="."><span class="link-spanner"></span></a>
+	<div id="header">
+		<div class="name"><a href=".">Shift Tips</a></div>
+		<ul class="menu">
+			<li><a href="all.php">View All</a></li>
+			<li><a href="add.php">Add</a></li>
+			<li><a class="active" href="summary.php">Summary</a></li>
+		</ul>
 	</div>
 	<div id="content">
 		<div id="wrapper">
@@ -203,7 +207,7 @@
 				</tr>
 			</table>
 
-			<h2>Days of the Week - Dinner</h2>
+			<h2>By Day - Dinner</h2>
 
 			<table class="summary-table">
 				<tr>
@@ -440,7 +444,7 @@
 				</tr>
 			</table>
 
-			<h2>Days of the Week - Lunch</h2>
+			<h2>By Day - Lunch</h2>
 
 			<table class="summary-table">
 				<tr>
@@ -627,7 +631,7 @@
 		</div>
 	</div>
 	<div id="footer">
-		<a href="#" target="popup" onClick="wopen('#', 'popup', 320, 480); return false;">DEBUG MOBILE - POPUP</a>
+		<a class="debug" href="#" target="popup" onClick="wopen('#', 'popup', 320, 480); return false;">debug mobile popup</a>
 	</div>
 	<script>
 		function wopen(url, name, w, h)

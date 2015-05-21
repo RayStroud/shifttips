@@ -36,17 +36,46 @@ h1 {
   font-size: 1.8em;
   margin: 2% 1% 1%; }
 
+h2 {
+  font-family: Georgia, serif;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1em 0; }
+
+a, a:link, a:visited, a:hover, a:active {
+  text-decoration: none !important;
+  color: inherit; }
+
 #header {
   color: white;
-  padding: 3% 1% 2% 5%; }
+  padding: 2% 1% 1.5% 5%; }
   #header .name {
+    display: inline-block;
     font-family: Georgia, serif;
     font-size: 3em;
     font-weight: bold;
     font-variant: small-caps; }
-
-#header:hover .name {
-  text-shadow: 0px 0px 16px rgba(255, 255, 255, 0.7); }
+    #header .name a:hover {
+      color: white;
+      text-shadow: 0px 0px 16px rgba(255, 255, 255, 0.7);
+      text-decoration: none; }
+  #header ul.menu {
+    display: inline-block;
+    margin: 0.3em 0.5em; }
+    #header ul.menu li {
+      display: inline-block;
+      margin: 0.5em 0; }
+      #header ul.menu li a {
+        padding: 0.5em;
+        border-radius: 5px;
+        color: white; }
+      #header ul.menu li a.active {
+        background-color: rgba(0, 0, 0, 0.3);
+        pointer-events: none;
+        cursor: default; }
+      #header ul.menu li a:hover {
+        text-decoration: none;
+        background-color: rgba(255, 255, 255, 0.2); }
 
 #content {
   background-color: #eaeaea;
@@ -315,5 +344,13 @@ label {
 /* ############################################
 	OTHER
 ############################################ */
+a.debug {
+  color: lime;
+  font-weight: bolder;
+  font-family: Consolas, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
+  padding: 0.5em; }
+
+a.debug:hover {
+  background-color: black; }
 
 /*# sourceMappingURL=style.css.map */

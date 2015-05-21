@@ -6,19 +6,37 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div id="header" class="clickable">
-		<div class="name">Shift Tips</div>
-		<a href="."><span class="link-spanner"></span></a>
+	<div id="header">
+		<div class="name"><a href=".">Shift Tips</a></div>
+		<ul class="menu">
+			<li><a href="all.php">View All</a></li>
+			<li><a href="add.php">Add</a></li>
+			<li><a href="summary.php">Summary</a></li>
+		</ul>
+	</div>
+	<div id="nav">
+		
 	</div>
 	<div id="content">
 		<div class="wrapper">
 			<h1>Home</h1>
-			<ul>
-				<li><a href="add.php">Add Shift</a></li>
-				<li><a href="all.php">View All Shifts</a></li>
-				<li><a href="summary.php">Summary</a></li>
-			</ul>
 		</div>
+		<div></div>
 	</div>
+	<div id="footer">
+		<a class="debug" href="#" target="popup" onClick="wopen('#', 'popup', 320, 480); return false;">debug mobile popup</a>
+	</div>
+	<script>
+		function wopen(url, name, w, h)
+		{
+			//Fudge factors for window decoration space.
+			w += 32;
+			h += 96;
+			var win = window.open(url, name, 'width=' + w + ', height=' + h + ', ' +
+				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=no, resizable=no');
+			win.resizeTo(w, h);
+			win.focus();
+		}
+	</script>
 </body>
 </html>

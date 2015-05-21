@@ -98,9 +98,13 @@
 	</script>
 </head>
 <body>
-	<div id="header" class="clickable">
-		<div class="name">Shift Tips</div>
-		<a href="."><span class="link-spanner"></span></a>
+	<div id="header">
+		<div class="name"><a href=".">Shift Tips</a></div>
+		<ul class="menu">
+			<li><a href="all.php">View All</a></li>
+			<li><a class="active" href="add.php">Add</a></li>
+			<li><a href="summary.php">Summary</a></li>
+		</ul>
 	</div>
 	<div id="content">
 		<div id="wrapper">
@@ -116,15 +120,15 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="startTime">Start</label>
-					<input required class="form-control" type="time" id="startTime" name="startTime" placeholder="hh:mm" />
+					<input required class="form-control" type="time" id="startTime" name="startTime" placeholder="hh:mm (24h)" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="endTime">End</label>
-					<input class="form-control" type="time" id="endTime" name="endTime" placeholder="hh:mm" />
+					<input class="form-control" type="time" id="endTime" name="endTime" placeholder="hh:mm (24h)" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="endTime">First Table</label>
-					<input class="form-control" type="time" id="firstTable" name="firstTable" placeholder="hh:mm" />
+					<input class="form-control" type="time" id="firstTable" name="firstTable" placeholder="hh:mm (24h)" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="campHours">Camp Hours</label>
@@ -173,7 +177,7 @@
 		</div>
 	</div>
 	<div id="footer">
-		<a href="#" target="popup" onClick="wopen('#', 'popup', 320, 480); return false;">DEBUG MOBILE - POPUP</a>
+		<a class="debug" href="#" target="popup" onClick="wopen('#', 'popup', 320, 480); return false;">debug mobile popup</a>
 	</div>
 	<script>
 		function wopen(url, name, w, h)
