@@ -13,7 +13,8 @@ $label-color: $darkgrey;
 
 $lun-color: #E69138;
 $din-color: #3C78D8;
-$both-color: #674EA7;
+$bth-color: #674EA7;
+$spl-color: #918588;
 
 $mon-color: darken(red,10%);
 $tue-color: darken(yellow,10%);
@@ -295,7 +296,7 @@ label {color: $label-color;}
 ############################################ */
 div.mobile-table {
 	max-width: 100%;
-	overflow-x: scroll;
+	overflow-x: auto;
 }
 .summary-table {
 	border: none;
@@ -328,8 +329,10 @@ td.lun-avg-cell {background-color: rgba($lun-color,0.8);}
 td.lun-tot-cell {background-color: rgba($lun-color,0.6);}
 td.din-avg-cell {background-color: rgba($din-color,0.8);}
 td.din-tot-cell {background-color: rgba($din-color,0.6);}
-td.bth-avg-cell {background-color: rgba($both-color,0.8);}
-td.bth-tot-cell {background-color: rgba($both-color,0.6);}
+td.bth-avg-cell {background-color: rgba($bth-color,0.8);}
+td.bth-tot-cell {background-color: rgba($bth-color,0.6);}
+td.spl-avg-cell {background-color: rgba($spl-color,0.8);}
+td.spl-tot-cell {background-color: rgba($spl-color,0.6);}
 
 td.mon-avg-cell {background-color: rgba($mon-color,0.45);}
 td.mon-tot-cell {background-color: rgba($mon-color,0.33);}

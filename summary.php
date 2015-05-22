@@ -21,21 +21,21 @@
 		$summaries[$lunchDinner][$dayOfWeek]['id'] = $row['id'];
 		$summaries[$lunchDinner][$dayOfWeek]['count'] = $row['count'];
 		$summaries[$lunchDinner][$dayOfWeek]['avgHours'] = $row['avgHours'];
-		$summaries[$lunchDinner][$dayOfWeek]['totalHours'] = $row['totalHours'];
+		$summaries[$lunchDinner][$dayOfWeek]['totHours'] = $row['totHours'];
 		$summaries[$lunchDinner][$dayOfWeek]['avgWage'] = number_format($row['avgWage'],2);
-		$summaries[$lunchDinner][$dayOfWeek]['totalWage'] = number_format($row['totalWage'],0);
+		$summaries[$lunchDinner][$dayOfWeek]['totWage'] = number_format($row['totWage'],0);
 		$summaries[$lunchDinner][$dayOfWeek]['avgTips'] = number_format($row['avgTips'],2);
-		$summaries[$lunchDinner][$dayOfWeek]['totalTips'] = number_format($row['totalTips'],0);
+		$summaries[$lunchDinner][$dayOfWeek]['totTips'] = number_format($row['totTips'],0);
 		$summaries[$lunchDinner][$dayOfWeek]['avgTipout'] = number_format($row['avgTipout'],2);
-		$summaries[$lunchDinner][$dayOfWeek]['totalTipout'] = number_format($row['totalTipout'],0);
+		$summaries[$lunchDinner][$dayOfWeek]['totTipout'] = number_format($row['totTipout'],0);
 		$summaries[$lunchDinner][$dayOfWeek]['avgSales'] = number_format($row['avgSales'],0);
-		$summaries[$lunchDinner][$dayOfWeek]['totalSales'] = number_format($row['totalSales'],0);
+		$summaries[$lunchDinner][$dayOfWeek]['totSales'] = number_format($row['totSales'],0);
 		$summaries[$lunchDinner][$dayOfWeek]['avgCovers'] = $row['avgCovers'];
-		$summaries[$lunchDinner][$dayOfWeek]['totalCovers'] = $row['totalCovers'];
+		$summaries[$lunchDinner][$dayOfWeek]['totCovers'] = $row['totCovers'];
 		$summaries[$lunchDinner][$dayOfWeek]['avgCampHours'] = $row['avgCampHours'];
-		$summaries[$lunchDinner][$dayOfWeek]['totalCampHours'] = $row['totalCampHours'];
-		$summaries[$lunchDinner][$dayOfWeek]['salesPerHour'] = number_format($row['salesPerHour'],2);
-		$summaries[$lunchDinner][$dayOfWeek]['salesPerCover'] = number_format($row['salesPerCover'],2);
+		$summaries[$lunchDinner][$dayOfWeek]['totCampHours'] = $row['totCampHours'];
+		$summaries[$lunchDinner][$dayOfWeek]['salesPerHour'] = number_format($row['salesPerHour'],0);
+		$summaries[$lunchDinner][$dayOfWeek]['salesPerCover'] = number_format($row['salesPerCover'],0);
 		$summaries[$lunchDinner][$dayOfWeek]['tipsPercent'] = $row['tipsPercent'];
 		$summaries[$lunchDinner][$dayOfWeek]['tipoutPercent'] = $row['tipoutPercent'];
 		$summaries[$lunchDinner][$dayOfWeek]['tipsVsWage'] = $row['tipsVsWage'];
@@ -43,7 +43,7 @@
 		$summaries[$lunchDinner][$dayOfWeek]['timedate'] = $row['timedate'];
 
 		$summaries[$lunchDinner][$dayOfWeek]['avgEarned'] = number_format($row['avgWage'] + $row['avgTips'],2);
-		$summaries[$lunchDinner][$dayOfWeek]['totalEarned'] = number_format($row['totalWage'] + $row['totalTips'],0);		
+		$summaries[$lunchDinner][$dayOfWeek]['totEarned'] = number_format($row['totWage'] + $row['totTips'],0);		
 	}
 
 	//* DEBUG */ echo 'NUM RESULTS: ' . $summariesResult->num_rows . '<pre>'; print_r($summaries); echo '</pre>';
@@ -99,74 +99,74 @@
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Hours</th>
-					<td class="lun-tot-cell"><?php echo $summaries['L']['%']['totalHours']; ?></td>
+					<td class="lun-tot-cell"><?php echo $summaries['L']['%']['totHours']; ?></td>
 					<td class="lun-avg-cell"><?php echo $summaries['L']['%']['avgHours']; ?></td>
-					<td class="din-tot-cell"><?php echo $summaries['D']['%']['totalHours']; ?></td>
+					<td class="din-tot-cell"><?php echo $summaries['D']['%']['totHours']; ?></td>
 					<td class="din-avg-cell"><?php echo $summaries['D']['%']['avgHours']; ?></td>
-					<td class="bth-tot-cell"><?php echo $summaries['%']['%']['totalHours']; ?></td>
+					<td class="bth-tot-cell"><?php echo $summaries['%']['%']['totHours']; ?></td>
 					<td class="bth-avg-cell"><?php echo $summaries['%']['%']['avgHours']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Wage</th>
-					<td class="lun-tot-cell"><?php echo '$' . $summaries['L']['%']['totalWage']; ?></td>
+					<td class="lun-tot-cell"><?php echo '$' . $summaries['L']['%']['totWage']; ?></td>
 					<td class="lun-avg-cell"><?php echo '$' . $summaries['L']['%']['avgWage']; ?></td>
-					<td class="din-tot-cell"><?php echo '$' . $summaries['D']['%']['totalWage']; ?></td>
+					<td class="din-tot-cell"><?php echo '$' . $summaries['D']['%']['totWage']; ?></td>
 					<td class="din-avg-cell"><?php echo '$' . $summaries['D']['%']['avgWage']; ?></td>
-					<td class="bth-tot-cell"><?php echo '$' . $summaries['%']['%']['totalWage']; ?></td>
+					<td class="bth-tot-cell"><?php echo '$' . $summaries['%']['%']['totWage']; ?></td>
 					<td class="bth-avg-cell"><?php echo '$' . $summaries['%']['%']['avgWage']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Tips</th>
-					<td class="lun-tot-cell"><?php echo '$' . $summaries['L']['%']['totalTips']; ?></td>
+					<td class="lun-tot-cell"><?php echo '$' . $summaries['L']['%']['totTips']; ?></td>
 					<td class="lun-avg-cell"><?php echo '$' . $summaries['L']['%']['avgTips']; ?></td>
-					<td class="din-tot-cell"><?php echo '$' . $summaries['D']['%']['totalTips']; ?></td>
+					<td class="din-tot-cell"><?php echo '$' . $summaries['D']['%']['totTips']; ?></td>
 					<td class="din-avg-cell"><?php echo '$' . $summaries['D']['%']['avgTips']; ?></td>
-					<td class="bth-tot-cell"><?php echo '$' . $summaries['%']['%']['totalTips']; ?></td>
+					<td class="bth-tot-cell"><?php echo '$' . $summaries['%']['%']['totTips']; ?></td>
 					<td class="bth-avg-cell"><?php echo '$' . $summaries['%']['%']['avgTips']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Tipout</th>
-					<td class="lun-tot-cell"><?php echo '$' . $summaries['L']['%']['totalTipout']; ?></td>
+					<td class="lun-tot-cell"><?php echo '$' . $summaries['L']['%']['totTipout']; ?></td>
 					<td class="lun-avg-cell"><?php echo '$' . $summaries['L']['%']['avgTipout']; ?></td>
-					<td class="din-tot-cell"><?php echo '$' . $summaries['D']['%']['totalTipout']; ?></td>
+					<td class="din-tot-cell"><?php echo '$' . $summaries['D']['%']['totTipout']; ?></td>
 					<td class="din-avg-cell"><?php echo '$' . $summaries['D']['%']['avgTipout']; ?></td>
-					<td class="bth-tot-cell"><?php echo '$' . $summaries['%']['%']['totalTipout']; ?></td>
+					<td class="bth-tot-cell"><?php echo '$' . $summaries['%']['%']['totTipout']; ?></td>
 					<td class="bth-avg-cell"><?php echo '$' . $summaries['%']['%']['avgTipout']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Earned</th>
-					<td class="lun-tot-cell"><?php echo '$' . $summaries['L']['%']['totalEarned']; ?></td>
+					<td class="lun-tot-cell"><?php echo '$' . $summaries['L']['%']['totEarned']; ?></td>
 					<td class="lun-avg-cell"><?php echo '$' . $summaries['L']['%']['avgEarned']; ?></td>
-					<td class="din-tot-cell"><?php echo '$' . $summaries['D']['%']['totalEarned']; ?></td>
+					<td class="din-tot-cell"><?php echo '$' . $summaries['D']['%']['totEarned']; ?></td>
 					<td class="din-avg-cell"><?php echo '$' . $summaries['D']['%']['avgEarned']; ?></td>
-					<td class="bth-tot-cell"><?php echo '$' . $summaries['%']['%']['totalEarned']; ?></td>
+					<td class="bth-tot-cell"><?php echo '$' . $summaries['%']['%']['totEarned']; ?></td>
 					<td class="bth-avg-cell"><?php echo '$' . $summaries['%']['%']['avgEarned']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Sales</th>
-					<td class="lun-tot-cell"><?php echo '$' . $summaries['L']['%']['totalSales']; ?></td>
+					<td class="lun-tot-cell"><?php echo '$' . $summaries['L']['%']['totSales']; ?></td>
 					<td class="lun-avg-cell"><?php echo '$' . $summaries['L']['%']['avgSales']; ?></td>
-					<td class="din-tot-cell"><?php echo '$' . $summaries['D']['%']['totalSales']; ?></td>
+					<td class="din-tot-cell"><?php echo '$' . $summaries['D']['%']['totSales']; ?></td>
 					<td class="din-avg-cell"><?php echo '$' . $summaries['D']['%']['avgSales']; ?></td>
-					<td class="bth-tot-cell"><?php echo '$' . $summaries['%']['%']['totalSales']; ?></td>
+					<td class="bth-tot-cell"><?php echo '$' . $summaries['%']['%']['totSales']; ?></td>
 					<td class="bth-avg-cell"><?php echo '$' . $summaries['%']['%']['avgSales']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Covers</th>
-					<td class="lun-tot-cell"><?php echo $summaries['L']['%']['totalCovers']; ?></td>
+					<td class="lun-tot-cell"><?php echo $summaries['L']['%']['totCovers']; ?></td>
 					<td class="lun-avg-cell"><?php echo $summaries['L']['%']['avgCovers']; ?></td>
-					<td class="din-tot-cell"><?php echo $summaries['D']['%']['totalCovers']; ?></td>
+					<td class="din-tot-cell"><?php echo $summaries['D']['%']['totCovers']; ?></td>
 					<td class="din-avg-cell"><?php echo $summaries['D']['%']['avgCovers']; ?></td>
-					<td class="bth-tot-cell"><?php echo $summaries['%']['%']['totalCovers']; ?></td>
+					<td class="bth-tot-cell"><?php echo $summaries['%']['%']['totCovers']; ?></td>
 					<td class="bth-avg-cell"><?php echo $summaries['%']['%']['avgCovers']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">CampHrs</th>
-					<td class="lun-tot-cell"><?php echo $summaries['L']['%']['totalCampHours']; ?></td>
+					<td class="lun-tot-cell"><?php echo $summaries['L']['%']['totCampHours']; ?></td>
 					<td class="lun-avg-cell"><?php echo $summaries['L']['%']['avgCampHours']; ?></td>
-					<td class="din-tot-cell"><?php echo $summaries['D']['%']['totalCampHours']; ?></td>
+					<td class="din-tot-cell"><?php echo $summaries['D']['%']['totCampHours']; ?></td>
 					<td class="din-avg-cell"><?php echo $summaries['D']['%']['avgCampHours']; ?></td>
-					<td class="bth-tot-cell"><?php echo $summaries['%']['%']['totalCampHours']; ?></td>
+					<td class="bth-tot-cell"><?php echo $summaries['%']['%']['totCampHours']; ?></td>
 					<td class="bth-avg-cell"><?php echo $summaries['%']['%']['avgCampHours']; ?></td>
 				</tr>
 				<tr>
@@ -248,138 +248,138 @@
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Hours</th>
-					<td class="mon-tot-cell"><?php echo $summaries['D']['Mon']['totalHours']; ?></td>
+					<td class="mon-tot-cell"><?php echo $summaries['D']['Mon']['totHours']; ?></td>
 					<td class="mon-avg-cell"><?php echo $summaries['D']['Mon']['avgHours']; ?></td>
-					<td class="tue-tot-cell"><?php echo $summaries['D']['Tue']['totalHours']; ?></td>
+					<td class="tue-tot-cell"><?php echo $summaries['D']['Tue']['totHours']; ?></td>
 					<td class="tue-avg-cell"><?php echo $summaries['D']['Tue']['avgHours']; ?></td>
-					<td class="wed-tot-cell"><?php echo $summaries['D']['Wed']['totalHours']; ?></td>
+					<td class="wed-tot-cell"><?php echo $summaries['D']['Wed']['totHours']; ?></td>
 					<td class="wed-avg-cell"><?php echo $summaries['D']['Wed']['avgHours']; ?></td>
-					<td class="thu-tot-cell"><?php echo $summaries['D']['Thu']['totalHours']; ?></td>
+					<td class="thu-tot-cell"><?php echo $summaries['D']['Thu']['totHours']; ?></td>
 					<td class="thu-avg-cell"><?php echo $summaries['D']['Thu']['avgHours']; ?></td>
-					<td class="fri-tot-cell"><?php echo $summaries['D']['Fri']['totalHours']; ?></td>
+					<td class="fri-tot-cell"><?php echo $summaries['D']['Fri']['totHours']; ?></td>
 					<td class="fri-avg-cell"><?php echo $summaries['D']['Fri']['avgHours']; ?></td>
-					<td class="sat-tot-cell"><?php echo $summaries['D']['Sat']['totalHours']; ?></td>
+					<td class="sat-tot-cell"><?php echo $summaries['D']['Sat']['totHours']; ?></td>
 					<td class="sat-avg-cell"><?php echo $summaries['D']['Sat']['avgHours']; ?></td>
-					<td class="sun-tot-cell"><?php echo $summaries['D']['Sun']['totalHours']; ?></td>
+					<td class="sun-tot-cell"><?php echo $summaries['D']['Sun']['totHours']; ?></td>
 					<td class="sun-avg-cell"><?php echo $summaries['D']['Sun']['avgHours']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Wage</th>
-					<td class="mon-tot-cell"><?php echo '$' . $summaries['D']['Mon']['totalWage']; ?></td>
+					<td class="mon-tot-cell"><?php echo '$' . $summaries['D']['Mon']['totWage']; ?></td>
 					<td class="mon-avg-cell"><?php echo '$' . $summaries['D']['Mon']['avgWage']; ?></td>
-					<td class="tue-tot-cell"><?php echo '$' . $summaries['D']['Tue']['totalWage']; ?></td>
+					<td class="tue-tot-cell"><?php echo '$' . $summaries['D']['Tue']['totWage']; ?></td>
 					<td class="tue-avg-cell"><?php echo '$' . $summaries['D']['Tue']['avgWage']; ?></td>
-					<td class="wed-tot-cell"><?php echo '$' . $summaries['D']['Wed']['totalWage']; ?></td>
+					<td class="wed-tot-cell"><?php echo '$' . $summaries['D']['Wed']['totWage']; ?></td>
 					<td class="wed-avg-cell"><?php echo '$' . $summaries['D']['Wed']['avgWage']; ?></td>
-					<td class="thu-tot-cell"><?php echo '$' . $summaries['D']['Thu']['totalWage']; ?></td>
+					<td class="thu-tot-cell"><?php echo '$' . $summaries['D']['Thu']['totWage']; ?></td>
 					<td class="thu-avg-cell"><?php echo '$' . $summaries['D']['Thu']['avgWage']; ?></td>
-					<td class="fri-tot-cell"><?php echo '$' . $summaries['D']['Fri']['totalWage']; ?></td>
+					<td class="fri-tot-cell"><?php echo '$' . $summaries['D']['Fri']['totWage']; ?></td>
 					<td class="fri-avg-cell"><?php echo '$' . $summaries['D']['Fri']['avgWage']; ?></td>
-					<td class="sat-tot-cell"><?php echo '$' . $summaries['D']['Sat']['totalWage']; ?></td>
+					<td class="sat-tot-cell"><?php echo '$' . $summaries['D']['Sat']['totWage']; ?></td>
 					<td class="sat-avg-cell"><?php echo '$' . $summaries['D']['Sat']['avgWage']; ?></td>
-					<td class="sun-tot-cell"><?php echo '$' . $summaries['D']['Sun']['totalWage']; ?></td>
+					<td class="sun-tot-cell"><?php echo '$' . $summaries['D']['Sun']['totWage']; ?></td>
 					<td class="sun-avg-cell"><?php echo '$' . $summaries['D']['Sun']['avgWage']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Tips</th>
-					<td class="mon-tot-cell"><?php echo '$' . $summaries['D']['Mon']['totalTips']; ?></td>
+					<td class="mon-tot-cell"><?php echo '$' . $summaries['D']['Mon']['totTips']; ?></td>
 					<td class="mon-avg-cell"><?php echo '$' . $summaries['D']['Mon']['avgTips']; ?></td>
-					<td class="tue-tot-cell"><?php echo '$' . $summaries['D']['Tue']['totalTips']; ?></td>
+					<td class="tue-tot-cell"><?php echo '$' . $summaries['D']['Tue']['totTips']; ?></td>
 					<td class="tue-avg-cell"><?php echo '$' . $summaries['D']['Tue']['avgTips']; ?></td>
-					<td class="wed-tot-cell"><?php echo '$' . $summaries['D']['Wed']['totalTips']; ?></td>
+					<td class="wed-tot-cell"><?php echo '$' . $summaries['D']['Wed']['totTips']; ?></td>
 					<td class="wed-avg-cell"><?php echo '$' . $summaries['D']['Wed']['avgTips']; ?></td>
-					<td class="thu-tot-cell"><?php echo '$' . $summaries['D']['Thu']['totalTips']; ?></td>
+					<td class="thu-tot-cell"><?php echo '$' . $summaries['D']['Thu']['totTips']; ?></td>
 					<td class="thu-avg-cell"><?php echo '$' . $summaries['D']['Thu']['avgTips']; ?></td>
-					<td class="fri-tot-cell"><?php echo '$' . $summaries['D']['Fri']['totalTips']; ?></td>
+					<td class="fri-tot-cell"><?php echo '$' . $summaries['D']['Fri']['totTips']; ?></td>
 					<td class="fri-avg-cell"><?php echo '$' . $summaries['D']['Fri']['avgTips']; ?></td>
-					<td class="sat-tot-cell"><?php echo '$' . $summaries['D']['Sat']['totalTips']; ?></td>
+					<td class="sat-tot-cell"><?php echo '$' . $summaries['D']['Sat']['totTips']; ?></td>
 					<td class="sat-avg-cell"><?php echo '$' . $summaries['D']['Sat']['avgTips']; ?></td>
-					<td class="sun-tot-cell"><?php echo '$' . $summaries['D']['Sun']['totalTips']; ?></td>
+					<td class="sun-tot-cell"><?php echo '$' . $summaries['D']['Sun']['totTips']; ?></td>
 					<td class="sun-avg-cell"><?php echo '$' . $summaries['D']['Sun']['avgTips']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Tipout</th>
-					<td class="mon-tot-cell"><?php echo '$' . $summaries['D']['Mon']['totalTipout']; ?></td>
+					<td class="mon-tot-cell"><?php echo '$' . $summaries['D']['Mon']['totTipout']; ?></td>
 					<td class="mon-avg-cell"><?php echo '$' . $summaries['D']['Mon']['avgTipout']; ?></td>
-					<td class="tue-tot-cell"><?php echo '$' . $summaries['D']['Tue']['totalTipout']; ?></td>
+					<td class="tue-tot-cell"><?php echo '$' . $summaries['D']['Tue']['totTipout']; ?></td>
 					<td class="tue-avg-cell"><?php echo '$' . $summaries['D']['Tue']['avgTipout']; ?></td>
-					<td class="wed-tot-cell"><?php echo '$' . $summaries['D']['Wed']['totalTipout']; ?></td>
+					<td class="wed-tot-cell"><?php echo '$' . $summaries['D']['Wed']['totTipout']; ?></td>
 					<td class="wed-avg-cell"><?php echo '$' . $summaries['D']['Wed']['avgTipout']; ?></td>
-					<td class="thu-tot-cell"><?php echo '$' . $summaries['D']['Thu']['totalTipout']; ?></td>
+					<td class="thu-tot-cell"><?php echo '$' . $summaries['D']['Thu']['totTipout']; ?></td>
 					<td class="thu-avg-cell"><?php echo '$' . $summaries['D']['Thu']['avgTipout']; ?></td>
-					<td class="fri-tot-cell"><?php echo '$' . $summaries['D']['Fri']['totalTipout']; ?></td>
+					<td class="fri-tot-cell"><?php echo '$' . $summaries['D']['Fri']['totTipout']; ?></td>
 					<td class="fri-avg-cell"><?php echo '$' . $summaries['D']['Fri']['avgTipout']; ?></td>
-					<td class="sat-tot-cell"><?php echo '$' . $summaries['D']['Sat']['totalTipout']; ?></td>
+					<td class="sat-tot-cell"><?php echo '$' . $summaries['D']['Sat']['totTipout']; ?></td>
 					<td class="sat-avg-cell"><?php echo '$' . $summaries['D']['Sat']['avgTipout']; ?></td>
-					<td class="sun-tot-cell"><?php echo '$' . $summaries['D']['Sun']['totalTipout']; ?></td>
+					<td class="sun-tot-cell"><?php echo '$' . $summaries['D']['Sun']['totTipout']; ?></td>
 					<td class="sun-avg-cell"><?php echo '$' . $summaries['D']['Sun']['avgTipout']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Earned</th>
-					<td class="mon-tot-cell"><?php echo '$' . $summaries['D']['Mon']['totalEarned']; ?></td>
+					<td class="mon-tot-cell"><?php echo '$' . $summaries['D']['Mon']['totEarned']; ?></td>
 					<td class="mon-avg-cell"><?php echo '$' . $summaries['D']['Mon']['avgEarned']; ?></td>
-					<td class="tue-tot-cell"><?php echo '$' . $summaries['D']['Tue']['totalEarned']; ?></td>
+					<td class="tue-tot-cell"><?php echo '$' . $summaries['D']['Tue']['totEarned']; ?></td>
 					<td class="tue-avg-cell"><?php echo '$' . $summaries['D']['Tue']['avgEarned']; ?></td>
-					<td class="wed-tot-cell"><?php echo '$' . $summaries['D']['Wed']['totalEarned']; ?></td>
+					<td class="wed-tot-cell"><?php echo '$' . $summaries['D']['Wed']['totEarned']; ?></td>
 					<td class="wed-avg-cell"><?php echo '$' . $summaries['D']['Wed']['avgEarned']; ?></td>
-					<td class="thu-tot-cell"><?php echo '$' . $summaries['D']['Thu']['totalEarned']; ?></td>
+					<td class="thu-tot-cell"><?php echo '$' . $summaries['D']['Thu']['totEarned']; ?></td>
 					<td class="thu-avg-cell"><?php echo '$' . $summaries['D']['Thu']['avgEarned']; ?></td>
-					<td class="fri-tot-cell"><?php echo '$' . $summaries['D']['Fri']['totalEarned']; ?></td>
+					<td class="fri-tot-cell"><?php echo '$' . $summaries['D']['Fri']['totEarned']; ?></td>
 					<td class="fri-avg-cell"><?php echo '$' . $summaries['D']['Fri']['avgEarned']; ?></td>
-					<td class="sat-tot-cell"><?php echo '$' . $summaries['D']['Sat']['totalEarned']; ?></td>
+					<td class="sat-tot-cell"><?php echo '$' . $summaries['D']['Sat']['totEarned']; ?></td>
 					<td class="sat-avg-cell"><?php echo '$' . $summaries['D']['Sat']['avgEarned']; ?></td>
-					<td class="sun-tot-cell"><?php echo '$' . $summaries['D']['Sun']['totalEarned']; ?></td>
+					<td class="sun-tot-cell"><?php echo '$' . $summaries['D']['Sun']['totEarned']; ?></td>
 					<td class="sun-avg-cell"><?php echo '$' . $summaries['D']['Sun']['avgEarned']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Sales</th>
-					<td class="mon-tot-cell"><?php echo '$' . $summaries['D']['Mon']['totalSales']; ?></td>
+					<td class="mon-tot-cell"><?php echo '$' . $summaries['D']['Mon']['totSales']; ?></td>
 					<td class="mon-avg-cell"><?php echo '$' . $summaries['D']['Mon']['avgSales']; ?></td>
-					<td class="tue-tot-cell"><?php echo '$' . $summaries['D']['Tue']['totalSales']; ?></td>
+					<td class="tue-tot-cell"><?php echo '$' . $summaries['D']['Tue']['totSales']; ?></td>
 					<td class="tue-avg-cell"><?php echo '$' . $summaries['D']['Tue']['avgSales']; ?></td>
-					<td class="wed-tot-cell"><?php echo '$' . $summaries['D']['Wed']['totalSales']; ?></td>
+					<td class="wed-tot-cell"><?php echo '$' . $summaries['D']['Wed']['totSales']; ?></td>
 					<td class="wed-avg-cell"><?php echo '$' . $summaries['D']['Wed']['avgSales']; ?></td>
-					<td class="thu-tot-cell"><?php echo '$' . $summaries['D']['Thu']['totalSales']; ?></td>
+					<td class="thu-tot-cell"><?php echo '$' . $summaries['D']['Thu']['totSales']; ?></td>
 					<td class="thu-avg-cell"><?php echo '$' . $summaries['D']['Thu']['avgSales']; ?></td>
-					<td class="fri-tot-cell"><?php echo '$' . $summaries['D']['Fri']['totalSales']; ?></td>
+					<td class="fri-tot-cell"><?php echo '$' . $summaries['D']['Fri']['totSales']; ?></td>
 					<td class="fri-avg-cell"><?php echo '$' . $summaries['D']['Fri']['avgSales']; ?></td>
-					<td class="sat-tot-cell"><?php echo '$' . $summaries['D']['Sat']['totalSales']; ?></td>
+					<td class="sat-tot-cell"><?php echo '$' . $summaries['D']['Sat']['totSales']; ?></td>
 					<td class="sat-avg-cell"><?php echo '$' . $summaries['D']['Sat']['avgSales']; ?></td>
-					<td class="sun-tot-cell"><?php echo '$' . $summaries['D']['Sun']['totalSales']; ?></td>
+					<td class="sun-tot-cell"><?php echo '$' . $summaries['D']['Sun']['totSales']; ?></td>
 					<td class="sun-avg-cell"><?php echo '$' . $summaries['D']['Sun']['avgSales']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Covers</th>
-					<td class="mon-tot-cell"><?php echo $summaries['D']['Mon']['totalCovers']; ?></td>
+					<td class="mon-tot-cell"><?php echo $summaries['D']['Mon']['totCovers']; ?></td>
 					<td class="mon-avg-cell"><?php echo $summaries['D']['Mon']['avgCovers']; ?></td>
-					<td class="tue-tot-cell"><?php echo $summaries['D']['Tue']['totalCovers']; ?></td>
+					<td class="tue-tot-cell"><?php echo $summaries['D']['Tue']['totCovers']; ?></td>
 					<td class="tue-avg-cell"><?php echo $summaries['D']['Tue']['avgCovers']; ?></td>
-					<td class="wed-tot-cell"><?php echo $summaries['D']['Wed']['totalCovers']; ?></td>
+					<td class="wed-tot-cell"><?php echo $summaries['D']['Wed']['totCovers']; ?></td>
 					<td class="wed-avg-cell"><?php echo $summaries['D']['Wed']['avgCovers']; ?></td>
-					<td class="thu-tot-cell"><?php echo $summaries['D']['Thu']['totalCovers']; ?></td>
+					<td class="thu-tot-cell"><?php echo $summaries['D']['Thu']['totCovers']; ?></td>
 					<td class="thu-avg-cell"><?php echo $summaries['D']['Thu']['avgCovers']; ?></td>
-					<td class="fri-tot-cell"><?php echo $summaries['D']['Fri']['totalCovers']; ?></td>
+					<td class="fri-tot-cell"><?php echo $summaries['D']['Fri']['totCovers']; ?></td>
 					<td class="fri-avg-cell"><?php echo $summaries['D']['Fri']['avgCovers']; ?></td>
-					<td class="sat-tot-cell"><?php echo $summaries['D']['Sat']['totalCovers']; ?></td>
+					<td class="sat-tot-cell"><?php echo $summaries['D']['Sat']['totCovers']; ?></td>
 					<td class="sat-avg-cell"><?php echo $summaries['D']['Sat']['avgCovers']; ?></td>
-					<td class="sun-tot-cell"><?php echo $summaries['D']['Sun']['totalCovers']; ?></td>
+					<td class="sun-tot-cell"><?php echo $summaries['D']['Sun']['totCovers']; ?></td>
 					<td class="sun-avg-cell"><?php echo $summaries['D']['Sun']['avgCovers']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">CampsHrs</th>
-					<td class="mon-tot-cell"><?php echo $summaries['D']['Mon']['totalCampHours']; ?></td>
+					<td class="mon-tot-cell"><?php echo $summaries['D']['Mon']['totCampHours']; ?></td>
 					<td class="mon-avg-cell"><?php echo $summaries['D']['Mon']['avgCampHours']; ?></td>
-					<td class="tue-tot-cell"><?php echo $summaries['D']['Tue']['totalCampHours']; ?></td>
+					<td class="tue-tot-cell"><?php echo $summaries['D']['Tue']['totCampHours']; ?></td>
 					<td class="tue-avg-cell"><?php echo $summaries['D']['Tue']['avgCampHours']; ?></td>
-					<td class="wed-tot-cell"><?php echo $summaries['D']['Wed']['totalCampHours']; ?></td>
+					<td class="wed-tot-cell"><?php echo $summaries['D']['Wed']['totCampHours']; ?></td>
 					<td class="wed-avg-cell"><?php echo $summaries['D']['Wed']['avgCampHours']; ?></td>
-					<td class="thu-tot-cell"><?php echo $summaries['D']['Thu']['totalCampHours']; ?></td>
+					<td class="thu-tot-cell"><?php echo $summaries['D']['Thu']['totCampHours']; ?></td>
 					<td class="thu-avg-cell"><?php echo $summaries['D']['Thu']['avgCampHours']; ?></td>
-					<td class="fri-tot-cell"><?php echo $summaries['D']['Fri']['totalCampHours']; ?></td>
+					<td class="fri-tot-cell"><?php echo $summaries['D']['Fri']['totCampHours']; ?></td>
 					<td class="fri-avg-cell"><?php echo $summaries['D']['Fri']['avgCampHours']; ?></td>
-					<td class="sat-tot-cell"><?php echo $summaries['D']['Sat']['totalCampHours']; ?></td>
+					<td class="sat-tot-cell"><?php echo $summaries['D']['Sat']['totCampHours']; ?></td>
 					<td class="sat-avg-cell"><?php echo $summaries['D']['Sat']['avgCampHours']; ?></td>
-					<td class="sun-tot-cell"><?php echo $summaries['D']['Sun']['totalCampHours']; ?></td>
+					<td class="sun-tot-cell"><?php echo $summaries['D']['Sun']['totCampHours']; ?></td>
 					<td class="sun-avg-cell"><?php echo $summaries['D']['Sun']['avgCampHours']; ?></td>
 				</tr>
 				<tr>
@@ -477,106 +477,106 @@
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Hours</th>
-					<td class="mon-tot-cell"><?php echo $summaries['L']['Mon']['totalHours']; ?></td>
+					<td class="mon-tot-cell"><?php echo $summaries['L']['Mon']['totHours']; ?></td>
 					<td class="mon-avg-cell"><?php echo $summaries['L']['Mon']['avgHours']; ?></td>
-					<td class="tue-tot-cell"><?php echo $summaries['L']['Tue']['totalHours']; ?></td>
+					<td class="tue-tot-cell"><?php echo $summaries['L']['Tue']['totHours']; ?></td>
 					<td class="tue-avg-cell"><?php echo $summaries['L']['Tue']['avgHours']; ?></td>
-					<td class="wed-tot-cell"><?php echo $summaries['L']['Wed']['totalHours']; ?></td>
+					<td class="wed-tot-cell"><?php echo $summaries['L']['Wed']['totHours']; ?></td>
 					<td class="wed-avg-cell"><?php echo $summaries['L']['Wed']['avgHours']; ?></td>
-					<td class="thu-tot-cell"><?php echo $summaries['L']['Thu']['totalHours']; ?></td>
+					<td class="thu-tot-cell"><?php echo $summaries['L']['Thu']['totHours']; ?></td>
 					<td class="thu-avg-cell"><?php echo $summaries['L']['Thu']['avgHours']; ?></td>
-					<td class="fri-tot-cell"><?php echo $summaries['L']['Fri']['totalHours']; ?></td>
+					<td class="fri-tot-cell"><?php echo $summaries['L']['Fri']['totHours']; ?></td>
 					<td class="fri-avg-cell"><?php echo $summaries['L']['Fri']['avgHours']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Wage</th>
-					<td class="mon-tot-cell"><?php echo '$' . $summaries['L']['Mon']['totalWage']; ?></td>
+					<td class="mon-tot-cell"><?php echo '$' . $summaries['L']['Mon']['totWage']; ?></td>
 					<td class="mon-avg-cell"><?php echo '$' . $summaries['L']['Mon']['avgWage']; ?></td>
-					<td class="tue-tot-cell"><?php echo '$' . $summaries['L']['Tue']['totalWage']; ?></td>
+					<td class="tue-tot-cell"><?php echo '$' . $summaries['L']['Tue']['totWage']; ?></td>
 					<td class="tue-avg-cell"><?php echo '$' . $summaries['L']['Tue']['avgWage']; ?></td>
-					<td class="wed-tot-cell"><?php echo '$' . $summaries['L']['Wed']['totalWage']; ?></td>
+					<td class="wed-tot-cell"><?php echo '$' . $summaries['L']['Wed']['totWage']; ?></td>
 					<td class="wed-avg-cell"><?php echo '$' . $summaries['L']['Wed']['avgWage']; ?></td>
-					<td class="thu-tot-cell"><?php echo '$' . $summaries['L']['Thu']['totalWage']; ?></td>
+					<td class="thu-tot-cell"><?php echo '$' . $summaries['L']['Thu']['totWage']; ?></td>
 					<td class="thu-avg-cell"><?php echo '$' . $summaries['L']['Thu']['avgWage']; ?></td>
-					<td class="fri-tot-cell"><?php echo '$' . $summaries['L']['Fri']['totalWage']; ?></td>
+					<td class="fri-tot-cell"><?php echo '$' . $summaries['L']['Fri']['totWage']; ?></td>
 					<td class="fri-avg-cell"><?php echo '$' . $summaries['L']['Fri']['avgWage']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Tips</th>
-					<td class="mon-tot-cell"><?php echo '$' . $summaries['L']['Mon']['totalTips']; ?></td>
+					<td class="mon-tot-cell"><?php echo '$' . $summaries['L']['Mon']['totTips']; ?></td>
 					<td class="mon-avg-cell"><?php echo '$' . $summaries['L']['Mon']['avgTips']; ?></td>
-					<td class="tue-tot-cell"><?php echo '$' . $summaries['L']['Tue']['totalTips']; ?></td>
+					<td class="tue-tot-cell"><?php echo '$' . $summaries['L']['Tue']['totTips']; ?></td>
 					<td class="tue-avg-cell"><?php echo '$' . $summaries['L']['Tue']['avgTips']; ?></td>
-					<td class="wed-tot-cell"><?php echo '$' . $summaries['L']['Wed']['totalTips']; ?></td>
+					<td class="wed-tot-cell"><?php echo '$' . $summaries['L']['Wed']['totTips']; ?></td>
 					<td class="wed-avg-cell"><?php echo '$' . $summaries['L']['Wed']['avgTips']; ?></td>
-					<td class="thu-tot-cell"><?php echo '$' . $summaries['L']['Thu']['totalTips']; ?></td>
+					<td class="thu-tot-cell"><?php echo '$' . $summaries['L']['Thu']['totTips']; ?></td>
 					<td class="thu-avg-cell"><?php echo '$' . $summaries['L']['Thu']['avgTips']; ?></td>
-					<td class="fri-tot-cell"><?php echo '$' . $summaries['L']['Fri']['totalTips']; ?></td>
+					<td class="fri-tot-cell"><?php echo '$' . $summaries['L']['Fri']['totTips']; ?></td>
 					<td class="fri-avg-cell"><?php echo '$' . $summaries['L']['Fri']['avgTips']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Tipout</th>
-					<td class="mon-tot-cell"><?php echo '$' . $summaries['L']['Mon']['totalTipout']; ?></td>
+					<td class="mon-tot-cell"><?php echo '$' . $summaries['L']['Mon']['totTipout']; ?></td>
 					<td class="mon-avg-cell"><?php echo '$' . $summaries['L']['Mon']['avgTipout']; ?></td>
-					<td class="tue-tot-cell"><?php echo '$' . $summaries['L']['Tue']['totalTipout']; ?></td>
+					<td class="tue-tot-cell"><?php echo '$' . $summaries['L']['Tue']['totTipout']; ?></td>
 					<td class="tue-avg-cell"><?php echo '$' . $summaries['L']['Tue']['avgTipout']; ?></td>
-					<td class="wed-tot-cell"><?php echo '$' . $summaries['L']['Wed']['totalTipout']; ?></td>
+					<td class="wed-tot-cell"><?php echo '$' . $summaries['L']['Wed']['totTipout']; ?></td>
 					<td class="wed-avg-cell"><?php echo '$' . $summaries['L']['Wed']['avgTipout']; ?></td>
-					<td class="thu-tot-cell"><?php echo '$' . $summaries['L']['Thu']['totalTipout']; ?></td>
+					<td class="thu-tot-cell"><?php echo '$' . $summaries['L']['Thu']['totTipout']; ?></td>
 					<td class="thu-avg-cell"><?php echo '$' . $summaries['L']['Thu']['avgTipout']; ?></td>
-					<td class="fri-tot-cell"><?php echo '$' . $summaries['L']['Fri']['totalTipout']; ?></td>
+					<td class="fri-tot-cell"><?php echo '$' . $summaries['L']['Fri']['totTipout']; ?></td>
 					<td class="fri-avg-cell"><?php echo '$' . $summaries['L']['Fri']['avgTipout']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Earned</th>
-					<td class="mon-tot-cell"><?php echo '$' . $summaries['L']['Mon']['totalEarned']; ?></td>
+					<td class="mon-tot-cell"><?php echo '$' . $summaries['L']['Mon']['totEarned']; ?></td>
 					<td class="mon-avg-cell"><?php echo '$' . $summaries['L']['Mon']['avgEarned']; ?></td>
-					<td class="tue-tot-cell"><?php echo '$' . $summaries['L']['Tue']['totalEarned']; ?></td>
+					<td class="tue-tot-cell"><?php echo '$' . $summaries['L']['Tue']['totEarned']; ?></td>
 					<td class="tue-avg-cell"><?php echo '$' . $summaries['L']['Tue']['avgEarned']; ?></td>
-					<td class="wed-tot-cell"><?php echo '$' . $summaries['L']['Wed']['totalEarned']; ?></td>
+					<td class="wed-tot-cell"><?php echo '$' . $summaries['L']['Wed']['totEarned']; ?></td>
 					<td class="wed-avg-cell"><?php echo '$' . $summaries['L']['Wed']['avgEarned']; ?></td>
-					<td class="thu-tot-cell"><?php echo '$' . $summaries['L']['Thu']['totalEarned']; ?></td>
+					<td class="thu-tot-cell"><?php echo '$' . $summaries['L']['Thu']['totEarned']; ?></td>
 					<td class="thu-avg-cell"><?php echo '$' . $summaries['L']['Thu']['avgEarned']; ?></td>
-					<td class="fri-tot-cell"><?php echo '$' . $summaries['L']['Fri']['totalEarned']; ?></td>
+					<td class="fri-tot-cell"><?php echo '$' . $summaries['L']['Fri']['totEarned']; ?></td>
 					<td class="fri-avg-cell"><?php echo '$' . $summaries['L']['Fri']['avgEarned']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Sales</th>
-					<td class="mon-tot-cell"><?php echo '$' . $summaries['L']['Mon']['totalSales']; ?></td>
+					<td class="mon-tot-cell"><?php echo '$' . $summaries['L']['Mon']['totSales']; ?></td>
 					<td class="mon-avg-cell"><?php echo '$' . $summaries['L']['Mon']['avgSales']; ?></td>
-					<td class="tue-tot-cell"><?php echo '$' . $summaries['L']['Tue']['totalSales']; ?></td>
+					<td class="tue-tot-cell"><?php echo '$' . $summaries['L']['Tue']['totSales']; ?></td>
 					<td class="tue-avg-cell"><?php echo '$' . $summaries['L']['Tue']['avgSales']; ?></td>
-					<td class="wed-tot-cell"><?php echo '$' . $summaries['L']['Wed']['totalSales']; ?></td>
+					<td class="wed-tot-cell"><?php echo '$' . $summaries['L']['Wed']['totSales']; ?></td>
 					<td class="wed-avg-cell"><?php echo '$' . $summaries['L']['Wed']['avgSales']; ?></td>
-					<td class="thu-tot-cell"><?php echo '$' . $summaries['L']['Thu']['totalSales']; ?></td>
+					<td class="thu-tot-cell"><?php echo '$' . $summaries['L']['Thu']['totSales']; ?></td>
 					<td class="thu-avg-cell"><?php echo '$' . $summaries['L']['Thu']['avgSales']; ?></td>
-					<td class="fri-tot-cell"><?php echo '$' . $summaries['L']['Fri']['totalSales']; ?></td>
+					<td class="fri-tot-cell"><?php echo '$' . $summaries['L']['Fri']['totSales']; ?></td>
 					<td class="fri-avg-cell"><?php echo '$' . $summaries['L']['Fri']['avgSales']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Covers</th>
-					<td class="mon-tot-cell"><?php echo $summaries['L']['Mon']['totalCovers']; ?></td>
+					<td class="mon-tot-cell"><?php echo $summaries['L']['Mon']['totCovers']; ?></td>
 					<td class="mon-avg-cell"><?php echo $summaries['L']['Mon']['avgCovers']; ?></td>
-					<td class="tue-tot-cell"><?php echo $summaries['L']['Tue']['totalCovers']; ?></td>
+					<td class="tue-tot-cell"><?php echo $summaries['L']['Tue']['totCovers']; ?></td>
 					<td class="tue-avg-cell"><?php echo $summaries['L']['Tue']['avgCovers']; ?></td>
-					<td class="wed-tot-cell"><?php echo $summaries['L']['Wed']['totalCovers']; ?></td>
+					<td class="wed-tot-cell"><?php echo $summaries['L']['Wed']['totCovers']; ?></td>
 					<td class="wed-avg-cell"><?php echo $summaries['L']['Wed']['avgCovers']; ?></td>
-					<td class="thu-tot-cell"><?php echo $summaries['L']['Thu']['totalCovers']; ?></td>
+					<td class="thu-tot-cell"><?php echo $summaries['L']['Thu']['totCovers']; ?></td>
 					<td class="thu-avg-cell"><?php echo $summaries['L']['Thu']['avgCovers']; ?></td>
-					<td class="fri-tot-cell"><?php echo $summaries['L']['Fri']['totalCovers']; ?></td>
+					<td class="fri-tot-cell"><?php echo $summaries['L']['Fri']['totCovers']; ?></td>
 					<td class="fri-avg-cell"><?php echo $summaries['L']['Fri']['avgCovers']; ?></td>
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">CampsHrs</th>
-					<td class="mon-tot-cell"><?php echo $summaries['L']['Mon']['totalCampHours']; ?></td>
+					<td class="mon-tot-cell"><?php echo $summaries['L']['Mon']['totCampHours']; ?></td>
 					<td class="mon-avg-cell"><?php echo $summaries['L']['Mon']['avgCampHours']; ?></td>
-					<td class="tue-tot-cell"><?php echo $summaries['L']['Tue']['totalCampHours']; ?></td>
+					<td class="tue-tot-cell"><?php echo $summaries['L']['Tue']['totCampHours']; ?></td>
 					<td class="tue-avg-cell"><?php echo $summaries['L']['Tue']['avgCampHours']; ?></td>
-					<td class="wed-tot-cell"><?php echo $summaries['L']['Wed']['totalCampHours']; ?></td>
+					<td class="wed-tot-cell"><?php echo $summaries['L']['Wed']['totCampHours']; ?></td>
 					<td class="wed-avg-cell"><?php echo $summaries['L']['Wed']['avgCampHours']; ?></td>
-					<td class="thu-tot-cell"><?php echo $summaries['L']['Thu']['totalCampHours']; ?></td>
+					<td class="thu-tot-cell"><?php echo $summaries['L']['Thu']['totCampHours']; ?></td>
 					<td class="thu-avg-cell"><?php echo $summaries['L']['Thu']['avgCampHours']; ?></td>
-					<td class="fri-tot-cell"><?php echo $summaries['L']['Fri']['totalCampHours']; ?></td>
+					<td class="fri-tot-cell"><?php echo $summaries['L']['Fri']['totCampHours']; ?></td>
 					<td class="fri-avg-cell"><?php echo $summaries['L']['Fri']['avgCampHours']; ?></td>
 				</tr>
 				<tr>

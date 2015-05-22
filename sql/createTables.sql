@@ -1,59 +1,60 @@
 DROP TABLE IF EXISTS shift;
 CREATE TABLE shift
 (
-	sid				INT 			NOT NULL AUTO_INCREMENT,
-	wage 			DECIMAL(5,2) 	NULL,
-	startTime		TIMESTAMP		NULL,
-	endTime			TIMESTAMP		NULL,
-	firstTable 		TIMESTAMP		NULL,
-	campHours		DECIMAL(5,2)	NULL,
-	sales			DECIMAL(7,2)	NULL,
-	tipout			INT				NULL,
-	transfers		INT 			NULL,
-	cash			INT				NULL,
-	due 			INT 			NULL,
-	covers			INT				NULL,
-	cut 			CHAR(1) 		NULL,
-	section			VARCHAR(25)		NULL,
-	notes 			VARCHAR(250) 	NULL,
-	
-	hours			DECIMAL(5,2)	NULL,
-	earnedWage		INT				NULL,
-	earnedTips		INT 			NULL,
-	earnedTotal		INT				NULL,
-	tipsVsWage		INT				NULL,
-	salesPerHour	DECIMAL(6,2)	NULL,
-	salesPerCover	DECIMAL(6,2)	NULL,
-	tipsPercent		DECIMAL(4,1)	NULL,
-	tipoutPercent	DECIMAL(4,1)	NULL,
-	earnedHourly	DECIMAL(5,2)	NULL,
-	noCampHourly	DECIMAL(5,2)	NULL,
-	lunchDinner	 	CHAR(1) 		NULL,
-	dayOfWeek		CHAR(3) 		NULL,
+	sid				INT NOT NULL AUTO_INCREMENT,
 
-	primary key (sid)
+	wage 			DECIMAL(5,2),
+	startTime		TIMESTAMP,
+	endTime			TIMESTAMP,
+	firstTable 		TIMESTAMP,
+	campHours		DECIMAL(5,2),
+	sales			DECIMAL(7,2),
+	tipout			INT,
+	transfers		INT,
+	cash			INT,
+	due 			INT,
+	covers			INT,
+	cut 			CHAR(1),
+	section			VARCHAR(25),
+	notes 			VARCHAR(250),
+	
+	hours			DECIMAL(5,2),
+	earnedWage		INT,
+	earnedTips		INT,
+	earnedTotal		INT,
+	tipsVsWage		INT,
+	salesPerHour	DECIMAL(6,2),
+	salesPerCover	DECIMAL(6,2),
+	tipsPercent		DECIMAL(4,1),
+	tipoutPercent	DECIMAL(4,1),
+	earnedHourly	DECIMAL(5,2),
+	noCampHourly	DECIMAL(5,2),
+	lunchDinner	 	CHAR(1),
+	dayOfWeek		CHAR(3),
+
+	PRIMARY KEY (sid)
 );
 
 DROP TABLE IF EXISTS summaries;
 CREATE TABLE summaries
 (
-	id				INT 			NOT NULL AUTO_INCREMENT,
+	id				INT NOT NULL AUTO_INCREMENT,
 
 	count	 		INT,
 	avgHours 		DECIMAL(5,2),
-	totalHours 		DECIMAL(7,2),
+	totHours 		DECIMAL(7,2),
 	avgWage 		DECIMAL(5,2),
-	totalWage 		DECIMAL(7,2),
+	totWage 		DECIMAL(7,2),
 	avgTips 		DECIMAL(5,2),
-	totalTips 		INT,
+	totTips 		INT,
 	avgTipout 		DECIMAL(5,2),
-	totalTipout 	INT,
+	totTipout 		INT,
 	avgSales 		DECIMAL(7,2),
-	totalSales 		DECIMAL(10,2),
+	totSales 		DECIMAL(10,2),
 	avgCovers 		DECIMAL(5,2),
-	totalCovers 	INT,
+	totCovers 		INT,
 	avgCampHours 	DECIMAL(4,2),
-	totalCampHours 	DECIMAL(8,2),
+	totCampHours 	DECIMAL(8,2),
 	salesPerHour 	DECIMAL(7,2),
 	salesPerCover 	DECIMAL(7,2),
 	tipsPercent 	DECIMAL(4,1),
@@ -63,6 +64,38 @@ CREATE TABLE summaries
 	lunchDinner		CHAR(1),
 	dayOfWeek		CHAR(3),
 	timedate		TIMESTAMP,
+
+	PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS split;
+CREATE TABLE split
+(
+	id				INT NOT NULL AUTO_INCREMENT,
+
+	splitDate		TIMESTAMP,
+	count			INT,
+
+	campHours		DECIMAL(5,2),
+	sales			DECIMAL(7,2),
+	tipout			INT,
+	transfers		INT,
+	covers			INT,
+	cut 			VARCHAR(10),
+	section			VARCHAR(50),
+	notes 			VARCHAR(500),
+	
+	hours			DECIMAL(5,2),
+	earnedWage		INT,
+	earnedTips		INT,
+	earnedTotal		INT,
+	tipsVsWage		INT,
+	salesPerHour	DECIMAL(6,2),
+	salesPerCover	DECIMAL(6,2),
+	tipsPercent		DECIMAL(4,1),
+	tipoutPercent	DECIMAL(4,1),
+	earnedHourly	DECIMAL(5,2),
+	dayOfWeek		CHAR(3),
 
 	PRIMARY KEY (id)
 );
