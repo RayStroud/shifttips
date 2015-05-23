@@ -294,7 +294,7 @@ div.mobile-table {
   margin: 0 auto; }
   .summary-table td, .summary-table th {
     background-color: white;
-    border: 1px solid transparent;
+    border: 1px solid #eaeaea;
     vertical-align: middle; }
   .summary-table td {
     color: black;

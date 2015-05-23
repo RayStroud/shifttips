@@ -324,7 +324,7 @@ div.mobile-table {
 	margin: 0 auto;
 	td, th {
 		background-color: white;
-		border: 1px solid transparent;
+		border: 1px solid $content-bgcolor;
 		vertical-align: middle;
 	}
 	td {
