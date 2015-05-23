@@ -74,11 +74,10 @@
 		<div id="wrapper">
 			<h1>Summary</h1>
 
-			<h2>Lunch vs Dinner</h2>
 			<div class="mobile-table">
 				<table class="summary-table">
 					<tr>
-						<th class="hdr-avg-cell"></th>
+						<th class="hdr-avg-cell">Type</th>
 						<th class="hdr-avg-cell">#</th>
 						<th class="hdr-avg-cell">Hours</th>
 						<th class="hdr-avg-cell">Wage</th>
@@ -96,7 +95,7 @@
 						<th class="hdr-avg-cell">Earn/h</th>
 					</tr>
 					<tr>
-						<td class="bth-avg-cell" rowspan="2">Both</td>
+						<td class="bth-avg-cell" rowspan="2">All</td>
 						<td class="bth-avg-cell" rowspan="2"><?php echo $summaries['%']['%']['count']; ?></td>
 						<td class="bth-avg-cell"><?php echo $summaries['%']['%']['avgHours'] . ' h'; ?></td>
 						<td class="bth-avg-cell"><?php echo '$' . $summaries['%']['%']['avgWage']; ?></td>
@@ -124,7 +123,7 @@
 						<td class="bth-tot-cell"><?php echo $summaries['%']['%']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="din-avg-cell" rowspan="2">Dinner</td>
+						<td class="din-avg-cell" rowspan="2">PM</td>
 						<td class="din-avg-cell" rowspan="2"><?php echo $summaries['D']['%']['count']; ?></td>
 						<td class="din-avg-cell"><?php echo $summaries['D']['%']['avgHours'] . ' h'; ?></td>
 						<td class="din-avg-cell"><?php echo '$' . $summaries['D']['%']['avgWage']; ?></td>
@@ -152,7 +151,7 @@
 						<td class="din-tot-cell"><?php echo $summaries['D']['%']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="lun-avg-cell" rowspan="2">Lunch</td>
+						<td class="lun-avg-cell" rowspan="2">AM</td>
 						<td class="lun-avg-cell" rowspan="2"><?php echo $summaries['L']['%']['count']; ?></td>
 						<td class="lun-avg-cell"><?php echo $summaries['L']['%']['avgHours'] . ' h'; ?></td>
 						<td class="lun-avg-cell"><?php echo '$' . $summaries['L']['%']['avgWage']; ?></td>
@@ -180,7 +179,7 @@
 						<td class="lun-tot-cell"><?php echo $summaries['L']['%']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="spl-avg-cell" rowspan="2">Split</td>
+						<td class="spl-avg-cell" rowspan="2">Split /</td>
 						<td class="spl-avg-cell" rowspan="2"><?php echo $summaries['S']['%']['count']; ?></td>
 						<td class="spl-avg-cell"><?php echo $summaries['S']['%']['avgHours'] . ' h'; ?></td>
 						<td class="spl-avg-cell"><?php echo '$' . $summaries['S']['%']['avgWage']; ?></td>
@@ -235,14 +234,8 @@
 						<td class="wkl-tot-cell"><?php echo $summaries['-']['---']['totCovers'] . ' cov'; ?></td>
 						<td class="wkl-tot-cell"><?php echo $summaries['-']['---']['totCampHours'] . ' h'; ?></td>
 					</tr>
-				</table>
-			</div>
-
-			<h2>By Day - Dinner</h2>
-			<div class="mobile-table">
-				<table class="summary-table">
 					<tr>
-						<th class="hdr-avg-cell"></th>
+						<th class="hdr-avg-cell">Type</th>
 						<th class="hdr-avg-cell">#</th>
 						<th class="hdr-avg-cell">Hours</th>
 						<th class="hdr-avg-cell">Wage</th>
@@ -260,7 +253,7 @@
 						<th class="hdr-avg-cell">Earn/h</th>
 					</tr>
 					<tr>
-						<td class="din-avg-cell" rowspan="2">Monday Dinner</td>
+						<td class="din-avg-cell" rowspan="2">Mon PM</td>
 						<td class="mon-avg-cell" rowspan="2"><?php echo $summaries['D']['Mon']['count']; ?></td>
 						<td class="mon-avg-cell"><?php echo $summaries['D']['Mon']['avgHours'] . ' h'; ?></td>
 						<td class="mon-avg-cell"><?php echo '$' . $summaries['D']['Mon']['avgWage']; ?></td>
@@ -288,7 +281,7 @@
 						<td class="mon-tot-cell"><?php echo $summaries['D']['Mon']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="din-avg-cell" rowspan="2">Tuesday Dinner</td>
+						<td class="din-avg-cell" rowspan="2">Tue PM</td>
 						<td class="tue-avg-cell" rowspan="2"><?php echo $summaries['D']['Tue']['count']; ?></td>
 						<td class="tue-avg-cell"><?php echo $summaries['D']['Tue']['avgHours'] . ' h'; ?></td>
 						<td class="tue-avg-cell"><?php echo '$' . $summaries['D']['Tue']['avgWage']; ?></td>
@@ -316,7 +309,7 @@
 						<td class="tue-tot-cell"><?php echo $summaries['D']['Tue']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="din-avg-cell" rowspan="2">Wednesday Dinner</td>
+						<td class="din-avg-cell" rowspan="2">Wed PM</td>
 						<td class="wed-avg-cell" rowspan="2"><?php echo $summaries['D']['Wed']['count']; ?></td>
 						<td class="wed-avg-cell"><?php echo $summaries['D']['Wed']['avgHours'] . ' h'; ?></td>
 						<td class="wed-avg-cell"><?php echo '$' . $summaries['D']['Wed']['avgWage']; ?></td>
@@ -344,7 +337,7 @@
 						<td class="wed-tot-cell"><?php echo $summaries['D']['Wed']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="din-avg-cell" rowspan="2">Thursday Dinner</td>
+						<td class="din-avg-cell" rowspan="2">Thu PM</td>
 						<td class="thu-avg-cell" rowspan="2"><?php echo $summaries['D']['Thu']['count']; ?></td>
 						<td class="thu-avg-cell"><?php echo $summaries['D']['Thu']['avgHours'] . ' h'; ?></td>
 						<td class="thu-avg-cell"><?php echo '$' . $summaries['D']['Thu']['avgWage']; ?></td>
@@ -372,7 +365,7 @@
 						<td class="thu-tot-cell"><?php echo $summaries['D']['Thu']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="din-avg-cell" rowspan="2">Friday Dinner</td>
+						<td class="din-avg-cell" rowspan="2">Fri PM</td>
 						<td class="fri-avg-cell" rowspan="2"><?php echo $summaries['D']['Fri']['count']; ?></td>
 						<td class="fri-avg-cell"><?php echo $summaries['D']['Fri']['avgHours'] . ' h'; ?></td>
 						<td class="fri-avg-cell"><?php echo '$' . $summaries['D']['Fri']['avgWage']; ?></td>
@@ -400,7 +393,7 @@
 						<td class="fri-tot-cell"><?php echo $summaries['D']['Fri']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="din-avg-cell" rowspan="2">Saturday Dinner</td>
+						<td class="din-avg-cell" rowspan="2">Sat PM</td>
 						<td class="sat-avg-cell" rowspan="2"><?php echo $summaries['D']['Sat']['count']; ?></td>
 						<td class="sat-avg-cell"><?php echo $summaries['D']['Sat']['avgHours'] . ' h'; ?></td>
 						<td class="sat-avg-cell"><?php echo '$' . $summaries['D']['Sat']['avgWage']; ?></td>
@@ -428,7 +421,7 @@
 						<td class="sat-tot-cell"><?php echo $summaries['D']['Sat']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="din-avg-cell" rowspan="2">Sunday Dinner</td>
+						<td class="din-avg-cell" rowspan="2">Sun PM</td>
 						<td class="sun-avg-cell" rowspan="2"><?php echo $summaries['D']['Sun']['count']; ?></td>
 						<td class="sun-avg-cell"><?php echo $summaries['D']['Sun']['avgHours'] . ' h'; ?></td>
 						<td class="sun-avg-cell"><?php echo '$' . $summaries['D']['Sun']['avgWage']; ?></td>
@@ -455,14 +448,8 @@
 						<td class="sun-tot-cell"><?php echo $summaries['D']['Sun']['totCovers'] . ' cov'; ?></td>
 						<td class="sun-tot-cell"><?php echo $summaries['D']['Sun']['totCampHours'] . ' h'; ?></td>
 					</tr>
-				</table>
-			</div>
-
-			<h2>By Day - Lunch</h2>
-			<div class="mobile-table">
-				<table class="summary-table">
 					<tr>
-						<th class="hdr-avg-cell"></th>
+						<th class="hdr-avg-cell">Type</th>
 						<th class="hdr-avg-cell">#</th>
 						<th class="hdr-avg-cell">Hours</th>
 						<th class="hdr-avg-cell">Wage</th>
@@ -480,7 +467,7 @@
 						<th class="hdr-avg-cell">Earn/h</th>
 					</tr>
 					<tr>
-						<td class="lun-avg-cell" rowspan="2">Monday Lunch</td>
+						<td class="lun-avg-cell" rowspan="2">Mon AM</td>
 						<td class="mon-avg-cell" rowspan="2"><?php echo $summaries['L']['Mon']['count']; ?></td>
 						<td class="mon-avg-cell"><?php echo $summaries['L']['Mon']['avgHours'] . ' h'; ?></td>
 						<td class="mon-avg-cell"><?php echo '$' . $summaries['L']['Mon']['avgWage']; ?></td>
@@ -508,7 +495,7 @@
 						<td class="mon-tot-cell"><?php echo $summaries['L']['Mon']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="lun-avg-cell" rowspan="2">Tuesday Lunch</td>
+						<td class="lun-avg-cell" rowspan="2">Tue AM</td>
 						<td class="tue-avg-cell" rowspan="2"><?php echo $summaries['L']['Tue']['count']; ?></td>
 						<td class="tue-avg-cell"><?php echo $summaries['L']['Tue']['avgHours'] . ' h'; ?></td>
 						<td class="tue-avg-cell"><?php echo '$' . $summaries['L']['Tue']['avgWage']; ?></td>
@@ -536,7 +523,7 @@
 						<td class="tue-tot-cell"><?php echo $summaries['L']['Tue']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="lun-avg-cell" rowspan="2">Wednesday Lunch</td>
+						<td class="lun-avg-cell" rowspan="2">Wed AM</td>
 						<td class="wed-avg-cell" rowspan="2"><?php echo $summaries['L']['Wed']['count']; ?></td>
 						<td class="wed-avg-cell"><?php echo $summaries['L']['Wed']['avgHours'] . ' h'; ?></td>
 						<td class="wed-avg-cell"><?php echo '$' . $summaries['L']['Wed']['avgWage']; ?></td>
@@ -564,7 +551,7 @@
 						<td class="wed-tot-cell"><?php echo $summaries['L']['Wed']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="lun-avg-cell" rowspan="2">Thursday Lunch</td>
+						<td class="lun-avg-cell" rowspan="2">Thu AM</td>
 						<td class="thu-avg-cell" rowspan="2"><?php echo $summaries['L']['Thu']['count']; ?></td>
 						<td class="thu-avg-cell"><?php echo $summaries['L']['Thu']['avgHours'] . ' h'; ?></td>
 						<td class="thu-avg-cell"><?php echo '$' . $summaries['L']['Thu']['avgWage']; ?></td>
@@ -592,7 +579,7 @@
 						<td class="thu-tot-cell"><?php echo $summaries['L']['Thu']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="lun-avg-cell" rowspan="2">Friday Lunch</td>
+						<td class="lun-avg-cell" rowspan="2">Fri AM</td>
 						<td class="fri-avg-cell" rowspan="2"><?php echo $summaries['L']['Fri']['count']; ?></td>
 						<td class="fri-avg-cell"><?php echo $summaries['L']['Fri']['avgHours'] . ' h'; ?></td>
 						<td class="fri-avg-cell"><?php echo '$' . $summaries['L']['Fri']['avgWage']; ?></td>
@@ -619,14 +606,8 @@
 						<td class="fri-tot-cell"><?php echo $summaries['L']['Fri']['totCovers'] . ' cov'; ?></td>
 						<td class="fri-tot-cell"><?php echo $summaries['L']['Fri']['totCampHours'] . ' h'; ?></td>
 					</tr>
-				</table>
-			</div>
-
-			<h2>By Day - Split</h2>
-			<div class="mobile-table">
-				<table class="summary-table">
 					<tr>
-						<th class="hdr-avg-cell"></th>
+						<th class="hdr-avg-cell">Type</th>
 						<th class="hdr-avg-cell">#</th>
 						<th class="hdr-avg-cell">Hours</th>
 						<th class="hdr-avg-cell">Wage</th>
@@ -644,7 +625,7 @@
 						<th class="hdr-avg-cell">Earn/h</th>
 					</tr>
 					<tr>
-						<td class="spl-avg-cell" rowspan="2">Monday Split</td>
+						<td class="spl-avg-cell" rowspan="2">Mon /</td>
 						<td class="mon-avg-cell" rowspan="2"><?php echo $summaries['S']['Mon']['count']; ?></td>
 						<td class="mon-avg-cell"><?php echo $summaries['S']['Mon']['avgHours'] . ' h'; ?></td>
 						<td class="mon-avg-cell"><?php echo '$' . $summaries['S']['Mon']['avgWage']; ?></td>
@@ -672,7 +653,7 @@
 						<td class="mon-tot-cell"><?php echo $summaries['S']['Mon']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="spl-avg-cell" rowspan="2">Tuesday Split</td>
+						<td class="spl-avg-cell" rowspan="2">Tue /</td>
 						<td class="tue-avg-cell" rowspan="2"><?php echo $summaries['S']['Tue']['count']; ?></td>
 						<td class="tue-avg-cell"><?php echo $summaries['S']['Tue']['avgHours'] . ' h'; ?></td>
 						<td class="tue-avg-cell"><?php echo '$' . $summaries['S']['Tue']['avgWage']; ?></td>
@@ -700,7 +681,7 @@
 						<td class="tue-tot-cell"><?php echo $summaries['S']['Tue']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="spl-avg-cell" rowspan="2">Wednesday Split</td>
+						<td class="spl-avg-cell" rowspan="2">Wed /</td>
 						<td class="wed-avg-cell" rowspan="2"><?php echo $summaries['S']['Wed']['count']; ?></td>
 						<td class="wed-avg-cell"><?php echo $summaries['S']['Wed']['avgHours'] . ' h'; ?></td>
 						<td class="wed-avg-cell"><?php echo '$' . $summaries['S']['Wed']['avgWage']; ?></td>
@@ -728,7 +709,7 @@
 						<td class="wed-tot-cell"><?php echo $summaries['S']['Wed']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="spl-avg-cell" rowspan="2">Thursday Split</td>
+						<td class="spl-avg-cell" rowspan="2">Thu /</td>
 						<td class="thu-avg-cell" rowspan="2"><?php echo $summaries['S']['Thu']['count']; ?></td>
 						<td class="thu-avg-cell"><?php echo $summaries['S']['Thu']['avgHours'] . ' h'; ?></td>
 						<td class="thu-avg-cell"><?php echo '$' . $summaries['S']['Thu']['avgWage']; ?></td>
@@ -756,7 +737,7 @@
 						<td class="thu-tot-cell"><?php echo $summaries['S']['Thu']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="spl-avg-cell" rowspan="2">Friday Split</td>
+						<td class="spl-avg-cell" rowspan="2">Fri /</td>
 						<td class="fri-avg-cell" rowspan="2"><?php echo $summaries['S']['Fri']['count']; ?></td>
 						<td class="fri-avg-cell"><?php echo $summaries['S']['Fri']['avgHours'] . ' h'; ?></td>
 						<td class="fri-avg-cell"><?php echo '$' . $summaries['S']['Fri']['avgWage']; ?></td>

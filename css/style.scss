@@ -317,30 +317,25 @@ label {color: $label-color;}
 	SUMMARY
 ############################################ */
 div.mobile-table {
-	max-width: 100%;
+	width: 100%;
 	overflow-x: auto;
 }
 .summary-table {
-	border: none;
-	border-collapse: collapse;
-	tr {
-		border: 1px solid dimgray;
-		border: none;
-	}
+	margin: 0 auto;
 	td, th {
 		background-color: white;
-		padding: 3px 5px;
-		border: 1px solid dimgray;
+		border: 1px solid transparent;
 		vertical-align: middle;
 	}
 	td {
 		color: black;
+		padding: 0.35em 0.5em;
 		white-space: nowrap;
 		text-align: right;
 	}
 	th {
 		color: white;
-		border: none;
+		padding: 0.5em;
 		text-align: center;
 	}
 }

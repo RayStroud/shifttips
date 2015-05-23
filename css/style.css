@@ -287,27 +287,23 @@ label {
 	SUMMARY
 ############################################ */
 div.mobile-table {
-  max-width: 100%;
+  width: 100%;
   overflow-x: auto; }
 
 .summary-table {
-  border: none;
-  border-collapse: collapse; }
-  .summary-table tr {
-    border: 1px solid dimgray;
-    border: none; }
+  margin: 0 auto; }
   .summary-table td, .summary-table th {
     background-color: white;
-    padding: 3px 5px;
-    border: 1px solid dimgray;
+    border: 1px solid transparent;
     vertical-align: middle; }
   .summary-table td {
     color: black;
+    padding: 0.35em 0.5em;
     white-space: nowrap;
     text-align: right; }
   .summary-table th {
     color: white;
-    border: none;
+    padding: 0.5em;
     text-align: center; }
 
 th.hdr-avg-cell {
