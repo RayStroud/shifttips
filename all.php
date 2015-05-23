@@ -10,11 +10,11 @@
 
 	//get shift
 	//TODO change this statement to accept date ranges
-	$shiftSQL = $db->prepare("SELECT sid, wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
+	$shiftSQL = $db->prepare("SELECT id, wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
 		FROM shift");
 	//$shiftSQL->bind_param('ss', $startDateRange, $endDateRange);
 	$shiftSQL->execute();
-	$shiftSQL->bind_result($sid, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
+	$shiftSQL->bind_result($id, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
 
 	//TODO loop through all the records to show them all
 	$shiftsHtml = '';
@@ -43,7 +43,7 @@
 								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">T/O</div><div class="value">' . (isset($tipout) ? '$' . $tipout : null) . '</div></div>'
 								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Tips</div><div class="value">' . (isset($earnedTips) ? '$' . $earnedTips : null) . '</div></div>'
 								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">$/h</div><div class="value">' . (isset($earnedHourly) ? '$' . $earnedHourly . '/h' : null) . '</div></div>'
-								. "\n\t\t\t\t\t" . '<a href="view.php?id=' . (isset($sid) ? $sid : null) . '"><span class="link-spanner"></span></a>
+								. "\n\t\t\t\t\t" . '<a href="view.php?id=' . (isset($id) ? $id : null) . '"><span class="link-spanner"></span></a>
 '
 							. "\n\t\t\t\t\t" . '</div>'
 						. "\n\t\t\t\t" . '</div>';

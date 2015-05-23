@@ -1,8 +1,6 @@
 DROP TABLE IF EXISTS shift;
 CREATE TABLE shift
 (
-	sid				INT NOT NULL AUTO_INCREMENT,
-
 	wage 			DECIMAL(5,2),
 	startTime		TIMESTAMP,
 	endTime			TIMESTAMP,
@@ -32,14 +30,13 @@ CREATE TABLE shift
 	lunchDinner	 	CHAR(1),
 	dayOfWeek		CHAR(3),
 
-	PRIMARY KEY (sid)
+	id INT NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS summary;
 CREATE TABLE summary
 (
-	id				INT NOT NULL AUTO_INCREMENT,
-
 	count	 		INT,
 	avgHours 		DECIMAL(5,2),
 	totHours 		DECIMAL(7,2),
@@ -65,14 +62,13 @@ CREATE TABLE summary
 	dayOfWeek		CHAR(3),
 	timedate		TIMESTAMP,
 
+	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS split;
 CREATE TABLE split
 (
-	id				INT NOT NULL AUTO_INCREMENT,
-
 	splitDate		TIMESTAMP,
 	count			INT,
 
@@ -97,14 +93,13 @@ CREATE TABLE split
 	earnedHourly	DECIMAL(5,2),
 	dayOfWeek		CHAR(3),
 
+	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS week;
 CREATE TABLE week
 (
-	id				INT NOT NULL AUTO_INCREMENT,
-
 	yearweek		CHAR(6),
 	startWeek		TIMESTAMP,
 	endWeek		TIMESTAMP,
@@ -127,5 +122,6 @@ CREATE TABLE week
 	tipoutPercent	DECIMAL(4,1),
 	earnedHourly	DECIMAL(5,2),
 
+	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
 );

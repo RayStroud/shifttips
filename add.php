@@ -75,6 +75,8 @@
 				$insertSQL->bind_param('dsssddiidiisssdiiiiiiddiiss', $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
 				$insertSQL->execute();
 				//* DEBUG */ echo '<p>Row inserted</p>';
+
+				header('Location: view.php?id=' . $db->insert_id);
 			}
 		}
 	}
