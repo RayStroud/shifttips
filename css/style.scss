@@ -324,7 +324,7 @@ div.mobile-table {
 	margin: 0 auto;
 	td, th {
 		background-color: white;
-		border: 1px solid $content-bgcolor;
+		//border: 1px solid $content-bgcolor;
 		vertical-align: middle;
 	}
 	td {
@@ -351,20 +351,20 @@ td.bth-tot-cell {background-color: rgba($bth-color,0.4);}
 td.spl-avg-cell {background-color: rgba($spl-color,0.6);}
 td.spl-tot-cell {background-color: rgba($spl-color,0.4);}
 td.wkl-avg-cell {background-color: rgba($wkl-color,0.9);}
-td.wkl-tot-cell {background-color: rgba($wkl-color,0.4);}
+td.wkl-tot-cell {background-color: rgba($wkl-color,0.6);}
 
-td.mon-avg-cell {background-color: rgba($mon-color,0.5);}
-td.mon-tot-cell {background-color: rgba($mon-color,0.35);}
-td.tue-avg-cell {background-color: rgba($tue-color,0.6);}
-td.tue-tot-cell {background-color: rgba($tue-color,0.35);}
-td.wed-avg-cell {background-color: rgba($wed-color,0.55);}
+td.mon-avg-cell {background-color: rgba($mon-color,0.4);}
+td.mon-tot-cell {background-color: rgba($mon-color,0.25);}
+td.tue-avg-cell {background-color: rgba($tue-color,0.5);}
+td.tue-tot-cell {background-color: rgba($tue-color,0.3);}
+td.wed-avg-cell {background-color: rgba($wed-color,0.5);}
 td.wed-tot-cell {background-color: rgba($wed-color,0.3);}
-td.thu-avg-cell {background-color: rgba($thu-color,0.55);}
+td.thu-avg-cell {background-color: rgba($thu-color,0.5);}
 td.thu-tot-cell {background-color: rgba($thu-color,0.3);}
 td.fri-avg-cell {background-color: rgba($fri-color,0.4);}
 td.fri-tot-cell {background-color: rgba($fri-color,0.25);}
-td.sat-avg-cell {background-color: rgba($sat-color,0.45);}
-td.sat-tot-cell {background-color: rgba($sat-color,0.3);}
+td.sat-avg-cell {background-color: rgba($sat-color,0.4);}
+td.sat-tot-cell {background-color: rgba($sat-color,0.25);}
 td.sun-avg-cell {background-color: rgba($sun-color,0.4);}
 td.sun-tot-cell {background-color: rgba($sun-color,0.25);}
 
