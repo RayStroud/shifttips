@@ -43,7 +43,7 @@ h2 {
   margin: 1em 0; }
 
 a, a:link, a:visited, a:hover, a:active {
-  text-decoration: none !important;
+  text-decoration: none;
   color: inherit; }
 
 #header {
@@ -109,6 +109,23 @@ a, a:link, a:visited, a:hover, a:active {
 
   #wrapper {
     margin-bottom: 1em; } }
+/* ############################################
+	HOME
+############################################ */
+ul.old-links {
+  margin: 1em 0; }
+  ul.old-links li {
+    margin: 0.5em 0; }
+  ul.old-links a {
+    display: inline-block;
+    padding: 0.5em;
+    border-radius: 5px;
+    background-color: #449;
+    color: white; }
+  ul.old-links a:hover {
+    text-decoration: none;
+    background-color: rgba(68, 68, 153, 0.8); }
+
 /* ############################################
 	SHIFT BOX
 ############################################ */
