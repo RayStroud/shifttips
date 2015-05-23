@@ -2,6 +2,7 @@
 	include 'include/dbconnect.php';
 
 	//get today's date as the end date range, and two weeks earlier for the start range
+	//TODO maybe have a button that searches for all, which makes the startDate selector pick the earliest shift
 	$endDateRange = (new DateTime())->format('Y-m-d H:i:s');
 	$startDateRange = new DateTime();
 	$startDateRange->sub(new DateInterval('P2W'));

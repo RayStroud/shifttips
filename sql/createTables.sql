@@ -102,7 +102,7 @@ CREATE TABLE week
 (
 	yearweek		CHAR(6),
 	startWeek		TIMESTAMP,
-	endWeek		TIMESTAMP,
+	endWeek			TIMESTAMP,
 	count			INT,
 
 	campHours		DECIMAL(5,2),
