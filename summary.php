@@ -208,32 +208,32 @@
 						<td class="spl-tot-cell"><?php echo $summaries['S']['%']['totCampHours'] . ' h'; ?></td>
 					</tr>
 					<tr>
-						<td class="spl-avg-cell" rowspan="2">Weekly</td>
-						<td class="spl-avg-cell" rowspan="2"><?php echo $summaries['-']['---']['count']; ?></td>
-						<td class="spl-avg-cell"><?php echo $summaries['-']['---']['avgHours'] . ' h'; ?></td>
-						<td class="spl-avg-cell"><?php echo '$' . $summaries['-']['---']['avgWage']; ?></td>
-						<td class="spl-avg-cell"><?php echo '$' . $summaries['-']['---']['avgTips']; ?></td>
-						<td class="spl-avg-cell"><?php echo '$' . $summaries['-']['---']['avgTipout']; ?></td>
-						<td class="spl-avg-cell"><?php echo '$' . $summaries['-']['---']['avgEarned']; ?></td>
-						<td class="spl-avg-cell"><?php echo '$' . $summaries['-']['---']['avgSales']; ?></td>
-						<td class="spl-avg-cell"><?php echo $summaries['-']['---']['avgCovers'] . ' cov'; ?></td>
-						<td class="spl-avg-cell"><?php echo $summaries['-']['---']['avgCampHours'] . ' h'; ?></td>
-						<td class="spl-avg-cell" rowspan="2"><?php echo '$' . $summaries['-']['---']['salesPerHour'] . '/h'; ?></td>
-						<td class="spl-avg-cell" rowspan="2"><?php echo '$' . $summaries['-']['---']['salesPerCover'] . '/cov'; ?></td>
-						<td class="spl-avg-cell" rowspan="2"><?php echo $summaries['-']['---']['tipsPercent'] . '%'; ?></td>
-						<td class="spl-avg-cell" rowspan="2"><?php echo $summaries['-']['---']['tipoutPercent'] . '%'; ?></td>
-						<td class="spl-avg-cell" rowspan="2"><?php echo $summaries['-']['---']['tipsVsWage'] . '%'; ?></td>
-						<td class="spl-avg-cell" rowspan="2"><?php echo '$' . $summaries['-']['---']['hourlyWage'] . '/h'; ?></td>
+						<td class="wkl-avg-cell" rowspan="2">Weekly</td>
+						<td class="wkl-avg-cell" rowspan="2"><?php echo $summaries['-']['---']['count']; ?></td>
+						<td class="wkl-avg-cell"><?php echo $summaries['-']['---']['avgHours'] . ' h'; ?></td>
+						<td class="wkl-avg-cell"><?php echo '$' . $summaries['-']['---']['avgWage']; ?></td>
+						<td class="wkl-avg-cell"><?php echo '$' . $summaries['-']['---']['avgTips']; ?></td>
+						<td class="wkl-avg-cell"><?php echo '$' . $summaries['-']['---']['avgTipout']; ?></td>
+						<td class="wkl-avg-cell"><?php echo '$' . $summaries['-']['---']['avgEarned']; ?></td>
+						<td class="wkl-avg-cell"><?php echo '$' . $summaries['-']['---']['avgSales']; ?></td>
+						<td class="wkl-avg-cell"><?php echo $summaries['-']['---']['avgCovers'] . ' cov'; ?></td>
+						<td class="wkl-avg-cell"><?php echo $summaries['-']['---']['avgCampHours'] . ' h'; ?></td>
+						<td class="wkl-avg-cell" rowspan="2"><?php echo '$' . $summaries['-']['---']['salesPerHour'] . '/h'; ?></td>
+						<td class="wkl-avg-cell" rowspan="2"><?php echo '$' . $summaries['-']['---']['salesPerCover'] . '/cov'; ?></td>
+						<td class="wkl-avg-cell" rowspan="2"><?php echo $summaries['-']['---']['tipsPercent'] . '%'; ?></td>
+						<td class="wkl-avg-cell" rowspan="2"><?php echo $summaries['-']['---']['tipoutPercent'] . '%'; ?></td>
+						<td class="wkl-avg-cell" rowspan="2"><?php echo $summaries['-']['---']['tipsVsWage'] . '%'; ?></td>
+						<td class="wkl-avg-cell" rowspan="2"><?php echo '$' . $summaries['-']['---']['hourlyWage'] . '/h'; ?></td>
 					</tr>
 					<tr>
-						<td class="spl-tot-cell"><?php echo $summaries['-']['---']['totHours'] . ' h'; ?></td>
-						<td class="spl-tot-cell"><?php echo '$' . $summaries['-']['---']['totWage']; ?></td>
-						<td class="spl-tot-cell"><?php echo '$' . $summaries['-']['---']['totTips']; ?></td>
-						<td class="spl-tot-cell"><?php echo '$' . $summaries['-']['---']['totTipout']; ?></td>
-						<td class="spl-tot-cell"><?php echo '$' . $summaries['-']['---']['totEarned']; ?></td>
-						<td class="spl-tot-cell"><?php echo '$' . $summaries['-']['---']['totSales']; ?></td>
-						<td class="spl-tot-cell"><?php echo $summaries['-']['---']['totCovers'] . ' cov'; ?></td>
-						<td class="spl-tot-cell"><?php echo $summaries['-']['---']['totCampHours'] . ' h'; ?></td>
+						<td class="wkl-tot-cell"><?php echo $summaries['-']['---']['totHours'] . ' h'; ?></td>
+						<td class="wkl-tot-cell"><?php echo '$' . $summaries['-']['---']['totWage']; ?></td>
+						<td class="wkl-tot-cell"><?php echo '$' . $summaries['-']['---']['totTips']; ?></td>
+						<td class="wkl-tot-cell"><?php echo '$' . $summaries['-']['---']['totTipout']; ?></td>
+						<td class="wkl-tot-cell"><?php echo '$' . $summaries['-']['---']['totEarned']; ?></td>
+						<td class="wkl-tot-cell"><?php echo '$' . $summaries['-']['---']['totSales']; ?></td>
+						<td class="wkl-tot-cell"><?php echo $summaries['-']['---']['totCovers'] . ' cov'; ?></td>
+						<td class="wkl-tot-cell"><?php echo $summaries['-']['---']['totCampHours'] . ' h'; ?></td>
 					</tr>
 				</table>
 			</div>

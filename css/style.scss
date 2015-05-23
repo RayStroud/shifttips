@@ -11,10 +11,11 @@ $border-color: lightgray;
 $border-hover-color: black;
 $label-color: $darkgrey;
 
-$lun-color: #E69138;
-$din-color: #3C78D8;
-$bth-color: #674EA7;
-$spl-color: #918588;
+$lun-color: darken(orange,10%);
+$din-color: darken(dodgerblue,10%);
+$bth-color: darken(blueviolet,10%);
+$spl-color: darken(sienna,10%);
+$wkl-color: darken(silver,10%);
 
 $mon-color: darken(red,10%);
 $tue-color: darken(yellow,10%);
@@ -346,29 +347,31 @@ div.mobile-table {
 th.hdr-avg-cell {background-color: dimgrey;}
 th.hdr-tot-cell {background-color: grey;}
 
-td.lun-avg-cell {background-color: rgba($lun-color,0.8);}
-td.lun-tot-cell {background-color: rgba($lun-color,0.6);}
-td.din-avg-cell {background-color: rgba($din-color,0.8);}
-td.din-tot-cell {background-color: rgba($din-color,0.6);}
-td.bth-avg-cell {background-color: rgba($bth-color,0.8);}
-td.bth-tot-cell {background-color: rgba($bth-color,0.6);}
-td.spl-avg-cell {background-color: rgba($spl-color,0.8);}
-td.spl-tot-cell {background-color: rgba($spl-color,0.6);}
+td.lun-avg-cell {background-color: rgba($lun-color,0.6);}
+td.lun-tot-cell {background-color: rgba($lun-color,0.4);}
+td.din-avg-cell {background-color: rgba($din-color,0.6);}
+td.din-tot-cell {background-color: rgba($din-color,0.4);}
+td.bth-avg-cell {background-color: rgba($bth-color,0.6);}
+td.bth-tot-cell {background-color: rgba($bth-color,0.4);}
+td.spl-avg-cell {background-color: rgba($spl-color,0.6);}
+td.spl-tot-cell {background-color: rgba($spl-color,0.4);}
+td.wkl-avg-cell {background-color: rgba($wkl-color,0.9);}
+td.wkl-tot-cell {background-color: rgba($wkl-color,0.4);}
 
-td.mon-avg-cell {background-color: rgba($mon-color,0.45);}
-td.mon-tot-cell {background-color: rgba($mon-color,0.33);}
-td.tue-avg-cell {background-color: rgba($tue-color,0.45);}
-td.tue-tot-cell {background-color: rgba($tue-color,0.33);}
-td.wed-avg-cell {background-color: rgba($wed-color,0.45);}
-td.wed-tot-cell {background-color: rgba($wed-color,0.33);}
-td.thu-avg-cell {background-color: rgba($thu-color,0.45);}
-td.thu-tot-cell {background-color: rgba($thu-color,0.33);}
-td.fri-avg-cell {background-color: rgba($fri-color,0.45);}
-td.fri-tot-cell {background-color: rgba($fri-color,0.33);}
+td.mon-avg-cell {background-color: rgba($mon-color,0.5);}
+td.mon-tot-cell {background-color: rgba($mon-color,0.35);}
+td.tue-avg-cell {background-color: rgba($tue-color,0.6);}
+td.tue-tot-cell {background-color: rgba($tue-color,0.35);}
+td.wed-avg-cell {background-color: rgba($wed-color,0.55);}
+td.wed-tot-cell {background-color: rgba($wed-color,0.3);}
+td.thu-avg-cell {background-color: rgba($thu-color,0.55);}
+td.thu-tot-cell {background-color: rgba($thu-color,0.3);}
+td.fri-avg-cell {background-color: rgba($fri-color,0.4);}
+td.fri-tot-cell {background-color: rgba($fri-color,0.25);}
 td.sat-avg-cell {background-color: rgba($sat-color,0.45);}
-td.sat-tot-cell {background-color: rgba($sat-color,0.33);}
-td.sun-avg-cell {background-color: rgba($sun-color,0.45);}
-td.sun-tot-cell {background-color: rgba($sun-color,0.33);}
+td.sat-tot-cell {background-color: rgba($sat-color,0.3);}
+td.sun-avg-cell {background-color: rgba($sun-color,0.4);}
+td.sun-tot-cell {background-color: rgba($sun-color,0.25);}
 
 /* ############################################
 	OTHER
