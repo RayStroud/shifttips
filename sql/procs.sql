@@ -2,7 +2,7 @@ DROP PROCEDURE IF EXISTS calculateSummaries;
 DELIMITER //
 CREATE PROCEDURE calculateSummaries (p_startDate TIMESTAMP, p_endDate TIMESTAMP)
 BEGIN
-	TRUNCATE TABLE summaries;
+	TRUNCATE TABLE summary;
 
 	CALL calculateSummary(p_startDate, p_endDate, "%", "%");
 	CALL calculateSummary(p_startDate, p_endDate, "D", "%");
@@ -41,7 +41,7 @@ BEGIN
 	#CALL calculateSummary(p_startDate, p_endDate, "%", "Sat");
 	#CALL calculateSummary(p_startDate, p_endDate, "%", "Sun");
 
-	SELECT * FROM summaries;
+	SELECT * FROM summary;
 END //
 DELIMITER ;
 
@@ -168,7 +168,7 @@ BEGIN
 	SET v_tipsVsWage = v_totTips * 100 / v_totWage;
 	SET v_hourlyWage = (v_totWage + v_totTips) / v_totHours;
 
-	INSERT INTO summaries (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timedate)
+	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timedate)
 		VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, p_lunchDinner, p_dayOfWeek, CURRENT_TIMESTAMP);
 END //
 DELIMITER ;
@@ -281,7 +281,7 @@ BEGIN
 	SET v_tipsVsWage = v_totTips * 100 / v_totWage;
 	SET v_hourlyWage = (v_totWage + v_totTips) / v_totHours;
 
-	INSERT INTO summaries (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timedate)
+	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timedate)
 		VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, 'S', p_dayOfWeek, CURRENT_TIMESTAMP);
 END //
 DELIMITER ;
@@ -340,6 +340,7 @@ BEGIN
 	HAVING COUNT(sid) > 1;
 END //
 DELIMITER ;
+CALL calculateSplits;
 
 
 /*
@@ -354,21 +355,66 @@ DELIMITER ;
 	Group shifts by week
 	SELECT YEARWEEK(`startTime`) as `Week`, SUM(hours) FROM `shift` GROUP BY `Week`
 
-8?
+
+SET @date = '2015-05-11';
+SET @yearweek = YEARWEEK(@date,7);								#201519, for the 19th week in 2015 (pick mode 7 for monday as the start)
+SET @year = LEFT(@yearweek,4);									#2015, first four chars of @yearweek
+SET @week = RIGHT(@yearweek,2);									#19, last two chars of @yearweek
+SET @jan01 = MAKEDATE(@year, 1);								#2015-01-01, the first day of the year
+SET @addweeks = DATE_ADD(@jan01, INTERVAL @week WEEK);			#2014-05-14, adds @week to @jan01
+SET @weekday = WEEKDAY(@addweeks);								#3, because 2014-05-14 is a Thursday (0 Mon, 1 Tue, 2 Wed, 3 Thu, 4 Fri, 5 Sat, 6 Sun)
+SET @adjustday = @weekday - 0;									#3, subtract 0 to get Monday as start of week (-0 Mon, -1 Tue, -2 Wed, -3 Thu, -4 Fri, -5 Sat, -6 Sun)
+SET @startweek = DATE_SUB(@addweeks, INTERVAL @adjustday DAY);	#2015-05-11, because it's the Monday of that week
+
+SELECT @date, @yearweek, @year, @week, @jan01, @addweeks, @weekday, @adjustday, @startweek
 
 
-/*
-############################################################################
--- find the average earnings per week
+# YEARWEEK(startTime,3) - mode 3 means Monday is the start of a week (1-53), week 1 is the first week with 4 or more days
+# for the STR_TO_DATE, %x is year (mode 3), %v is the week (mode 3), %W is the Weekday Name. 
+SELECT
+	YEARWEEK(startTime,3) as yearweek,
+	STR_TO_DATE(CONCAT(YEARWEEK(startTime,3), ' Monday'), '%x%v %W') as weekstart,
+	STR_TO_DATE(CONCAT(YEARWEEK(startTime,3), ' Sunday'), '%x%v %W') as weekend
+FROM shift
+GROUP BY YEARWEEK(startTime)
 
--- find the sum of the earnedtot
-SELECT SUM(earnedtot)
-
-	FROM shift;
-
--- find all the weeks with more than 3 shifts
-
---
 
 
 */
+
+
+
+DROP PROCEDURE IF EXISTS calculateWeeks;
+DELIMITER //
+CREATE PROCEDURE calculateWeeks()
+BEGIN
+	TRUNCATE TABLE week;
+	INSERT INTO week (yearweek, startWeek, endWeek, count, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly)
+	SELECT 
+		YEARWEEK(startTime, 3) as yearweek, 
+		STR_TO_DATE(CONCAT(YEARWEEK(startTime,3), ' Monday'), '%x%v %W') as startWeek,
+		STR_TO_DATE(CONCAT(YEARWEEK(startTime,3), ' Sunday'), '%x%v %W') as endWeek,
+		COUNT(sid) AS count,
+
+		SUM(campHours) AS campHours,
+		SUM(sales) AS sales,
+		SUM(tipout) AS tipout,
+		SUM(transfers) AS transfers,
+		SUM(covers) AS covers,
+
+		SUM(hours) AS hours,
+		SUM(earnedWage) AS earnedWage,
+		SUM(earnedTips) AS earnedTips,
+		SUM(earnedTotal) AS earnedTotal,
+
+		(SUM(earnedTips) / earnedWage) * 100 AS tipsVsWage,
+		SUM(sales) / SUM(hours)  AS salesPerHours,
+		SUM(sales) / SUM(covers) AS salesPerCover,
+		(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
+		(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
+		SUM(earnedTotal) / SUM(hours) AS earnedHourly
+	FROM shift
+	GROUP BY yearweek;
+END //
+DELIMITER ;
+CALL calculateWeeks;

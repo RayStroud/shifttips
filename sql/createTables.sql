@@ -35,8 +35,8 @@ CREATE TABLE shift
 	PRIMARY KEY (sid)
 );
 
-DROP TABLE IF EXISTS summaries;
-CREATE TABLE summaries
+DROP TABLE IF EXISTS summary;
+CREATE TABLE summary
 (
 	id				INT NOT NULL AUTO_INCREMENT,
 
@@ -96,6 +96,36 @@ CREATE TABLE split
 	tipoutPercent	DECIMAL(4,1),
 	earnedHourly	DECIMAL(5,2),
 	dayOfWeek		CHAR(3),
+
+	PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS week;
+CREATE TABLE week
+(
+	id				INT NOT NULL AUTO_INCREMENT,
+
+	yearweek		CHAR(6),
+	startWeek		TIMESTAMP,
+	endWeek		TIMESTAMP,
+	count			INT,
+
+	campHours		DECIMAL(5,2),
+	sales			DECIMAL(7,2),
+	tipout			INT,
+	transfers		INT,
+	covers			INT,
+	
+	hours			DECIMAL(5,2),
+	earnedWage		INT,
+	earnedTips		INT,
+	earnedTotal		INT,
+	tipsVsWage		INT,
+	salesPerHour	DECIMAL(6,2),
+	salesPerCover	DECIMAL(6,2),
+	tipsPercent		DECIMAL(4,1),
+	tipoutPercent	DECIMAL(4,1),
+	earnedHourly	DECIMAL(5,2),
 
 	PRIMARY KEY (id)
 );
