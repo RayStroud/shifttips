@@ -35,7 +35,7 @@ BEGIN
 
 	#Weekly
 	CALL calculateWeeklySummary(p_startDate, p_endDate);
-	
+
 	SELECT * FROM summary;
 END //
 DELIMITER ;
@@ -526,3 +526,62 @@ BEGIN
 END //
 DELIMITER ;
 CALL calculateWeeks;
+
+
+/*
+###############################################################################################
+
+#calculate avg hours based on start time
+
+*/
+/*
+SELECT 
+	TIME(startTime) as startTime,
+
+    COUNT(id) as count,
+    AVG(hours) as avgHours,
+    AVG(sales) as avgSales,
+    AVG(earnedTotal) as avgEarned,
+    AVG(covers) as avgCovers,
+    SUM(sales) / SUM(hours) as salesPerHour,
+    SUM(sales) / SUM(covers) as salesPerCover,
+	(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
+	(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
+	SUM(earnedTotal) / SUM(hours) AS earnedHourly
+FROM shift
+GROUP BY TIME(startTime)
+
+SELECT 
+	cut,
+
+    COUNT(id) as count,
+    AVG(hours) as avgHours,
+    AVG(sales) as avgSales,
+    AVG(earnedTotal) as avgEarned,
+    AVG(covers) as avgCovers,
+    SUM(sales) / SUM(hours) as salesPerHour,
+    SUM(sales) / SUM(covers) as salesPerCover,
+	(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
+	(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
+	SUM(earnedTotal) / SUM(hours) AS earnedHourly
+FROM shift
+GROUP BY cut
+
+
+SELECT 
+	section,
+
+    COUNT(id) as count,
+    AVG(hours) as avgHours,
+    AVG(sales) as avgSales,
+    AVG(earnedTotal) as avgEarned,
+    AVG(covers) as avgCovers,
+    SUM(sales) / SUM(hours) as salesPerHour,
+    SUM(sales) / SUM(covers) as salesPerCover,
+	(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
+	(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
+	SUM(earnedTotal) / SUM(hours) AS earnedHourly
+FROM shift
+WHERE lunchDinner = 'D'
+GROUP BY section
+*/
