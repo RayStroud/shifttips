@@ -12,7 +12,7 @@
 	//get shift
 	//TODO change this statement to accept date ranges
 	$shiftSQL = $db->prepare("SELECT id, wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
-		FROM shift");
+		FROM shift ORDER BY startTime ASC");
 	//$shiftSQL->bind_param('ss', $startDateRange, $endDateRange);
 	$shiftSQL->execute();
 	$shiftSQL->bind_result($id, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
@@ -65,9 +65,9 @@
 	<div id="header">
 		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
-			<li><a class="active" href="all.php">View All</a></li>
-			<li><a href="add.php">Add</a></li>
-			<li><a href="summary.php">Summary</a></li>
+			<li><a class="active link-button" href="all.php">View All</a></li>
+			<li><a class="link-button" href="add.php">Add</a></li>
+			<li><a class="link-button" href="summary.php">Summary</a></li>
 		</ul>
 	</div>
 	<div id="content">

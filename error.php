@@ -1,7 +1,10 @@
+<?php
+	
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Shift Tips</title>
+	<title>Error - Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="css/style.css">
 </head>
@@ -16,14 +19,8 @@
 	</div>
 	<div id="content">
 		<div class="wrapper">
-			<h1>Home</h1>
-
-			<h2>Other Pages</h2>
-			<ul class="old-links">
-				<li><a class="link-button" href="column-nonscrollable-summary.php">Column Summary</a></li>
-				<li><a class="link-button" href="one-row-summary.php">One Row Summary</a></li>
-				<li><a class="link-button" href="weekly.php">Weekly Summary</a></li>
-			</ul>
+			<h1>Error</h1>
+			<div class="message-box error">Oops! Something bad happened!</div>
 		</div>
 	</div>
 	<div id="footer">

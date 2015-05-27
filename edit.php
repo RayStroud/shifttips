@@ -118,15 +118,15 @@
 	<div id="header">
 		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
-			<li><a href="all.php">View All</a></li>
-			<li><a class="active" href="add.php">Add</a></li>
-			<li><a href="summary.php">Summary</a></li>
+			<li><a class="link-button" href="all.php">View All</a></li>
+			<li><a class="link-button" href="add.php">Add</a></li>
+			<li><a class="link-button" href="summary.php">Summary</a></li>
 		</ul>
 	</div>
 	<div id="content">
 		<div id="wrapper">
 			<h1>Edit Shift</h1>
-			<form role="form" method="post" action="#">
+			<form class="edit-form" role="form" method="post" action="#">
 				<input hidden id="id" name="id" value="<?php echo isset($id) ? $id : null; ?>" />
 				<div class="form-group col-xs-6">
 					<label for="wage">Wage</label>
@@ -134,62 +134,65 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="date">Date</label>
-					<input required class="form-control" type="date" id="date" name="date" placeholder="yyyy-mm-dd" value="<?php echo isset($date) ? $date : 9; ?>" />
+					<input required class="form-control" type="date" id="date" name="date" placeholder="yyyy-mm-dd" value="<?php echo isset($date) ? $date : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="startTime">Start</label>
-					<input required class="form-control" type="time" id="startTime" name="startTime" placeholder="hh:mm (24h)" value="<?php echo isset($startTime) ? $startTime : 9; ?>" />
+					<input required class="form-control" type="time" id="startTime" name="startTime" placeholder="hh:mm (24h)" value="<?php echo isset($startTime) ? $startTime : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="endTime">End</label>
-					<input class="form-control" type="time" id="endTime" name="endTime" placeholder="hh:mm (24h)" value="<?php echo isset($endTime) ? $endTime : 9; ?>" />
+					<input class="form-control" type="time" id="endTime" name="endTime" placeholder="hh:mm (24h)" value="<?php echo isset($endTime) ? $endTime : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="endTime">First Table</label>
-					<input class="form-control" type="time" id="firstTable" name="firstTable" placeholder="hh:mm (24h)" value="<?php echo isset($firstTable) ? $firstTable : 9; ?>" />
+					<input class="form-control" type="time" id="firstTable" name="firstTable" placeholder="hh:mm (24h)" value="<?php echo isset($firstTable) ? $firstTable : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="campHours">Camp Hours</label>
-					<input class="form-control" type="number" min="0" step="0.5" id="campHours" name="campHours" placeholder="#" value="<?php echo isset($campHours) ? $campHours : 9; ?>" />
+					<input class="form-control" type="number" min="0" step="0.5" id="campHours" name="campHours" placeholder="#" value="<?php echo isset($campHours) ? $campHours : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="sales">Sales</label>
-					<input class="form-control" type="number" min="0" step="any" id="sales" name="sales" placeholder="$" value="<?php echo isset($sales) ? $sales : 9; ?>" />
+					<input class="form-control" type="number" min="0" step="any" id="sales" name="sales" placeholder="$" value="<?php echo isset($sales) ? $sales : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="covers">Covers</label>
-					<input class="form-control" type="number" min="0" step="1" id="covers" name="covers" placeholder="#" value="<?php echo isset($covers) ? $covers : 9; ?>" />
+					<input class="form-control" type="number" min="0" step="1" id="covers" name="covers" placeholder="#" value="<?php echo isset($covers) ? $covers : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="tipout">Tipout</label>
-					<input class="form-control" type="number" min="0" step="1" id="tipout" name="tipout" placeholder="$" value="<?php echo isset($tipout) ? $tipout : 9; ?>" />
+					<input class="form-control" type="number" min="0" step="1" id="tipout" name="tipout" placeholder="$" value="<?php echo isset($tipout) ? $tipout : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="transfers">Transfers</label>
-					<input class="form-control" type="number" min="0" step="1" id="transfers" name="transfers" placeholder="#" value="<?php echo isset($transfers) ? $transfers : 9; ?>" />
+					<input class="form-control" type="number" min="0" step="1" id="transfers" name="transfers" placeholder="#" value="<?php echo isset($transfers) ? $transfers : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="cash">Cash</label>
-					<input class="form-control" type="number" min="0" step="1" id="cash" name="cash" placeholder="$" value="<?php echo isset($cash) ? $cash : 9; ?>" />
+					<input class="form-control" type="number" min="0" step="1" id="cash" name="cash" placeholder="$" value="<?php echo isset($cash) ? $cash : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="due">Due</label>
-					<input class="form-control" type="number" min="0" step="1" id="due" name="due" placeholder="$" value="<?php echo isset($due) ? $due : 9; ?>" />
+					<input class="form-control" type="number" min="0" step="1" id="due" name="due" placeholder="$" value="<?php echo isset($due) ? $due : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="section">Section</label>
-					<input class="form-control" maxlength="25" id="section" name="section" placeholder="#,#,#" value="<?php echo isset($section) ? $section : 9; ?>" />
+					<input class="form-control" maxlength="25" id="section" name="section" placeholder="#,#,#" value="<?php echo isset($section) ? $section : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="cut">Cut <!--<div class="abbr-wrap"><div id="abbr" title="[S]tay, [G]o, [O]pen, [C]lose, [/]Split, [X]None">?</div></div>--></label>
-					<input class="form-control" maxlength="1" id="cut" name="cut" placeholder="[S]tay, [G]o, etc" value="<?php echo isset($cut) ? $cut : 9; ?>" />
+					<input class="form-control" maxlength="1" id="cut" name="cut" placeholder="[S]tay, [G]o, etc" value="<?php echo isset($cut) ? $cut : null; ?>" />
 				</div>
 				<div class="form-group col-xs-12">
 					<label for="notes">Notes</label>
-					<textarea class="form-control" maxlength="250" name="notes" rows="3"><?php echo isset($notes) ? $notes : 9; ?></textarea>
+					<textarea class="form-control" maxlength="250" name="notes" rows="3"><?php echo isset($notes) ? $notes : null; ?></textarea>
 				</div>
-				<div class="form-group col-xs-12">
-					<button class="btn btn-default" type="submit" name="submit">Submit</button>
+				<div class="form-group col-xs-6">
+					<button class="btn btn-primary btn-wide" type="submit" name="submit">Submit</button>
+				</div>
+				<div class="form-group col-xs-6">
+					<a class="btn btn-default btn-wide" type="button" href="view.php?id=<?php echo isset($id) ? $id : null;?>">Cancel</a>
 				</div>
 			</form>
 		</div>

@@ -46,9 +46,9 @@
 	<div id="header">
 		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
-			<li><a href="all.php">View All</a></li>
-			<li><a href="add.php">Add</a></li>
-			<li><a href="summary.php">Summary</a></li>
+			<li><a class="link-button" href="all.php">View All</a></li>
+			<li><a class="link-button" href="add.php">Add</a></li>
+			<li><a class="link-button" href="summary.php">Summary</a></li>
 		</ul>
 	</div>
 	<div id="content">
@@ -154,6 +154,10 @@
 						<div class="value"><?php echo (isset($earnedHourly) ? '$' . $earnedHourly . '/h'  : '-'); ?></div>
 					</div>
 				</div>
+			</div>
+			<div class="shift-buttons">
+				<a class="link-button" href="delete.php?id=<?php echo isset($id) ? $id : null; ?>" onclick="return confirm('Are you sure you want to delete this shift?')">Delete</a>
+				<a class="link-button" href="edit.php?id=<?php echo isset($id) ? $id : null; ?>">Edit</a>
 			</div>
 		</div>
 	</div>

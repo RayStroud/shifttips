@@ -1,5 +1,6 @@
 //colors
 $blue: #449;
+$blue: #337ab7;
 $lightgrey: #eaeaea;
 $darkgrey: #888;
 
@@ -66,7 +67,7 @@ h1 {
 	font-family: $serif-font;
 	font-weight: bold;
 	font-size: 1.8em;
-	margin: 2% 1% 1%;
+	margin: 2% 1%;
 }
 h2 {
 	font-family: $serif-font;
@@ -77,6 +78,18 @@ h2 {
 a, a:link, a:visited, a:hover, a:active {
 	text-decoration: none;
 	color: inherit;
+}
+a.link-button {
+	display: inline-block;
+	padding: 0.4em 0.6em;
+	border-radius: 5px;
+	text-align: center;
+	background-color: $body-bgcolor;
+	color: $header-text-color;
+}
+a.link-button:hover {
+	text-decoration: none;
+	background-color: lighten($body-bgcolor, 10%);
 }
 #header {
 	color: $header-text-color;
@@ -99,19 +112,10 @@ a, a:link, a:visited, a:hover, a:active {
 		li {
 			display: inline-block;
 			margin: 0.5em 0;
-			a {
-				padding: 0.5em;
-				border-radius: 5px;
-				color: $header-text-color;
-			}
 			a.active {
-				background-color: rgba(black, 0.3);
+				background-color: darken($body-bgcolor, 10%);
 				pointer-events: none;
 				cursor: default;
-			}
-			a:hover {
-				text-decoration: none;
-				background-color: rgba(white, 0.2);
 			}
 		}
 	}
@@ -139,6 +143,7 @@ a, a:link, a:visited, a:hover, a:active {
 	left: 0;
 	z-index: 1;
 }
+
 @media screen and (max-width: 700px) {
 	h1 {margin: 1em 0 0.5em;}
 	#wrapper {margin-bottom: 1em;}
@@ -151,17 +156,6 @@ ul.old-links {
 	margin: 1em 0;
 	li {
 		margin: 0.5em 0;
-	}
-	a {
-		display: inline-block;
-		padding: 0.5em;
-		border-radius: 5px;
-		background-color: $body-bgcolor;
-		color: $header-text-color;
-	}
-	a:hover {
-		text-decoration: none;
-		background-color: rgba($body-bgcolor, 0.8);
 	}
 }
 
@@ -264,6 +258,14 @@ hr {border-color: $border-color;}
 		.value {width: 78%;}
 	}
 }
+.shift-buttons {
+	max-width: 450px;
+	text-align: right;
+	margin: 0 auto;
+	.link-button {
+		min-width: 80px;
+	}
+}
 
 @media screen and (max-width: 500px) {
 	.shift-detailed {
@@ -279,15 +281,11 @@ hr {border-color: $border-color;}
 }
 
 /* ############################################
-	ADD SHIFT
+	ADD/EDIT/DELETE SHIFT
 ############################################ */
 form {
 	margin: 2% auto 1%;
 	max-width: 600px;
-	button {
-		margin: 0 25%;
-		width: 50%;
-	}
 }
 input {
 	appearance: none;
@@ -297,6 +295,31 @@ input {
 input[type=date], input[type=time] {
 	line-height: 20px;
 }
+label {color: $label-color;}
+.btn-narrow {
+	margin: 0 25%;
+	width: 50%;
+}
+.btn-wide {
+	margin: 0 10%;
+	width: 80%;
+}
+.message-box {
+	display: table;
+	background-color: white;
+	border: 1px solid $border-color;
+	padding: 1em;
+	margin: 1em 0;
+}
+.success { 
+	background-color: lighten(green, 70%);
+	border-color: green;
+}
+.error { 
+	background-color: lighten(red, 45%);
+	border-color: red;
+}
+/*
 #abbr {
 	#font-size: 0.8em;
 	line-height: 0.6em;
@@ -311,7 +334,7 @@ input[type=date], input[type=time] {
 	height: 0px;
 	vertical-align: top;
 }
-label {color: $label-color;}
+*/
 
 /* ############################################
 	SUMMARY

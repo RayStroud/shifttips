@@ -85,9 +85,9 @@
 	<div id="header">
 		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
-			<li><a href="all.php">View All</a></li>
-			<li><a href="add.php">Add</a></li>
-			<li><a class="active" href="summary.php">Summary</a></li>
+			<li><a class="link-button" href="all.php">View All</a></li>
+			<li><a class="link-button" href="add.php">Add</a></li>
+			<li><a class="active link-button" href="summary.php">Summary</a></li>
 		</ul>
 	</div>
 	<div id="content">

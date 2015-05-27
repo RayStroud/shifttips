@@ -26,7 +26,7 @@ table {
 	LAYOUT
 ############################################ */
 body {
-  background-color: #449;
+  background-color: #337ab7;
   font-family: sans-serif; }
 
 h1 {
@@ -34,7 +34,7 @@ h1 {
   font-family: Georgia, serif;
   font-weight: bold;
   font-size: 1.8em;
-  margin: 2% 1% 1%; }
+  margin: 2% 1%; }
 
 h2 {
   font-family: Georgia, serif;
@@ -45,6 +45,18 @@ h2 {
 a, a:link, a:visited, a:hover, a:active {
   text-decoration: none;
   color: inherit; }
+
+a.link-button {
+  display: inline-block;
+  padding: 0.4em 0.6em;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #337ab7;
+  color: white; }
+
+a.link-button:hover {
+  text-decoration: none;
+  background-color: #4f93ce; }
 
 #header {
   color: white;
@@ -65,17 +77,10 @@ a, a:link, a:visited, a:hover, a:active {
     #header ul.menu li {
       display: inline-block;
       margin: 0.5em 0; }
-      #header ul.menu li a {
-        padding: 0.5em;
-        border-radius: 5px;
-        color: white; }
       #header ul.menu li a.active {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: #285f8f;
         pointer-events: none;
         cursor: default; }
-      #header ul.menu li a:hover {
-        text-decoration: none;
-        background-color: rgba(255, 255, 255, 0.2); }
 
 #content {
   background-color: #eaeaea;
@@ -116,15 +121,6 @@ ul.old-links {
   margin: 1em 0; }
   ul.old-links li {
     margin: 0.5em 0; }
-  ul.old-links a {
-    display: inline-block;
-    padding: 0.5em;
-    border-radius: 5px;
-    background-color: #449;
-    color: white; }
-  ul.old-links a:hover {
-    text-decoration: none;
-    background-color: rgba(68, 68, 153, 0.8); }
 
 /* ############################################
 	SHIFT BOX
@@ -237,6 +233,13 @@ hr {
     .shift-detailed .full-width .value {
       width: 78%; }
 
+.shift-buttons {
+  max-width: 450px;
+  text-align: right;
+  margin: 0 auto; }
+  .shift-buttons .link-button {
+    min-width: 80px; }
+
 @media screen and (max-width: 500px) {
   .shift-detailed .shift-info {
     width: 98%; }
@@ -247,14 +250,11 @@ hr {
     .shift-detailed .full-width .value {
       width: 78%; } }
 /* ############################################
-	ADD SHIFT
+	ADD/EDIT/DELETE SHIFT
 ############################################ */
 form {
   margin: 2% auto 1%;
   max-width: 600px; }
-  form button {
-    margin: 0 25%;
-    width: 50%; }
 
 input {
   appearance: none;
@@ -264,25 +264,48 @@ input {
 input[type=date], input[type=time] {
   line-height: 20px; }
 
-#abbr {
-  #font-size: 0.8em;
-  line-height: 0.6em;
-  padding: 0.3em;
-  background-color: rgba(136, 136, 136, 0.5);
-  color: white;
-  border-radius: 10px; }
-
-#abbr:hover {
-  background-color: #888; }
-
-.abbr-wrap {
-  display: inline-block;
-  height: 0px;
-  vertical-align: top; }
-
 label {
   color: #888; }
 
+.btn-narrow {
+  margin: 0 25%;
+  width: 50%; }
+
+.btn-wide {
+  margin: 0 10%;
+  width: 80%; }
+
+.message-box {
+  display: table;
+  background-color: white;
+  border: 1px solid lightgray;
+  padding: 1em;
+  margin: 1em 0; }
+
+.success {
+  background-color: #e6ffe6;
+  border-color: green; }
+
+.error {
+  background-color: #ffe5e5;
+  border-color: red; }
+
+/*
+#abbr {
+	#font-size: 0.8em;
+	line-height: 0.6em;
+	padding: 0.3em;
+	background-color: rgba($label-color,0.5);
+	color: white;
+	border-radius: 10px;
+}
+#abbr:hover {background-color: $label-color;}
+.abbr-wrap {
+	display: inline-block;
+	height: 0px;
+	vertical-align: top;
+}
+*/
 /* ############################################
 	SUMMARY
 ############################################ */

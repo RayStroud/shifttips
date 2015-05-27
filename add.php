@@ -24,60 +24,49 @@
 
 		//* DEBUG */ echo '<p>' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p>';
 
-		//check if start date isn't null and already exists
-		if(isset($startTime))
+		//check if start date isn't null
+		if(!isset($startTime))
 		{
-			$checkSQL = $db->prepare("SELECT startTime FROM shift WHERE startTime = ?");
-			$checkSQL->bind_param('s', $startTime);
-			$checkSQL->execute();
-			$checkSQL->bind_result($checkSQLResult);
-			$checkSQL->store_result();
-			$checkSQLNumber = $checkSQL->num_rows;
-			//* DEBUG */ echo '<p>Number of results: ' . $checkSQLNumber . '</p>';
 
-			//don't insert a duplicate record
-			if($checkSQLNumber == 0)
-			//* DEBUG */ if(true)
+		}
+		else
+		{
+			//adjust endTime if rolls over to next day
+			if(isset($endTime) && $endTime < $startTime)
 			{
-				//refresh connection -- it needed this before it was in the conditional
-				$db->close();
-				include 'include/dbconnect.php';
-
-				//adjust endTime if rolls over to next day
-				if(isset($endTime) && $endTime < $startTime)
-				{
-					//add a day to endTime
-					$endTimeDateTime = new DateTime($endTime);
-					$endTimeDateTime->modify("+ 1day");
-					$endTime = $endTimeDateTime->format('Y-m-d H:i:s');
-					//* DEBUG */ echo '<p>Changed endTime to: ' . $endTime . '</p>';
-				}
-
-				//calculate values
-				$hours = calculateHours($startTime, $endTime);
-				$earnedWage = calculateEarnedWage($hours, $wage);
-				$earnedTips = calculateEarnedTips($cash, $due);
-				$earnedTotal = calculateEarnedTotal($earnedWage, $earnedTips);
-				$tipsVsWage = calculateTipsVsWage($earnedWage, $earnedTips);
-				$salesPerHour = calculateSalesPerHour($sales, $hours);
-				$salesPerCover = calculateSalesPerCover($sales, $covers);
-				$tipsPercent = calculateTipsPercent($sales, $earnedTips);
-				$tipoutPercent = calculateTipoutPercent($sales, $tipout);
-				$earnedHourly = calculateEarnedHourly($earnedTotal, $hours);
-				$noCampHourly = calculateNoCampHourly($earnedTotal, $hours, $campHours);
-				$lunchDinner = calculateLunchDinner($startTime);
-				$dayOfWeek = calculateDayOfWeek($startTime);
-
-				//* DEBUG */ echo '<p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
-
-				//insert record
-				$insertSQL = $db->prepare("INSERT INTO shift (wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-				$insertSQL->bind_param('dsssddiidiisssdiiiiiiddiiss', $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
-				$insertSQL->execute();
-				//* DEBUG */ echo '<p>Row inserted</p>';
-
-				header('Location: view.php?id=' . $db->insert_id);
+				//add a day to endTime
+				$endTimeDateTime = new DateTime($endTime);
+				$endTimeDateTime->modify("+ 1day");
+				$endTime = $endTimeDateTime->format('Y-m-d H:i:s');
+				//* DEBUG */ echo '<p>Changed endTime to: ' . $endTime . '</p>';
 			}
+
+			//calculate values
+			$hours = calculateHours($startTime, $endTime);
+			$earnedWage = calculateEarnedWage($hours, $wage);
+			$earnedTips = calculateEarnedTips($cash, $due);
+			$earnedTotal = calculateEarnedTotal($earnedWage, $earnedTips);
+			$tipsVsWage = calculateTipsVsWage($earnedWage, $earnedTips);
+			$salesPerHour = calculateSalesPerHour($sales, $hours);
+			$salesPerCover = calculateSalesPerCover($sales, $covers);
+			$tipsPercent = calculateTipsPercent($sales, $earnedTips);
+			$tipoutPercent = calculateTipoutPercent($sales, $tipout);
+			$earnedHourly = calculateEarnedHourly($earnedTotal, $hours);
+			$noCampHourly = calculateNoCampHourly($earnedTotal, $hours, $campHours);
+			$lunchDinner = calculateLunchDinner($startTime);
+			$dayOfWeek = calculateDayOfWeek($startTime);
+
+			//* DEBUG */ echo '<p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
+
+			//insert record
+			$insertSQL = $db->prepare("INSERT INTO shift (wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			$insertSQL->bind_param('dsssddiidiisssdiiiiiiddiiss', $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
+			$insertSQL->execute();
+			$insertSQL->close();
+			/* DEBUG */ echo '<p>' . $db->info . '</p>';
+
+			//redirect to view page
+			header('Location: view.php?id=' . $db->insert_id);
 		}
 	}
 
@@ -103,15 +92,15 @@
 	<div id="header">
 		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
-			<li><a href="all.php">View All</a></li>
-			<li><a class="active" href="add.php">Add</a></li>
-			<li><a href="summary.php">Summary</a></li>
+			<li><a class="link-button" href="all.php">View All</a></li>
+			<li><a class="active link-button" href="add.php">Add</a></li>
+			<li><a class="link-button" href="summary.php">Summary</a></li>
 		</ul>
 	</div>
 	<div id="content">
 		<div id="wrapper">
 			<h1>Add Shift</h1>
-			<form role="form" method="post" action="#">
+			<form class="add-form" role="form" method="post" action="#">
 				<div class="form-group col-xs-6">
 					<label for="wage">Wage</label>
 					<input class="form-control" type="number" id="wage" name="wage" value="9" min="0" step="0.01"/>
@@ -173,7 +162,7 @@
 					<textarea class="form-control" maxlength="250" name="notes" rows="3"></textarea>
 				</div>
 				<div class="form-group col-xs-12">
-					<button class="btn btn-default" type="submit" name="submit">Submit</button>
+					<button class="btn btn-primary btn-narrow" type="submit" name="submit">Submit</button>
 				</div>
 			</form>
 		</div>
