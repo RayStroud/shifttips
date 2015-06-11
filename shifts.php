@@ -7,10 +7,10 @@
 	$p_day = isset($_GET['day']) ? $_GET['day'] : null;
 
 	//TODO validate the input somehow
-	$p_startDate = isset($p_from) ? $p_from : '1970-01-01';
-	$p_endDate = isset($p_to) ? $p_to : '2038-01-01';
-	$p_lunchDinner = isset($p_type) ? $p_type : '%';
-	$p_dayOfWeek = isset($p_day) ? $p_day : '%';
+	$p_startDate = !empty($p_from) ? $p_from : '1970-01-01';
+	$p_endDate = !empty($p_to) ? $p_to : '2038-01-01';
+	$p_lunchDinner = !empty($p_type) ? $p_type : '%';
+	$p_dayOfWeek = !empty($p_day) ? $p_day : '%';
 
 	//get today's date as the end date range, and two weeks earlier for the start range
 	//TODO maybe have a button that searches for all, which makes the startDate selector pick the earliest shift
@@ -94,39 +94,20 @@
 			<h1>Shifts</h1>
 			<div>
 				<form class="date-form" method="get" action="shifts.php">
-						<input type="date" name="from" placeholder="yyyy-mm-dd" value="<?php echo isset($p_from) ? $p_from : null; ?>" />
-						<input type="date" name="to" placeholder="yyyy-mm-dd" value="<?php echo isset($p_to) ? $p_to : null; ?>" />
-						<button class="link-button" type="submit">Submit</button> </form>
-				<a class="link-button" href="shifts.php">View All</a>
+					<input type="date" name="from" placeholder="yyyy-mm-dd" value="<?php echo !empty($p_from) ? $p_from : null; ?>" />
+					<input type="date" name="to" placeholder="yyyy-mm-dd" value="<?php echo !empty($p_to) ? $p_to : null; ?>" />
+					<button class="link-button" type="submit">Submit</button> 
+					<a class="link-button" href="shifts.php">View All</a>
+				</form>
 			</div>
-			<div id="shifts">
-				<?php echo (isset($shiftsHtml) ? $shiftsHtml : 'No shifts found'); ?>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
-				<div class="filler"></div>
+			<div>
+				Viewing <?php echo !empty($p_type) ? $p_type : 'all'; ?> shifts on <?php echo !empty($p_day) ? $p_day : 'any day'; ?> from <?php echo !empty($p_from) ? $p_from : 'anytime'; ?> to <?php echo !empty($p_to) ? $p_to : 'anytime'; ?>
 			</div>
+			<?php echo (empty($shiftsHtml) ? '<div>No shifts found</div>' :
+			'<div id="shifts">'
+				. $shiftsHtml
+				. '<div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div><div class="filler"></div>'
+			. '</div>'); ?>
 		</div>
 	</div>
 	<div id="footer">
