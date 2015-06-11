@@ -46,19 +46,19 @@
 	<div id="header">
 		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
-			<li><a class="link-button" href="all.php">View All</a></li>
-			<li><a class="link-button" href="add.php">Add</a></li>
+			<li><a class="link-button" href="shifts.php">Shifts</a></li>
 			<li><a class="link-button" href="summary.php">Summary</a></li>
+			<li><a class="link-button" href="add.php">Add</a></li>
 		</ul>
 	</div>
 	<div id="content">
 		<div id="wrapper">
 			<h1>Shift Details</h1>
-			<div class=<?php echo (isset($day) ? '"shift-detailed ' . strtolower($day) . '-shift"' : '"shift-detailed"') ?>>
+			<div class="shift-detailed <?php echo (isset($day) ? ' ' . strtolower($day) . '-shift' : null) . (isset($lunchDinner) ? ' ' . strtolower($lunchDinner) . '-shift' : null); ?>">
 				<div class="shift-datetime">
 					<div class="shift-date"><?php echo (isset($date) ? $date : 'Unknown Date'); ?></div>
 
-					<div class="shift-time"><div class="shift-time-detail"><?php echo (isset($startTime) ? $startTime : '?:??') . (isset($endTime) ? ' to ' . $endTime : ' to ?:??'); ?></div> <div class="shift-time-detail"><?php echo (isset($hours) ? ' (' . $hours . ' hours)' : null); ?></div> <div class="shift-time-detail"><?php echo (isset($wage) ? ' @ $' . $wage . '/h' : null); ?></div></div>
+					<div class="shift-time"><?php echo (isset($startTime) ? $startTime : '?:??') . (isset($endTime) ? ' to ' . $endTime : ' to ?:??'); ?></div> <div class="shift-hours-wage"><?php echo (isset($hours) ? ' (' . $hours . ' hours)' : null) . (isset($wage) ? ' @ $' . $wage . '/h' : null); ?></div>
 				</div>
 				<div class="shift-details">
 					<div class="shift-info">

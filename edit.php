@@ -118,9 +118,9 @@
 	<div id="header">
 		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
-			<li><a class="link-button" href="all.php">View All</a></li>
-			<li><a class="link-button" href="add.php">Add</a></li>
+			<li><a class="link-button" href="shifts.php">Shifts</a></li>
 			<li><a class="link-button" href="summary.php">Summary</a></li>
+			<li><a class="link-button" href="add.php">Add</a></li>
 		</ul>
 	</div>
 	<div id="content">
@@ -189,10 +189,10 @@
 					<textarea class="form-control" maxlength="250" name="notes" rows="3"><?php echo isset($notes) ? $notes : null; ?></textarea>
 				</div>
 				<div class="form-group col-xs-6">
-					<button class="btn btn-primary btn-wide" type="submit" name="submit">Submit</button>
+					<button class="link-button button-wide" type="submit" name="submit">Submit</button>
 				</div>
 				<div class="form-group col-xs-6">
-					<a class="btn btn-default btn-wide" type="button" href="view.php?id=<?php echo isset($id) ? $id : null;?>">Cancel</a>
+					<a class="link-button-inverse button-wide" type="button" href="view.php?id=<?php echo isset($id) ? $id : null;?>">Cancel</a>
 				</div>
 			</form>
 		</div>

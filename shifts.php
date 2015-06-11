@@ -1,25 +1,43 @@
 <?php
 	include 'include/dbconnect.php';
 
+	$p_from = isset($_GET['from']) ? $_GET['from'] : null;
+	$p_to = isset($_GET['to']) ? $_GET['to'] : null;
+	$p_type = isset($_GET['type']) ? $_GET['type'] : null;
+	$p_day = isset($_GET['day']) ? $_GET['day'] : null;
+
+	//TODO validate the input somehow
+	$p_startDate = isset($p_from) ? $p_from : '1970-01-01';
+	$p_endDate = isset($p_to) ? $p_to : '2038-01-01';
+	$p_lunchDinner = isset($p_type) ? $p_type : '%';
+	$p_dayOfWeek = isset($p_day) ? $p_day : '%';
+
 	//get today's date as the end date range, and two weeks earlier for the start range
 	//TODO maybe have a button that searches for all, which makes the startDate selector pick the earliest shift
-	$endDateRange = (new DateTime())->format('Y-m-d H:i:s');
-	$startDateRange = new DateTime();
-	$startDateRange->sub(new DateInterval('P2W'));
-	$startDateRange = $startDateRange->format('Y-m-d H:i:s');
-	//* DEBUG */ echo '<p>' . $startDateRange . '|' . $endDateRange . '|</p>';
+	$todayDateTime = (new DateTime())->format('Y-m-d H:i:s');
+	$twoWeeksAgoDateTime = new DateTime();
+	$twoWeeksAgoDateTime->sub(new DateInterval('P2W'));
+	$twoWeeksAgoDateTime = $twoWeeksAgoDateTime->format('Y-m-d H:i:s');
+	//* DEBUG */ echo '<p>' . $twoWeeksAgoDateTime . '|' . $todayDateTime . '|</p>';
 
-	//get shift
-	//TODO change this statement to accept date ranges
-	$shiftSQL = $db->prepare("SELECT id, wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
-		FROM shift ORDER BY startTime ASC");
-	//$shiftSQL->bind_param('ss', $startDateRange, $endDateRange);
-	$shiftSQL->execute();
-	$shiftSQL->bind_result($id, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
+	//make sql statement
+	$sql = 'SELECT id, wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
+		FROM shift
+		WHERE startTime > ?
+			AND endTime < ?
+			AND UPPER(lunchDinner) LIKE UPPER(?)
+			AND UPPER(dayOfWeek) LIKE UPPER(?)
+		ORDER BY startTime ASC';
+
+	//query database
+	$stmt = $db->prepare($sql);
+	$stmt->bind_param('ssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_dayOfWeek);
+	$stmt->execute();
+	$stmt->bind_result($id, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
 
 	//TODO loop through all the records to show them all
 	$shiftsHtml = '';
-	while($shiftSQL->fetch())
+	while($stmt->fetch())
 	{
 		//* DEBUG */ echo '<p>' . $wagde . '|' . $wage . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
 
@@ -33,7 +51,7 @@
 
 		//* DEBUG */ echo '<p>' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|</p>';
 
-		$shiftsHtml .= 	"\n\n\t\t\t\t" . '<div class="clickable shift-summary ' . (isset($day) ? strtolower($day) . '-shift' : null) . '">'
+		$shiftsHtml .= 	"\n\n\t\t\t\t" . '<div class="clickable shift-summary' . (isset($day) ? ' ' . strtolower($day) . '-shift' : null) . (isset($lunchDinner) ? ' ' . strtolower($lunchDinner) . '-shift' : null) . '">'
 							. "\n\t\t\t\t\t" . '<div class="shift-datetime">'
 								. "\n\t\t\t\t\t\t" . '<div class="shift-date">' . (isset($date) ? $date : 'Unknown Date') . '</div>'
 
@@ -50,6 +68,16 @@
 						. "\n\t\t\t\t" . '</div>';
 
 	}
+	$stmt->close();
+
+	//make variables for calling procedure
+	//$db->query("SET @startDate = '" . $db->real_escape_string($p_startDate) . "';");
+	//$db->query("SET @endDate = '" . $db->real_escape_string($p_endDate) . "';");
+	//$db->query("SET @dayOfWeek = '" . $db->real_escape_string($p_dayOfWeek) . "';");
+	//$db->query("SET @lunchDinner = '" . $db->real_escape_string($p_lunchDinner) . "';");
+
+	//call procedure
+	//$summariesResult = $db->query('CALL getShifts(@startDate, @endDate, @lunchDinner, @dayOfWeek);');
 
 	//close connection
 	$db->close();
@@ -65,14 +93,21 @@
 	<div id="header">
 		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
-			<li><a class="active link-button" href="all.php">View All</a></li>
-			<li><a class="link-button" href="add.php">Add</a></li>
+			<li><a class="active link-button" href="shifts.php">Shifts</a></li>
 			<li><a class="link-button" href="summary.php">Summary</a></li>
+			<li><a class="link-button" href="add.php">Add</a></li>
 		</ul>
 	</div>
 	<div id="content">
 		<div id="wrapper">
-			<h1>All Shifts</h1>
+			<h1>Shifts</h1>
+			<div>
+				<form class="date-form" method="get" action="#">
+						<input type="date" name="startDate" placeholder="yyyy-mm-dd" />
+						<input type="date" name="endDate" placeholder="yyyy-mm-dd" />
+						<button class="link-button" type="submit" name="submit">Submit</button> </form>
+				<a class="link-button">View All</a>
+			</div>
 			<div id="shifts">
 				<?php echo (isset($shiftsHtml) ? $shiftsHtml : 'No shifts found'); ?>
 				<div class="filler"></div>

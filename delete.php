@@ -16,7 +16,7 @@
 		}
 		else
 		{
-			header('Location: all.php');
+			header('Location: shifts.php');
 		}
 
 		$shiftSQL->close();

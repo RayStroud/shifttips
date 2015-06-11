@@ -92,9 +92,9 @@
 	<div id="header">
 		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
-			<li><a class="link-button" href="all.php">View All</a></li>
-			<li><a class="active link-button" href="add.php">Add</a></li>
+			<li><a class="link-button" href="shifts.php">Shifts</a></li>
 			<li><a class="link-button" href="summary.php">Summary</a></li>
+			<li><a class="active link-button" href="add.php">Add</a></li>
 		</ul>
 	</div>
 	<div id="content">
@@ -162,7 +162,7 @@
 					<textarea class="form-control" maxlength="250" name="notes" rows="3"></textarea>
 				</div>
 				<div class="form-group col-xs-12">
-					<button class="btn btn-primary btn-narrow" type="submit" name="submit">Submit</button>
+					<button class="link-button button-narrow" type="submit" name="submit">Submit</button>
 				</div>
 			</form>
 		</div>

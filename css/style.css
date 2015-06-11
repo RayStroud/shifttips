@@ -1,7 +1,7 @@
 /* ############################################
 	CLEANUP
 ############################################ */
-html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, code, img, small, strike, var, b, u, i, center, ol, ul, li, fieldset, form, input, textarea, label, legend, table, tbody, tfoot, thead, tr, th, td, footer, header, hgroup {
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, code, img, small, strike, var, b, u, i, center, ol, ul, li, fieldset, form, input, button, textarea, label, legend, table, tbody, tfoot, thead, tr, th, td, footer, header, hgroup {
   margin: 0;
   padding: 0;
   border: 0;
@@ -46,7 +46,7 @@ a, a:link, a:visited, a:hover, a:active {
   text-decoration: none;
   color: inherit; }
 
-a.link-button {
+.link-button, a.link-button {
   display: inline-block;
   padding: 0.4em 0.6em;
   border-radius: 5px;
@@ -54,7 +54,7 @@ a.link-button {
   background-color: #337ab7;
   color: white; }
 
-a.link-button:hover {
+.link-button:hover, a.link-button:hover {
   text-decoration: none;
   background-color: #4f93ce; }
 
@@ -127,7 +127,8 @@ ul.old-links {
 ############################################ */
 .shift-datetime {
   padding: 5% 5% 2%;
-  border-bottom: 1px solid lightgray; }
+  border-bottom: 1px solid lightgray;
+  text-align: center; }
 
 .shift-details {
   padding: 2% 5% 5%; }
@@ -137,10 +138,7 @@ ul.old-links {
   font-variant: small-caps;
   text-align: center; }
 
-.shift-time {
-  text-align: center; }
-
-.shift-time-detail {
+.shift-time, .shift-hours-wage {
   display: inline-block; }
 
 hr {
@@ -187,6 +185,12 @@ hr {
   background-color: rgba(26, 26, 26, 0.1);
   border-color: rgba(26, 26, 26, 0.3); }
 
+.l-shift .label {
+  color: rgba(170, 113, 9, 0.8); }
+
+.d-shift .label {
+  color: rgba(10, 106, 198, 0.8); }
+
 /* ############################################
 	ALL SHIFTS
 ############################################ */
@@ -226,7 +230,8 @@ hr {
     .shift-detailed .shift-info .value {
       width: 55%; }
   .shift-detailed .full-width {
-    width: 98%; }
+    width: 98%;
+    margin-top: 0.5em; }
     .shift-detailed .full-width .label {
       width: 17.5%;
       margin-right: 2.5%; }
@@ -245,14 +250,12 @@ hr {
     width: 98%; }
     .shift-detailed .shift-info .value {
       width: 55%; }
-  .shift-detailed .full-width {
-    margin-top: 0.5em; }
-    .shift-detailed .full-width .value {
-      width: 78%; } }
+  .shift-detailed .full-width .value {
+    width: 78%; } }
 /* ############################################
 	ADD/EDIT/DELETE SHIFT
 ############################################ */
-form {
+form.add-form, form.edit-form {
   margin: 2% auto 1%;
   max-width: 600px; }
 
@@ -267,13 +270,25 @@ input[type=date], input[type=time] {
 label {
   color: #888; }
 
-.btn-narrow {
+.button-narrow {
   margin: 0 25%;
   width: 50%; }
 
-.btn-wide {
+.button-wide {
   margin: 0 10%;
   width: 80%; }
+
+.link-button-inverse {
+  display: inline-block;
+  padding: 0.4em 0.6em;
+  border-radius: 5px;
+  text-align: center;
+  background-color: white;
+  color: #337ab7; }
+
+.link-button-inverse:hover {
+  text-decoration: none;
+  background-color: #e6e6e6; }
 
 .message-box {
   display: table;
@@ -405,6 +420,13 @@ td.sun-avg-cell {
 
 td.sun-tot-cell {
   background-color: rgba(26, 26, 26, 0.25); }
+
+/* ############################################
+	DATE RANGE FORM
+############################################ */
+form.date-form {
+  margin: 2% auto 1%;
+  max-width: 600px; }
 
 /* ############################################
 	OTHER
