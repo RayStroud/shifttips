@@ -70,15 +70,6 @@
 	}
 	$stmt->close();
 
-	//make variables for calling procedure
-	//$db->query("SET @startDate = '" . $db->real_escape_string($p_startDate) . "';");
-	//$db->query("SET @endDate = '" . $db->real_escape_string($p_endDate) . "';");
-	//$db->query("SET @dayOfWeek = '" . $db->real_escape_string($p_dayOfWeek) . "';");
-	//$db->query("SET @lunchDinner = '" . $db->real_escape_string($p_lunchDinner) . "';");
-
-	//call procedure
-	//$summariesResult = $db->query('CALL getShifts(@startDate, @endDate, @lunchDinner, @dayOfWeek);');
-
 	//close connection
 	$db->close();
 ?>
@@ -102,11 +93,11 @@
 		<div id="wrapper">
 			<h1>Shifts</h1>
 			<div>
-				<form class="date-form" method="get" action="#">
-						<input type="date" name="startDate" placeholder="yyyy-mm-dd" />
-						<input type="date" name="endDate" placeholder="yyyy-mm-dd" />
-						<button class="link-button" type="submit" name="submit">Submit</button> </form>
-				<a class="link-button">View All</a>
+				<form class="date-form" method="get" action="shifts.php">
+						<input type="date" name="from" placeholder="yyyy-mm-dd" value="<?php echo isset($p_from) ? $p_from : null; ?>" />
+						<input type="date" name="to" placeholder="yyyy-mm-dd" value="<?php echo isset($p_to) ? $p_to : null; ?>" />
+						<button class="link-button" type="submit">Submit</button> </form>
+				<a class="link-button" href="shifts.php">View All</a>
 			</div>
 			<div id="shifts">
 				<?php echo (isset($shiftsHtml) ? $shiftsHtml : 'No shifts found'); ?>

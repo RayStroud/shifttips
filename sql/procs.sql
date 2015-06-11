@@ -1,3 +1,15 @@
+DROP PROCEDURE IF EXISTS getShifts;
+DELIMITER //
+CREATE PROCEDURE getShifts (p_startDate TIMESTAMP, p_endDate TIMESTAMP, p_lunchDinner CHAR(1), p_dayOfWeek CHAR(3))
+BEGIN
+	SELECT *
+	FROM shift 
+	WHERE startTime BETWEEN p_startDate AND p_endDate
+		AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
+		AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek);
+END //
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS calculateSummaries;
 DELIMITER //
 CREATE PROCEDURE calculateSummaries (p_startDate TIMESTAMP, p_endDate TIMESTAMP)
@@ -27,6 +39,7 @@ BEGIN
 	CALL calculateSummary(p_startDate, p_endDate, "L", "Fri");
 
 	#Day of the Week - Split
+	CALL calculateSplits();
 	CALL calculateSplitSummary(p_startDate, p_endDate, "Mon");
 	CALL calculateSplitSummary(p_startDate, p_endDate, "Tue");
 	CALL calculateSplitSummary(p_startDate, p_endDate, "Wed");
@@ -34,6 +47,7 @@ BEGIN
 	CALL calculateSplitSummary(p_startDate, p_endDate, "Fri");
 
 	#Weekly
+	CALL calculateWeeks();
 	CALL calculateWeeklySummary(p_startDate, p_endDate);
 
 	SELECT * FROM summary;
