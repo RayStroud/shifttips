@@ -21,6 +21,7 @@
 	//* DEBUG */ echo '<p>' . $twoWeeksAgoDateTime . '|' . $todayDateTime . '|</p>';
 
 	//make sql statement
+	//TODO loop through day filter to be able to select more than one day, changing the LIKE into an IN, and making a string to pass along the IN (?,?,?...) and another string to put in the bind_param ('sss...') and then I guess figure out how the hell to put all the separate variables too
 	$sql = 'SELECT id, wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
 		FROM shift
 		WHERE startTime > ?
