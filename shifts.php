@@ -5,6 +5,16 @@
 	$p_to = isset($_GET['to']) ? $_GET['to'] : null;
 	$p_type = isset($_GET['type']) ? $_GET['type'] : null;
 	$p_day = isset($_GET['day']) ? $_GET['day'] : null;
+	//* DEBUG */ echo '<p>|from:' . $p_from . '|to:' . $p_to . '|type:' . $p_type . '|day:' . $p_day . '|</p>';
+
+	$p_mon = isset($_GET['mon']) ? 'mon' : null;
+	$p_tue = isset($_GET['tue']) ? 'tue' : null;
+	$p_wed = isset($_GET['wed']) ? 'wed' : null;
+	$p_thu = isset($_GET['thu']) ? 'thu' : null;
+	$p_fri = isset($_GET['fri']) ? 'fri' : null;
+	$p_sat = isset($_GET['sat']) ? 'sat' : null;
+	$p_sun = isset($_GET['sun']) ? 'sun' : null;
+	//* DEBUG */ echo '<p>|mon:' . $p_mon . '|tue:' . $p_tue . '|wed:' . $p_wed . '|thu:' . $p_thu . '|fri:' . $p_fri . '|sat:' . $p_sat . '|sun:' . $p_sun . '|</p>';
 
 	//TODO validate the input somehow
 	$p_startDate = !empty($p_from) ? $p_from : '1970-01-01';
@@ -27,12 +37,13 @@
 		WHERE startTime > ?
 			AND endTime < ?
 			AND UPPER(lunchDinner) LIKE UPPER(?)
-			AND UPPER(dayOfWeek) LIKE UPPER(?)
+			AND UPPER(dayOfWeek) IN (UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?)) 
 		ORDER BY startTime ASC';
 
 	//query database
 	$stmt = $db->prepare($sql);
-	$stmt->bind_param('ssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_dayOfWeek);
+	//$stmt->bind_param('ssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_dayOfWeek);
+	$stmt->bind_param('ssssssssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_mon, $p_tue, $p_wed, $p_thu, $p_fri, $p_sat, $p_sun);
 	$stmt->execute();
 	$stmt->bind_result($id, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
 
@@ -97,6 +108,13 @@
 				<form class="date-form" method="get" action="shifts.php">
 					<input type="date" name="from" placeholder="yyyy-mm-dd" value="<?php echo !empty($p_from) ? $p_from : null; ?>" />
 					<input type="date" name="to" placeholder="yyyy-mm-dd" value="<?php echo !empty($p_to) ? $p_to : null; ?>" />
+					<input type="checkbox" id="mon-check" name="mon"<?php echo isset($p_mon) ? ' checked' : null; ?>><label class="day-check" for="mon-check">Mon</label>
+					<input type="checkbox" id="tue-check" name="tue"<?php echo isset($p_tue) ? ' checked' : null; ?>><label class="day-check" for="tue-check">Tue</label>
+					<input type="checkbox" id="wed-check" name="wed"<?php echo isset($p_wed) ? ' checked' : null; ?>><label class="day-check" for="wed-check">Wed</label>
+					<input type="checkbox" id="thu-check" name="thu"<?php echo isset($p_thu) ? ' checked' : null; ?>><label class="day-check" for="thu-check">Thu</label>
+					<input type="checkbox" id="fri-check" name="fri"<?php echo isset($p_fri) ? ' checked' : null; ?>><label class="day-check" for="fri-check">Fri</label>
+					<input type="checkbox" id="sat-check" name="sat"<?php echo isset($p_sat) ? ' checked' : null; ?>><label class="day-check" for="sat-check">Sat</label>
+					<input type="checkbox" id="sun-check" name="sun"<?php echo isset($p_sun) ? ' checked' : null; ?>><label class="day-check" for="sun-check">Sun</label>
 					<button class="link-button" type="submit">Submit</button> 
 					<a class="link-button" href="shifts.php">View All</a>
 				</form>
