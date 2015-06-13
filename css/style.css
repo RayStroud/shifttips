@@ -264,8 +264,35 @@ input {
   -webkit-appearance: none;
   -moz-appearance: none; }
 
-input[type=date], input[type=time] {
-  line-height: 20px; }
+input[type=checkbox] + label,
+input[type=date],
+input[type=number],
+input[type=color],
+input[type=datetime],
+input[type=datetime-local],
+input[type=email],
+input[type=file],
+input[type=month],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=time],
+input[type=url],
+input[type=week],
+textarea {
+  padding: 0.4em 0.6em;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 5px; }
+
+input[type=checkbox]:checked + label {
+  background-color: grey;
+  color: white; }
+
+.day-check {
+  font-variant: small-caps; }
 
 label {
   color: #888; }

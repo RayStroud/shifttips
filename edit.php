@@ -107,12 +107,6 @@
 	
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
-	<script>
-		var abbr = document.getElementById('abbr');
-		abbr.onclick = function() {
-			abbr.
-		};
-	</script>
 </head>
 <body>
 	<div id="header">
@@ -178,11 +172,11 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="section">Section</label>
-					<input class="form-control" maxlength="25" id="section" name="section" placeholder="#,#,#" value="<?php echo isset($section) ? $section : null; ?>" />
+					<input class="form-control" type="text" maxlength="25" id="section" name="section" placeholder="#,#,#" value="<?php echo isset($section) ? $section : null; ?>" />
 				</div>
 				<div class="form-group col-xs-6">
 					<label for="cut">Cut <!--<div class="abbr-wrap"><div id="abbr" title="[S]tay, [G]o, [O]pen, [C]lose, [/]Split, [X]None">?</div></div>--></label>
-					<input class="form-control" maxlength="1" id="cut" name="cut" placeholder="[S]tay, [G]o, etc" value="<?php echo isset($cut) ? $cut : null; ?>" />
+					<input class="form-control" type="text" maxlength="1" id="cut" name="cut" placeholder="[S]tay, [G]o, etc" value="<?php echo isset($cut) ? $cut : null; ?>" />
 				</div>
 				<div class="form-group col-xs-12">
 					<label for="notes">Notes</label>
