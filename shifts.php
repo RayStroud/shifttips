@@ -22,6 +22,16 @@
 	$p_lunchDinner = !empty($p_type) ? $p_type : '%';
 	$p_dayOfWeek = !empty($p_day) ? $p_day : '%';
 
+	//if no days are selected, search all
+	if(empty($p_mon) && empty($p_tue) && empty($p_wed) && empty($p_thu) && empty($p_fri) && empty($p_sat) && empty($p_sun))
+	{
+		$p_allDays = '%';
+	}
+	else
+	{
+		$p_allDays = null;
+	}
+
 	//get today's date as the end date range, and two weeks earlier for the start range
 	//TODO maybe have a button that searches for all, which makes the startDate selector pick the earliest shift
 	$todayDateTime = (new DateTime())->format('Y-m-d H:i:s');
@@ -37,13 +47,13 @@
 		WHERE startTime > ?
 			AND endTime < ?
 			AND UPPER(lunchDinner) LIKE UPPER(?)
-			AND UPPER(dayOfWeek) IN (UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?)) 
+			AND (UPPER(dayOfWeek) IN (UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?)) OR dayOfWeek LIKE ?)
 		ORDER BY startTime ASC';
 
 	//query database
 	$stmt = $db->prepare($sql);
 	//$stmt->bind_param('ssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_dayOfWeek);
-	$stmt->bind_param('ssssssssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_mon, $p_tue, $p_wed, $p_thu, $p_fri, $p_sat, $p_sun);
+	$stmt->bind_param('sssssssssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_mon, $p_tue, $p_wed, $p_thu, $p_fri, $p_sat, $p_sun, $p_allDays);
 	$stmt->execute();
 	$stmt->bind_result($id, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
 
@@ -120,7 +130,7 @@
 				</form>
 			</div>
 			<div>
-				Viewing <?php echo !empty($p_type) ? $p_type : 'all'; ?> shifts on <?php echo !empty($p_day) ? $p_day : 'any day'; ?> from <?php echo !empty($p_from) ? $p_from : 'anytime'; ?> to <?php echo !empty($p_to) ? $p_to : 'anytime'; ?>
+				Viewing <?php echo !empty($p_type) ? ($p_type == 'L' ? 'lunch' : 'dinner') : 'all'; ?> shifts on <?php echo !empty($p_day) ? $p_day : 'any day'; ?> from <?php echo !empty($p_from) ? $p_from : 'anytime'; ?> to <?php echo !empty($p_to) ? $p_to : 'anytime'; ?>
 			</div>
 			<?php echo (empty($shiftsHtml) ? '<div>No shifts found</div>' :
 			'<div id="shifts">'
