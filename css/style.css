@@ -22,6 +22,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+a, a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
+  color: inherit; }
+
 /* ############################################
 	LAYOUT
 ############################################ */
@@ -42,21 +46,12 @@ h2 {
   font-weight: bold;
   margin: 1em 0; }
 
-a, a:link, a:visited, a:hover, a:active {
-  text-decoration: none;
-  color: inherit; }
+h3 {
+  font-size: 1.2em;
+  margin: 1em 0; }
 
-.link-button, a.link-button {
-  display: inline-block;
-  padding: 0.4em 0.6em;
-  border-radius: 5px;
-  text-align: center;
-  background-color: #337ab7;
-  color: white; }
-
-.link-button:hover, a.link-button:hover {
-  text-decoration: none;
-  background-color: #4f93ce; }
+b {
+  font-weight: bold; }
 
 #header {
   color: white;
@@ -81,6 +76,8 @@ a, a:link, a:visited, a:hover, a:active {
         background-color: #285f8f;
         pointer-events: none;
         cursor: default; }
+    #header ul.menu .link-button {
+      border-color: transparent; }
 
 #content {
   background-color: #eaeaea;
@@ -239,11 +236,10 @@ hr {
       width: 78%; }
 
 .shift-buttons {
+  display: flex;
+  display: -webkit-flex;
   max-width: 450px;
-  text-align: right;
   margin: 0 auto; }
-  .shift-buttons .link-button {
-    min-width: 80px; }
 
 @media screen and (max-width: 500px) {
   .shift-detailed .shift-info {
@@ -253,16 +249,23 @@ hr {
   .shift-detailed .full-width .value {
     width: 78%; } }
 /* ############################################
-	ADD/EDIT/DELETE SHIFT
+	FORMS
 ############################################ */
-form.add-form, form.edit-form {
-  margin: 2% auto 1%;
-  max-width: 600px; }
+label {
+  color: #888; }
 
-input {
+input,
+textarea {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none; }
+
+input[type=checkbox],
+input[type=radio] {
+  display: none; }
+
+input[type=date] {
+  min-width: 10px; }
 
 input[type=checkbox] + label,
 input[type=date],
@@ -275,6 +278,7 @@ input[type=file],
 input[type=month],
 input[type=number],
 input[type=password],
+input[type=radio] + label,
 input[type=search],
 input[type=tel],
 input[type=text],
@@ -282,20 +286,74 @@ input[type=time],
 input[type=url],
 input[type=week],
 textarea {
+  height: 2.4em;
   padding: 0.4em 0.6em;
   background-color: white;
   border: 1px solid lightgray;
   border-radius: 5px; }
 
-input[type=checkbox]:checked + label {
+textarea {
+  height: 5.4em; }
+
+input[type=checkbox]:checked + label,
+input[type=radio]:checked + label {
   background-color: grey;
   color: white; }
 
-.day-check {
-  font-variant: small-caps; }
+.link-button,
+a.link-button {
+  display: inline-block;
+  padding: 0.4em 0.6em;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #337ab7;
+  color: white;
+  border: 1px solid lightgray; }
 
-label {
-  color: #888; }
+.link-button:hover,
+a.link-button:hover {
+  background-color: #4f93ce; }
+
+/* ############################################
+	ADD/EDIT FORMS
+############################################ */
+form.add-form, form.edit-form {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+  margin: 2% auto 1%;
+  max-width: 600px; }
+  form.add-form input, form.add-form textarea, form.edit-form input, form.edit-form textarea {
+    width: 100%; }
+
+.form-group {
+  margin: 1%; }
+
+.form-group.half-width {
+  width: 48%; }
+
+.form-group.full-width {
+  width: 98%; }
+
+.button-group {
+  border-color: transparent;
+  padding-top: 0;
+  padding-bottom: 0; }
+
+.link-button.button-inverse {
+  background-color: white;
+  color: #337ab7; }
+
+.link-button.button-inverse:hover {
+  background-color: #e6e6e6; }
+
+.link-button.button-warning {
+  background-color: #bf4040;
+  color: white; }
+
+.link-button.button-warning:hover {
+  background-color: #cc6666; }
 
 .button-narrow {
   margin: 0 25%;
@@ -304,18 +362,6 @@ label {
 .button-wide {
   margin: 0 10%;
   width: 80%; }
-
-.link-button-inverse {
-  display: inline-block;
-  padding: 0.4em 0.6em;
-  border-radius: 5px;
-  text-align: center;
-  background-color: white;
-  color: #337ab7; }
-
-.link-button-inverse:hover {
-  text-decoration: none;
-  background-color: #e6e6e6; }
 
 .message-box {
   display: table;
@@ -332,22 +378,134 @@ label {
   background-color: #ffe5e5;
   border-color: red; }
 
-/*
-#abbr {
-	#font-size: 0.8em;
-	line-height: 0.6em;
-	padding: 0.3em;
-	background-color: rgba($label-color,0.5);
-	color: white;
-	border-radius: 10px;
-}
-#abbr:hover {background-color: $label-color;}
-.abbr-wrap {
-	display: inline-block;
-	height: 0px;
-	vertical-align: top;
-}
-*/
+/* ############################################
+	FILTER FORM
+############################################ */
+form.filter-form {
+  margin: 2% -0.5em 1%;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  -webkit-justify-content: center; }
+  form.filter-form input[type=date] {
+    min-width: 165px; }
+
+.filter-group {
+  padding: 0.25em;
+  margin: 0.5em;
+  border: 1px solid lightgray;
+  border-radius: 5px; }
+
+.filter-group-wrap {
+  text-align: center;
+  margin: 0 auto; }
+
+.filter-group-header {
+  color: #888;
+  font-size: 80%;
+  font-variant: small-caps;
+  font-weight: bold;
+  dislay: block;
+  width: 100%;
+  text-align: center; }
+
+.filter-group-body {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+  justify-content: center;
+  -webkit-justify-content: center; }
+  .filter-group-body input[type=date],
+  .filter-group-body input[type=checkbox] + label,
+  .filter-group-body .link-button {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 0.25em; }
+  .filter-group-body input[type=checkbox] + label {
+    text-align: center;
+    font-family: Consolas, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
+    font-variant: small-caps;
+    font-weight: bold; }
+
+#filter .link-button {
+  min-width: 60px; }
+
+#mon-check + label {
+  background-color: white;
+  color: rgba(204, 0, 0, 0.6); }
+
+#mon-check:checked + label {
+  background-color: rgba(204, 0, 0, 0.3);
+  color: white; }
+
+#tue-check + label {
+  background-color: white;
+  color: rgba(127, 128, 0, 0.6); }
+
+#tue-check:checked + label {
+  background-color: rgba(204, 204, 0, 0.3);
+  color: white; }
+
+#wed-check + label {
+  background-color: white;
+  color: rgba(0, 153, 0, 0.6); }
+
+#wed-check:checked + label {
+  background-color: rgba(0, 204, 0, 0.3);
+  color: white; }
+
+#thu-check + label {
+  background-color: white;
+  color: rgba(0, 153, 153, 0.6); }
+
+#thu-check:checked + label {
+  background-color: rgba(0, 204, 204, 0.3);
+  color: white; }
+
+#fri-check + label {
+  background-color: white;
+  color: rgba(0, 0, 204, 0.6); }
+
+#fri-check:checked + label {
+  background-color: rgba(0, 0, 204, 0.3);
+  color: white; }
+
+#sat-check + label {
+  background-color: white;
+  color: rgba(204, 0, 204, 0.6); }
+
+#sat-check:checked + label {
+  background-color: rgba(204, 0, 204, 0.3);
+  color: white; }
+
+#sun-check + label {
+  background-color: white;
+  color: rgba(26, 26, 26, 0.6); }
+
+#sun-check:checked + label {
+  background-color: rgba(26, 26, 26, 0.3);
+  color: white; }
+
+#lun-check + label {
+  background-color: white;
+  color: rgba(153, 99, 0, 0.6); }
+
+#lun-check:checked + label {
+  background-color: rgba(204, 132, 0, 0.3);
+  color: white; }
+
+#din-check + label {
+  background-color: white;
+  color: rgba(0, 119, 234, 0.6); }
+
+#din-check:checked + label {
+  background-color: rgba(0, 119, 234, 0.3);
+  color: white; }
+
+@media screen and (max-width: 600px) {
+  form.filter-form {
+    display: block; } }
 /* ############################################
 	SUMMARY
 ############################################ */
@@ -447,13 +605,6 @@ td.sun-avg-cell {
 
 td.sun-tot-cell {
   background-color: rgba(26, 26, 26, 0.25); }
-
-/* ############################################
-	DATE RANGE FORM
-############################################ */
-form.date-form {
-  margin: 2% auto 1%;
-  max-width: 600px; }
 
 /* ############################################
 	OTHER

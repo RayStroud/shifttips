@@ -79,7 +79,6 @@
 	<title>Add Shift - Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	
-	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -95,67 +94,67 @@
 		<div id="wrapper">
 			<h1>Add Shift</h1>
 			<form class="add-form" role="form" method="post" action="#">
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="wage">Wage</label>
 					<input class="form-control" type="number" id="wage" name="wage" value="9" min="0" step="0.01"/>
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="date">Date</label>
 					<input required class="form-control" type="date" id="date" name="date" placeholder="yyyy-mm-dd" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="startTime">Start</label>
 					<input required class="form-control" type="time" id="startTime" name="startTime" placeholder="hh:mm (24h)" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="endTime">End</label>
 					<input class="form-control" type="time" id="endTime" name="endTime" placeholder="hh:mm (24h)" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="endTime">First Table</label>
 					<input class="form-control" type="time" id="firstTable" name="firstTable" placeholder="hh:mm (24h)" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="campHours">Camp Hours</label>
 					<input class="form-control" type="number" min="0" step="0.5" id="campHours" name="campHours" placeholder="#" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="sales">Sales</label>
 					<input class="form-control" type="number" min="0" step="any" id="sales" name="sales" placeholder="$" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="covers">Covers</label>
 					<input class="form-control" type="number" min="0" step="1" id="covers" name="covers" placeholder="#" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="tipout">Tipout</label>
 					<input class="form-control" type="number" min="0" step="1" id="tipout" name="tipout" placeholder="$" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="transfers">Transfers</label>
 					<input class="form-control" type="number" min="0" step="1" id="transfers" name="transfers" placeholder="#" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="cash">Cash</label>
 					<input class="form-control" type="number" min="0" step="1" id="cash" name="cash" placeholder="$" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="due">Due</label>
 					<input class="form-control" type="number" min="0" step="1" id="due" name="due" placeholder="$" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="section">Section</label>
 					<input class="form-control" type="text" maxlength="25" id="section" name="section" placeholder="#,#,#" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="cut">Cut <!--<div class="abbr-wrap"><div id="abbr" title="[S]tay, [G]o, [O]pen, [C]lose, [/]Split, [X]None">?</div></div>--></label>
 					<input class="form-control" type="text" maxlength="1" id="cut" name="cut" placeholder="[S]tay, [G]o, etc" />
 				</div>
-				<div class="form-group col-xs-12">
+				<div class="form-group full-width">
 					<label for="notes">Notes</label>
 					<textarea class="form-control" maxlength="250" name="notes" rows="3"></textarea>
 				</div>
-				<div class="form-group col-xs-12">
+				<div class="form-group button-group full-width">
 					<button class="link-button button-narrow" type="submit" name="submit">Submit</button>
 				</div>
 			</form>
@@ -171,7 +170,7 @@
 			w += 32;
 			h += 96;
 			var win = window.open(url, name, 'width=' + w + ', height=' + h + ', ' +
-				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=no, resizable=no');
+				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=yes, resizable=yes');
 			win.resizeTo(w, h);
 			win.focus();
 		}

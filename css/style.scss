@@ -54,6 +54,7 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, code, img, small
 body {line-height: 1;}
 ol, ul {list-style: none;}
 table {border-collapse: collapse; border-spacing: 0;}
+a, a:link, a:visited, a:hover, a:active {text-decoration: none;	color: inherit;}
 
 /* ############################################
 	LAYOUT
@@ -75,21 +76,13 @@ h2 {
 	font-weight: bold;
 	margin: 1em 0;
 }
-a, a:link, a:visited, a:hover, a:active {
-	text-decoration: none;
-	color: inherit;
+h3 {
+	font-size: 1.2em;
+	//font-weight: bold;
+	margin: 1em 0;
 }
-.link-button, a.link-button {
-	display: inline-block;
-	padding: 0.4em 0.6em;
-	border-radius: 5px;
-	text-align: center;
-	background-color: $body-bgcolor;
-	color: $header-text-color;
-}
-.link-button:hover, a.link-button:hover {
-	text-decoration: none;
-	background-color: lighten($body-bgcolor, 10%);
+b {
+	font-weight: bold;
 }
 #header {
 	color: $header-text-color;
@@ -118,6 +111,7 @@ a, a:link, a:visited, a:hover, a:active {
 				cursor: default;
 			}
 		}
+		.link-button {border-color: transparent;}
 	}
 }
 #content {
@@ -259,11 +253,13 @@ hr {border-color: $border-color;}
 	}
 }
 .shift-buttons {
+	display: flex;
+	display: -webkit-flex;
 	max-width: 450px;
-	text-align: right;
+	//text-align: right;
 	margin: 0 auto;
 	.link-button {
-		min-width: 80px;
+		//min-width: 80px;
 	}
 }
 
@@ -278,18 +274,23 @@ hr {border-color: $border-color;}
 }
 
 /* ############################################
-	ADD/EDIT/DELETE SHIFT
+	FORMS
 ############################################ */
-form.add-form, form.edit-form {
-	margin: 2% auto 1%;
-	max-width: 600px;
-}
-input {
+label {color: $label-color;}
+input, 
+textarea {
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 }
-input[type=checkbox] + label,
+input[type=checkbox],
+input[type=radio] {
+	display: none;
+}
+input[type=date] {
+	min-width: 10px;
+}
+input[type=checkbox] + label, 
 input[type=date], 
 input[type=number],
 input[type=color],
@@ -300,6 +301,7 @@ input[type=file],
 input[type=month],
 input[type=number],
 input[type=password],
+input[type=radio] + label,
 input[type=search],
 input[type=tel],
 input[type=text], 
@@ -307,19 +309,65 @@ input[type=time],
 input[type=url], 
 input[type=week], 
 textarea {
+	height: 2.4em;
 	padding: 0.4em 0.6em;
 	background-color: white;
 	border: 1px solid $border-color;
 	border-radius: 5px;
 }
-input[type=checkbox]:checked + label {
+textarea {height: 5.4em;}
+input[type=checkbox]:checked + label,
+input[type=radio]:checked + label {
 	background-color: grey;
 	color: white;
 }
-.day-check {
-	font-variant: small-caps;
+.link-button, 
+a.link-button {
+	display: inline-block;
+	padding: 0.4em 0.6em;
+	border-radius: 5px;
+	text-align: center;
+	background-color: $body-bgcolor;
+	color: $header-text-color;
+	border: 1px solid $border-color;
 }
-label {color: $label-color;}
+.link-button:hover, 
+a.link-button:hover {background-color: lighten($body-bgcolor, 10%);}
+
+/* ############################################
+	ADD/EDIT FORMS
+############################################ */
+form.add-form, form.edit-form {
+	display: flex;
+	display: -webkit-flex;
+	flex-flow: row wrap;
+	-webkit-flex-flow: row wrap;
+	margin: 2% auto 1%;
+	max-width: 600px;
+	input, textarea {width: 100%;}
+}
+.form-group {margin: 1%;}
+.form-group.half-width {
+	width: 48%;
+}
+.form-group.full-width {
+	width: 98%;
+}
+.button-group {
+	border-color: transparent;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.link-button.button-inverse {
+	background-color: $header-text-color;
+	color: $body-bgcolor;
+}
+.link-button.button-inverse:hover {background-color: darken($header-text-color, 10%);}
+.link-button.button-warning {
+	background-color: desaturate(red, 50%);
+	color: white;
+}
+.link-button.button-warning:hover {background-color: lighten(desaturate(red, 50%), 10%);}
 .button-narrow {
 	margin: 0 25%;
 	width: 50%;
@@ -327,18 +375,6 @@ label {color: $label-color;}
 .button-wide {
 	margin: 0 10%;
 	width: 80%;
-}
-.link-button-inverse {
-	display: inline-block;
-	padding: 0.4em 0.6em;
-	border-radius: 5px;
-	text-align: center;
-	background-color: $header-text-color;
-	color: $body-bgcolor;
-}
-.link-button-inverse:hover {
-	text-decoration: none;
-	background-color: darken($header-text-color, 10%);
 }
 .message-box {
 	display: table;
@@ -355,22 +391,84 @@ label {color: $label-color;}
 	background-color: lighten(red, 45%);
 	border-color: red;
 }
-/*
-#abbr {
-	#font-size: 0.8em;
-	line-height: 0.6em;
-	padding: 0.3em;
-	background-color: rgba($label-color,0.5);
-	color: white;
-	border-radius: 10px;
+
+
+/* ############################################
+	FILTER FORM
+############################################ */
+$padding-unit: 0.5em;
+
+form.filter-form {
+	margin: 2% -1*$padding-unit 1%;
+	input[type=date] {min-width: 165px;}
+	display: flex;
+	display: -webkit-flex;
+	justify-content: center;
+	-webkit-justify-content: center;
 }
-#abbr:hover {background-color: $label-color;}
-.abbr-wrap {
-	display: inline-block;
-	height: 0px;
-	vertical-align: top;
+.filter-group {
+	//display: inline-block;
+	padding: 0.5*$padding-unit;
+	margin: $padding-unit;
+	border: 1px solid $border-color;
+	border-radius: 5px;	
 }
-*/
+.filter-group-wrap {text-align: center; margin: 0 auto;}
+.filter-group-header {
+	color: $label-color;
+	font-size: 80%;
+	font-variant: small-caps;
+	font-weight: bold;
+	dislay: block;
+	width: 100%;
+	text-align: center;
+}
+.filter-group-body {
+	display: flex;
+	display: -webkit-flex;
+	flex-flow: row wrap;
+	-webkit-flex-flow: row wrap;
+	justify-content: center;
+	-webkit-justify-content: center;
+	input[type=date],
+	input[type=checkbox] + label,
+	.link-button {
+		//display: inline-block;
+		flex: 0 0 auto;
+		width: auto;
+		margin: 0.5*$padding-unit;
+	}
+	input[type=checkbox] + label {
+		text-align: center;
+		font-family: $mono-font;
+		font-variant: small-caps;
+		font-weight: bold;
+	}
+}
+#filter .link-button {min-width: 60px;}
+
+#mon-check + label {background-color: white; color: rgba($mon-color, 0.6);}
+#mon-check:checked + label {background-color: rgba($mon-color, 0.3); color: white;}
+#tue-check + label {background-color: white; color: rgba(darken($tue-color,15%), 0.6);}
+#tue-check:checked + label {background-color: rgba($tue-color, 0.3); color: white;}
+#wed-check + label {background-color: white; color: rgba(darken($wed-color,10%), 0.6);}
+#wed-check:checked + label {background-color: rgba($wed-color, 0.3); color: white;}
+#thu-check + label {background-color: white; color: rgba(darken($thu-color,10%), 0.6);}
+#thu-check:checked + label {background-color: rgba($thu-color, 0.3); color: white;}
+#fri-check + label {background-color: white; color: rgba($fri-color, 0.6);}
+#fri-check:checked + label {background-color: rgba($fri-color, 0.3); color: white;}
+#sat-check + label {background-color: white; color: rgba($sat-color, 0.6);}
+#sat-check:checked + label {background-color: rgba($sat-color, 0.3); color: white;}
+#sun-check + label {background-color: white; color: rgba($sun-color, 0.6);}
+#sun-check:checked + label {background-color: rgba($sun-color, 0.3); color: white;}
+#lun-check + label {background-color: white; color: rgba(darken($lun-color,10%), 0.6);}
+#lun-check:checked + label {background-color: rgba($lun-color, 0.3); color: white;}
+#din-check + label {background-color: white; color: rgba($din-color, 0.6);}
+#din-check:checked + label {background-color: rgba($din-color, 0.3); color: white;}
+
+@media screen and (max-width: 600px) {
+	form.filter-form {display: block;}
+}
 
 /* ############################################
 	SUMMARY
@@ -426,14 +524,6 @@ td.sat-avg-cell {background-color: rgba($sat-color,0.4);}
 td.sat-tot-cell {background-color: rgba($sat-color,0.25);}
 td.sun-avg-cell {background-color: rgba($sun-color,0.4);}
 td.sun-tot-cell {background-color: rgba($sun-color,0.25);}
-
-/* ############################################
-	DATE RANGE FORM
-############################################ */
-form.date-form {
-	margin: 2% auto 1%;
-	max-width: 600px;
-}
 
 /* ############################################
 	OTHER

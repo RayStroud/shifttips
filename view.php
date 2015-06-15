@@ -156,8 +156,12 @@
 				</div>
 			</div>
 			<div class="shift-buttons">
-				<a class="link-button" href="delete.php?id=<?php echo isset($id) ? $id : null; ?>" onclick="return confirm('Are you sure you want to delete this shift?')">Delete</a>
-				<a class="link-button" href="edit.php?id=<?php echo isset($id) ? $id : null; ?>">Edit</a>
+				<div class="form-group button-group half-width">
+					<a class="link-button button-wide" href="edit.php?id=<?php echo isset($id) ? $id : null; ?>">Edit</a>
+				</div>
+				<div class="form-group button-group half-width">
+					<a class="link-button button-warning button-wide" href="delete.php?id=<?php echo isset($id) ? $id : null; ?>" onclick="return confirm('Are you sure you want to delete this shift?')">Delete</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -171,7 +175,7 @@
 			w += 32;
 			h += 96;
 			var win = window.open(url, name, 'width=' + w + ', height=' + h + ', ' +
-				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=no, resizable=no');
+				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=yes, resizable=yes');
 			win.resizeTo(w, h);
 			win.focus();
 		}

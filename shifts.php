@@ -1,36 +1,98 @@
 <?php
 	include 'include/dbconnect.php';
 
-	$p_from = isset($_GET['from']) ? $_GET['from'] : null;
-	$p_to = isset($_GET['to']) ? $_GET['to'] : null;
-	$p_type = isset($_GET['type']) ? $_GET['type'] : null;
-	$p_day = isset($_GET['day']) ? $_GET['day'] : null;
-	//* DEBUG */ echo '<p>|from:' . $p_from . '|to:' . $p_to . '|type:' . $p_type . '|day:' . $p_day . '|</p>';
+	//get dates, or keeping null to keep form inputs blank
+	//TODO validate somehow
+	$p_from = !empty($_GET['from']) ? $_GET['from'] : null;
+	$p_to = !empty($_GET['to']) ? $_GET['to'] : null;
 
-	$p_mon = isset($_GET['mon']) ? 'mon' : null;
-	$p_tue = isset($_GET['tue']) ? 'tue' : null;
-	$p_wed = isset($_GET['wed']) ? 'wed' : null;
-	$p_thu = isset($_GET['thu']) ? 'thu' : null;
-	$p_fri = isset($_GET['fri']) ? 'fri' : null;
-	$p_sat = isset($_GET['sat']) ? 'sat' : null;
-	$p_sun = isset($_GET['sun']) ? 'sun' : null;
-	//* DEBUG */ echo '<p>|mon:' . $p_mon . '|tue:' . $p_tue . '|wed:' . $p_wed . '|thu:' . $p_thu . '|fri:' . $p_fri . '|sat:' . $p_sat . '|sun:' . $p_sun . '|</p>';
-
-	//TODO validate the input somehow
+	//extract dates if set, or use defaults
 	$p_startDate = !empty($p_from) ? $p_from : '1970-01-01';
 	$p_endDate = !empty($p_to) ? $p_to : '2038-01-01';
-	$p_lunchDinner = !empty($p_type) ? $p_type : '%';
-	$p_dayOfWeek = !empty($p_day) ? $p_day : '%';
+
+	//get lunch, dinner, both, or neither
+	$p_lunchDinner = isset($_GET['lun']) 
+		? (isset($_GET['din']) ? '%' : 'L') 
+		: (isset($_GET['din']) ? 'D' : '%');
+	//* DEBUG */ echo '<p>|from:' . $p_from . '|to:' . $p_to . '|</p>';
+
+	//get days
+	$p_daySqlValue = [];
+	$p_dayStringValue = [];
+	if (isset($_GET['mon'])) {$p_daySqlValue['mon'] = 'Mon'; $p_dayStringValue[] = 'Mondays';}
+	if (isset($_GET['tue'])) {$p_daySqlValue['tue'] = 'Tue'; $p_dayStringValue[] = 'Tuesdays';}
+	if (isset($_GET['wed'])) {$p_daySqlValue['wed'] = 'Wed'; $p_dayStringValue[] = 'Wednesdays';}
+	if (isset($_GET['thu'])) {$p_daySqlValue['thu'] = 'Thu'; $p_dayStringValue[] = 'Thursdays';}
+	if (isset($_GET['fri'])) {$p_daySqlValue['fri'] = 'Fri'; $p_dayStringValue[] = 'Fridays';}
+	if (isset($_GET['sat'])) {$p_daySqlValue['sat'] = 'Sat'; $p_dayStringValue[] = 'Saturdays';}
+	if (isset($_GET['sun'])) {$p_daySqlValue['sun'] = 'Sun'; $p_dayStringValue[] = 'Sundays';}
+	//* DEBUG */ echo '<pre>'; print_r($p_daySqlValue); print_r($p_dayStringValue); echo '</pre>';
 
 	//if no days are selected, search all
-	if(empty($p_mon) && empty($p_tue) && empty($p_wed) && empty($p_thu) && empty($p_fri) && empty($p_sat) && empty($p_sun))
+	if(empty($p_daySqlValue['mon']) && empty($p_daySqlValue['tue']) && empty($p_daySqlValue['wed']) && empty($p_daySqlValue['thu']) && empty($p_daySqlValue['fri']) && empty($p_daySqlValue['sat']) && empty($p_daySqlValue['sun']))
 	{
-		$p_allDays = '%';
+		$p_allDaysSqlValue = '%';
 	}
 	else
 	{
-		$p_allDays = null;
+		$p_allDaysSqlValue = null;
 	}
+
+	//make nice message to display the filter parameters
+	$filterMessage = '';
+	switch($p_lunchDinner)
+	{
+		case 'L':
+			$filterMessage .= 'Viewing <b>lunch</b> shifts on ';
+			break; 
+		case 'D':
+			$filterMessage .= 'Viewing <b>dinner</b> shifts on ';
+			break; 
+		default:
+			$filterMessage .= 'Viewing any shifts on ';
+			break; 
+	}
+	if(sizeof($p_dayStringValue) > 0)
+	{
+		foreach ($p_dayStringValue as $k => $v)
+		{
+			if($k == 0)
+			{
+				$filterMessage .= '<b>' . $v . '</b>';
+			}
+			else if ($k == sizeof($p_dayStringValue) - 1)
+			{
+				$filterMessage .= ', and <b>' . $v . '</b>';
+			}
+			else
+			{
+				$filterMessage .= ', <b>' . $v . '</b>';
+			}
+		}
+	}
+	else
+	{
+		$filterMessage .= 'any day';
+	}
+	if(!empty($p_from))
+	{
+		$fromDate = (new DateTime($p_from))->format('l M jS, Y');
+		$filterMessage .= ' from <b>' . $fromDate . '</b>';
+	}
+	else
+	{
+		$filterMessage .= ' from any date';
+	}
+	if(!empty($p_to))
+	{
+		$toDate = (new DateTime($p_to))->format('l M jS, Y');
+		$filterMessage .= ' to <b>' . $toDate . '</b>';
+	}
+	else
+	{
+		$filterMessage .= ' to any date';
+	}
+
 
 	//get today's date as the end date range, and two weeks earlier for the start range
 	//TODO maybe have a button that searches for all, which makes the startDate selector pick the earliest shift
@@ -41,7 +103,6 @@
 	//* DEBUG */ echo '<p>' . $twoWeeksAgoDateTime . '|' . $todayDateTime . '|</p>';
 
 	//make sql statement
-	//TODO loop through day filter to be able to select more than one day, changing the LIKE into an IN, and making a string to pass along the IN (?,?,?...) and another string to put in the bind_param ('sss...') and then I guess figure out how the hell to put all the separate variables too
 	$sql = 'SELECT id, wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
 		FROM shift
 		WHERE startTime > ?
@@ -49,11 +110,12 @@
 			AND UPPER(lunchDinner) LIKE UPPER(?)
 			AND (UPPER(dayOfWeek) IN (UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?)) OR dayOfWeek LIKE ?)
 		ORDER BY startTime ASC';
+	//* DEBUG */ echo '<p>' . $sql . '</p>';
+	//* DEBUG */ echo '<p>' . $p_startDate . ',' . $p_endDate . ',' . $p_type . ',' . $p_daySqlValue['mon'] . ',' . $p_daySqlValue['tue'] . ',' . $p_daySqlValue['wed'] . ',' . $p_daySqlValue['thu'] . ',' . $p_daySqlValue['fri'] . ',' . $p_daySqlValue['sat'] . ',' . $p_daySqlValue['sun'] . ',' . $p_allDaysSqlValue . '</p>';
 
 	//query database
 	$stmt = $db->prepare($sql);
-	//$stmt->bind_param('ssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_dayOfWeek);
-	$stmt->bind_param('sssssssssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_mon, $p_tue, $p_wed, $p_thu, $p_fri, $p_sat, $p_sun, $p_allDays);
+	$stmt->bind_param('sssssssssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_daySqlValue['mon'], $p_daySqlValue['tue'], $p_daySqlValue['wed'], $p_daySqlValue['thu'], $p_daySqlValue['fri'], $p_daySqlValue['sat'], $p_daySqlValue['sun'], $p_allDaysSqlValue);
 	$stmt->execute();
 	$stmt->bind_result($id, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
 
@@ -115,23 +177,63 @@
 		<div id="wrapper">
 			<h1>Shifts</h1>
 			<div>
-				<form class="date-form" method="get" action="shifts.php">
-					<input type="date" name="from" placeholder="yyyy-mm-dd" value="<?php echo !empty($p_from) ? $p_from : null; ?>" />
-					<input type="date" name="to" placeholder="yyyy-mm-dd" value="<?php echo !empty($p_to) ? $p_to : null; ?>" />
-					<input type="checkbox" id="mon-check" name="mon"<?php echo isset($p_mon) ? ' checked' : null; ?>><label class="day-check" for="mon-check">Mon</label>
-					<input type="checkbox" id="tue-check" name="tue"<?php echo isset($p_tue) ? ' checked' : null; ?>><label class="day-check" for="tue-check">Tue</label>
-					<input type="checkbox" id="wed-check" name="wed"<?php echo isset($p_wed) ? ' checked' : null; ?>><label class="day-check" for="wed-check">Wed</label>
-					<input type="checkbox" id="thu-check" name="thu"<?php echo isset($p_thu) ? ' checked' : null; ?>><label class="day-check" for="thu-check">Thu</label>
-					<input type="checkbox" id="fri-check" name="fri"<?php echo isset($p_fri) ? ' checked' : null; ?>><label class="day-check" for="fri-check">Fri</label>
-					<input type="checkbox" id="sat-check" name="sat"<?php echo isset($p_sat) ? ' checked' : null; ?>><label class="day-check" for="sat-check">Sat</label>
-					<input type="checkbox" id="sun-check" name="sun"<?php echo isset($p_sun) ? ' checked' : null; ?>><label class="day-check" for="sun-check">Sun</label>
-					<button class="link-button" type="submit">Submit</button> 
-					<a class="link-button" href="shifts.php">View All</a>
+				<form class="filter-form" method="get" action="shifts.php">
+					<div class="filter-group" id="date-range">
+						<div class="filter-group-wrap">
+							<div class="filter-group-header">Date Range</div>
+							<div class="filter-group-body">
+								<input type="date" name="from" placeholder="yyyy-mm-dd" value="<?php echo !empty($p_from) ? $p_from : null; ?>" />
+								<input type="date" name="to" placeholder="yyyy-mm-dd" value="<?php echo !empty($p_to) ? $p_to : null; ?>" />
+							</div>
+						</div>
+					</div>
+					<div class="filter-group" id="day-of-week">
+						<div class="filter-group-wrap">
+							<div class="filter-group-header">Day of Week</div>
+							<div class="filter-group-body">
+								<input type="checkbox" id="mon-check" name="mon" value=""<?php echo isset($_GET['mon']) ? ' checked' : null; ?>>
+								<label for="mon-check">Mon</label>
+								<input type="checkbox" id="tue-check" name="tue" value=""<?php echo isset($_GET['tue']) ? ' checked' : null; ?>>
+								<label for="tue-check">Tue</label>
+								<input type="checkbox" id="wed-check" name="wed" value=""<?php echo isset($_GET['wed']) ? ' checked' : null; ?>>
+								<label for="wed-check">Wed</label>
+								<input type="checkbox" id="thu-check" name="thu" value=""<?php echo isset($_GET['thu']) ? ' checked' : null; ?>>
+								<label for="thu-check">Thu</label>
+								<input type="checkbox" id="fri-check" name="fri" value=""<?php echo isset($_GET['fri']) ? ' checked' : null; ?>>
+								<label for="fri-check">Fri</label>
+								<input type="checkbox" id="sat-check" name="sat" value=""<?php echo isset($_GET['sat']) ? ' checked' : null; ?>>
+								<label for="sat-check">Sat</label>
+								<input type="checkbox" id="sun-check" name="sun" value=""<?php echo isset($_GET['sun']) ? ' checked' : null; ?>>
+								<label for="sun-check">Sun</label>
+							</div>
+						</div>
+					</div>
+					<div class="filter-group" id="shift-time">
+						<div class="filter-group-wrap">
+							<div class="filter-group-header">Time</div>
+							<div class="filter-group-body">
+								<input type="checkbox" id="lun-check" name="lun"<?php echo isset($_GET['lun']) ? ' checked' : null; ?>>
+								<label for="lun-check">AM</label>
+								<input type="checkbox" id="din-check" name="din"<?php echo isset($_GET['din']) ? ' checked' : null; ?>>
+								<label for="din-check">PM</label>
+							</div>
+						</div>
+					</div>
+					<div class="filter-group" id="filter">
+						<div class="filter-group-wrap">
+							<div class="filter-group-header">Filter</div>
+							<div class="filter-group-body">
+								<button class="link-button" type="submit">Filter</button> 
+								<!--a class="link-button" href="shifts.php?week=on">Weekly</a-->
+								<a class="link-button" href="shifts.php">All</a>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
-			<div>
-				Viewing <?php echo !empty($p_type) ? ($p_type == 'L' ? 'lunch' : 'dinner') : 'all'; ?> shifts on <?php echo !empty($p_day) ? $p_day : 'any day'; ?> from <?php echo !empty($p_from) ? $p_from : 'anytime'; ?> to <?php echo !empty($p_to) ? $p_to : 'anytime'; ?>
-			</div>
+			<h3>
+				<?php echo !empty($filterMessage) ? $filterMessage : 'null'; ?> 
+			</h3>
 			<?php echo (empty($shiftsHtml) ? '<div>No shifts found</div>' :
 			'<div id="shifts">'
 				. $shiftsHtml
@@ -149,7 +251,7 @@
 			w += 32;
 			h += 96;
 			var win = window.open(url, name, 'width=' + w + ', height=' + h + ', ' +
-				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=no, resizable=no');
+				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=yes, resizable=yes');
 			win.resizeTo(w, h);
 			win.focus();
 		}

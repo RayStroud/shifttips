@@ -168,7 +168,7 @@
 			w += 32;
 			h += 96;
 			var win = window.open(url, name, 'width=' + w + ', height=' + h + ', ' +
-				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=no, resizable=no');
+				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=yes, resizable=yes');
 			win.resizeTo(w, h);
 			win.focus();
 		}

@@ -105,7 +105,6 @@
 	<title>Edit Shift - Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	
-	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -122,71 +121,71 @@
 			<h1>Edit Shift</h1>
 			<form class="edit-form" role="form" method="post" action="#">
 				<input hidden id="id" name="id" value="<?php echo isset($id) ? $id : null; ?>" />
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="wage">Wage</label>
 					<input class="form-control" type="number" id="wage" name="wage" min="0" step="0.01" value="<?php echo isset($wage) ? $wage : 9; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="date">Date</label>
 					<input required class="form-control" type="date" id="date" name="date" placeholder="yyyy-mm-dd" value="<?php echo isset($date) ? $date : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="startTime">Start</label>
 					<input required class="form-control" type="time" id="startTime" name="startTime" placeholder="hh:mm (24h)" value="<?php echo isset($startTime) ? $startTime : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="endTime">End</label>
 					<input class="form-control" type="time" id="endTime" name="endTime" placeholder="hh:mm (24h)" value="<?php echo isset($endTime) ? $endTime : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="endTime">First Table</label>
 					<input class="form-control" type="time" id="firstTable" name="firstTable" placeholder="hh:mm (24h)" value="<?php echo isset($firstTable) ? $firstTable : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="campHours">Camp Hours</label>
 					<input class="form-control" type="number" min="0" step="0.5" id="campHours" name="campHours" placeholder="#" value="<?php echo isset($campHours) ? $campHours : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="sales">Sales</label>
 					<input class="form-control" type="number" min="0" step="any" id="sales" name="sales" placeholder="$" value="<?php echo isset($sales) ? $sales : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="covers">Covers</label>
 					<input class="form-control" type="number" min="0" step="1" id="covers" name="covers" placeholder="#" value="<?php echo isset($covers) ? $covers : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="tipout">Tipout</label>
 					<input class="form-control" type="number" min="0" step="1" id="tipout" name="tipout" placeholder="$" value="<?php echo isset($tipout) ? $tipout : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="transfers">Transfers</label>
 					<input class="form-control" type="number" min="0" step="1" id="transfers" name="transfers" placeholder="#" value="<?php echo isset($transfers) ? $transfers : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="cash">Cash</label>
 					<input class="form-control" type="number" min="0" step="1" id="cash" name="cash" placeholder="$" value="<?php echo isset($cash) ? $cash : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="due">Due</label>
 					<input class="form-control" type="number" min="0" step="1" id="due" name="due" placeholder="$" value="<?php echo isset($due) ? $due : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="section">Section</label>
 					<input class="form-control" type="text" maxlength="25" id="section" name="section" placeholder="#,#,#" value="<?php echo isset($section) ? $section : null; ?>" />
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group half-width">
 					<label for="cut">Cut <!--<div class="abbr-wrap"><div id="abbr" title="[S]tay, [G]o, [O]pen, [C]lose, [/]Split, [X]None">?</div></div>--></label>
 					<input class="form-control" type="text" maxlength="1" id="cut" name="cut" placeholder="[S]tay, [G]o, etc" value="<?php echo isset($cut) ? $cut : null; ?>" />
 				</div>
-				<div class="form-group col-xs-12">
+				<div class="form-group full-width">
 					<label for="notes">Notes</label>
 					<textarea class="form-control" maxlength="250" name="notes" rows="3"><?php echo isset($notes) ? $notes : null; ?></textarea>
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group button-group half-width">
 					<button class="link-button button-wide" type="submit" name="submit">Submit</button>
 				</div>
-				<div class="form-group col-xs-6">
-					<a class="link-button-inverse button-wide" type="button" href="view.php?id=<?php echo isset($id) ? $id : null;?>">Cancel</a>
+				<div class="form-group button-group half-width">
+					<a class="link-button button-inverse button-wide" type="button" href="view.php?id=<?php echo isset($id) ? $id : null;?>">Cancel</a>
 				</div>
 			</form>
 		</div>
@@ -201,7 +200,7 @@
 			w += 32;
 			h += 96;
 			var win = window.open(url, name, 'width=' + w + ', height=' + h + ', ' +
-				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=no, resizable=no');
+				'location=no, menubar=no, ' + 'status=no, toolbar=no, scrollbars=yes, resizable=yes');
 			win.resizeTo(w, h);
 			win.focus();
 		}
