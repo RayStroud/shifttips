@@ -1,16 +1,19 @@
 <?php
 	include 'include/dbconnect.php';
 
-	//get startDate and endDate
-	$startDate = '2014-10-20 11:45:00';
-	$endDate = '2015-04-30 21:00:00';
+	//extract dates if set, or use defaults
+	try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) : null; } catch(Exception $e) { $dateTimeFrom = null; }
+	try { $dateTimeTo = !empty($_GET['to']) ? new DateTime($_GET['to']) : null; } catch(Exception $e) { $dateTimeTo = null; }
+	$p_dateFrom = !empty($dateTimeFrom) ? "'" . $dateTimeFrom->format("Y-m-d") . "'" : null; 
+	$p_dateTo = !empty($dateTimeTo) ? "'" . $dateTimeTo->format("Y-m-d") . "'" : null; 
+	//* DEBUG */ echo '<p>|dateFrom:' . $p_dateFrom . '|dateTo:' . $p_dateTo . '|</p>';
 
 	//set up variables in database
-	$db->query("SET @startDate = '" . $db->real_escape_string($startDate) . "';");
-	$db->query("SET @endDate = '" . $db->real_escape_string($endDate) . "';");
+	$db->query("SET @p_dateFrom = " . $p_dateFrom . ";");
+	$db->query("SET @p_dateTo = " . $p_dateTo . ";");
 
 	//calculate summaries
-	$summariesResult = $db->query('CALL calculateSummaries(@startDate, @endDate);');
+	$summariesResult = $db->query('CALL calculateSummaries(@p_dateFrom, @p_dateTo);');
 
 	$summaries = []; 
 	while($row = $summariesResult->fetch_assoc())
@@ -40,7 +43,7 @@
 		$summaries[$lunchDinner][$dayOfWeek]['tipoutPercent'] = $row['tipoutPercent'];
 		$summaries[$lunchDinner][$dayOfWeek]['tipsVsWage'] = $row['tipsVsWage'];
 		$summaries[$lunchDinner][$dayOfWeek]['hourlyWage'] = number_format($row['hourlyWage'],2);
-		$summaries[$lunchDinner][$dayOfWeek]['timedate'] = $row['timedate'];
+		$summaries[$lunchDinner][$dayOfWeek]['timestamp'] = $row['timestamp'];
 
 		$summaries[$lunchDinner][$dayOfWeek]['avgEarned'] = number_format($row['avgWage'] + $row['avgTips'],2);
 		$summaries[$lunchDinner][$dayOfWeek]['totEarned'] = number_format($row['totWage'] + $row['totTips'],0);		
@@ -48,10 +51,27 @@
 
 	//* DEBUG */ echo 'NUM RESULTS: ' . $summariesResult->num_rows . '<pre>'; print_r($summaries); echo '</pre>';
 
-
-
 	//close connection
 	$db->close();
+
+	//make nice message to display the filter parameters
+	$filterMessage = 'Viewing ';
+	if(!empty($dateTimeFrom))
+	{
+		$filterMessage .= ' from <b>' . $dateTimeFrom->format('D M jS, Y') . '</b>';
+	}
+	else
+	{
+		$filterMessage .= ' from any date';
+	}
+	if(!empty($dateTimeTo))
+	{
+		$filterMessage .= ' to <b>' . $dateTimeTo->format('D M jS, Y') . '</b>';
+	}
+	else
+	{
+		$filterMessage .= ' to any date';
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,6 +93,34 @@
 	<div id="content">
 		<div id="wrapper">
 			<h1>Summary</h1>
+
+			<div>
+				<form class="filter-form" method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+					<div class="filter-group" id="date-range">
+						<div class="filter-group-wrap">
+							<div class="filter-group-header">Date Range</div>
+							<div class="filter-group-body">
+								<input type="date" name="from" placeholder="yyyy-mm-dd" value="<?php echo !empty($_GET['from']) ? $_GET['from'] : null; ?>" />
+								<input type="date" name="to" placeholder="yyyy-mm-dd" value="<?php echo !empty($_GET['to']) ? $_GET['to'] : null; ?>" />
+							</div>
+						</div>
+					</div>
+					<div class="filter-group" id="filter">
+						<div class="filter-group-wrap">
+							<div class="filter-group-header">Filter</div>
+							<div class="filter-group-body">
+								<button class="link-button" type="submit">Filter</button> 
+								<!--a class="link-button" href="shifts.php?week=on">Weekly</a-->
+								<a class="link-button" href="<?php echo $_SERVER['PHP_SELF']; ?>">All</a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			<h3>
+				<?php echo !empty($filterMessage) ? $filterMessage : 'null'; ?> 
+			</h3>
 
 			<div class="mobile-table">
 				<table class="summary-table">

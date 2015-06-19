@@ -2,9 +2,10 @@ DROP TABLE IF EXISTS shift;
 CREATE TABLE shift
 (
 	wage 			DECIMAL(5,2),
-	startTime		TIMESTAMP,
-	endTime			TIMESTAMP,
-	firstTable 		TIMESTAMP,
+	date			DATE,
+	startTime		TIME,
+	endTime			TIME,
+	firstTable 		TIME,
 	campHours		DECIMAL(5,2),
 	sales			DECIMAL(7,2),
 	tipout			INT,
@@ -27,7 +28,7 @@ CREATE TABLE shift
 	tipoutPercent	DECIMAL(4,1),
 	earnedHourly	DECIMAL(5,2),
 	noCampHourly	DECIMAL(5,2),
-	lunchDinner	 	CHAR(1),
+	lunchDinner		CHAR(1),
 	dayOfWeek		CHAR(3),
 
 	id INT NOT NULL AUTO_INCREMENT,
@@ -60,7 +61,7 @@ CREATE TABLE summary
 	hourlyWage 		DECIMAL(4,2),
 	lunchDinner		CHAR(1),
 	dayOfWeek		CHAR(3),
-	timedate		TIMESTAMP,
+	timestamp		TIMESTAMP,
 
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
@@ -69,7 +70,7 @@ CREATE TABLE summary
 DROP TABLE IF EXISTS split;
 CREATE TABLE split
 (
-	splitDate		TIMESTAMP,
+	splitDate		DATE,
 	count			INT,
 
 	campHours		DECIMAL(5,2),
@@ -101,8 +102,8 @@ DROP TABLE IF EXISTS week;
 CREATE TABLE week
 (
 	yearweek		CHAR(6),
-	startWeek		TIMESTAMP,
-	endWeek			TIMESTAMP,
+	startWeek		DATE,
+	endWeek			DATE,
 	count			INT,
 
 	campHours		DECIMAL(5,2),

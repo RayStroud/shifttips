@@ -1,54 +1,151 @@
 DROP PROCEDURE IF EXISTS getShifts;
 DELIMITER //
-CREATE PROCEDURE getShifts (p_startDate TIMESTAMP, p_endDate TIMESTAMP, p_lunchDinner CHAR(1), p_dayOfWeek CHAR(3))
+CREATE PROCEDURE getShifts 
+(
+	p_dateFrom		DATE,
+	p_dateTo		DATE,
+	p_lunchDinner	CHAR(1),
+	p_mon			BIT,
+	p_tue			BIT,
+	p_wed			BIT,
+	p_thu			BIT,
+	p_fri			BIT,
+	p_sat			BIT,
+	p_sun			BIT
+)
 BEGIN
-	SELECT *
-	FROM shift 
-	WHERE startTime BETWEEN p_startDate AND p_endDate
-		AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
-		AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek);
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+	DECLARE v_lunchDinner	CHAR(1);
+	DECLARE v_anyDay		CHAR(1);
+	DECLARE v_mon			CHAR(3);
+	DECLARE v_tue			CHAR(3);
+	DECLARE v_wed			CHAR(3);
+	DECLARE v_thu			CHAR(3);
+	DECLARE v_fri			CHAR(3);
+	DECLARE v_sat			CHAR(3);
+	DECLARE v_sun			CHAR(3);
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	IF (p_lunchDinner = 'L') 
+		THEN SET v_lunchDinner = 'L';
+		ELSEIF (p_lunchDinner = 'D') 
+			THEN SET v_lunchDinner = 'D';
+		ELSE 
+			SET v_lunchDinner = '%';
+	END IF;
+
+	IF (p_mon = 0 && p_tue = 0 && p_wed = 0 && p_thu = 0 && p_fri = 0 && p_sat = 0 && p_sun = 0)
+		THEN SET v_anyDay := '%';
+		ELSE SET v_anyDay := '';
+	END IF;
+
+	IF (p_mon = 1)
+		THEN SET v_mon := 'MON';
+		ELSE SET v_mon := '';
+	END IF;
+
+	IF (p_tue = 1)
+		THEN SET v_tue := 'TUE';
+		ELSE SET v_tue := '';
+	END IF;
+
+	IF (p_wed = 1)
+		THEN SET v_wed := 'WED';
+		ELSE SET v_wed := '';
+	END IF;
+
+	IF (p_thu = 1)
+		THEN SET v_thu := 'THU';
+		ELSE SET v_thu := '';
+	END IF;
+
+	IF (p_fri = 1)
+		THEN SET v_fri := 'FRI';
+		ELSE SET v_fri := '';
+	END IF;
+
+	IF (p_sat = 1)
+		THEN SET v_sat := 'SAT';
+		ELSE SET v_sat := '';
+	END IF;
+
+	IF (p_sun = 1)
+		THEN SET v_sun := 'SUN';
+		ELSE SET v_sun := '';
+	END IF;
+
+	SELECT id, wage, YEARWEEK(date, 3) as 'yearWeek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
+	FROM shift
+	WHERE date BETWEEN v_dateFrom AND v_dateTo
+		AND UPPER(lunchDinner) LIKE v_lunchDinner
+		AND (UPPER(dayOfWeek) IN (v_mon, v_tue, v_wed, v_thu, v_fri, v_sat, v_sun) 
+			OR dayOfWeek LIKE v_anyDay)
+	ORDER BY date, startTime ASC;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS calculateSummaries;
 DELIMITER //
-CREATE PROCEDURE calculateSummaries (p_startDate TIMESTAMP, p_endDate TIMESTAMP)
+CREATE PROCEDURE calculateSummaries (p_dateFrom DATE, p_dateTo DATE)
 BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
 	TRUNCATE TABLE summary;
 
 	#Both/Dinner/Lunch/Split
-	CALL calculateSummary(p_startDate, p_endDate, "%", "%");
-	CALL calculateSummary(p_startDate, p_endDate, "D", "%");
-	CALL calculateSummary(p_startDate, p_endDate, "L", "%");
-	CALL calculateSplitSummary(p_startDate, p_endDate, "%");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "%", "%");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "D", "%");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "L", "%");
+	CALL calculateSplitSummary(v_dateFrom, v_dateTo, "%");
 
 	#Day of the Week - Dinner
-	CALL calculateSummary(p_startDate, p_endDate, "D", "Mon");
-	CALL calculateSummary(p_startDate, p_endDate, "D", "Tue");
-	CALL calculateSummary(p_startDate, p_endDate, "D", "Wed");
-	CALL calculateSummary(p_startDate, p_endDate, "D", "Thu");
-	CALL calculateSummary(p_startDate, p_endDate, "D", "Fri");
-	CALL calculateSummary(p_startDate, p_endDate, "D", "Sat");
-	CALL calculateSummary(p_startDate, p_endDate, "D", "Sun");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "D", "Mon");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "D", "Tue");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "D", "Wed");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "D", "Thu");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "D", "Fri");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "D", "Sat");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "D", "Sun");
 
 	#Day of the Week - Lunch
-	CALL calculateSummary(p_startDate, p_endDate, "L", "Mon");
-	CALL calculateSummary(p_startDate, p_endDate, "L", "Tue");
-	CALL calculateSummary(p_startDate, p_endDate, "L", "Wed");
-	CALL calculateSummary(p_startDate, p_endDate, "L", "Thu");
-	CALL calculateSummary(p_startDate, p_endDate, "L", "Fri");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "L", "Mon");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "L", "Tue");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "L", "Wed");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "L", "Thu");
+	CALL calculateSummary(v_dateFrom, v_dateTo, "L", "Fri");
 
 	#Day of the Week - Split
 	CALL calculateSplits();
-	CALL calculateSplitSummary(p_startDate, p_endDate, "Mon");
-	CALL calculateSplitSummary(p_startDate, p_endDate, "Tue");
-	CALL calculateSplitSummary(p_startDate, p_endDate, "Wed");
-	CALL calculateSplitSummary(p_startDate, p_endDate, "Thu");
-	CALL calculateSplitSummary(p_startDate, p_endDate, "Fri");
+	CALL calculateSplitSummary(v_dateFrom, v_dateTo, "Mon");
+	CALL calculateSplitSummary(v_dateFrom, v_dateTo, "Tue");
+	CALL calculateSplitSummary(v_dateFrom, v_dateTo, "Wed");
+	CALL calculateSplitSummary(v_dateFrom, v_dateTo, "Thu");
+	CALL calculateSplitSummary(v_dateFrom, v_dateTo, "Fri");
 
 	#Weekly
 	CALL calculateWeeks();
-	CALL calculateWeeklySummary(p_startDate, p_endDate);
+	CALL calculateWeeklySummary(v_dateFrom, v_dateTo);
 
 	SELECT * FROM summary;
 END //
@@ -56,7 +153,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS calculateSummary;
 DELIMITER //
-CREATE PROCEDURE calculateSummary (p_startDate TIMESTAMP, p_endDate TIMESTAMP, p_lunchDinner CHAR(1), p_dayOfWeek CHAR(3))
+CREATE PROCEDURE calculateSummary (p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1), p_dayOfWeek CHAR(3))
 BEGIN
 	DECLARE v_count 			INT;
 	DECLARE v_avgHours 			DECIMAL(5,2);
@@ -82,91 +179,91 @@ BEGIN
 
 	SELECT COUNT(id) 
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_count;
 	SELECT AVG(hours)
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgHours;
 	SELECT SUM(hours) 
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totHours;
 	SELECT AVG(earnedWage)
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgWage;
 	SELECT SUM(earnedWage) 
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totWage;
 	SELECT AVG(earnedTips)
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgTips;
 	SELECT SUM(earnedTips) 
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totTips;
 	SELECT AVG(tipout)
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgTipout;
 	SELECT SUM(tipout) 
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totTipout;
 	SELECT AVG(sales)
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgSales;
 	SELECT SUM(sales) 
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totSales;
 	SELECT AVG(covers)
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgCovers;
 	SELECT SUM(covers) 
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totCovers;
 	SELECT AVG(campHours)
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgCampHours;
 	SELECT SUM(campHours) 
 		FROM shift 
-		WHERE startTime BETWEEN p_startDate AND p_endDate
+		WHERE date BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(p_lunchDinner)
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totCampHours;
@@ -177,14 +274,14 @@ BEGIN
 	SET v_tipsVsWage = v_totTips * 100 / v_totWage;
 	SET v_hourlyWage = (v_totWage + v_totTips) / v_totHours;
 
-	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timedate)
+	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timestamp)
 		VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, p_lunchDinner, p_dayOfWeek, CURRENT_TIMESTAMP);
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS calculateSplitSummary;
 DELIMITER //
-CREATE PROCEDURE calculateSplitSummary (p_startDate TIMESTAMP, p_endDate TIMESTAMP, p_dayOfWeek CHAR(3))
+CREATE PROCEDURE calculateSplitSummary (p_dateFrom DATE, p_dateTo DATE, p_dayOfWeek CHAR(3))
 BEGIN
 	DECLARE v_count 			INT;
 	DECLARE v_avgHours 			DECIMAL(5,2);
@@ -210,77 +307,77 @@ BEGIN
 
 	SELECT COUNT(id) 
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_count;
 	SELECT AVG(hours)
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgHours;
 	SELECT SUM(hours) 
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totHours;
 	SELECT AVG(earnedWage)
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgWage;
 	SELECT SUM(earnedWage) 
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totWage;
 	SELECT AVG(earnedTips)
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgTips;
 	SELECT SUM(earnedTips) 
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totTips;
 	SELECT AVG(tipout)
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgTipout;
 	SELECT SUM(tipout) 
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totTipout;
 	SELECT AVG(sales)
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgSales;
 	SELECT SUM(sales) 
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totSales;
 	SELECT AVG(covers)
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgCovers;
 	SELECT SUM(covers) 
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totCovers;
 	SELECT AVG(campHours)
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_avgCampHours;
 	SELECT SUM(campHours) 
 		FROM split 
-		WHERE splitDate BETWEEN p_startDate AND p_endDate
+		WHERE splitDate BETWEEN p_dateFrom AND p_dateTo
 			AND UPPER(dayOfWeek) LIKE UPPER(p_dayOfWeek)
 		INTO v_totCampHours;
 	SET v_salesPerHour = v_totSales / v_totHours;
@@ -290,14 +387,14 @@ BEGIN
 	SET v_tipsVsWage = v_totTips * 100 / v_totWage;
 	SET v_hourlyWage = (v_totWage + v_totTips) / v_totHours;
 
-	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timedate)
+	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timestamp)
 		VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, 'S', p_dayOfWeek, CURRENT_TIMESTAMP);
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS calculateWeeklySummary;
 DELIMITER //
-CREATE PROCEDURE calculateWeeklySummary (p_startDate TIMESTAMP, p_endDate TIMESTAMP)
+CREATE PROCEDURE calculateWeeklySummary (p_dateFrom DATE, p_dateTo DATE)
 BEGIN
 	DECLARE v_count 			INT;
 	DECLARE v_avgHours 			DECIMAL(5,2);
@@ -323,78 +420,78 @@ BEGIN
 
 	SELECT COUNT(id) 
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_count;
 	SELECT AVG(hours)
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_avgHours;
 	SELECT SUM(hours) 
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_totHours;
 	SELECT AVG(earnedWage)
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_avgWage;
 	SELECT SUM(earnedWage) 
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_totWage;
 	SELECT AVG(earnedTips)
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_avgTips;
 	SELECT SUM(earnedTips) 
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_totTips;
 	SELECT AVG(tipout)
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_avgTipout;
 	SELECT SUM(tipout) 
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_totTipout;
 	SELECT AVG(sales)
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_avgSales;
 	SELECT SUM(sales) 
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_totSales;
 	SELECT AVG(covers)
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_avgCovers;
 	SELECT SUM(covers) 
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_totCovers;
 	SELECT AVG(campHours)
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_avgCampHours;
 	SELECT SUM(campHours) 
 		FROM week 
-		WHERE startWeek >= p_startDate
-			AND endWeek <= p_endDate
+		WHERE startWeek >= p_dateFrom
+			AND endWeek <= p_dateTo
 		INTO v_totCampHours;
 	SET v_salesPerHour = v_totSales / v_totHours;
 	SET v_salesPerCover = v_totSales / v_totCovers;
@@ -403,7 +500,7 @@ BEGIN
 	SET v_tipsVsWage = v_totTips * 100 / v_totWage;
 	SET v_hourlyWage = (v_totWage + v_totTips) / v_totHours;
 
-	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timedate)
+	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timestamp)
 		VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, '-', '---', CURRENT_TIMESTAMP);
 END //
 DELIMITER ;
@@ -413,7 +510,7 @@ DELIMITER ;
 	Somehow calculate summaries by combining lunch and dinner shifts on the same day to make split shifts
 
 	SELECT 
-		DATE(`startTime`) as `date`, 
+		DATE(`date`) as `date`, 
 	    COUNT(`id`) as `#shifts`, 
 	    SUM(`hours`) as `s_hours`, 
 	    SUM(`sales`) as `s_sales`, 
@@ -433,7 +530,7 @@ BEGIN
 	TRUNCATE TABLE split;
 	INSERT INTO split (splitDate, count, campHours, sales, tipout, transfers, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, dayOfWeek)
 	SELECT 
-		DATE(startTime) AS splitDate,
+		date AS splitDate,
 		COUNT(id) AS count,
 
 		SUM(campHours) AS campHours,
@@ -456,9 +553,9 @@ BEGIN
 		(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
 		(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
 		SUM(earnedTotal) / SUM(hours) AS earnedHourly,
-		LEFT(DAYNAME(DATE(startTime)), 3) AS dayOfWeek
+		LEFT(DAYNAME(DATE(date)), 3) AS dayOfWeek
 	FROM shift
-	GROUP BY DATE(startTime)
+	GROUP BY date
 	HAVING COUNT(id) > 1;
 END //
 DELIMITER ;
@@ -513,9 +610,9 @@ BEGIN
 	TRUNCATE TABLE week;
 	INSERT INTO week (yearweek, startWeek, endWeek, count, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly)
 	SELECT 
-		YEARWEEK(startTime, 3) as yearweek, 
-		STR_TO_DATE(CONCAT(YEARWEEK(startTime,3), ' Monday'), '%x%v %W') as startWeek,
-		STR_TO_DATE(CONCAT(YEARWEEK(startTime,3), ' Sunday'), '%x%v %W') as endWeek,
+		YEARWEEK(date, 3) as yearweek, 
+		STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Monday'), '%x%v %W') as startWeek,
+		STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Sunday'), '%x%v %W') as endWeek,
 		COUNT(id) AS count,
 
 		SUM(campHours) AS campHours,

@@ -6,23 +6,25 @@
 	if(isset($id))
 	{
 		//get shift
-		$shiftSQL = $db->prepare("SELECT wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
+		$shiftSQL = $db->prepare("SELECT wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
 			FROM shift
 			WHERE id = ?");
 		$shiftSQL->bind_param('i', $id);
 		$shiftSQL->execute();
-		$shiftSQL->bind_result($wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
+		$shiftSQL->bind_result($wage, $date, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
 		$shiftSQL->fetch();
 
 		//* DEBUG */ echo '<p>' . $id . '|' . $wage . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
 
 		//format values
-		$startDateTime = new DateTime($startTime);
-		$day = !empty($startTime) ? $startDateTime->format("D") : null;
-		$date = !empty($startTime) ? $startDateTime->format("D M jS, Y") : null;
-		$startTime = !empty($startTime) ? $startDateTime->format("g:iA") : null;
-		$endTime = !empty($endTime) ? (new DateTime($endTime))->format("g:iA") : null;
-		$firstTable = !empty($firstTable) ? (new DateTime($firstTable))->format("g:iA") : null;
+		try { $date = !empty($date) ? (new DateTime($date))->format("D M jS, Y") : null; }
+			catch(Exception $e) { $date = null; }
+		try { $startTime = !empty($startTime) ? (new DateTime($startTime))->format("g:iA") : null; }
+			catch(Exception $e) { $startTime = null; }
+		try { $endTime = !empty($endTime) ? (new DateTime($endTime))->format("g:iA") : null; }
+			catch(Exception $e) { $endTime = null; }
+		try { $firstTable = !empty($firstTable) ? (new DateTime($firstTable))->format("g:iA") : null; }
+			catch(Exception $e) { $firstTable = null; }
 
 		//* DEBUG */ echo '<p>' . $id . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|</p>';
 	}
@@ -54,7 +56,7 @@
 	<div id="content">
 		<div id="wrapper">
 			<h1>Shift Details</h1>
-			<div class="shift-detailed <?php echo (isset($day) ? ' ' . strtolower($day) . '-shift' : null) . (isset($lunchDinner) ? ' ' . strtolower($lunchDinner) . '-shift' : null); ?>">
+			<div class="shift-detailed <?php echo (isset($dayOfWeek) ? ' ' . strtolower($dayOfWeek) . '-shift' : null) . (isset($lunchDinner) ? ' ' . strtolower($lunchDinner) . '-shift' : null); ?>">
 				<div class="shift-datetime">
 					<div class="shift-date"><?php echo (isset($date) ? $date : 'Unknown Date'); ?></div>
 

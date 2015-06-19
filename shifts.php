@@ -1,55 +1,137 @@
 <?php
 	include 'include/dbconnect.php';
 
-	//get dates, or keeping null to keep form inputs blank
-	//TODO validate somehow
-	$p_from = !empty($_GET['from']) ? $_GET['from'] : null;
-	$p_to = !empty($_GET['to']) ? $_GET['to'] : null;
-
 	//extract dates if set, or use defaults
-	$p_startDate = !empty($p_from) ? $p_from : '1970-01-01';
-	$p_endDate = !empty($p_to) ? $p_to : '2038-01-01';
+	try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) : null; } catch(Exception $e) { $dateTimeFrom = null; }
+	try { $dateTimeTo = !empty($_GET['to']) ? new DateTime($_GET['to']) : null; } catch(Exception $e) { $dateTimeTo = null; }
+	$p_dateFrom = !empty($dateTimeFrom) ? "'" . $dateTimeFrom->format("Y-m-d") . "'" : null; 
+	$p_dateTo = !empty($dateTimeTo) ? "'" . $dateTimeTo->format("Y-m-d") . "'" : null; 
+	//* DEBUG */ echo '<p>|dateFrom:' . $p_dateFrom . '|dateTo:' . $p_dateTo . '|</p>';
 
 	//get lunch, dinner, both, or neither
 	$p_lunchDinner = isset($_GET['lun']) 
-		? (isset($_GET['din']) ? '%' : 'L') 
-		: (isset($_GET['din']) ? 'D' : '%');
-	//* DEBUG */ echo '<p>|from:' . $p_from . '|to:' . $p_to . '|</p>';
+		? (isset($_GET['din']) ? null : "'L'") 
+		: (isset($_GET['din']) ? "'D'" : null);
+	//* DEBUG */ echo '<p>|lunchDinner:' . $p_lunchDinner . '|</p>';
 
 	//get days
-	$p_daySqlValue = [];
 	$p_dayStringValue = [];
-	if (isset($_GET['mon'])) {$p_daySqlValue['mon'] = 'Mon'; $p_dayStringValue[] = 'Mondays';}
-	if (isset($_GET['tue'])) {$p_daySqlValue['tue'] = 'Tue'; $p_dayStringValue[] = 'Tuesdays';}
-	if (isset($_GET['wed'])) {$p_daySqlValue['wed'] = 'Wed'; $p_dayStringValue[] = 'Wednesdays';}
-	if (isset($_GET['thu'])) {$p_daySqlValue['thu'] = 'Thu'; $p_dayStringValue[] = 'Thursdays';}
-	if (isset($_GET['fri'])) {$p_daySqlValue['fri'] = 'Fri'; $p_dayStringValue[] = 'Fridays';}
-	if (isset($_GET['sat'])) {$p_daySqlValue['sat'] = 'Sat'; $p_dayStringValue[] = 'Saturdays';}
-	if (isset($_GET['sun'])) {$p_daySqlValue['sun'] = 'Sun'; $p_dayStringValue[] = 'Sundays';}
-	//* DEBUG */ echo '<pre>'; print_r($p_daySqlValue); print_r($p_dayStringValue); echo '</pre>';
+	if (isset($_GET['mon'])) {$p_mon = 1; $p_dayStringValue[] = 'Mon';} else {$p_mon = 0;} 
+	if (isset($_GET['tue'])) {$p_tue = 1; $p_dayStringValue[] = 'Tue';} else {$p_tue = 0;} 
+	if (isset($_GET['wed'])) {$p_wed = 1; $p_dayStringValue[] = 'Wed';} else {$p_wed = 0;} 
+	if (isset($_GET['thu'])) {$p_thu = 1; $p_dayStringValue[] = 'Thu';} else {$p_thu = 0;} 
+	if (isset($_GET['fri'])) {$p_fri = 1; $p_dayStringValue[] = 'Fri';} else {$p_fri = 0;} 
+	if (isset($_GET['sat'])) {$p_sat = 1; $p_dayStringValue[] = 'Sat';} else {$p_sat = 0;} 
+	if (isset($_GET['sun'])) {$p_sun = 1; $p_dayStringValue[] = 'Sun';} else {$p_sun = 0;} 
+	//* DEBUG */ echo '<p>|mon:' . $p_mon . '|tue:' . $p_tue . '|wed:' . $p_wed . '|thu:' . $p_thu . '|fri:' . $p_fri . '|sat:' . $p_sat . '|sun:' . $p_sun . '|</p>';
+	//* DEBUG */ echo '<pre>'; print_r($p_dayStringValue); echo '</pre>';
 
-	//if no days are selected, search all
-	if(empty($p_daySqlValue['mon']) && empty($p_daySqlValue['tue']) && empty($p_daySqlValue['wed']) && empty($p_daySqlValue['thu']) && empty($p_daySqlValue['fri']) && empty($p_daySqlValue['sat']) && empty($p_daySqlValue['sun']))
+	//set up variables in database
+	$db->query("SET @p_dateFrom = " . $p_dateFrom . ";");
+	$db->query("SET @p_dateTo = " . $p_dateTo . ";");
+	$db->query("SET @p_lunchDinner = " . $p_lunchDinner . ";");
+	$db->query("SET @p_mon = " . $p_mon . ";");
+	$db->query("SET @p_tue = " . $p_tue . ";");
+	$db->query("SET @p_wed = " . $p_wed . ";");
+	$db->query("SET @p_thu = " . $p_thu . ";");
+	$db->query("SET @p_fri = " . $p_fri . ";");
+	$db->query("SET @p_sat = " . $p_sat . ";");
+	$db->query("SET @p_sun = " . $p_sun . ";");
+
+	//calculate summaries
+	$result = $db->query('CALL getShifts(@p_dateFrom, @p_dateTo, @p_lunchDinner, @p_mon, @p_tue, @p_wed, @p_thu, @p_fri, @p_sat, @p_sun);');
+	$shifts = []; 
+	while($row = $result->fetch_assoc())
 	{
-		$p_allDaysSqlValue = '%';
+		//TODO use yearWeek to group by weeks
+		$shift = [];
+		$shift['id'] = $row['id'];
+		$shift['wage'] = $row['wage'];
+		$shift['date'] = $row['date'];
+		$shift['startTime'] = $row['startTime'];
+		$shift['endTime'] = $row['endTime'];
+		$shift['firstTable'] = $row['firstTable'];
+		$shift['campHours'] = $row['campHours'];
+		$shift['sales'] = $row['sales'];
+		$shift['tipout'] = $row['tipout'];
+		$shift['transfers'] = $row['transfers'];
+		$shift['cash'] = $row['cash'];
+		$shift['due'] = $row['due'];
+		$shift['covers'] = $row['covers'];
+		$shift['cut'] = $row['cut'];
+		$shift['section'] = $row['section'];
+		$shift['notes'] = $row['notes'];
+
+		$shift['hours'] = $row['hours'];
+		$shift['earnedWage'] = $row['earnedWage'];
+		$shift['earnedTips'] = $row['earnedTips'];
+		$shift['earnedTotal'] = $row['earnedTotal'];
+		$shift['tipsVsWage'] = $row['tipsVsWage'];
+		$shift['salesPerHour'] = $row['salesPerHour'];
+		$shift['salesPerCover'] = $row['salesPerCover'];
+		$shift['tipsPercent'] = $row['tipsPercent'];
+		$shift['tipoutPercent'] = $row['tipoutPercent'];
+		$shift['earnedHourly'] = $row['earnedHourly'];
+		$shift['noCampHourly'] = $row['noCampHourly'];
+		$shift['lunchDinner'] = $row['lunchDinner'];
+		$shift['dayOfWeek'] = $row['dayOfWeek'];
+
+		$shifts[] = $shift;
 	}
-	else
+
+	//TODO loop through all the records to show them all
+	$shiftsHtml = '';
+	$count = 0;
+	foreach ($shifts as $shift)
 	{
-		$p_allDaysSqlValue = null;
+		$count = $count + 1;
+		//* DEBUG */ echo '<p>' . $wagde . '|' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
+
+		//format values
+		try { $date = !empty($shift['date']) ? (new DateTime($shift['date']))->format("D M jS, Y") : null; }
+			catch(Exception $e) { $date = null; }
+		try { $startTime = !empty($shift['startTime']) ? (new DateTime($shift['startTime']))->format("g:iA") : null; }
+			catch(Exception $e) { $startTime = null; }
+		try { $endTime = !empty($shift['endTime']) ? (new DateTime($shift['endTime']))->format("g:iA") : null; }
+			catch(Exception $e) { $endTime = null; }
+		try { $firstTable = !empty($shift['firstTable']) ? (new DateTime($shift['firstTable']))->format("g:iA") : null; }
+			catch(Exception $e) { $firstTable = null; }
+
+		//* DEBUG */ echo '<p>' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|</p>';
+
+		$shiftsHtml .= 	"\n\n\t\t\t\t" . '<div class="clickable shift-summary' . (isset($shift['dayOfWeek']) ? ' ' . strtolower($shift['dayOfWeek']) . '-shift' : null) . (isset($shift['lunchDinner']) ? ' ' . strtolower($shift['lunchDinner']) . '-shift' : null) . '">'
+							. "\n\t\t\t\t\t" . '<div class="shift-datetime">'
+								. "\n\t\t\t\t\t\t" . '<div class="shift-date">' . (isset($date) ? $date : 'Unknown Date') . '</div>'
+
+								. "\n\t\t\t\t\t\t" . '<div class="shift-time">' . (isset($startTime) ? $startTime : '?:?? ??') . (isset($endTime) ? ' - ' . $endTime : null) . '</div>'
+							. "\n\t\t\t\t\t" . '</div>'
+							. "\n\t\t\t\t\t" . '<div class="shift-details">'
+								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Sales</div><div class="value">' . (isset($shift['sales']) ? '$' . $shift['sales'] : null) . '</div></div>'
+								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">T/O</div><div class="value">' . (isset($shift['tipout']) ? '$' . $shift['tipout'] : null) . '</div></div>'
+								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Tips</div><div class="value">' . (isset($shift['earnedTips']) ? '$' . $shift['earnedTips'] : null) . '</div></div>'
+								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">$/h</div><div class="value">' . (isset($shift['earnedHourly']) ? '$' . $shift['earnedHourly'] . '/h' : null) . '</div></div>'
+								. "\n\t\t\t\t\t" . '<a href="view.php?id=' . (isset($shift['id']) ? $shift['id'] : null) . '"><span class="link-spanner"></span></a>
+'
+							. "\n\t\t\t\t\t" . '</div>'
+						. "\n\t\t\t\t" . '</div>';
+
 	}
+
+	//close connection
+	$db->close();
 
 	//make nice message to display the filter parameters
 	$filterMessage = '';
 	switch($p_lunchDinner)
 	{
-		case 'L':
-			$filterMessage .= 'Viewing <b>lunch</b> shifts on ';
+		case "'L'":
+			$filterMessage .= 'Viewing ' . $count . ' <b>Lunch</b> shifts on ';
 			break; 
-		case 'D':
-			$filterMessage .= 'Viewing <b>dinner</b> shifts on ';
+		case "'D'":
+			$filterMessage .= 'Viewing ' . $count . ' <b>Dinner</b> shifts on ';
 			break; 
 		default:
-			$filterMessage .= 'Viewing any shifts on ';
+			$filterMessage .= 'Viewing ' . $count . ' shifts on ';
 			break; 
 	}
 	if(sizeof($p_dayStringValue) > 0)
@@ -74,88 +156,22 @@
 	{
 		$filterMessage .= 'any day';
 	}
-	if(!empty($p_from))
+	if(!empty($dateTimeFrom))
 	{
-		$fromDate = (new DateTime($p_from))->format('l M jS, Y');
-		$filterMessage .= ' from <b>' . $fromDate . '</b>';
+		$filterMessage .= ' from <b>' . $dateTimeFrom->format('D M jS, Y') . '</b>';
 	}
 	else
 	{
 		$filterMessage .= ' from any date';
 	}
-	if(!empty($p_to))
+	if(!empty($dateTimeTo))
 	{
-		$toDate = (new DateTime($p_to))->format('l M jS, Y');
-		$filterMessage .= ' to <b>' . $toDate . '</b>';
+		$filterMessage .= ' to <b>' . $dateTimeTo->format('D M jS, Y') . '</b>';
 	}
 	else
 	{
 		$filterMessage .= ' to any date';
 	}
-
-
-	//get today's date as the end date range, and two weeks earlier for the start range
-	//TODO maybe have a button that searches for all, which makes the startDate selector pick the earliest shift
-	$todayDateTime = (new DateTime())->format('Y-m-d H:i:s');
-	$twoWeeksAgoDateTime = new DateTime();
-	$twoWeeksAgoDateTime->sub(new DateInterval('P2W'));
-	$twoWeeksAgoDateTime = $twoWeeksAgoDateTime->format('Y-m-d H:i:s');
-	//* DEBUG */ echo '<p>' . $twoWeeksAgoDateTime . '|' . $todayDateTime . '|</p>';
-
-	//make sql statement
-	$sql = 'SELECT id, wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
-		FROM shift
-		WHERE startTime > ?
-			AND endTime < ?
-			AND UPPER(lunchDinner) LIKE UPPER(?)
-			AND (UPPER(dayOfWeek) IN (UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?)) OR dayOfWeek LIKE ?)
-		ORDER BY startTime ASC';
-	//* DEBUG */ echo '<p>' . $sql . '</p>';
-	//* DEBUG */ echo '<p>' . $p_startDate . ',' . $p_endDate . ',' . $p_type . ',' . $p_daySqlValue['mon'] . ',' . $p_daySqlValue['tue'] . ',' . $p_daySqlValue['wed'] . ',' . $p_daySqlValue['thu'] . ',' . $p_daySqlValue['fri'] . ',' . $p_daySqlValue['sat'] . ',' . $p_daySqlValue['sun'] . ',' . $p_allDaysSqlValue . '</p>';
-
-	//query database
-	$stmt = $db->prepare($sql);
-	$stmt->bind_param('sssssssssss', $p_startDate, $p_endDate, $p_lunchDinner, $p_daySqlValue['mon'], $p_daySqlValue['tue'], $p_daySqlValue['wed'], $p_daySqlValue['thu'], $p_daySqlValue['fri'], $p_daySqlValue['sat'], $p_daySqlValue['sun'], $p_allDaysSqlValue);
-	$stmt->execute();
-	$stmt->bind_result($id, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
-
-	//TODO loop through all the records to show them all
-	$shiftsHtml = '';
-	while($stmt->fetch())
-	{
-		//* DEBUG */ echo '<p>' . $wagde . '|' . $wage . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
-
-		//format values
-		$startDateTime = new DateTime($startTime);
-		$day = !empty($startTime) ? $startDateTime->format("D") : null;
-		$date = !empty($startTime) ? $startDateTime->format("D M jS, Y") : null;
-		$startTime = !empty($startTime) ? $startDateTime->format("g:iA") : null;
-		$endTime = !empty($endTime) ? (new DateTime($endTime))->format("g:iA") : null;
-		$firstTable = !empty($firstTable) ? (new DateTime($firstTable))->format("g:iA") : null;
-
-		//* DEBUG */ echo '<p>' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|</p>';
-
-		$shiftsHtml .= 	"\n\n\t\t\t\t" . '<div class="clickable shift-summary' . (isset($day) ? ' ' . strtolower($day) . '-shift' : null) . (isset($lunchDinner) ? ' ' . strtolower($lunchDinner) . '-shift' : null) . '">'
-							. "\n\t\t\t\t\t" . '<div class="shift-datetime">'
-								. "\n\t\t\t\t\t\t" . '<div class="shift-date">' . (isset($date) ? $date : 'Unknown Date') . '</div>'
-
-								. "\n\t\t\t\t\t\t" . '<div class="shift-time">' . (isset($startTime) ? $startTime : '?:?? ??') . (isset($endTime) ? ' - ' . $endTime : null) . '</div>'
-							. "\n\t\t\t\t\t" . '</div>'
-							. "\n\t\t\t\t\t" . '<div class="shift-details">'
-								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Sales</div><div class="value">' . (isset($sales) ? '$' . $sales : null) . '</div></div>'
-								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">T/O</div><div class="value">' . (isset($tipout) ? '$' . $tipout : null) . '</div></div>'
-								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Tips</div><div class="value">' . (isset($earnedTips) ? '$' . $earnedTips : null) . '</div></div>'
-								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">$/h</div><div class="value">' . (isset($earnedHourly) ? '$' . $earnedHourly . '/h' : null) . '</div></div>'
-								. "\n\t\t\t\t\t" . '<a href="view.php?id=' . (isset($id) ? $id : null) . '"><span class="link-spanner"></span></a>
-'
-							. "\n\t\t\t\t\t" . '</div>'
-						. "\n\t\t\t\t" . '</div>';
-
-	}
-	$stmt->close();
-
-	//close connection
-	$db->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -177,13 +193,13 @@
 		<div id="wrapper">
 			<h1>Shifts</h1>
 			<div>
-				<form class="filter-form" method="get" action="shifts.php">
+				<form class="filter-form" method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 					<div class="filter-group" id="date-range">
 						<div class="filter-group-wrap">
 							<div class="filter-group-header">Date Range</div>
 							<div class="filter-group-body">
-								<input type="date" name="from" placeholder="yyyy-mm-dd" value="<?php echo !empty($p_from) ? $p_from : null; ?>" />
-								<input type="date" name="to" placeholder="yyyy-mm-dd" value="<?php echo !empty($p_to) ? $p_to : null; ?>" />
+								<input type="date" name="from" placeholder="yyyy-mm-dd" value="<?php echo !empty($_GET['from']) ? $_GET['from'] : null; ?>" />
+								<input type="date" name="to" placeholder="yyyy-mm-dd" value="<?php echo !empty($_GET['to']) ? $_GET['to'] : null; ?>" />
 							</div>
 						</div>
 					</div>
@@ -225,7 +241,7 @@
 							<div class="filter-group-body">
 								<button class="link-button" type="submit">Filter</button> 
 								<!--a class="link-button" href="shifts.php?week=on">Weekly</a-->
-								<a class="link-button" href="shifts.php">All</a>
+								<a class="link-button" href="<?php echo $_SERVER['PHP_SELF']; ?>">All</a>
 							</div>
 						</div>
 					</div>
