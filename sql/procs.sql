@@ -137,7 +137,7 @@ BEGIN
 		ELSE SET v_endTime := p_endTime; 
 	END IF;
 
-	SET v_hours := HOUR(TIMEDIFF(v_endTime, p_startTime));
+	SET v_hours := HOUR(TIMEDIFF(v_endTime, p_startTime)) + (MINUTE(TIMEDIFF(v_endTime, p_startTime))/60);
 	SET v_earnedWage := p_wage * v_hours;
 	SET v_earnedTips := IFNULL(p_cash,0) + IFNULL(p_due,0);
 	SET v_earnedTotal := IFNULL(v_earnedWage,0) + IFNULL(v_earnedTips,0);
@@ -158,6 +158,99 @@ BEGIN
 
 	SET id := LAST_INSERT_ID();
 	SELECT id;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS editShift;
+DELIMITER //
+CREATE PROCEDURE editShift
+(
+	p_pid			INT,
+	p_wage 			DECIMAL(5,2),
+	p_date			DATE,
+	p_startTime		TIME,
+	p_endTime		TIME,
+	p_firstTable 	TIME,
+	p_campHours		DECIMAL(5,2),
+	p_sales			DECIMAL(7,2),
+	p_tipout		INT,
+	p_transfers		INT,
+	p_cash			INT,
+	p_due 			INT,
+	p_covers		INT,
+	p_cut 			CHAR(1),
+	p_section		VARCHAR(25),
+	p_notes 		VARCHAR(250)
+)
+BEGIN	
+	DECLARE v_hours			DECIMAL(5,2);
+	DECLARE v_earnedWage	INT;
+	DECLARE v_earnedTips	INT;
+	DECLARE v_earnedTotal	INT;
+	DECLARE v_tipsVsWage	INT;
+	DECLARE v_salesPerHour	DECIMAL(6,2);
+	DECLARE v_salesPerCover	DECIMAL(6,2);
+	DECLARE v_tipsPercent	DECIMAL(4,1);
+	DECLARE v_tipoutPercent	DECIMAL(4,1);
+	DECLARE v_earnedHourly	DECIMAL(5,2);
+	DECLARE v_noCampHourly	DECIMAL(5,2);
+	DECLARE v_lunchDinner	CHAR(1);
+	DECLARE v_dayOfWeek		CHAR(3);
+	-- endTime variable if past midnight
+	DECLARE v_endTime		TIME;
+
+	IF (p_endTime BETWEEN '00:00' AND '06:00')
+		THEN SET v_endTime := ADDTIME(p_endTime, '24:00');
+		ELSE SET v_endTime := p_endTime; 
+	END IF;
+
+	SET v_hours := HOUR(TIMEDIFF(v_endTime, p_startTime)) + (MINUTE(TIMEDIFF(v_endTime, p_startTime))/60);
+	SET v_earnedWage := p_wage * v_hours;
+	SET v_earnedTips := IFNULL(p_cash,0) + IFNULL(p_due,0);
+	SET v_earnedTotal := IFNULL(v_earnedWage,0) + IFNULL(v_earnedTips,0);
+	SET v_tipsVsWage := v_earnedTips * 100 / v_earnedWage; 
+	SET v_salesPerHour := p_sales / v_hours;
+	SET v_salesPerCover := p_sales / p_covers;
+	SET v_tipsPercent := v_earnedTips * 100 / p_sales;
+	SET v_tipoutPercent := p_tipout * 100 / p_sales;
+	SET v_earnedHourly := v_earnedTotal / v_hours;
+	SET v_noCampHourly := v_earnedTotal / (v_hours - p_campHours);
+	IF (p_startTime BETWEEN '10:00' AND '13:00')
+		THEN SET v_lunchDinner := 'L';
+		ELSE SET v_lunchDinner := 'D';
+	END IF;
+	SET v_dayOfWeek := LEFT(DAYNAME(p_date),3);
+
+	UPDATE shift SET
+		wage = p_wage,
+		date = p_date,
+		startTime = p_startTime,
+		endTime = p_endTime,
+		firstTable = p_firstTable,
+		campHours = p_campHours,
+		sales = p_sales,
+		tipout = p_tipout,
+		transfers = p_transfers,
+		cash = p_cash,
+		due = p_due,
+		covers = p_covers,
+		cut = p_cut,
+		section = p_section,
+		notes = p_notes,
+		hours = v_hours,
+		earnedWage = v_earnedWage,
+		earnedTips = v_earnedTips,
+		earnedTotal = v_earnedTotal,
+		tipsVsWage = v_tipsVsWage,
+		salesPerHour = v_salesPerHour,
+		salesPerCover = v_salesPerCover,
+		tipsPercent = v_tipsPercent,
+		tipoutPercent = v_tipoutPercent,
+		earnedHourly = v_earnedHourly,
+		noCampHourly = v_noCampHourly,
+		lunchDinner = v_lunchDinner,
+		dayOfWeek = v_dayOfWeek
+		WHERE id = p_pid;
 END //
 DELIMITER ;
 
