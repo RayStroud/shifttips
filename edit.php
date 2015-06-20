@@ -7,26 +7,35 @@
 	if(isset($id))
 	{
 		//get shift
-		$shiftSQL = $db->prepare("SELECT wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
+		$shiftSQL = $db->prepare("SELECT wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
 			FROM shift
 			WHERE id = ?");
 		$shiftSQL->bind_param('i', $id);
 		$shiftSQL->execute();
-		$shiftSQL->bind_result($wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
+		$shiftSQL->bind_result($wage, $date, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
 		$shiftSQL->fetch();
 		$shiftSQL->close();
 
-		//* DEBUG */ echo '<p>' . $id . '|' . $wage . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
+		//* DEBUG */ echo '<p>' . $id . '|' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
 
 		//split out date and times
-		if(!empty($startTime))
-		{
-			$startDateTime = new DateTime($startTime);
-			$date = $startDateTime->format("Y-m-d");
-			$startTime = $startDateTime->format("H:i");
-			$endTime = !empty($endTime) ? (new DateTime($endTime))->format("H:i") : null;
-			$firstTable = !empty($firstTable) ? (new DateTime($firstTable))->format("H:i") : null;
-		}
+		// if(!empty($startTime))
+		// {
+		// 	$startDateTime = new DateTime($startTime);
+		// 	$date = $startDateTime->format("Y-m-d");
+		// 	$startTime = $startDateTime->format("H:i");
+		// 	$endTime = !empty($endTime) ? (new DateTime($endTime))->format("H:i") : null;
+		// 	$firstTable = !empty($firstTable) ? (new DateTime($firstTable))->format("H:i") : null;
+		// }
+		//format values
+		try { $date = !empty($date) ? (new DateTime($date))->format("Y-m-d") : null; }
+			catch(Exception $e) { $date = null; }
+		try { $startTime = !empty($startTime) ? (new DateTime($startTime))->format("H:i") : null; }
+			catch(Exception $e) { $startTime = null; }
+		try { $endTime = !empty($endTime) ? (new DateTime($endTime))->format("H:i") : null; }
+			catch(Exception $e) { $endTime = null; }
+		try { $firstTable = !empty($firstTable) ? (new DateTime($firstTable))->format("H:i") : null; }
+			catch(Exception $e) { $firstTable = null; }
 
 		//* DEBUG */ echo '<p>' . $id . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|</p>';
 	}
@@ -39,34 +48,24 @@
 	if( isset($_POST['submit']))
 	{
 		//get information
-		$id = (!empty($_POST['id']) ? $_POST['id'] : null);
-		$wage = (!empty($_POST['wage']) ? $_POST['wage'] : null);
-		$date = (!empty($_POST['date']) ? $_POST['date'] : null);
-		$startTime = (!empty($_POST['date']) && !empty($_POST['startTime']) ? $_POST['date'] . ' ' . $_POST['startTime'] : null);
-		$endTime = (!empty($_POST['date']) && !empty($_POST['endTime']) ? $_POST['date'] . ' ' . $_POST['endTime'] : null);
-		$firstTable = (!empty($_POST['date']) && !empty($_POST['firstTable']) ? $_POST['date'] . ' ' . $_POST['firstTable'] : null);
-		$campHours = ((isset($_POST['campHours']) && is_numeric($_POST['campHours'])) ? $_POST['campHours'] : null);
-		$sales = ((isset($_POST['sales']) && is_numeric($_POST['sales'])) ? $_POST['sales'] : null);
-		$tipout = ((isset($_POST['tipout']) && is_numeric($_POST['tipout'])) ? $_POST['tipout'] : null);
-		$transfers = ((isset($_POST['transfers']) && is_numeric($_POST['transfers'])) ? $_POST['transfers'] : null);
-		$cash = ((isset($_POST['cash']) && is_numeric($_POST['cash'])) ? $_POST['cash'] : null);
-		$due = ((isset($_POST['due']) && is_numeric($_POST['due'])) ? $_POST['due'] : null);
-		$covers = ((isset($_POST['covers']) && is_numeric($_POST['covers'])) ? $_POST['covers'] : null);
-		$cut = (!empty($_POST['cut']) ? $_POST['cut'] : null);
-		$section = (!empty($_POST['section']) ? $_POST['section'] : null);
-		$notes = (!empty($_POST['notes']) ? $_POST['notes'] : null);
+		$id 		= !empty($_POST['id']) 			? $_POST['id'] 			: null;
+		$wage 		= !empty($_POST['wage']) 		? $_POST['wage'] 		: null;
+		$date 		= !empty($_POST['date']) 		? $_POST['date'] 		: null;
+		$startTime 	= !empty($_POST['startTime']) 	? $_POST['startTime'] 	: null;
+		$endTime 	= !empty($_POST['endTime']) 	? $_POST['endTime'] 	: null;
+		$firstTable = !empty($_POST['firstTable']) 	? $_POST['firstTable'] 	: null;
+		$campHours 	= isset($_POST['campHours']) 	&& is_numeric($_POST['campHours']) 	? $_POST['campHours'] 	: null;
+		$sales 		= isset($_POST['sales']) 		&& is_numeric($_POST['sales']) 		? $_POST['sales'] 		: null;
+		$tipout 	= isset($_POST['tipout']) 		&& is_numeric($_POST['tipout']) 	? $_POST['tipout'] 		: null;
+		$transfers 	= isset($_POST['transfers']) 	&& is_numeric($_POST['transfers']) 	? $_POST['transfers'] 	: null;
+		$cash 		= isset($_POST['cash']) 		&& is_numeric($_POST['cash']) 		? $_POST['cash'] 		: null;
+		$due 		= isset($_POST['due']) 			&& is_numeric($_POST['due']) 		? $_POST['due'] 		: null;
+		$covers 	= isset($_POST['covers']) 		&& is_numeric($_POST['covers']) 	? $_POST['covers'] 		: null;
+		$cut 		= !empty($_POST['cut']) 		? $_POST['cut'] 		: null;
+		$section 	= !empty($_POST['section']) 	? $_POST['section'] 	: null;
+		$notes 		= !empty($_POST['notes']) 		? $_POST['notes'] 		: null;
 
 		//* DEBUG */ echo '<p>' . $id . '|' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p>';
-
-		//adjust endTime if rolls over to next day
-		if(isset($endTime) && $endTime < $startTime)
-		{
-			//add a day to endTime
-			$endTimeDateTime = new DateTime($endTime);
-			$endTimeDateTime->modify("+ 1day");
-			$endTime = $endTimeDateTime->format('Y-m-d H:i:s');
-			//* DEBUG */ echo '<p>Changed endTime to: ' . $endTime . '</p>';
-		}
 
 		//calculate values
 		$hours = calculateHours($startTime, $endTime);
@@ -86,8 +85,8 @@
 		//* DEBUG */ echo '<p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
 
 		//insert record
-		$updateSQL = $db->prepare("UPDATE shift SET wage = ?, startTime = ?, endTime = ?, firstTable = ?, campHours = ?, sales = ?, tipout = ?, transfers = ?, cash = ?, due = ?, covers = ?, cut = ?, section = ?, notes = ?, hours = ?, earnedWage = ?, earnedTips = ?, earnedTotal = ?, tipsVsWage = ?, salesPerHour = ?, salesPerCover = ?, tipsPercent = ?, tipoutPercent = ?, earnedHourly = ?, noCampHourly = ?, lunchDinner = ?, dayOfWeek = ? WHERE id = ?");
-		$updateSQL->bind_param('dsssddiidiisssdiiiiiiddiissi', $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek, $id);
+		$updateSQL = $db->prepare("UPDATE shift SET wage = ?, date = ?, startTime = ?, endTime = ?, firstTable = ?, campHours = ?, sales = ?, tipout = ?, transfers = ?, cash = ?, due = ?, covers = ?, cut = ?, section = ?, notes = ?, hours = ?, earnedWage = ?, earnedTips = ?, earnedTotal = ?, tipsVsWage = ?, salesPerHour = ?, salesPerCover = ?, tipsPercent = ?, tipoutPercent = ?, earnedHourly = ?, noCampHourly = ?, lunchDinner = ?, dayOfWeek = ? WHERE id = ?");
+		$updateSQL->bind_param('dssssddiidiisssdiiiiiiddiissi', $wage, $date, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek, $id);
 		$updateSQL->execute();
 		$updateSQL->close();
 		//* DEBUG */ echo '<p>INFO: ' . $db->info . '</p>';
