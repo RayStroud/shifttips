@@ -152,6 +152,7 @@ hr {
   vertical-align: top; }
 .shift-info .value {
   display: inline-block;
+  text-align: left;
   width: 60%;
   word-wrap: break-word; }
 
@@ -507,6 +508,18 @@ form.filter-form {
 @media screen and (max-width: 600px) {
   form.filter-form {
     display: block; } }
+/* ############################################
+	WEEKLY SHIFT SUMMARY
+############################################ */
+.week-group {
+  width: 100%;
+  text-align: left;
+  border: 3px solid #888; }
+  .week-group .shift-summary {
+    width: auto;
+    min-width: 175px;
+    flex: 0 0 auto; }
+
 /* ############################################
 	SUMMARY
 ############################################ */

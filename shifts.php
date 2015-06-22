@@ -1,7 +1,10 @@
 <?php
 	include 'include/dbconnect.php';
 
-	//extract dates if set, or use defaults
+	//check if group-by-week is requested
+	$weekly = isset($_GET['week']) ? $_GET['week'] : null;
+
+	//extract dates if set
 	try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) : null; } catch(Exception $e) { $dateTimeFrom = null; }
 	try { $dateTimeTo = !empty($_GET['to']) ? new DateTime($_GET['to']) : null; } catch(Exception $e) { $dateTimeTo = null; }
 	$p_dateFrom = !empty($dateTimeFrom) ? "'" . $dateTimeFrom->format("Y-m-d") . "'" : null; 
@@ -14,17 +17,17 @@
 		: (isset($_GET['din']) ? "'D'" : null);
 	//* DEBUG */ echo '<p>|lunchDinner:' . $p_lunchDinner . '|</p>';
 
-	//get days
-	$p_dayStringValue = [];
-	if (isset($_GET['mon'])) {$p_mon = 1; $p_dayStringValue[] = 'Mon';} else {$p_mon = 0;} 
-	if (isset($_GET['tue'])) {$p_tue = 1; $p_dayStringValue[] = 'Tue';} else {$p_tue = 0;} 
-	if (isset($_GET['wed'])) {$p_wed = 1; $p_dayStringValue[] = 'Wed';} else {$p_wed = 0;} 
-	if (isset($_GET['thu'])) {$p_thu = 1; $p_dayStringValue[] = 'Thu';} else {$p_thu = 0;} 
-	if (isset($_GET['fri'])) {$p_fri = 1; $p_dayStringValue[] = 'Fri';} else {$p_fri = 0;} 
-	if (isset($_GET['sat'])) {$p_sat = 1; $p_dayStringValue[] = 'Sat';} else {$p_sat = 0;} 
-	if (isset($_GET['sun'])) {$p_sun = 1; $p_dayStringValue[] = 'Sun';} else {$p_sun = 0;} 
+	//get days, set 1 or 0 for mysql proc, add a string to array for message
+	$aDayOfWeekNames = [];
+	if (isset($_GET['mon'])) {$p_mon = 1; $aDayOfWeekNames[] = 'Mon';} else {$p_mon = 0;} 
+	if (isset($_GET['tue'])) {$p_tue = 1; $aDayOfWeekNames[] = 'Tue';} else {$p_tue = 0;} 
+	if (isset($_GET['wed'])) {$p_wed = 1; $aDayOfWeekNames[] = 'Wed';} else {$p_wed = 0;} 
+	if (isset($_GET['thu'])) {$p_thu = 1; $aDayOfWeekNames[] = 'Thu';} else {$p_thu = 0;} 
+	if (isset($_GET['fri'])) {$p_fri = 1; $aDayOfWeekNames[] = 'Fri';} else {$p_fri = 0;} 
+	if (isset($_GET['sat'])) {$p_sat = 1; $aDayOfWeekNames[] = 'Sat';} else {$p_sat = 0;} 
+	if (isset($_GET['sun'])) {$p_sun = 1; $aDayOfWeekNames[] = 'Sun';} else {$p_sun = 0;} 
 	//* DEBUG */ echo '<p>|mon:' . $p_mon . '|tue:' . $p_tue . '|wed:' . $p_wed . '|thu:' . $p_thu . '|fri:' . $p_fri . '|sat:' . $p_sat . '|sun:' . $p_sun . '|</p>';
-	//* DEBUG */ echo '<pre>'; print_r($p_dayStringValue); echo '</pre>';
+	//* DEBUG */ echo '<pre>'; print_r($aDayOfWeekNames); echo '</pre>';
 
 	//set up variables in database
 	$db->query("SET @p_dateFrom = " . $p_dateFrom . ";");
@@ -40,10 +43,9 @@
 
 	//calculate summaries
 	$result = $db->query('CALL getShifts(@p_dateFrom, @p_dateTo, @p_lunchDinner, @p_mon, @p_tue, @p_wed, @p_thu, @p_fri, @p_sat, @p_sun);');
-	$shifts = []; 
+	$aWeekShifts = []; 
 	while($row = $result->fetch_assoc())
 	{
-		//TODO use yearWeek to group by weeks
 		$shift = [];
 		$shift['id'] = $row['id'];
 		$shift['wage'] = $row['wage'];
@@ -76,45 +78,115 @@
 		$shift['lunchDinner'] = $row['lunchDinner'];
 		$shift['dayOfWeek'] = $row['dayOfWeek'];
 
-		$shifts[] = $shift;
+		$aWeekShifts[$row['yearWeek']][] = $shift;
+
+		//get first and last week numbers
+		if (!isset($firstYearWeek)) { $firstYearWeek = $row['yearWeek']; }	//only runs first loop for first value
+		$lastYearWeek = $row['yearWeek'];									//runs every loop, last loop will be last value
 	}
+	$firstYear = substr($firstYearWeek, 0, 4);
+	$lastYear = substr($lastYearWeek, 0, 4);
+	$firstWeek = substr($firstYearWeek, 4, 2);
+	$lastWeek = substr($lastYearWeek, 4, 2);
+	//* DEBUG */ echo "<p>FirstWeek:$firstYearWeek SPLIT: $firstYear/$firstWeek | LastWeek: $lastYearWeek SPLIT: $lastYear/$lastWeek</p>";
+	//* DEBUG */ echo '<pre>'; print_r($aWeekShifts); echo '</pre>';
 
-	//TODO loop through all the records to show them all
 	$shiftsHtml = '';
-	$count = 0;
-	foreach ($shifts as $shift)
+	$nWeeks = 0;
+	$nShifts = 0;
+	//loop first through years, then through weeks
+	$year = $firstYear;
+	while ($year <= $lastYear)
 	{
-		$count = $count + 1;
-		//* DEBUG */ echo '<p>' . $wagde . '|' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
+		//if this is the firstYear, start on the first week, if not start on 0
+		$week = ($year == $firstYear) ? $firstWeek : 1;
 
-		//format values
-		try { $date = !empty($shift['date']) ? (new DateTime($shift['date']))->format("D M jS, Y") : null; }
-			catch(Exception $e) { $date = null; }
-		try { $startTime = !empty($shift['startTime']) ? (new DateTime($shift['startTime']))->format("g:iA") : null; }
-			catch(Exception $e) { $startTime = null; }
-		try { $endTime = !empty($shift['endTime']) ? (new DateTime($shift['endTime']))->format("g:iA") : null; }
-			catch(Exception $e) { $endTime = null; }
-		try { $firstTable = !empty($shift['firstTable']) ? (new DateTime($shift['firstTable']))->format("g:iA") : null; }
-			catch(Exception $e) { $firstTable = null; }
+		//if this is the last year, set the max week to lastWeek, if not then calculate last week in year
+		//last day in the last week of a year is... the Sunday before Dec 31, because Dec 31 might be in the first week of the next year
+		$maxWeek = ($year == $lastYear) ? $lastWeek : date('W', strtotime('last Sunday', mktime(0, 0, 0, 12, 31, $year)));
 
-		//* DEBUG */ echo '<p>' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|</p>';
+		//* DEBUG */ echo "<p>YEAR: $year | WEEK: $week | MAXWEEK: $maxWeek</p>";
 
-		$shiftsHtml .= 	"\n\n\t\t\t\t" . '<div class="clickable shift-summary' . (isset($shift['dayOfWeek']) ? ' ' . strtolower($shift['dayOfWeek']) . '-shift' : null) . (isset($shift['lunchDinner']) ? ' ' . strtolower($shift['lunchDinner']) . '-shift' : null) . '">'
-							. "\n\t\t\t\t\t" . '<div class="shift-datetime">'
-								. "\n\t\t\t\t\t\t" . '<div class="shift-date">' . (isset($date) ? $date : 'Unknown Date') . '</div>'
+		while ($week <= $maxWeek)
+		{
+			//count weeks
+			$nWeeks = $nWeeks + 1;
 
-								. "\n\t\t\t\t\t\t" . '<div class="shift-time">' . (isset($startTime) ? $startTime : '?:?? ??') . (isset($endTime) ? ' - ' . $endTime : null) . '</div>'
-							. "\n\t\t\t\t\t" . '</div>'
-							. "\n\t\t\t\t\t" . '<div class="shift-details">'
-								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Sales</div><div class="value">' . (isset($shift['sales']) ? '$' . $shift['sales'] : null) . '</div></div>'
-								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">T/O</div><div class="value">' . (isset($shift['tipout']) ? '$' . $shift['tipout'] : null) . '</div></div>'
-								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Tips</div><div class="value">' . (isset($shift['earnedTips']) ? '$' . $shift['earnedTips'] : null) . '</div></div>'
-								. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">$/h</div><div class="value">' . (isset($shift['earnedHourly']) ? '$' . $shift['earnedHourly'] . '/h' : null) . '</div></div>'
-								. "\n\t\t\t\t\t" . '<a href="view.php?id=' . (isset($shift['id']) ? $shift['id'] : null) . '"><span class="link-spanner"></span></a>
-'
-							. "\n\t\t\t\t\t" . '</div>'
-						. "\n\t\t\t\t" . '</div>';
+			//use str_pad to make it a two-digit week
+			$week = str_pad($week, 2, "0", STR_PAD_LEFT);
 
+			//concatenate year-week
+			$yearweek = $year . $week;
+
+			//* DEBUG */ echo "<p>YEAR: $year | WEEK: $week | YEARWEEK: $yearweek</p>";
+
+			//add the week container if requested by user
+			if (isset($weekly))
+			{
+				//find the date ranges of this week
+				$firstDayOfWeek = date('D M jS, Y', strtotime($year . 'W' . $week));
+				$lastDayOfWeek = date('D M jS, Y', strtotime('+ 6 days', strtotime($year . 'W' . $week)));
+				//* DEBUG */ echo "<p>FirstDayOfWeek: $firstDayOfWeek | LastDayOfWeek: $lastDayOfWeek</p>";
+
+				$shiftsHtml .= "\n" . '<div class="filter-group week-group">';
+				$shiftsHtml .= "\n\t" . '<div class="filter-group-wrap">';
+				$shiftsHtml .= "\n\t\t" . '<div class="filter-group-header">' . $firstDayOfWeek . ' to ' . $lastDayOfWeek . '</div>' ;
+				$shiftsHtml .= "\n\t\t" . '<div class="filter-group-body">';
+			}
+			
+			//if the week has shifts
+			if (isset($aWeekShifts[$yearweek]))
+			{				
+				//loop through all shifts in week
+				foreach ($aWeekShifts[$yearweek] as $shift)
+				{
+					$nShifts = $nShifts + 1;
+					//* DEBUG */ echo '<p>' . $wagde . '|' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
+
+					//format values
+					try { $date = !empty($shift['date']) ? (new DateTime($shift['date']))->format("D M jS, Y") : null; }
+						catch(Exception $e) { $date = null; }
+					try { $startTime = !empty($shift['startTime']) ? (new DateTime($shift['startTime']))->format("g:iA") : null; }
+						catch(Exception $e) { $startTime = null; }
+					try { $endTime = !empty($shift['endTime']) ? (new DateTime($shift['endTime']))->format("g:iA") : null; }
+						catch(Exception $e) { $endTime = null; }
+					try { $firstTable = !empty($shift['firstTable']) ? (new DateTime($shift['firstTable']))->format("g:iA") : null; }
+						catch(Exception $e) { $firstTable = null; }
+
+					//* DEBUG */ echo '<p>' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|</p>';
+
+					$shiftsHtml .= 	"\n\n\t\t\t\t" . '<div class="clickable shift-summary' . (isset($shift['dayOfWeek']) ? ' ' . strtolower($shift['dayOfWeek']) . '-shift' : null) . (isset($shift['lunchDinner']) ? ' ' . strtolower($shift['lunchDinner']) . '-shift' : null) . '">'
+										. "\n\t\t\t\t\t" . '<div class="shift-datetime">'
+											. "\n\t\t\t\t\t\t" . '<div class="shift-date">' . (isset($date) ? $date : 'Unknown Date') . '</div>'
+
+											. "\n\t\t\t\t\t\t" . '<div class="shift-time">' . (isset($startTime) ? $startTime : '?:?? ??') . (isset($endTime) ? ' - ' . $endTime : null) . '</div>'
+										. "\n\t\t\t\t\t" . '</div>'
+										. "\n\t\t\t\t\t" . '<div class="shift-details">'
+											. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Sales</div><div class="value">' . (isset($shift['sales']) ? '$' . $shift['sales'] : null) . '</div></div>'
+											. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">T/O</div><div class="value">' . (isset($shift['tipout']) ? '$' . $shift['tipout'] : null) . '</div></div>'
+											. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Tips</div><div class="value">' . (isset($shift['earnedTips']) ? '$' . $shift['earnedTips'] : null) . '</div></div>'
+											. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">$/h</div><div class="value">' . (isset($shift['earnedHourly']) ? '$' . $shift['earnedHourly'] . '/h' : null) . '</div></div>'
+											. "\n\t\t\t\t\t" . '<a href="view.php?id=' . (isset($shift['id']) ? $shift['id'] : null) . '"><span class="link-spanner"></span></a>
+			'
+										. "\n\t\t\t\t\t" . '</div>'
+									. "\n\t\t\t\t" . '</div>';
+				}
+			}
+			//if no shifts in that week
+			else
+			{
+				$shiftsHtml .= isset($weekly) ? "\n" . '<h4>No shifts this week</h4>' : null;
+			}
+
+			//finish the week container if requested by user
+			$shiftsHtml .= isset($weekly) ? "\n" . '</div></div></div>' : null;
+
+			//move on to next week
+			$week++;
+		}
+
+		//move on to next year
+		$year++;
 	}
 
 	//close connection
@@ -125,24 +197,25 @@
 	switch($p_lunchDinner)
 	{
 		case "'L'":
-			$filterMessage .= 'Viewing ' . $count . ' <b>Lunch</b> shifts on ';
+			$filterMessage .= 'Viewing ' . $nShifts . ' <b>Lunch</b> shifts ';
 			break; 
 		case "'D'":
-			$filterMessage .= 'Viewing ' . $count . ' <b>Dinner</b> shifts on ';
+			$filterMessage .= 'Viewing ' . $nShifts . ' <b>Dinner</b> shifts ';
 			break; 
 		default:
-			$filterMessage .= 'Viewing ' . $count . ' shifts on ';
+			$filterMessage .= 'Viewing ' . $nShifts . ' shifts ';
 			break; 
 	}
-	if(sizeof($p_dayStringValue) > 0)
+	$filterMessage .= isset($weekly) ? 'in ' . $nWeeks . ' weeks on ' : 'on ';
+	if(sizeof($aDayOfWeekNames) > 0)
 	{
-		foreach ($p_dayStringValue as $k => $v)
+		foreach ($aDayOfWeekNames as $k => $v)
 		{
 			if($k == 0)
 			{
 				$filterMessage .= '<b>' . $v . '</b>';
 			}
-			else if ($k == sizeof($p_dayStringValue) - 1)
+			else if ($k == sizeof($aDayOfWeekNames) - 1)
 			{
 				$filterMessage .= ', and <b>' . $v . '</b>';
 			}
@@ -240,8 +313,8 @@
 							<div class="filter-group-header">Filter</div>
 							<div class="filter-group-body">
 								<button class="link-button" type="submit">Filter</button> 
-								<!--a class="link-button" href="shifts.php?week=on">Weekly</a-->
-								<a class="link-button" href="<?php echo $_SERVER['PHP_SELF']; ?>">All</a>
+								<button class="link-button" type="submit" name="week">Weekly</button>
+								<a class="link-button button-inverse" href="<?php echo $_SERVER['PHP_SELF']; ?>">Reset</a>
 							</div>
 						</div>
 					</div>
