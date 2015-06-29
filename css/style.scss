@@ -183,7 +183,7 @@ hr {border-color: $border-color;}
 	.value {
 		display: inline-block;
 		text-align: left;
-		width: 60%;
+		width: 55%;
 		word-wrap: break-word;
 	}
 }
@@ -421,7 +421,7 @@ form.filter-form {
 	font-size: 80%;
 	font-variant: small-caps;
 	font-weight: bold;
-	dislay: block;
+	//display: block;
 	width: 100%;
 	text-align: center;
 }
@@ -447,7 +447,7 @@ form.filter-form {
 		font-weight: bold;
 	}
 }
-#filter .link-button {min-width: 60px;}
+#filter-buttons .link-button {min-width: 60px;}
 
 #mon-check + label {background-color: white; color: rgba($mon-color, 0.6);}
 #mon-check:checked + label {background-color: rgba($mon-color, 0.3); color: white;}

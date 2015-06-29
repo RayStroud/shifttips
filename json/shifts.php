@@ -1,76 +1,90 @@
 <?php
-	include 'dbconnect.php';
+	include '../include/dbconnect.php';
 
-	//get today's date as the end date range, and two weeks earlier for the start range
-	$endDateRange = (new DateTime())->format('Y-m-d H:i:s');
-	$startDateRange = new DateTime();
-	$startDateRange->sub(new DateInterval('P2W'));
-	$startDateRange = $startDateRange->format('Y-m-d H:i:s');
-	//* DEBUG */ echo '<p>' . $startDateRange . '|' . $endDateRange . '|</p>';
+	//check if group-by-week is requested
+	$weekly = isset($_GET['week']) ? $_GET['week'] : null;
 
-	//get shift
-	//TODO change this statement to accept date ranges
-	$shiftSQL = $db->prepare("SELECT sid, wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
-		FROM shift");
-	//$shiftSQL->bind_param('ss', $startDateRange, $endDateRange);
-	$shiftSQL->execute();
-	//$stmt->store_result(); //not sure if I need this to loop through or not
-	$shiftSQL->bind_result($sid, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
-	//$shiftSQL->fetch(); //this would be to fetch only once
+	//extract dates if set
+	try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) : null; } catch(Exception $e) { $dateTimeFrom = null; }
+	try { $dateTimeTo = !empty($_GET['to']) ? new DateTime($_GET['to']) : null; } catch(Exception $e) { $dateTimeTo = null; }
+	$p_dateFrom = !empty($dateTimeFrom) ? "'" . $dateTimeFrom->format("Y-m-d") . "'" : null; 
+	$p_dateTo = !empty($dateTimeTo) ? "'" . $dateTimeTo->format("Y-m-d") . "'" : null; 
+	//* DEBUG */ echo '<p>|dateFrom:' . $p_dateFrom . '|dateTo:' . $p_dateTo . '|</p>';
 
-	//TODO loop through all the records to show them all
-	$shifts = array();
-	while($shiftSQL->fetch())
+	//get lunch, dinner, both, or neither
+	$p_lunchDinner = isset($_GET['lun']) 
+		? (isset($_GET['din']) ? null : "'L'") 
+		: (isset($_GET['din']) ? "'D'" : null);
+	//* DEBUG */ echo '<p>|lunchDinner:' . $p_lunchDinner . '|</p>';
+
+	//get days, set 1 or 0 for mysql proc, add a string to array for message
+	$aDayOfWeekNames = [];
+	if (isset($_GET['mon'])) {$p_mon = 1; $aDayOfWeekNames[] = 'Mon';} else {$p_mon = 0;} 
+	if (isset($_GET['tue'])) {$p_tue = 1; $aDayOfWeekNames[] = 'Tue';} else {$p_tue = 0;} 
+	if (isset($_GET['wed'])) {$p_wed = 1; $aDayOfWeekNames[] = 'Wed';} else {$p_wed = 0;} 
+	if (isset($_GET['thu'])) {$p_thu = 1; $aDayOfWeekNames[] = 'Thu';} else {$p_thu = 0;} 
+	if (isset($_GET['fri'])) {$p_fri = 1; $aDayOfWeekNames[] = 'Fri';} else {$p_fri = 0;} 
+	if (isset($_GET['sat'])) {$p_sat = 1; $aDayOfWeekNames[] = 'Sat';} else {$p_sat = 0;} 
+	if (isset($_GET['sun'])) {$p_sun = 1; $aDayOfWeekNames[] = 'Sun';} else {$p_sun = 0;} 
+	//* DEBUG */ echo '<p>|mon:' . $p_mon . '|tue:' . $p_tue . '|wed:' . $p_wed . '|thu:' . $p_thu . '|fri:' . $p_fri . '|sat:' . $p_sat . '|sun:' . $p_sun . '|</p>';
+	//* DEBUG */ echo '<pre>'; print_r($aDayOfWeekNames); echo '</pre>';
+
+	//set up variables in database
+	$db->query("SET @p_dateFrom = " . $p_dateFrom . ";");
+	$db->query("SET @p_dateTo = " . $p_dateTo . ";");
+	$db->query("SET @p_lunchDinner = " . $p_lunchDinner . ";");
+	$db->query("SET @p_mon = " . $p_mon . ";");
+	$db->query("SET @p_tue = " . $p_tue . ";");
+	$db->query("SET @p_wed = " . $p_wed . ";");
+	$db->query("SET @p_thu = " . $p_thu . ";");
+	$db->query("SET @p_fri = " . $p_fri . ";");
+	$db->query("SET @p_sat = " . $p_sat . ";");
+	$db->query("SET @p_sun = " . $p_sun . ";");
+
+	//calculate summaries
+	$result = $db->query('CALL getShifts(@p_dateFrom, @p_dateTo, @p_lunchDinner, @p_mon, @p_tue, @p_wed, @p_thu, @p_fri, @p_sat, @p_sun);');
+	$shifts = []; 
+	while($row = $result->fetch_assoc())
 	{
-		//* DEBUG */ echo '<p>' . $wage . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
+		$shift = [];
+		$shift['id'] = $row['id'];
+		$shift['wage'] = $row['wage'];
+		$shift['date'] = $row['date'];
+		$shift['startTime'] = $row['startTime'];
+		$shift['endTime'] = $row['endTime'];
+		$shift['firstTable'] = $row['firstTable'];
+		$shift['campHours'] = $row['campHours'];
+		$shift['sales'] = $row['sales'];
+		$shift['tipout'] = $row['tipout'];
+		$shift['transfers'] = $row['transfers'];
+		$shift['cash'] = $row['cash'];
+		$shift['due'] = $row['due'];
+		$shift['covers'] = $row['covers'];
+		$shift['cut'] = $row['cut'];
+		$shift['section'] = $row['section'];
+		$shift['notes'] = $row['notes'];
 
-		//format values
-		$date = !empty($startTime) ? (new DateTime($startTime))->format("D M jS, Y") : null;
-		$startTime = !empty($startTime) ? (new DateTime($startTime))->format("g:iA") : null;
-		$endTime = !empty($endTime) ? (new DateTime($endTime))->format("g:iA") : null;
-		$firstTable = !empty($firstTable) ? (new DateTime($firstTable))->format("g:iA") : null;
+		$shift['hours'] = $row['hours'];
+		$shift['earnedWage'] = $row['earnedWage'];
+		$shift['earnedTips'] = $row['earnedTips'];
+		$shift['earnedTotal'] = $row['earnedTotal'];
+		$shift['tipsVsWage'] = $row['tipsVsWage'];
+		$shift['salesPerHour'] = $row['salesPerHour'];
+		$shift['salesPerCover'] = $row['salesPerCover'];
+		$shift['tipsPercent'] = $row['tipsPercent'];
+		$shift['tipoutPercent'] = $row['tipoutPercent'];
+		$shift['earnedHourly'] = $row['earnedHourly'];
+		$shift['noCampHourly'] = $row['noCampHourly'];
+		$shift['lunchDinner'] = $row['lunchDinner'];
+		$shift['dayOfWeek'] = $row['dayOfWeek'];
 
-		//* DEBUG */ echo '<p>' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|</p>';
+		$shift['yearWeek'] = $row['yearWeek'];
 
-		//make into a php array
-		$shift['date'] = $date;
-
-		$shift['sid'] = $sid;
-		$shift['wage'] = $wage;
-		$shift['startTime'] = $startTime;
-		$shift['endTime'] = $endTime;
-		$shift['firstTable'] = $firstTable;
-		$shift['campHours'] = $campHours;
-		$shift['sales'] = $sales;
-		$shift['tipout'] = $tipout;
-		$shift['transfers'] = $transfers;
-		$shift['cash'] = $cash;
-		$shift['due'] = $due;
-		$shift['covers'] = $covers;
-		$shift['cut'] = $cut;
-		$shift['section'] = $section;
-		$shift['notes'] = $notes;
-
-		$shift['hours'] = $hours;
-		$shift['earnedWage'] = $earnedWage;
-		$shift['earnedTips'] = $earnedTips;
-		$shift['earnedTotal'] = $earnedTotal;
-		$shift['tipsVsWage'] = $tipsVsWage;
-		$shift['salesPerHour'] = $salesPerHour;
-		$shift['salesPerCover'] = $salesPerCover;
-		$shift['tipsPercent'] = $tipsPercent;
-		$shift['tipoutPercent'] = $tipoutPercent;
-		$shift['earnedHourly'] = $earnedHourly;
-		$shift['noCampHourly'] = $noCampHourly;
-		$shift['lunchDinner'] = $lunchDinner; 
-		$shift['dayOfWeek'] = $dayOfWeek; 
-
-		//add shift to array of shifts
-		array_push($shifts, $shift);
+		$shifts[] = $shift;
 	}
-
-	echo json_encode($shifts);
 
 	//close connection
 	$db->close();
+
+	echo json_encode($shifts);
 ?>

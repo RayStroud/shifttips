@@ -308,7 +308,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="filter-group" id="filter">
+					<div class="filter-group" id="filter-buttons">
 						<div class="filter-group-wrap">
 							<div class="filter-group-header">Filter</div>
 							<div class="filter-group-body">
