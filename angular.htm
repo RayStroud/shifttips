@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="css/style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+    <script src="js/moment.min.js"></script>
     <script src="js/main.js"></script>
 </head>
 <body>
@@ -70,7 +71,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="filter-group" id="filter-buttons">
+					<!--div class="filter-group" id="filter-buttons">
 						<div class="filter-group-wrap">
 							<div class="filter-group-header">Filter</div>
 							<div class="filter-group-body">
@@ -79,66 +80,68 @@
 								<a class="link-button button-inverse" href="#">Reset</a>
 							</div>
 						</div>
-					</div>
+					</div-->
 				</form>
-				<h3>
-					Viewing {{filterCtrl.nShifts ? filterCtrl.nShifts : ''}} <b>{{filterCtrl.lunchDinner == 'L' ? 'Lunch' : ''}}{{filterCtrl.lunchDinner == 'D' ? 'Dinner' : ''}}</b> shifts on <b>{{filterCtrl.sDays || 'any day'}}</b> from {{filterCtrl.from ? (filterCtrl.fromDate | date) : 'any date'}} to {{filterCtrl.to ? (filterCtrl.toDate | date) : 'any date'}}
-				</h3>
-				<div id="shifts" ng-controller="ShiftsController as shiftsCtrl">
-					<div ng-show="shiftsCtrl.shifts.length < 1">
+				<div ng-controller="ShiftsController as shiftsCtrl">
+					<h3>
+						Viewing {{filteredShifts.length}} <span class="{{filterCtrl.lunchDinner ? 'filter-bold' : ''}}">{{filterCtrl.lunchDinner == 'L' ? 'Lunch' : ''}}{{filterCtrl.lunchDinner == 'D' ? 'Dinner' : ''}}</span> shifts on <span class="{{filterCtrl.sDays ? 'filter-bold' : ''}}">{{filterCtrl.sDays || 'any day'}}</span> from <span class="{{filterCtrl.from ? 'filter-bold' : ''}}">{{filterCtrl.from ? (filterCtrl.from | date) : 'any date'}}</span> to <span class="{{filterCtrl.to ? 'filter-bold' : ''}}">{{filterCtrl.to ? (filterCtrl.to | date) : 'any date'}}</span>
+					</h3>
+					<div ng-show="filteredShifts.length < 1">
 						No shifts found
 					</div>
-					<div class="clickable shift-summary {{shift.dayOfWeek | lowercase}}-shift {{shift.lunchDinner | lowercase}}-shift"
-						 ng-repeat="shift in shiftsCtrl.shifts | isValidShift:{fromDate:filterCtrl.fromDate,toDate:filterCtrl.toDate,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:['date','startTime']">
-						<div class="shift-datetime">
-							<div class="shift-date">{{shift.date | date:'EEE, MMM d, yyyy'}}</div>
-							<div class="shift-time">{{shift.startTime | timeToDate | date:'h:mma'}} - {{shift.endTime | timeToDate | date:'h:mma'}}</div>
+					<div id="shifts">
+						<div class="clickable shift-summary {{shift.dayOfWeek | lowercase}}-shift {{shift.lunchDinner | lowercase}}-shift"
+							 ng-repeat="shift in filteredShifts = (shiftsCtrl.shifts | isValidShift:{fromDate:filterCtrl.from,toDate:filterCtrl.to,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:['date','startTime'])">
+							<div class="shift-datetime">
+								<div class="shift-date">{{shift.date | date:'EEE, MMM d, yyyy'}}</div>
+								<div class="shift-time">{{shift.startTime | timeToDate | date:'h:mma'}} - {{shift.endTime | timeToDate | date:'h:mma'}}</div>
+							</div>
+							<div class="shift-details">
+								<div class="shift-info">
+									<div class="label">Sales</div>
+									<div class="value">${{shift.sales}}</div>
+								</div>
+								<div class="shift-info">
+									<div class="label">T/O</div>
+									<div class="value">${{shift.tipout}}</div>
+								</div>
+								<div class="shift-info">
+									<div class="label">Tips</div>
+									<div class="value">${{shift.earnedTips}}</div>
+								</div>
+								<div class="shift-info">
+									<div class="label">$/h</div>
+									<div class="value">${{shift.earnedHourly}}/h</div>
+								</div>
+								<a href="view.php?id={{shift.id}}"><span class="link-spanner"></span></a>
+							</div>
 						</div>
-						<div class="shift-details">
-							<div class="shift-info">
-								<div class="label">Sales</div>
-								<div class="value">${{shift.sales}}</div>
-							</div>
-							<div class="shift-info">
-								<div class="label">T/O</div>
-								<div class="value">${{shift.tipout}}</div>
-							</div>
-							<div class="shift-info">
-								<div class="label">Tips</div>
-								<div class="value">${{shift.earnedTips}}</div>
-							</div>
-							<div class="shift-info">
-								<div class="label">$/h</div>
-								<div class="value">${{shift.earnedHourly}}/h</div>
-							</div>
-							<a href="view.php?id={{shift.id}}"><span class="link-spanner"></span></a>
-						</div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
+						<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
 					</div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
-					<div class="filler" ng-hide="shiftsCtrl.shifts.length < 1"></div>
 				</div>
 			</div>
 		</div>

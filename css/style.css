@@ -50,10 +50,6 @@ h3 {
   font-size: 1.2em;
   margin: 1em 0; }
 
-b {
-  font-weight: bold;
-  font-variant: small-caps; }
-
 #header {
   color: white;
   padding: 2% 1% 1.5% 5%; }
@@ -431,6 +427,13 @@ form.filter-form {
 
 #filter-buttons .link-button {
   min-width: 60px; }
+
+span.filter-bold {
+  font-variant: small-caps;
+  border-radius: 5px;
+  background-color: grey;
+  color: white;
+  padding: 0.2em 0.3em; }
 
 #mon-check + label {
   background-color: white;

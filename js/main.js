@@ -14,8 +14,6 @@
 	app.controller('FilterController', function() {
 		this.from = '';
 		this.to = '';
-		this.fromDate = null;	//value to filter by date
-		this.toDate = null;		//value to filter by date
 
 		this.lunCheck = false;
 		this.dinCheck = false;
@@ -30,13 +28,6 @@
 		this.sunCheck = false;
 		this.aDays = [null,null,null,null,null,null,null];		//array to keep track of checked days
 		this.sDays = '';		//string to use for filtering by dayOfWeek
-
-		this.fromDateChange = function() {
-			this.fromDate = this.from != '' ? new Date(this.from) : null;
-		};
-		this.toDateChange = function() {
-			this.toDate = this.to != '' ? new Date(this.to) : null;
-		};
 
 		this.toggleLun = function() {
 			if (this.lunCheck) {
@@ -103,37 +94,6 @@
 			}
 			this.sDays = string;
 		};
-
-
-		this.isValidShift = function(shift, fromDate, toDate, lunchDinner, aDays) {
-			//check dates
-			var shiftDate = new Date(shift.date);
-			var isAfterFromDate = fromDate ? shiftDate >= fromDate : true;
-			var isBeforeToDate = toDate ? shiftDate <= toDate : true;
-
-			//check lunch/dinner
-			var isLunchDinner = lunchDinner ? shift.lunchDinner == lunchDinner : true;
-
-			//check dayOfWeek
-			var isDayOfWeek = false;
-			var isNullArray = true;
-			// for(i = 0; i < 7; i++) {
-			// 	if (aDays[i]) {
-			// 		isNullArray = false;
-			// 		if (shift.dayOfWeek == aDays[i]) {
-			// 			isDayOfWeek = true;
-			// 		}
-			// 	}
-			// }
-			// if (isNullArray) {isDayOfWeek = true;}	//if array is all null, then should match all dayOfWeeks
-
-			//check if all conditions match
-			console.log(shift.date, fromDate, toDate);
-			console.log(shift.lunchDinner, lunchDinner);
-			console.log(shift.dayOfWeek, aDays);
-			console.log(isAfterFromDate, isBeforeToDate, isLunchDinner, isDayOfWeek, isNullArray);
-			return isAfterFromDate && isBeforeToDate && isLunchDinner && isDayOfWeek;
-		};
 	});
 
 	app.filter('timeToDate', function() {
@@ -146,10 +106,13 @@
 		return function(shifts, filters) {
 			var filteredShifts = [];
 			angular.forEach(shifts, function(shift) {
-				//check dates
-				var shiftDate = new Date(shift.date);
-				var isAfterFromDate = filters.fromDate ? shiftDate >= filters.fromDate : true;
-				var isBeforeToDate = filters.toDate ? shiftDate <= filters.toDate : true;
+				//check dates, if filters are empty, set it to true
+				var isAfterFromDate = filters.fromDate 
+					? moment(shift.date).isAfter(filters.fromDate) || moment(shift.date).isSame(filters.fromDate) 
+					: true;
+				var isBeforeToDate = filters.toDate 
+					? moment(shift.date).isBefore(filters.toDate) || moment(shift.date).isSame(filters.toDate) 
+					: true;
 
 				//check lunch/dinner
 				var isLunchDinner = filters.lunchDinner ? shift.lunchDinner == filters.lunchDinner : true;
@@ -168,11 +131,12 @@
 				if (isNullArray) {isDayOfWeek = true;}	//if array is all null, then should match all dayOfWeeks
 
 				//check if all conditions match
-				console.log(shift.date, filters.fromDate, filters.toDate);
-				console.log(shift.date, filters.fromDate, filters.toDate);
-				console.log(shift.lunchDinner, filters.lunchDinner);
-				console.log(shift.dayOfWeek, filters.aDays);
-				console.log(isAfterFromDate, isBeforeToDate, isLunchDinner, isDayOfWeek, isNullArray);
+				// console.log(shift)
+				// console.log(filters)
+				// console.log(new moment(shift.date)) 
+				// console.log(new moment(filters.fromDate))
+				// console.log(new moment(filters.toDate))
+				// console.log(isAfterFromDate, isBeforeToDate, isLunchDinner, isDayOfWeek, isNullArray);
 				if (isAfterFromDate && isBeforeToDate && isLunchDinner && isDayOfWeek) {
 					filteredShifts.push(shift);
 				}				

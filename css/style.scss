@@ -81,10 +81,6 @@ h3 {
 	//font-weight: bold;
 	margin: 1em 0;
 }
-b {
-	font-weight: bold;
-	font-variant: small-caps;
-}
 #header {
 	color: $header-text-color;
 	padding: 2% 1% 1.5% 5%;
@@ -448,6 +444,14 @@ form.filter-form {
 	}
 }
 #filter-buttons .link-button {min-width: 60px;}
+span.filter-bold {
+	//font-weight: bold;
+	font-variant: small-caps;
+	border-radius: 5px;
+	background-color: grey;
+	color: white;
+	padding: 0.2em 0.3em;
+}
 
 #mon-check + label {background-color: white; color: rgba($mon-color, 0.6);}
 #mon-check:checked + label {background-color: rgba($mon-color, 0.3); color: white;}
