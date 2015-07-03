@@ -5,7 +5,7 @@
 		var ctrl = this;
 		ctrl.shifts = [];
 
-		$http.get('./json/shifts.php').
+		$http.get('./json/shifts-mongo.php').
 			success(function(data) {
 				ctrl.shifts = data;
 			});
