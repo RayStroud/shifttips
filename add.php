@@ -59,7 +59,7 @@
 			$db->query("SET @notes 		= " . $notes 		. ";");
 
 			//calculate summaries
-			$result = $db->query('CALL addShift(@wage, @date, @startTime, @endTime, @firstTable, @campHours, @sales, @tipout, @transfers, @cash, @due, @covers, @cut, @section, @notes);');
+			$result = $db->query('CALL insertShift(NULL, @wage, @date, @startTime, @endTime, @firstTable, @campHours, @sales, @tipout, @transfers, @cash, @due, @covers, @cut, @section, @notes);');
 			//* DEBUG */ echo '<p>DB INFO:' . $db->info . '</p>';
 
 			//get insert id

@@ -85,7 +85,7 @@
 		$db->query("SET @notes 		= " . $notes 		. ";");
 
 		//calculate summaries
-		$result = $db->query('CALL editShift(@id, @wage, @date, @startTime, @endTime, @firstTable, @campHours, @sales, @tipout, @transfers, @cash, @due, @covers, @cut, @section, @notes);');
+		$result = $db->query('CALL insertShift(@id, @wage, @date, @startTime, @endTime, @firstTable, @campHours, @sales, @tipout, @transfers, @cash, @due, @covers, @cut, @section, @notes);');
 		//* DEBUG */ echo '<p>DB INFO:' . $db->info . '</p>';
 
 		//redirect to view page
