@@ -1,7 +1,6 @@
 DROP PROCEDURE IF EXISTS getShifts;
 DELIMITER //
-CREATE PROCEDURE getShifts 
-(
+CREATE PROCEDURE getShifts (
 	p_dateFrom		DATE,
 	p_dateTo		DATE,
 	p_lunchDinner	CHAR(1),
@@ -94,80 +93,9 @@ BEGIN
 END //
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS calculateShift;
-DELIMITER //
-CREATE PROCEDURE calculateShift
-(
-	p_wage 			DECIMAL(5,2),
-	p_date			DATE,
-	p_startTime		TIME,
-	p_endTime		TIME,
-	p_firstTable 	TIME,
-	p_campHours		DECIMAL(5,2),
-	p_sales			DECIMAL(7,2),
-	p_tipout		INT,
-	p_transfers		INT,
-	p_cash			INT,
-	p_due 			INT,
-	p_covers		INT,
-	p_cut 			CHAR(1),
-	p_section		VARCHAR(25),
-	p_notes 		VARCHAR(250)
-)
-BEGIN	
-	DECLARE v_hours			DECIMAL(5,2);
-	DECLARE v_earnedWage	INT;
-	DECLARE v_earnedTips	INT;
-	DECLARE v_earnedTotal	INT;
-	DECLARE v_tipsVsWage	INT;
-	DECLARE v_salesPerHour	DECIMAL(6,2);
-	DECLARE v_salesPerCover	DECIMAL(6,2);
-	DECLARE v_tipsPercent	DECIMAL(4,1);
-	DECLARE v_tipoutPercent	DECIMAL(4,1);
-	DECLARE v_earnedHourly	DECIMAL(5,2);
-	DECLARE v_noCampHourly	DECIMAL(5,2);
-	DECLARE v_lunchDinner	CHAR(1);
-	DECLARE v_dayOfWeek		CHAR(3);
-	-- endTime variable if past midnight
-	DECLARE v_endTime		TIME;
-	DECLARE id				INT;
-
-	IF (p_endTime BETWEEN '00:00' AND '06:00')
-		THEN SET v_endTime := ADDTIME(p_endTime, '24:00');
-		ELSE SET v_endTime := p_endTime; 
-	END IF;
-
-	SET v_hours := HOUR(TIMEDIFF(v_endTime, p_startTime)) + (MINUTE(TIMEDIFF(v_endTime, p_startTime))/60);
-	SET v_earnedWage := p_wage * v_hours;
-	IF (p_cash IS NULL && p_due IS NULL)
-		THEN SET v_earnedTips := NULL;
-		THEN SET v_earnedTips := IFNULL(p_cash,0) + IFNULL(p_due,0);
-	END IF;
-	IF (v_earnedWage IS NULL && v_earnedTips IS NULL)
-		THEN SET v_earnedTotal := NULL;
-		ELSE SET v_earnedTotal := IFNULL(v_earnedWage,0) + IFNULL(v_earnedTips,0);
-	END IF;
-	SET v_tipsVsWage := v_earnedTips * 100 / v_earnedWage; 
-	SET v_salesPerHour := p_sales / v_hours;
-	SET v_salesPerCover := p_sales / p_covers;
-	SET v_tipsPercent := v_earnedTips * 100 / p_sales;
-	SET v_tipoutPercent := p_tipout * 100 / p_sales;
-	SET v_earnedHourly := v_earnedTotal / v_hours;
-	SET v_noCampHourly := v_earnedTotal / (v_hours - p_campHours);
-	IF (p_startTime BETWEEN '10:00' AND '13:00')
-		THEN SET v_lunchDinner := 'L';
-		ELSE SET v_lunchDinner := 'D';
-	END IF;
-	SET v_dayOfWeek := LEFT(DAYNAME(p_date),3);
-
-	SELECT p_wage as wage, p_date as date, p_startTime as startTime, p_endTime as endTime, p_firstTable as firstTable, p_campHours as campHours, p_sales as sales, p_tipout as tipout, p_transfers as transfers, p_cash as cash, p_due as due, p_covers as covers, p_cut as cut, p_section as section, p_notes as notes, v_hours as hours, v_earnedWage as earnedWage, v_earnedTips as earnedTips, v_earnedTotal as earnedTotal, v_tipsVsWage as tipsVsWage, v_salesPerHour as salesPerHour, v_salesPerCover as salesPerCover, v_tipsPercent as tipsPercent, v_tipoutPercent as tipoutPercent, v_earnedHourly as earnedHourly, v_noCampHourly as noCampHourly, v_lunchDinner as lunchDinner, v_dayOfWeek as dayOfWeek;
-END //
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS insertShift;
 DELIMITER //
-CREATE PROCEDURE insertShift
-(
+CREATE PROCEDURE insertShift (
 	-- p_id: # to update, NULL to insert with id return, 0 to insert without return
 	p_id			INT,
 	p_wage 			DECIMAL(5,2),
@@ -699,9 +627,7 @@ DELIMITER ;
 	GROUP BY `date`
 
 	maybe do this by making a new table called "splits" where every row from "shift" gets analysed, and shifts on the same date get combined into one row, with "S" as the lunchDinner letter
-
 */
-
 
 DROP PROCEDURE IF EXISTS calculateSplits;
 DELIMITER //
@@ -741,47 +667,34 @@ END //
 DELIMITER ;
 CALL calculateSplits;
 
-
-/*
-############################################################################
-	find which section makes more tips
-
-*/
-
-
 /*
 ############################################################################
 	Group shifts by week
 	SELECT YEARWEEK(`startTime`) as `Week`, SUM(hours) FROM `shift` GROUP BY `Week`
 
 
-SET @date = '2015-05-11';
-SET @yearweek = YEARWEEK(@date,7);								#201519, for the 19th week in 2015 (pick mode 7 for monday as the start)
-SET @year = LEFT(@yearweek,4);									#2015, first four chars of @yearweek
-SET @week = RIGHT(@yearweek,2);									#19, last two chars of @yearweek
-SET @jan01 = MAKEDATE(@year, 1);								#2015-01-01, the first day of the year
-SET @addweeks = DATE_ADD(@jan01, INTERVAL @week WEEK);			#2014-05-14, adds @week to @jan01
-SET @weekday = WEEKDAY(@addweeks);								#3, because 2014-05-14 is a Thursday (0 Mon, 1 Tue, 2 Wed, 3 Thu, 4 Fri, 5 Sat, 6 Sun)
-SET @adjustday = @weekday - 0;									#3, subtract 0 to get Monday as start of week (-0 Mon, -1 Tue, -2 Wed, -3 Thu, -4 Fri, -5 Sat, -6 Sun)
-SET @startweek = DATE_SUB(@addweeks, INTERVAL @adjustday DAY);	#2015-05-11, because it's the Monday of that week
+	SET @date = '2015-05-11';
+	SET @yearweek = YEARWEEK(@date,7);								#201519, for the 19th week in 2015 (pick mode 7 for monday as the start)
+	SET @year = LEFT(@yearweek,4);									#2015, first four chars of @yearweek
+	SET @week = RIGHT(@yearweek,2);									#19, last two chars of @yearweek
+	SET @jan01 = MAKEDATE(@year, 1);								#2015-01-01, the first day of the year
+	SET @addweeks = DATE_ADD(@jan01, INTERVAL @week WEEK);			#2014-05-14, adds @week to @jan01
+	SET @weekday = WEEKDAY(@addweeks);								#3, because 2014-05-14 is a Thursday (0 Mon, 1 Tue, 2 Wed, 3 Thu, 4 Fri, 5 Sat, 6 Sun)
+	SET @adjustday = @weekday - 0;									#3, subtract 0 to get Monday as start of week (-0 Mon, -1 Tue, -2 Wed, -3 Thu, -4 Fri, -5 Sat, -6 Sun)
+	SET @startweek = DATE_SUB(@addweeks, INTERVAL @adjustday DAY);	#2015-05-11, because it's the Monday of that week
 
-SELECT @date, @yearweek, @year, @week, @jan01, @addweeks, @weekday, @adjustday, @startweek
-
-
-# YEARWEEK(startTime,3) - mode 3 means Monday is the start of a week (1-53), week 1 is the first week with 4 or more days
-# for the STR_TO_DATE, %x is year (mode 3), %v is the week (mode 3), %W is the Weekday Name. 
-SELECT
-	YEARWEEK(startTime,3) as yearweek,
-	STR_TO_DATE(CONCAT(YEARWEEK(startTime,3), ' Monday'), '%x%v %W') as weekstart,
-	STR_TO_DATE(CONCAT(YEARWEEK(startTime,3), ' Sunday'), '%x%v %W') as weekend
-FROM shift
-GROUP BY YEARWEEK(startTime)
+	SELECT @date, @yearweek, @year, @week, @jan01, @addweeks, @weekday, @adjustday, @startweek
 
 
-
+	# YEARWEEK(startTime,3) - mode 3 means Monday is the start of a week (1-53), week 1 is the first week with 4 or more days
+	# for the STR_TO_DATE, %x is year (mode 3), %v is the week (mode 3), %W is the Weekday Name. 
+	SELECT
+		YEARWEEK(startTime,3) as yearweek,
+		STR_TO_DATE(CONCAT(YEARWEEK(startTime,3), ' Monday'), '%x%v %W') as weekstart,
+		STR_TO_DATE(CONCAT(YEARWEEK(startTime,3), ' Sunday'), '%x%v %W') as weekend
+	FROM shift
+	GROUP BY YEARWEEK(startTime)
 */
-
-
 
 DROP PROCEDURE IF EXISTS calculateWeeks;
 DELIMITER //
@@ -818,61 +731,58 @@ END //
 DELIMITER ;
 CALL calculateWeeks;
 
-
 /*
 ###############################################################################################
 
-#calculate avg hours based on start time
+	#calculate avg hours based on start time
 
-*/
-/*
-SELECT 
-	TIME(startTime) as startTime,
+	SELECT 
+		TIME(startTime) as startTime,
 
-    COUNT(id) as count,
-    AVG(hours) as avgHours,
-    AVG(sales) as avgSales,
-    AVG(earnedTotal) as avgEarned,
-    AVG(covers) as avgCovers,
-    SUM(sales) / SUM(hours) as salesPerHour,
-    SUM(sales) / SUM(covers) as salesPerCover,
-	(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
-	(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
-	SUM(earnedTotal) / SUM(hours) AS earnedHourly
-FROM shift
-GROUP BY TIME(startTime)
+	    COUNT(id) as count,
+	    AVG(hours) as avgHours,
+	    AVG(sales) as avgSales,
+	    AVG(earnedTotal) as avgEarned,
+	    AVG(covers) as avgCovers,
+	    SUM(sales) / SUM(hours) as salesPerHour,
+	    SUM(sales) / SUM(covers) as salesPerCover,
+		(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
+		(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
+		SUM(earnedTotal) / SUM(hours) AS earnedHourly
+	FROM shift
+	GROUP BY TIME(startTime)
 
-SELECT 
-	cut,
+	SELECT 
+		cut,
 
-    COUNT(id) as count,
-    AVG(hours) as avgHours,
-    AVG(sales) as avgSales,
-    AVG(earnedTotal) as avgEarned,
-    AVG(covers) as avgCovers,
-    SUM(sales) / SUM(hours) as salesPerHour,
-    SUM(sales) / SUM(covers) as salesPerCover,
-	(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
-	(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
-	SUM(earnedTotal) / SUM(hours) AS earnedHourly
-FROM shift
-GROUP BY cut
+	    COUNT(id) as count,
+	    AVG(hours) as avgHours,
+	    AVG(sales) as avgSales,
+	    AVG(earnedTotal) as avgEarned,
+	    AVG(covers) as avgCovers,
+	    SUM(sales) / SUM(hours) as salesPerHour,
+	    SUM(sales) / SUM(covers) as salesPerCover,
+		(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
+		(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
+		SUM(earnedTotal) / SUM(hours) AS earnedHourly
+	FROM shift
+	GROUP BY cut
 
 
-SELECT 
-	section,
+	SELECT 
+		section,
 
-    COUNT(id) as count,
-    AVG(hours) as avgHours,
-    AVG(sales) as avgSales,
-    AVG(earnedTotal) as avgEarned,
-    AVG(covers) as avgCovers,
-    SUM(sales) / SUM(hours) as salesPerHour,
-    SUM(sales) / SUM(covers) as salesPerCover,
-	(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
-	(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
-	SUM(earnedTotal) / SUM(hours) AS earnedHourly
-FROM shift
-WHERE lunchDinner = 'D'
-GROUP BY section
+	    COUNT(id) as count,
+	    AVG(hours) as avgHours,
+	    AVG(sales) as avgSales,
+	    AVG(earnedTotal) as avgEarned,
+	    AVG(covers) as avgCovers,
+	    SUM(sales) / SUM(hours) as salesPerHour,
+	    SUM(sales) / SUM(covers) as salesPerCover,
+		(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
+		(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
+		SUM(earnedTotal) / SUM(hours) AS earnedHourly
+	FROM shift
+	WHERE lunchDinner = 'D'
+	GROUP BY section
 */
