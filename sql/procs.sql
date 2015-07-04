@@ -168,6 +168,7 @@ DROP PROCEDURE IF EXISTS insertShift;
 DELIMITER //
 CREATE PROCEDURE insertShift
 (
+	-- p_id: # to update, NULL to insert with id return, 0 to insert without return
 	p_id			INT,
 	p_wage 			DECIMAL(5,2),
 	p_date			DATE,
@@ -199,12 +200,12 @@ BEGIN
 	DECLARE v_noCampHourly	DECIMAL(5,2);
 	DECLARE v_lunchDinner	CHAR(1);
 	DECLARE v_dayOfWeek		CHAR(3);
-	-- endTime variable if past midnight
+	-- endTime variable if past startTime
 	DECLARE v_endTime		TIME;
-	-- return value: new id if insert, given id if update
+	-- return newly inserted id if p_id is NULL
 	DECLARE v_id			INT;
 
-	IF (p_endTime BETWEEN '00:00' AND '06:00')
+	IF (p_endTime BETWEEN '00:00' AND p_startTime)
 		THEN SET v_endTime := ADDTIME(p_endTime, '24:00');
 		ELSE SET v_endTime := p_endTime; 
 	END IF;
@@ -232,8 +233,14 @@ BEGIN
 	END IF;
 	SET v_dayOfWeek := LEFT(DAYNAME(p_date),3);
 
-	IF (p_id > 0)
-		THEN UPDATE shift SET
+	IF (p_id IS NULL)
+		THEN INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek) 
+				VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_earnedHourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
+			SELECT LAST_INSERT_ID() as id;
+		ELSEIF (p_id = 0)
+			THEN INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek) 
+					VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_earnedHourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
+		ELSE UPDATE shift SET
 			wage = p_wage,
 			date = p_date,
 			startTime = p_startTime,
@@ -263,12 +270,7 @@ BEGIN
 			lunchDinner = v_lunchDinner,
 			dayOfWeek = v_dayOfWeek
 			WHERE id = p_id;
-			SET v_id := p_id;
-		ELSE INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek) 
-				VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_earnedHourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
-			SET v_id := LAST_INSERT_ID();
 	END IF;
-	SELECT v_id;
 END //
 DELIMITER ;
 
