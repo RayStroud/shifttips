@@ -5,7 +5,7 @@
     ini_set("display_errors", 2);
  
     // Create a Mongo conenction
-    $mongo = new Mongo("mongodb://localhost");
+    $mongo = new MongoClient();
  
     // Choose the database and collection
     $db = $mongo->my_db_name;

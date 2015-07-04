@@ -1,5 +1,5 @@
 <?php
-	include '../include/mongo-connect.php';
+	include '../include/dbconnect-mongo.php';
 
 	//get shifts
 	$collection = $db->shift;

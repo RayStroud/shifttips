@@ -1,16 +1,10 @@
 <?php
-	//live information
-	$mysql_host = "mysql2.000webhost.com";
-	$mysql_database = 'a1587239_click';
-	$mysql_user = 'a1587239_ray';
-	$mysql_password = 'pass19';
-
 	//testing information
-	/* DEBUG */ $mysql_host = 'localhost';
-	/* DEBUG */ $mysql_database = 'shifttips';
-	/* DEBUG */ $mysql_user = 'root';
-	/* DEBUG */ $mysql_password = '';		//LORAX, Vader
-	/* DEBUG */ $mysql_password = 'root';	//Zeppelin
+	$mysql_host = 'localhost';
+	$mysql_database = 'shifttips';
+	$mysql_user = 'root';
+	$mysql_password = '';		//LORAX, Vader
+	$mysql_password = 'root';	//Zeppelin
 
 	//connect to db
 	//* DEBUG */ echo '<p>Attempting to connect...</p>';

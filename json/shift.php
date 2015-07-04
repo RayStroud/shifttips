@@ -1,33 +1,33 @@
 <?php
-	include 'dbconnect.php';
+	include '../include/dbconnect.php';
 
-	$sid = isset($_GET['id']) ? $_GET['id'] : null;
+	$id = isset($_GET['id']) ? $_GET['id'] : null;
 
-	if(isset($sid))
+	if(isset($id))
 	{
 		//get shift
-		$shiftSQL = $db->prepare("SELECT wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
+		$shiftSQL = $db->prepare("SELECT date, wage, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
 			FROM shift
-			WHERE sid = ?");
-		$shiftSQL->bind_param('i', $sid);
+			WHERE id = ?");
+		$shiftSQL->bind_param('i', $id);
 		$shiftSQL->execute();
-		$shiftSQL->bind_result($wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
+		$shiftSQL->bind_result($date, $wage, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek);
 		$shiftSQL->fetch();
 
-		//* DEBUG */ echo '<p>' . $sid . '|' . $wage . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
+		//* DEBUG */ echo '<p>' . $id . '|' . $wage . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
 
 		//format values
-		$date = !empty($startTime) ? (new DateTime($startTime))->format("D M jS, Y") : null;
-		$startTime = !empty($startTime) ? (new DateTime($startTime))->format("g:iA") : null;
-		$endTime = !empty($endTime) ? (new DateTime($endTime))->format("g:iA") : null;
-		$firstTable = !empty($firstTable) ? (new DateTime($firstTable))->format("g:iA") : null;
+		// $date = !empty($startTime) ? (new DateTime($startTime))->format("D M jS, Y") : null;
+		// $startTime = !empty($startTime) ? (new DateTime($startTime))->format("g:iA") : null;
+		// $endTime = !empty($endTime) ? (new DateTime($endTime))->format("g:iA") : null;
+		// $firstTable = !empty($firstTable) ? (new DateTime($firstTable))->format("g:iA") : null;
 
-		//* DEBUG */ echo '<p>' . $sid . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|</p>';
+		//* DEBUG */ echo '<p>' . $id . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|</p>';
 
 		//make into a php array
 		$shift['date'] = $date;
 
-		$shift['sid'] = $sid;
+		$shift['id'] = $id;
 		$shift['wage'] = $wage;
 		$shift['startTime'] = $startTime;
 		$shift['endTime'] = $endTime;
@@ -58,7 +58,6 @@
 		$shift['dayOfWeek'] = $dayOfWeek; 
 
 		echo json_encode($shift);
-
 	}
 	else
 	{

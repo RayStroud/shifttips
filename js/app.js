@@ -1,11 +1,21 @@
 (function() {
 	var app = angular.module('shiftTips', []);
 
+	app.controller('ShiftController', [ '$http', function($http) {
+		var ctrl = this;
+		ctrl.shift = [];
+
+		$http.get('./json/shift?id=99.php').
+			success(function(data) {
+				ctrl.shift = data;
+			});
+	}]);
+
 	app.controller('ShiftsController', [ '$http', function($http) {
 		var ctrl = this;
 		ctrl.shifts = [];
 
-		$http.get('./json/shifts-mongo.php').
+		$http.get('./json/shifts.php').
 			success(function(data) {
 				ctrl.shifts = data;
 			});
@@ -145,53 +155,13 @@
 		};
 	});
 
-	var db = [{
-		id: "1",
-		date: "1988-05-11",
-		startTime: "4:00PM",
-		endTime: "12:00AM",
-		sales: "1234.56",
-		tipout: "56",
-		earnedTips: "154",
-		earnedHourly: "28.56",
-
-		dayOfWeek: "Wed",
-		lunchDinner: "D"
-	}, {
-		id: "2",
-		date: "1988-05-12",
-		startTime: "11:30AM",
-		endTime: "2:00PM",
-		sales: "1234.56",
-		tipout: "56",
-		earnedTips: "154",
-		earnedHourly: "28.56",
-
-		dayOfWeek: "Thu",
-		lunchDinner: "L"
-	}, {
-		id: "3",
-		date: "1988-05-13",
-		startTime: "4:00PM",
-		endTime: "12:00AM",
-		sales: "1234.56",
-		tipout: "56",
-		earnedTips: "154",
-		earnedHourly: "28.56",
-
-		dayOfWeek: "Fri",
-		lunchDinner: "D"
-	}, {
-		id: "4",
-		date: "1988-05-15",
-		startTime: "4:00PM",
-		endTime: "12:00AM",
-		sales: "1234.56",
-		tipout: "56",
-		earnedTips: "154",
-		earnedHourly: "28.56",
-
-		dayOfWeek: "Sun",
-		lunchDinner: "D"
-	}];
+	app.filter('placeholder', function() {
+		return function(input, placeholder) {
+			if (input == undefined || input == null) {
+				return placeholder;
+			} else {
+				return input;
+			}
+		};
+	});	
 })();
