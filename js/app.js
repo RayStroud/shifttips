@@ -5,7 +5,7 @@
 		var ctrl = this;
 		ctrl.shift = [];
 
-		$http.get('./json/shift?id=99.php').
+		$http.get('./json/shift.php?id=99').
 			success(function(data) {
 				ctrl.shift = data;
 			});
