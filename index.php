@@ -1,38 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="shiftTips">
+<html lang="en">
 <head>
-	<meta charset="utf-8">
 	<title>Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="css/style.css">
+</head>
 <body>
 	<div id="header">
-		<div class="name"><a href="#/">Shift Tips</a></div>
+		<div class="name"><a href="index.php">Shift Tips</a></div>
 		<ul class="menu">
-			<li><a class="link-button" href="#/shifts">Shifts</a></li>
-			<!--li><a class="link-button" href="summary.php">Summary</a></li-->
-			<!--li><a class="link-button" href="add.php">Add</a></li-->
+			<li><a class="link-button" href="shifts.php">Shifts</a></li>
+			<li><a class="link-button" href="summary.php">Summary</a></li>
+			<li><a class="link-button" href="add.php">Add</a></li>
 		</ul>
 	</div>
 	<div id="content">
 		<div class="wrapper">
-			<div ng-view></div>
+			<h1>PHP Homepage</h1>
+
+			<h2>Other Pages</h2>
+			<ul class="old-links">
+				<li><a class="link-button" href="index.htm">Angular Home Page</a></li>
+				<li><a class="link-button" href="column-nonscrollable-summary.php">Column Summary</a></li>
+				<li><a class="link-button" href="one-row-summary.php">One Row Summary</a></li>
+				<li><a class="link-button" href="weekly.php">Weekly Summary</a></li>
+			</ul>
 		</div>
 	</div>
 	<div id="footer">
 		<a class="debug" href="#" target="popup" onClick="wopen('#', 'popup', 320, 480); return false;">debug mobile popup</a>
 	</div>
-	
-	<!-- js libraries -->
-	<script src="js/vendor/angular.min.js"></script>
-	<script src="js/vendor/angular-route.min.js"></script>
-	<script src="js/vendor/moment.min.js"></script>
-
-	<script src="js/app.js"></script>
-
-	<!-- controllers -->
-
-	<!-- debug popup function -->
 	<script>
 		function wopen(url, name, w, h)
 		{

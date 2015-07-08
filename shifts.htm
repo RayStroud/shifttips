@@ -5,9 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="css/style.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
-    <script src="js/moment.min.js"></script>
-    <script src="js/app.js"></script>
+	<script src="js/vendor/angular.min.js"></script>
+	<script src="js/vendor/angular-route.min.js"></script>
+	<script src="js/vendor/moment.min.js"></script>
+	<script src="js/app.js"></script>
 </head>
 <body>
 	<div id="header">
@@ -75,7 +76,7 @@
 						</div>
 					</div-->
 				</form>
-				<div ng-controller="ShiftsController as shiftsCtrl">
+				<div ng-controller="ShiftListController as shiftsCtrl">
 					<h3>
 						Viewing {{filteredShifts.length}} <span class="{{filterCtrl.lunchDinner ? 'filter-bold' : ''}}">{{filterCtrl.lunchDinner == 'L' ? 'Lunch' : ''}}{{filterCtrl.lunchDinner == 'D' ? 'Dinner' : ''}}</span> shifts on <span class="{{filterCtrl.sDays ? 'filter-bold' : ''}}">{{filterCtrl.sDays || 'any day'}}</span> from <span class="{{filterCtrl.from ? 'filter-bold' : ''}}">{{filterCtrl.from ? (filterCtrl.from | date) : 'any date'}}</span> to <span class="{{filterCtrl.to ? 'filter-bold' : ''}}">{{filterCtrl.to ? (filterCtrl.to | date) : 'any date'}}</span>
 					</h3>
