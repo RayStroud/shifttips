@@ -128,7 +128,7 @@ CREATE TABLE week
 );
 
 DROP TABLE IF EXISTS month;
-CREATE TABLE week
+CREATE TABLE month
 (
 	year			CHAR(4),
 	month			CHAR(3),

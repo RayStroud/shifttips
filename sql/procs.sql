@@ -856,7 +856,7 @@ BEGIN
 	INSERT INTO month (year, month, count, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly)
 	SELECT 
 		YEAR(date) as year,
-		LEFT(MONTHNAME(date),3) as month,
+		MONTH(date) as month,
 		COUNT(id) AS count,
 
 		SUM(campHours) AS campHours,
@@ -877,7 +877,7 @@ BEGIN
 		SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
 		SUM(earnedTotal) / SUM(hours) AS earnedHourly
 	FROM shift
-	GROUP BY yearweek;
+	GROUP BY year, month;
 END //
 DELIMITER ;
 CALL calculateWeeks;
