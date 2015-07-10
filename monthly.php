@@ -5,8 +5,8 @@
 	$startDate = '2014-10-20 11:45:00';
 	$endDate = '2015-04-30 21:00:00';
 
-	//calculate weekly values
-	$db->query("CALL calculateWeeks();");
+	//calculate monthly values
+	$db->query("CALL calculateMonths();");
 
 	//set up variables in database
 	$db->query("SET @startDate = '" . $db->real_escape_string($startDate) . "';");
@@ -14,16 +14,15 @@
 
 	//calculate summaries
 	//TODO put WHERE ...@startDate, @endDate
-	$weeksResult = $db->query('SELECT * FROM week;');
+	$result = $db->query('SELECT * FROM month;');
 
-	$weekRowsHtml = '';
-	while($row = $weeksResult->fetch_assoc())
+	$rowsHtml = '';
+	while($row = $result->fetch_assoc())
 	{
 		$id = $row['id'];
 
-		$yearweek = $row['yearweek'];	
-		$startWeek = $row['startWeek'];	
-		$endWeek = $row['endWeek'];	
+		$year = $row['year'];	
+		$month = $row['month'];	
 		$count = $row['count'];
 
 		$campHours = $row['campHours'];
@@ -43,12 +42,10 @@
 		$tipoutPercent = $row['tipoutPercent'];	
 		$earnedHourly = $row['earnedHourly'];	
 
-		$startWeek = (new DateTime($startWeek))->format("M jS, Y");
-		$endWeek = (new DateTime($endWeek))->format("M jS, Y");
+		$monthAbbr = date('M', mktime(0,0,0, $month, 1, 0));
 		
-		$weekRowsHtml .= "\n\t" . '<tr>'
-		. "\n\t\t" . '<td class="wkl-avg-cell">' . $startWeek . '</td>'
-		. "\n\t\t" . '<td class="wkl-avg-cell">' . $endWeek . '</td>'
+		$rowsHtml .= "\n\t" . '<tr>'
+		. "\n\t\t" . '<td class="wkl-avg-cell">' . $monthAbbr . ' ' . $year . '</td>'
 		. "\n\t\t" . '<td class="wkl-avg-cell">' . $count . '</td>'
 		. "\n\t\t" . '<td class="wkl-avg-cell">' . $hours . ' h' . '</td>'
 		. "\n\t\t" . '<td class="wkl-avg-cell">' . '$' . $earnedWage . '</td>'
@@ -100,8 +97,7 @@
 			<div class="mobile-table">
 				<table class="summary-table">
 					<tr>
-						<th class="hdr-avg-cell">Start (Mon)</th>
-						<th class="hdr-avg-cell">End (Sun)</th>
+						<th class="hdr-avg-cell">Month</th>
 						<th class="hdr-avg-cell">#</th>
 						<th class="hdr-avg-cell">Hours</th>
 						<th class="hdr-avg-cell">Wage</th>
@@ -118,10 +114,9 @@
 						<th class="hdr-avg-cell">%TvsW</th>
 						<th class="hdr-avg-cell">Earn/h</th>
 					</tr>
-					<?php echo $weekRowsHtml; ?>
+					<?php echo $rowsHtml; ?>
 					<tr>
 						<td class="wkl-tot-cell">Total</td>
-						<td class="wkl-tot-cell"></td>
 						<td class="wkl-tot-cell"></td>
 						<td class="wkl-tot-cell">Hours</td>
 						<td class="wkl-tot-cell">Wage</td>
@@ -140,7 +135,6 @@
 					</tr>
 					<tr>
 						<td class="wkl-tot-cell">Average</td>
-						<td class="wkl-tot-cell"></td>
 						<td class="wkl-tot-cell"></td>
 						<td class="wkl-tot-cell">Hours</td>
 						<td class="wkl-tot-cell">Wage</td>
