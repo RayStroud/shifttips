@@ -1,17 +1,43 @@
 (function() {
-	var app = angular.module('shiftTips', []);
+	var app = angular.module('shiftTips', ['ngRoute']);
 
-	app.controller('ShiftController', [ '$http', function($http) {
+	app.config(function ($routeProvider) {
+		$routeProvider.when('/shifts', {
+			templateUrl: 'templates/pages/shifts/index.htm',
+			controller: 'ShiftListController',
+			contrllerAs: 'shiftListCtrl'
+		})
+		.when('/shifts/:id', {
+			templateUrl: 'templates/pages/shifts/view.htm',
+			controller: 'ShiftViewController',
+			contrllerAs: 'shiftViewCtrl'
+		})
+		.when('/', {
+			templateUrl: 'templates/pages/home/index.htm'
+		})
+		.otherwise({
+			redirectTo: '/'
+		});
+	});
+
+	app.controller('ShiftViewController', [ '$http', '$routeParams', function($http, $routeParams) {
 		var ctrl = this;
 		ctrl.shift = [];
 
-		$http.get('./json/shift.php?id=99').
+		var getShiftInfo = function(id) {
+			$http.get('./json/shift.php?id=' + id).
+			success(function(data) {
+				ctrl.shift = data;
+			});
+		};
+
+		$http.get('./json/shift.php?id=' + $routeParams.id).
 			success(function(data) {
 				ctrl.shift = data;
 			});
 	}]);
 
-	app.controller('ShiftsController', [ '$http', function($http) {
+	app.controller('ShiftListController', [ '$http', function($http) {
 		var ctrl = this;
 		ctrl.shifts = [];
 

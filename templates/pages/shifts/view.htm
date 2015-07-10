@@ -1,0 +1,111 @@
+<div ng-controller="ShiftViewController as shiftViewCtrl">
+	<h1>Shift Details</h1>
+	<div class="shift-detailed {{shiftViewCtrl.shift.dayOfWeek | lowercase}}-shift {{shiftViewCtrl.shift.lunchDinner | lowercase}}-shift">
+		<div class="shift-datetime">
+			<div class="shift-date">{{shiftViewCtrl.shift.date | date:'EEE, MMM d, yyyy'}}</div>
+			<div class="shift-time">{{shiftViewCtrl.shift.startTime | timeToDate | date:'h:mma'}} to {{shiftViewCtrl.shift.endTime | timeToDate | date:'h:mma'}} <div class="shift-hours-wage">({{shiftViewCtrl.shift.hours}}) @ {{shiftViewCtrl.shift.wage | currency}}/h</div></div>
+		</div>
+		<div class="shift-details">
+			<div class="shift-info">
+				<div class="label">1st Tbl</div>
+				<div class="value">{{shiftViewCtrl.shift.firstTable | timeToDate | date:'h:mma'}}</div>
+			</div>
+			<div class="shift-info">
+				<div class="label">Camp</div>
+				<div class="value">{{shiftViewCtrl.shift.campHours}} hours</div>
+			</div>
+
+			<div class="shift-info">
+				<div class="label">Sales</div>
+				<div class="value">{{shiftViewCtrl.shift.sales | currency}}</div>
+			</div>
+			<div class="shift-info">
+				<div class="label">Covers</div>
+				<div class="value">{{shiftViewCtrl.shift.covers}}</div>
+			</div>
+
+			<div class="shift-info">
+				<div class="label">Tipout</div>
+				<div class="value">{{shiftViewCtrl.shift.tipout | currency:undefined:0}}</div>
+			</div>
+			<div class="shift-info">
+				<div class="label">Transfer</div>
+				<div class="value">{{shiftViewCtrl.shift.transfers | currency:undefined:0}}</div>
+			</div>
+
+			<div class="shift-info">
+				<div class="label">Cash</div>
+				<div class="value">{{shiftViewCtrl.shift.cash | currency:undefined:0}}</div>
+			</div>
+			<div class="shift-info">
+				<div class="label">Due</div>
+				<div class="value">{{shiftViewCtrl.shift.due | currency:undefined:0}}</div>
+			</div>
+
+			<div class="shift-info">
+				<div class="label">Section</div>
+				<div class="value">{{shiftViewCtrl.shift.section}}</div>
+			</div>
+			<div class="shift-info">
+				<div class="label">Cut</div>
+				<div class="value">{{shiftViewCtrl.shift.cut}}</div>
+			</div>
+
+			<div class="shift-info full-width">
+				<div class="label">Notes</div>
+				<div class="value">{{shiftViewCtrl.shift.notes}}</div>
+			</div>
+
+			<hr>
+
+			<div class="shift-info">
+				<div class="label">Wage</div>
+				<div class="value">{{shiftViewCtrl.shift.earnedWage | currency:undefined:0}}</div>
+			</div>
+			<div class="shift-info">
+				<div class="label">Tips</div>
+				<div class="value">{{shiftViewCtrl.shift.earnedTips | currency:undefined:0}}</div>
+			</div>
+
+			<div class="shift-info">
+				<div class="label">Total</div>
+				<div class="value">{{shiftViewCtrl.shift.earnedTotal | currency:undefined:0}}</div>
+			</div>
+			<div class="shift-info">
+				<div class="label">%TvW</div>
+				<div class="value">{{shiftViewCtrl.shift.tipsVsWage}}%</div>
+			</div>
+
+			<div class="shift-info">
+				<div class="label">Sale/h</div>
+				<div class="value">{{shiftViewCtrl.shift.salesPerHour | currency}}/h</div>
+			</div>
+			<div class="shift-info">
+				<div class="label">Sale/cov</div>
+				<div class="value">{{shiftViewCtrl.shift.salesPerCover | currency}}/h</div>
+			</div>
+
+			<div class="shift-info">
+				<div class="label">%Tips</div>
+				<div class="value">{{shiftViewCtrl.shift.tipsPercent}}%</div>
+			</div>
+			<div class="shift-info">
+				<div class="label">%Tipout</div>
+				<div class="value">{{shiftViewCtrl.shift.tipoutPercent}}%</div>
+			</div>
+
+			<div class="shift-info">
+				<div class="label">Earn/h</div>
+				<div class="value">{{shiftViewCtrl.shift.earnedHourly | currency}}/h</div>
+			</div>
+		</div>
+	</div>
+	<div class="shift-buttons">
+		<div class="form-group button-group half-width">
+			<a class="link-button button-wide" href="edit.php?id={{shiftViewCtrl.shift.id}}">Edit</a>
+		</div>
+		<div class="form-group button-group half-width">
+			<a class="link-button button-warning button-wide" href="delete.php?id={{shiftViewCtrl.shift.id}}" onclick="return confirm('Are you sure you want to delete this shift?')">Delete</a>
+		</div>
+	</div>
+</div>

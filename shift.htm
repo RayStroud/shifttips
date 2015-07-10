@@ -5,9 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="css/style.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
-    <script src="js/moment.min.js"></script>
-    <script src="js/app.js"></script>
+	<script src="js/vendor/angular.min.js"></script>
+	<script src="js/vendor/angular-route.min.js"></script>
+	<script src="js/vendor/moment.min.js"></script>
+	<script src="js/app.js"></script>
 </head>
 <body>
 	<div id="header">
@@ -20,7 +21,7 @@
 	</div>
 	<div id="content">
 		<div id="wrapper">
-			<div ng-controller="ShiftController as shiftCtrl">
+			<div ng-controller="ShiftViewController as shiftCtrl" ng-init="getShiftInfo(34)">
 				<h1>Shift Details</h1>
 				<div class="shift-detailed {{shiftCtrl.shift.dayOfWeek | lowercase}}-shift {{shiftCtrl.shift.lunchDinner | lowercase}}-shift">
 					<div class="shift-datetime">

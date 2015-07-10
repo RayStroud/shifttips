@@ -84,7 +84,7 @@
 </head>
 <body>
 	<div id="header">
-		<div class="name"><a href=".">Shift Tips</a></div>
+		<div class="name"><a href="index.php">Shift Tips</a></div>
 		<ul class="menu">
 			<li><a class="link-button" href="shifts.php">Shifts</a></li>
 			<li><a class="link-button" href="summary.php">Summary</a></li>

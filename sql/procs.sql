@@ -255,6 +255,10 @@ BEGIN
 	CALL calculateWeeks();
 	CALL calculateWeeklySummary(v_dateFrom, v_dateTo);
 
+	#Monthly
+	CALL calculateMonths();
+	CALL calculateMonthlySummary(v_dateFrom, v_dateTo);
+
 	SELECT * FROM summary;
 END //
 DELIMITER ;
@@ -609,7 +613,120 @@ BEGIN
 	SET v_hourlyWage = (v_totWage + v_totTips) / v_totHours;
 
 	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timestamp)
-		VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, '-', '---', CURRENT_TIMESTAMP);
+		VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, '-', 'Wkl', CURRENT_TIMESTAMP);
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS calculateMonthlySummary;
+DELIMITER //
+CREATE PROCEDURE calculateMonthlySummary (p_dateFrom DATE, p_dateTo DATE)
+BEGIN
+	DECLARE v_count 			INT;
+	DECLARE v_avgHours 			DECIMAL(5,2);
+	DECLARE v_totHours 			DECIMAL(7,2);
+	DECLARE v_avgWage 			DECIMAL(5,2);
+	DECLARE v_totWage 			DECIMAL(7,2);
+	DECLARE v_avgTips 			DECIMAL(5,2);
+	DECLARE v_totTips 			INT;
+	DECLARE v_avgTipout 		DECIMAL(5,2);
+	DECLARE v_totTipout 		INT;
+	DECLARE v_avgSales 			DECIMAL(7,2);
+	DECLARE v_totSales 			DECIMAL(10,2);
+	DECLARE v_avgCovers 		DECIMAL(5,2);
+	DECLARE v_totCovers 		INT;
+	DECLARE v_avgCampHours 		DECIMAL(4,2);
+	DECLARE v_totCampHours 		DECIMAL(8,2);
+	DECLARE v_salesPerHour 		DECIMAL(7,2);
+	DECLARE v_salesPerCover 	DECIMAL(7,2);
+	DECLARE v_tipsPercent 		DECIMAL(4,1);
+	DECLARE v_tipoutPercent 	DECIMAL(4,1);
+	DECLARE v_tipsVsWage 		INT;
+	DECLARE v_hourlyWage 		DECIMAL(4,2);
+
+	SELECT COUNT(id) 
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_count;
+	SELECT AVG(hours)
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_avgHours;
+	SELECT SUM(hours) 
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_totHours;
+	SELECT AVG(earnedWage)
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_avgWage;
+	SELECT SUM(earnedWage) 
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_totWage;
+	SELECT AVG(earnedTips)
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_avgTips;
+	SELECT SUM(earnedTips) 
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_totTips;
+	SELECT AVG(tipout)
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_avgTipout;
+	SELECT SUM(tipout) 
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_totTipout;
+	SELECT AVG(sales)
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_avgSales;
+	SELECT SUM(sales) 
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_totSales;
+	SELECT AVG(covers)
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_avgCovers;
+	SELECT SUM(covers) 
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_totCovers;
+	SELECT AVG(campHours)
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_avgCampHours;
+	SELECT SUM(campHours) 
+		FROM month 
+		WHERE startMonth >= p_dateFrom
+			AND endMonth <= p_dateTo
+		INTO v_totCampHours;
+	SET v_salesPerHour = v_totSales / v_totHours;
+	SET v_salesPerCover = v_totSales / v_totCovers;
+	SET v_tipsPercent = v_totTips * 100 / v_totSales;
+	SET v_tipoutPercent = v_totTipout * 100 / v_totSales;
+	SET v_tipsVsWage = v_totTips * 100 / v_totWage;
+	SET v_hourlyWage = (v_totWage + v_totTips) / v_totHours;
+
+	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timestamp)
+		VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, '-', 'Mth', CURRENT_TIMESTAMP);
 END //
 DELIMITER ;
 
@@ -706,6 +823,40 @@ BEGIN
 		YEARWEEK(date, 3) as yearweek, 
 		STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Monday'), '%x%v %W') as startWeek,
 		STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Sunday'), '%x%v %W') as endWeek,
+		COUNT(id) AS count,
+
+		SUM(campHours) AS campHours,
+		SUM(sales) AS sales,
+		SUM(tipout) AS tipout,
+		SUM(transfers) AS transfers,
+		SUM(covers) AS covers,
+
+		SUM(hours) AS hours,
+		SUM(earnedWage) AS earnedWage,
+		SUM(earnedTips) AS earnedTips,
+		SUM(earnedTotal) AS earnedTotal,
+
+		SUM(earnedTips) * 100 / SUM(earnedWage) AS tipsVsWage,
+		SUM(sales) / SUM(hours)  AS salesPerHours,
+		SUM(sales) / SUM(covers) AS salesPerCover,
+		SUM(earnedTips) * 100 / SUM(sales) AS tipsPercent,
+		SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
+		SUM(earnedTotal) / SUM(hours) AS earnedHourly
+	FROM shift
+	GROUP BY yearweek;
+END //
+DELIMITER ;
+CALL calculateWeeks;
+
+DROP PROCEDURE IF EXISTS calculateMonths;
+DELIMITER //
+CREATE PROCEDURE calculateMonths()
+BEGIN
+	TRUNCATE TABLE month;
+	INSERT INTO month (year, month, count, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly)
+	SELECT 
+		YEAR(date) as year,
+		LEFT(MONTHNAME(date),3) as month,
 		COUNT(id) AS count,
 
 		SUM(campHours) AS campHours,

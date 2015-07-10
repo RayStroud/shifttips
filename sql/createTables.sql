@@ -126,3 +126,31 @@ CREATE TABLE week
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
 );
+
+DROP TABLE IF EXISTS month;
+CREATE TABLE week
+(
+	year			CHAR(4),
+	month			CHAR(3),
+	count			INT,
+
+	campHours		DECIMAL(5,2),
+	sales			DECIMAL(7,2),
+	tipout			INT,
+	transfers		INT,
+	covers			INT,
+	
+	hours			DECIMAL(5,2),
+	earnedWage		INT,
+	earnedTips		INT,
+	earnedTotal		INT,
+	tipsVsWage		INT,
+	salesPerHour	DECIMAL(6,2),
+	salesPerCover	DECIMAL(6,2),
+	tipsPercent		DECIMAL(4,1),
+	tipoutPercent	DECIMAL(4,1),
+	earnedHourly	DECIMAL(5,2),
+
+	id INT NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id)
+);
