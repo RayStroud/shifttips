@@ -377,6 +377,18 @@ form.add-form, form.edit-form {
   background-color: #ffe5e5;
   border-color: red; }
 
+input.ng-dirty.ng-invalid, textarea.ng-dirty.ng-invalid, form.submitted input.ng-invalid-required {
+  border-color: rgba(191, 64, 64, 0.3);
+  -webkit-box-shadow: inset 0px 0px 6px -2px red;
+  -moz-box-shadow: inset 0px 0px 6px -2px red;
+  box-shadow: inset 0px 0px 6px -2px red; }
+
+input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid {
+  border-color: rgba(32, 96, 32, 0.3);
+  -webkit-box-shadow: inset 0px 0px 6px -2px green;
+  -moz-box-shadow: inset 0px 0px 6px -2px green;
+  box-shadow: inset 0px 0px 6px -2px green; }
+
 /* ############################################
 	FILTER FORM
 ############################################ */

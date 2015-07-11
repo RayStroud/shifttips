@@ -20,7 +20,7 @@
 
 			<h2>Other Pages</h2>
 			<ul class="old-links">
-				<li><a class="link-button" href="index.htm">Angular Home Page</a></li>
+				<li><a class="link-button" href=".">Angular Home Page</a></li>
 				<li><a class="link-button" href="column-nonscrollable-summary.php">Column Summary</a></li>
 				<li><a class="link-button" href="one-row-summary.php">One Row Summary</a></li>
 				<li><a class="link-button" href="weekly.php">Weekly Summary</a></li>

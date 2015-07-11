@@ -26,6 +26,9 @@ $fri-color: darken(blue,10%);
 $sat-color: darken(magenta,10%);
 $sun-color: lighten(black,10%);
 
+$valid-color: green;
+$invalid-color: red;
+
 //fonts
 $heading-font: "Trebuchet MS", Helvetica, sans-serif;
 $content-font: Arial, Helvetica, sans-serif;
@@ -389,6 +392,18 @@ form.add-form, form.edit-form {
 .error { 
 	background-color: lighten(red, 45%);
 	border-color: red;
+}
+input.ng-dirty.ng-invalid, textarea.ng-dirty.ng-invalid, form.submitted input.ng-invalid-required {
+	border-color: rgba(desaturate($invalid-color,50%),0.3);
+	-webkit-box-shadow: inset 0px 0px 6px -2px $invalid-color;
+	-moz-box-shadow: inset 0px 0px 6px -2px $invalid-color;
+	box-shadow: inset 0px 0px 6px -2px $invalid-color;
+}
+input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid {
+	border-color: rgba(desaturate($valid-color,50%),0.3);
+	-webkit-box-shadow: inset 0px 0px 6px -2px $valid-color;
+	-moz-box-shadow: inset 0px 0px 6px -2px $valid-color;
+	box-shadow: inset 0px 0px 6px -2px $valid-color;
 }
 
 

@@ -3,17 +3,47 @@
 
 	app.config(function ($routeProvider) {
 		$routeProvider.when('/shifts', {
-			templateUrl: 'templates/pages/shifts/index.htm',
+			templateUrl: 'pages/list.html',
 			controller: 'ShiftListController',
 			contrllerAs: 'shiftListCtrl'
 		})
-		.when('/shifts/:id', {
-			templateUrl: 'templates/pages/shifts/view.htm',
+		// .when('/shifts/weekly', {
+		// 	templateUrl: 'pages/list-weekly.html',
+		// 	controller: 'ShiftListWeeklyController',
+		// 	contrllerAs: 'shiftListWeeklyCtrl'
+		// })
+		.when('/shift/:id', {
+			templateUrl: 'pages/view.html',
 			controller: 'ShiftViewController',
 			contrllerAs: 'shiftViewCtrl'
 		})
+		// .when('/summary', {
+		// 	templateUrl: 'pages/summary.html',
+		// 	controller: 'SummaryController',
+		// 	contrllerAs: 'summaryCtrl'
+		// })
+		// .when('/summary/weekly', {
+		// 	templateUrl: 'pages/summary-weekly.html',
+		// 	controller: 'SummaryWeeklyController',
+		// 	contrllerAs: 'summaryWeeklyCtrl'
+		// })
+		// .when('/summary/monthly', {
+		// 	templateUrl: 'pages/summary-monthly.html',
+		// 	controller: 'SummaryMonthlyController',
+		// 	contrllerAs: 'summaryMonthlyCtrl'
+		// })
+		.when('/shifts/add', {
+			templateUrl: 'pages/add.html',
+			controller: 'ShiftAddController',
+			contrllerAs: 'shiftAddCtrl'
+		})
+		// .when('/shifts/edit/:id', {
+		// 	templateUrl: 'pages/edit.html',
+		// 	controller: 'ShiftEditController',
+		// 	contrllerAs: 'shiftEditCtrl'
+		// })
 		.when('/', {
-			templateUrl: 'templates/pages/home/index.htm'
+			templateUrl: 'pages/home.html'
 		})
 		.otherwise({
 			redirectTo: '/'
@@ -131,6 +161,14 @@
 			this.sDays = string;
 		};
 	});
+
+	app.controller('ShiftAddController', ['$http', function($http) {
+		this.shift = {wage: 9};
+
+		this.addShift = function(shift) {
+
+		};
+	}]);
 
 	app.filter('timeToDate', function() {
 		return function(time) {
