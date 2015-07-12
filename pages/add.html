@@ -1,7 +1,7 @@
 <div ng-controller="ShiftAddController as shiftAddCtrl">
 	<h1>Add Shift</h1>
-	{{addForm.$valid}}
-	{{shiftAddCtrl.shift}}
+	<div class="error message-box" ng-show="shiftAddCtrl.error">{{shiftAddCtrl.error}}</div>
+	<div class="error message-box" ng-show="addForm.$submitted && !addForm.$valid">Cannot submit. Fill out "Wage", "Date", and "Start" fields, and make sure all fields are formatted correctly.</div>
 	<form name="addForm" class="add-form" novalidate
 			ng-class="{submitted:addForm.$submitted}" 
 			ng-submit="addForm.$valid && shiftAddCtrl.addShift(shift)">

@@ -52,7 +52,6 @@
 
 	app.controller('ShiftViewController', [ '$http', '$routeParams', function($http, $routeParams) {
 		var ctrl = this;
-		ctrl.shift = [];
 
 		var getShiftInfo = function(id) {
 			$http.get('./json/shift.php?id=' + id).
@@ -69,7 +68,6 @@
 
 	app.controller('ShiftListController', [ '$http', function($http) {
 		var ctrl = this;
-		ctrl.shifts = [];
 
 		$http.get('./json/shifts.php').
 			success(function(data) {
@@ -93,7 +91,6 @@
 		this.satCheck = false;
 		this.sunCheck = false;
 		this.aDays = [null,null,null,null,null,null,null];		//array to keep track of checked days
-		this.sDays = '';		//string to use for filtering by dayOfWeek
 
 		this.toggleLun = function() {
 			if (this.lunCheck) {
@@ -151,22 +148,26 @@
 			this.aDays[6] = this.sunCheck ? 'Sun' : null;
 			this.refreshDaysString();
 		};
-		this.refreshDaysString = function() {
-			var string = '';
-			for(i = 0; i < 7; i++) {
-				string += string === '' //if string is still empty, don't add comma
-					? this.aDays[i] ? this.aDays[i] : ''
-					: this.aDays[i] ? ", " + this.aDays[i] : '';
-			}
-			this.sDays = string;
-		};
 	});
 
 	app.controller('ShiftAddController', ['$http', function($http) {
+		var ctrl = this;
 		this.shift = {wage: 9};
 
 		this.addShift = function(shift) {
-
+			$http({
+				method: "POST",
+				url: 'json/shift-add.php',
+				data: ctrl.shift,
+				headers: {'Content-Type': 'application/c-www-form-urlencoded'}
+			})
+			.success(function (data, status, headers, config) {
+				window.location.replace('#/shift/' + data);
+			})
+			.error(function (data, status, headers, config) {
+				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+				ctrl.error = 'Oops! Something bad happened. The shift did not get added.';
+			});
 		};
 	}]);
 

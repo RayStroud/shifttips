@@ -383,7 +383,7 @@ input.ng-dirty.ng-invalid, textarea.ng-dirty.ng-invalid, form.submitted input.ng
   -moz-box-shadow: inset 0px 0px 6px -2px red;
   box-shadow: inset 0px 0px 6px -2px red; }
 
-input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid {
+input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid, form.submitted input.ng-valid-required {
   border-color: rgba(32, 96, 32, 0.3);
   -webkit-box-shadow: inset 0px 0px 6px -2px green;
   -moz-box-shadow: inset 0px 0px 6px -2px green;
@@ -447,6 +447,9 @@ span.filter-bold {
   background-color: grey;
   color: white;
   padding: 0.2em 0.3em; }
+
+.filter-message {
+  line-height: 1.5em; }
 
 #mon-check + label {
   background-color: white;

@@ -54,13 +54,13 @@
 				</div>
 			</div-->
 		</form>
-		<h3>
+		<h3 class="filter-message">
 			Viewing {{filteredShifts.length}} <span class="{{filterCtrl.lunchDinner ? 'filter-bold' : ''}}">{{filterCtrl.lunchDinner == 'L' ? 'Lunch' : ''}}{{filterCtrl.lunchDinner == 'D' ? 'Dinner' : ''}}</span> shifts on <span class="{{filterCtrl.sDays ? 'filter-bold' : ''}}">{{filterCtrl.sDays || 'any day'}}</span> from <span class="{{filterCtrl.from ? 'filter-bold' : ''}}">{{filterCtrl.from ? (filterCtrl.from | date) : 'any date'}}</span> to <span class="{{filterCtrl.to ? 'filter-bold' : ''}}">{{filterCtrl.to ? (filterCtrl.to | date) : 'any date'}}</span>
 		</h3>
 		<div ng-show="filteredShifts.length < 1">
 			No shifts found
 		</div>
-		<div id="shifts">
+		<div id="shifts" ng-hide="filteredShifts.length < 1">
 			<div class="clickable shift-summary {{shift.dayOfWeek | lowercase}}-shift {{shift.lunchDinner | lowercase}}-shift"
 				 ng-repeat="shift in filteredShifts = (shiftListCtrl.shifts | isValidShift:{fromDate:filterCtrl.from,toDate:filterCtrl.to,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:['date','startTime'])">
 				<div class="shift-datetime">
@@ -87,31 +87,31 @@
 					<a href="#/shift/{{shift.id}}"><span class="link-spanner"></span></a>
 				</div>
 			</div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
-			<div class="filler" ng-hide="filteredShifts.length < 1"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
 		</div>
 	</div>
 </div>
