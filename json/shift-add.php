@@ -2,7 +2,7 @@
 	include '../include/dbconnect.php';
 
 	$shift = json_decode(file_get_contents("php://input"));
-	//echo $shift;
+	//* DEBUG */ var_dump($shift);
 	$id = 0;
 	
 	//get info: numbers
@@ -23,21 +23,21 @@
 	//get info: date/time
 	//TODO add validation in catch clause
 	try { $date = 		!empty($shift->date) 			
-						? (new DateTime($shift->date))->format("'Y-m-d'") 		
+						? "'" . (new DateTime($shift->date))->format("Y-m-d") . "'"
 						: null; 
-	} catch(Exception $e) { $date = null; }
+	} 					catch(Exception $e) { $date = null; }
 	try { $startTime = 	!empty($shift->startTime) 	
-						? (new DateTime($shift->startTime))->format("'H:i'") 	
+						? "'" . (new DateTime($shift->startTime))->format("H:i") . "'"
 						: null; 
-	} catch(Exception $e) { $startTime = null; }
+	} 					catch(Exception $e) { $startTime = null; }
 	try { $endTime = 	!empty($shift->endTime) 		
-						? (new DateTime($shift->endTime))->format("'H:i'") 		
+						? "'" . (new DateTime($shift->endTime))->format("H:i") . "'"
 						: null; 
-	} catch(Exception $e) { $endTime = null; }
+	} 					catch(Exception $e) { $endTime = null; }
 	try { $firstTable = !empty($shift->firstTable) 	
-						? (new DateTime($shift->firstTable))->format("'H:i'") 	
+						? "'" . (new DateTime($shift->firstTable))->format("H:i") . "'" 
 						: null; 
-	} catch(Exception $e) { $firstTable = null; }
+	} 					catch(Exception $e) { $firstTable = null; }
 
 	//* DEBUG */ echo '<p>' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p>';
 

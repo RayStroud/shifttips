@@ -54,25 +54,37 @@
 		var ctrl = this;
 
 		var getShiftInfo = function(id) {
-			$http.get('./json/shift.php?id=' + id).
-			success(function(data) {
+			$http.get('./json/shift.php?id=' + id)
+			.success(function(data) {
 				ctrl.shift = data;
+			})
+			.error(function (data, status, headers, config) {
+				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+				ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
 			});
 		};
 
-		$http.get('./json/shift.php?id=' + $routeParams.id).
-			success(function(data) {
-				ctrl.shift = data;
-			});
+		$http.get('./json/shift.php?id=' + $routeParams.id)
+		.success(function(data) {
+			ctrl.shift = data;
+		})
+		.error(function (data, status, headers, config) {
+			ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+			ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
+		});
 	}]);
 
 	app.controller('ShiftListController', [ '$http', function($http) {
 		var ctrl = this;
 
-		$http.get('./json/shifts.php').
-			success(function(data) {
-				ctrl.shifts = data;
-			});
+		$http.get('./json/shifts.php')
+		.success(function(data) {
+			ctrl.shifts = data;
+		})
+		.error(function (data, status, headers, config) {
+			ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+			ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
+		});
 	}]);
 
 	app.controller('FilterController', function() {
@@ -116,37 +128,30 @@
 		this.toggleMon = function() {
 			this.monCheck = !this.monCheck;
 			this.aDays[0] = this.monCheck ? 'Mon' : null;
-			this.refreshDaysString();
 		};
 		this.toggleTue = function() {
 			this.tueCheck = !this.tueCheck;
 			this.aDays[1] = this.tueCheck ? 'Tue' : null;
-			this.refreshDaysString();
 		};
 		this.toggleWed = function() {
 			this.wedCheck = !this.wedCheck;
 			this.aDays[2] = this.wedCheck ? 'Wed' : null;
-			this.refreshDaysString();
 		};
 		this.toggleThu = function() {
 			this.thuCheck = !this.thuCheck;
 			this.aDays[3] = this.thuCheck ? 'Thu' : null;
-			this.refreshDaysString();
 		};
 		this.toggleFri = function() {
 			this.friCheck = !this.friCheck;
 			this.aDays[4] = this.friCheck ? 'Fri' : null;
-			this.refreshDaysString();
 		};
 		this.toggleSat = function() {
 			this.satCheck = !this.satCheck;
 			this.aDays[5] = this.satCheck ? 'Sat' : null;
-			this.refreshDaysString();
 		};
 		this.toggleSun = function() {
 			this.sunCheck = !this.sunCheck;
 			this.aDays[6] = this.sunCheck ? 'Sun' : null;
-			this.refreshDaysString();
 		};
 	});
 
@@ -155,18 +160,26 @@
 		this.shift = {wage: 9};
 
 		this.addShift = function(shift) {
+			//remove the timezone information that angular adds during its validation
+			postShift = JSON.parse(JSON.stringify(ctrl.shift));
+			postShift.date = postShift.date ? moment(postShift.date).format('YYYY-MM-DD') : null;
+			postShift.startTime = postShift.startTime ? moment(postShift.startTime).format('HH:mm:ss') : null;
+			postShift.endTime = postShift.endTime ? moment(postShift.endTime).format('HH:mm:ss') : null;
+			postShift.firstTable = postShift.firstTable ? moment(postShift.firstTable).format('HH:mm:ss') : null;
+			ctrl.postShift = postShift;
 			$http({
 				method: "POST",
 				url: 'json/shift-add.php',
-				data: ctrl.shift,
+				data: postShift,
 				headers: {'Content-Type': 'application/c-www-form-urlencoded'}
 			})
 			.success(function (data, status, headers, config) {
+				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
 				window.location.replace('#/shift/' + data);
 			})
 			.error(function (data, status, headers, config) {
 				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
-				ctrl.error = 'Oops! Something bad happened. The shift did not get added.';
+				ctrl.error = 'Oops! Something bad happened. The shift cannot be added.';
 			});
 		};
 	}]);

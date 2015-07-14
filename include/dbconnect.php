@@ -1,19 +1,22 @@
 <?php
+	mysqli_report(MYSQLI_REPORT_STRICT);
 	//testing information
 	$mysql_host = 'localhost';
 	$mysql_database = 'shifttips';
 	$mysql_user = 'root';
 	$mysql_password = '';		//LORAX, Vader
-	$mysql_password = 'root';	//Zeppelin
+	//$mysql_password = 'root';	//Zeppelin
 
 	//connect to db
 	//* DEBUG */ echo '<p>Attempting to connect...</p>';
-	$db = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
-
-	//check if connected
-	if($db->connect_errno > 0)
+	try 
 	{
-		die('Unable to connect to database');
+		$db = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
+		//* DEBUG */ echo '<p>Connected.</p>';
+	} 
+	catch (Exception $e) 
+	{
+		http_response_code(500);
+		die();
 	}
-	//* DEBUG */ echo '<p>Connected.</p>';
 ?>
