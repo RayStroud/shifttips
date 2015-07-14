@@ -93,6 +93,7 @@ BEGIN
 END //
 DELIMITER ;
 
+#rename to saveShift and change the name everywhere else
 DROP PROCEDURE IF EXISTS insertShift;
 DELIMITER //
 CREATE PROCEDURE insertShift (

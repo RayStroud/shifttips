@@ -37,11 +37,11 @@
 			controller: 'ShiftAddController',
 			contrllerAs: 'shiftAddCtrl'
 		})
-		// .when('/shifts/edit/:id', {
-		// 	templateUrl: 'pages/edit.html',
-		// 	controller: 'ShiftEditController',
-		// 	contrllerAs: 'shiftEditCtrl'
-		// })
+		.when('/shift/:id/edit', {
+			templateUrl: 'pages/edit.html',
+			controller: 'ShiftEditController',
+			contrllerAs: 'shiftEditCtrl'
+		})
 		.when('/', {
 			templateUrl: 'pages/home.html'
 		})
@@ -52,17 +52,6 @@
 
 	app.controller('ShiftViewController', [ '$http', '$routeParams', function($http, $routeParams) {
 		var ctrl = this;
-
-		var getShiftInfo = function(id) {
-			$http.get('./json/shift.php?id=' + id)
-			.success(function(data) {
-				ctrl.shift = data;
-			})
-			.error(function (data, status, headers, config) {
-				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
-				ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
-			});
-		};
 
 		$http.get('./json/shift.php?id=' + $routeParams.id)
 		.success(function(data) {
@@ -161,7 +150,7 @@
 
 		this.addShift = function(shift) {
 			//remove the timezone information that angular adds during its validation
-			postShift = JSON.parse(JSON.stringify(ctrl.shift));
+			var postShift = JSON.parse(JSON.stringify(ctrl.shift));
 			postShift.date = postShift.date ? moment(postShift.date).format('YYYY-MM-DD') : null;
 			postShift.startTime = postShift.startTime ? moment(postShift.startTime).format('HH:mm:ss') : null;
 			postShift.endTime = postShift.endTime ? moment(postShift.endTime).format('HH:mm:ss') : null;
@@ -180,6 +169,59 @@
 			.error(function (data, status, headers, config) {
 				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
 				ctrl.error = 'Oops! Something bad happened. The shift cannot be added.';
+			});
+		};
+	}]);
+
+	app.controller('ShiftEditController', [ '$http', '$routeParams', function($http, $routeParams) {
+		var ctrl = this;
+
+		$http.get('./json/shift.php?id=' + $routeParams.id)
+		.success(function(data) {
+			var retrievedShift = data;
+			//convert date fields
+			retrievedShift.date = retrievedShift.date ? moment(retrievedShift.date, 'YYYY-MM-DD').toDate() : null;
+			retrievedShift.startTime = retrievedShift.startTime ? moment(retrievedShift.startTime, 'HH:mm:ss').toDate() : null;
+			retrievedShift.endTime = retrievedShift.endTime ? moment(retrievedShift.endTime, 'HH:mm:ss').toDate() : null;
+			retrievedShift.firstTable = retrievedShift.firstTable ? moment(retrievedShift.firstTable, 'HH:mm:ss').toDate() : null;
+			//convert number fields
+			retrievedShift.wage = retrievedShift.wage || retrievedShift.wage == 0 ? Number(retrievedShift.wage) : null;
+			retrievedShift.campHours = retrievedShift.campHours || retrievedShift.campHours == 0 ? Number(retrievedShift.campHours) : null;
+			retrievedShift.sales = retrievedShift.sales || retrievedShift.sales == 0 ? Number(retrievedShift.sales) : null;
+			retrievedShift.covers = retrievedShift.covers || retrievedShift.covers == 0 ? Number(retrievedShift.covers) : null;
+			retrievedShift.tipout = retrievedShift.tipout || retrievedShift.tipout == 0 ? Number(retrievedShift.tipout) : null;
+			retrievedShift.transfers = retrievedShift.transfers || retrievedShift.transfers == 0 ? Number(retrievedShift.transfers) : null;
+			retrievedShift.cash = retrievedShift.cash || retrievedShift.cash == 0 ? Number(retrievedShift.cash) : null;
+			retrievedShift.due = retrievedShift.due || retrievedShift.due == 0 ? Number(retrievedShift.due) : null;
+
+			ctrl.shift = retrievedShift;
+		})
+		.error(function (data, status, headers, config) {
+			ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+			ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
+		});
+
+		this.editShift = function(shift) {
+			//remove the timezone information that angular adds during its validation
+			var postShift = JSON.parse(JSON.stringify(ctrl.shift));
+			postShift.date = postShift.date ? moment(postShift.date).format('YYYY-MM-DD') : null;
+			postShift.startTime = postShift.startTime ? moment(postShift.startTime).format('HH:mm:ss') : null;
+			postShift.endTime = postShift.endTime ? moment(postShift.endTime).format('HH:mm:ss') : null;
+			postShift.firstTable = postShift.firstTable ? moment(postShift.firstTable).format('HH:mm:ss') : null;
+			ctrl.postShift = postShift;
+			$http({
+				method: "POST",
+				url: 'json/shift-edit.php',
+				data: postShift,
+				headers: {'Content-Type': 'application/c-www-form-urlencoded'}
+			})
+			.success(function (data, status, headers, config) {
+				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+				window.location.replace('#/shift/' + data);
+			})
+			.error(function (data, status, headers, config) {
+				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+				ctrl.error = 'Oops! Something bad happened. The shift cannot be edited.';
 			});
 		};
 	}]);
