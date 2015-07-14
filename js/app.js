@@ -117,30 +117,46 @@
 		this.toggleMon = function() {
 			this.monCheck = !this.monCheck;
 			this.aDays[0] = this.monCheck ? 'Mon' : null;
+			this.refreshDaysString();
 		};
 		this.toggleTue = function() {
 			this.tueCheck = !this.tueCheck;
 			this.aDays[1] = this.tueCheck ? 'Tue' : null;
+			this.refreshDaysString();
 		};
 		this.toggleWed = function() {
 			this.wedCheck = !this.wedCheck;
 			this.aDays[2] = this.wedCheck ? 'Wed' : null;
+			this.refreshDaysString();
 		};
 		this.toggleThu = function() {
 			this.thuCheck = !this.thuCheck;
 			this.aDays[3] = this.thuCheck ? 'Thu' : null;
+			this.refreshDaysString();
 		};
 		this.toggleFri = function() {
 			this.friCheck = !this.friCheck;
 			this.aDays[4] = this.friCheck ? 'Fri' : null;
+			this.refreshDaysString();
 		};
 		this.toggleSat = function() {
 			this.satCheck = !this.satCheck;
 			this.aDays[5] = this.satCheck ? 'Sat' : null;
+			this.refreshDaysString();
 		};
 		this.toggleSun = function() {
 			this.sunCheck = !this.sunCheck;
 			this.aDays[6] = this.sunCheck ? 'Sun' : null;
+			this.refreshDaysString();
+		};
+		this.refreshDaysString = function() {
+			var string = '';
+			for(i = 0; i < 7; i++) {
+				string += string === '' //if string is still empty, don't add comma
+					? this.aDays[i] ? this.aDays[i] : ''
+					: this.aDays[i] ? ", " + this.aDays[i] : '';
+			}
+			this.sDays = string;
 		};
 	});
 
