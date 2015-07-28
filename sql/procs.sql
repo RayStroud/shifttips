@@ -646,78 +646,108 @@ BEGIN
 
 	SELECT COUNT(id) 
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_count;
 	SELECT AVG(hours)
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_avgHours;
 	SELECT SUM(hours) 
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_totHours;
 	SELECT AVG(earnedWage)
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_avgWage;
 	SELECT SUM(earnedWage) 
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_totWage;
 	SELECT AVG(earnedTips)
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_avgTips;
 	SELECT SUM(earnedTips) 
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_totTips;
 	SELECT AVG(tipout)
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_avgTipout;
 	SELECT SUM(tipout) 
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_totTipout;
 	SELECT AVG(sales)
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_avgSales;
 	SELECT SUM(sales) 
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_totSales;
 	SELECT AVG(covers)
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_avgCovers;
 	SELECT SUM(covers) 
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_totCovers;
 	SELECT AVG(campHours)
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_avgCampHours;
 	SELECT SUM(campHours) 
 		FROM month 
-		WHERE startMonth >= p_dateFrom
-			AND endMonth <= p_dateTo
+		WHERE year >= YEAR(p_dateFrom)
+			AND month >= MONTH(p_dateFrom)
+			AND year <= YEAR(p_dateTo)
+			AND month <= MONTH(p_dateTo)
 		INTO v_totCampHours;
 	SET v_salesPerHour = v_totSales / v_totHours;
 	SET v_salesPerCover = v_totSales / v_totCovers;

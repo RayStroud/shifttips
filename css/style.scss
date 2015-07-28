@@ -17,6 +17,7 @@ $din-color: darken(dodgerblue,10%);
 $bth-color: darken(blueviolet,10%);
 $spl-color: darken(sienna,10%);
 $wkl-color: darken(silver,10%);
+$mth-color: darken(silver,20%);
 
 $mon-color: darken(red,10%);
 $tue-color: darken(yellow,10%);
@@ -548,6 +549,8 @@ td.spl-avg-cell {background-color: rgba($spl-color,0.6);}
 td.spl-tot-cell {background-color: rgba($spl-color,0.4);}
 td.wkl-avg-cell {background-color: rgba($wkl-color,0.9);}
 td.wkl-tot-cell {background-color: rgba($wkl-color,0.6);}
+td.mth-avg-cell {background-color: rgba($mth-color,0.9);}
+td.mth-tot-cell {background-color: rgba($mth-color,0.6);}
 
 td.mon-avg-cell {background-color: rgba($mon-color,0.4);}
 td.mon-tot-cell {background-color: rgba($mon-color,0.25);}

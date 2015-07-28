@@ -24,6 +24,7 @@
 				<li><a class="link-button" href="column-nonscrollable-summary.php">Column Summary</a></li>
 				<li><a class="link-button" href="one-row-summary.php">One Row Summary</a></li>
 				<li><a class="link-button" href="weekly.php">Weekly Summary</a></li>
+				<li><a class="link-button" href="monthly.php">Monthly Summary</a></li>
 			</ul>
 		</div>
 	</div>
