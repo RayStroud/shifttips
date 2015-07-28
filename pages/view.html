@@ -107,7 +107,7 @@
 				<a class="link-button button-wide" href="#/shift/{{shiftViewCtrl.shift.id}}/edit">Edit</a>
 			</div>
 			<div class="form-group button-group half-width">
-				<a class="link-button button-warning button-wide" href="delete.php?id={{shiftViewCtrl.shift.id}}" onclick="return confirm('Are you sure you want to delete this shift?')">Delete</a>
+				<button type="submit" class="link-button button-warning button-wide" ng-click="shiftViewCtrl.deleteClick(shiftViewCtrl.shift.id)">Delete</button>
 			</div>
 		</div>
 	</div>

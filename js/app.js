@@ -53,25 +53,45 @@
 	app.controller('ShiftViewController', [ '$http', '$routeParams', function($http, $routeParams) {
 		var ctrl = this;
 
-		$http.get('./json/shift.php?id=' + $routeParams.id)
-		.success(function(data) {
+		$http.get('./data/shifts.php?id=' + $routeParams.id)
+		.success(function (data, status, headers, config) {
+			ctrl.getResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shift = data;
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+			ctrl.getResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
 		});
+
+		this.deleteClick = function(shiftId) {
+			var deleteObject = {id: shiftId};
+			$http({
+				method: 'DELETE',
+				url: './data/shifts.php?id=' + shiftId,
+				data: null,
+				headers: {'Content-Type': 'application/c-www-form-urlencoded'}
+			})
+			.success(function (data, status, headers, config) {
+				ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
+				ctrl.error = 'Shift deleted.';
+			})
+			.error(function (data, status, headers, config) {
+				ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
+				ctrl.error = 'Oops! Something bad happened. Cannot delete shift.';
+			});
+		};
 	}]);
 
 	app.controller('ShiftListController', [ '$http', function($http) {
 		var ctrl = this;
 
-		$http.get('./json/shifts.php')
-		.success(function(data) {
+		$http.get('./data/shifts.php')
+		.success(function (data, status, headers, config) {
+			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shifts = data;
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
 		});
 	}]);
@@ -164,7 +184,7 @@
 		var ctrl = this;
 		this.shift = {wage: 9};
 
-		this.addShift = function(shift) {
+		this.addShift = function() {
 			//remove the timezone information that angular adds during its validation
 			var postShift = JSON.parse(JSON.stringify(ctrl.shift));
 			postShift.date = postShift.date ? moment(postShift.date).format('YYYY-MM-DD') : null;
@@ -173,17 +193,17 @@
 			postShift.firstTable = postShift.firstTable ? moment(postShift.firstTable).format('HH:mm:ss') : null;
 			ctrl.postShift = postShift;
 			$http({
-				method: "POST",
-				url: 'json/shift-add.php',
+				method: 'POST',
+				url: './data/shifts.php',
 				data: postShift,
 				headers: {'Content-Type': 'application/c-www-form-urlencoded'}
 			})
 			.success(function (data, status, headers, config) {
-				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+				ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 				window.location.replace('#/shift/' + data);
 			})
 			.error(function (data, status, headers, config) {
-				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+				ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 				ctrl.error = 'Oops! Something bad happened. The shift cannot be added.';
 			});
 		};
@@ -192,8 +212,9 @@
 	app.controller('ShiftEditController', [ '$http', '$routeParams', function($http, $routeParams) {
 		var ctrl = this;
 
-		$http.get('./json/shift.php?id=' + $routeParams.id)
-		.success(function(data) {
+		$http.get('./data/shifts.php?id=' + $routeParams.id)
+		.success(function (data, status, headers, config) {
+			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			var retrievedShift = data;
 			//convert date fields
 			retrievedShift.date = retrievedShift.date ? moment(retrievedShift.date, 'YYYY-MM-DD').toDate() : null;
@@ -213,11 +234,11 @@
 			ctrl.shift = retrievedShift;
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
 		});
 
-		this.editShift = function(shift) {
+		this.editShift = function() {
 			//remove the timezone information that angular adds during its validation
 			var postShift = JSON.parse(JSON.stringify(ctrl.shift));
 			postShift.date = postShift.date ? moment(postShift.date).format('YYYY-MM-DD') : null;
@@ -226,17 +247,17 @@
 			postShift.firstTable = postShift.firstTable ? moment(postShift.firstTable).format('HH:mm:ss') : null;
 			ctrl.postShift = postShift;
 			$http({
-				method: "POST",
-				url: 'json/shift-edit.php',
+				method: 'PUT',
+				url: './data/shifts.php?id=' + postShift.id,
 				data: postShift,
 				headers: {'Content-Type': 'application/c-www-form-urlencoded'}
 			})
 			.success(function (data, status, headers, config) {
-				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
-				window.location.replace('#/shift/' + data);
+				ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+				window.location.replace('#/shift/' + postShift.id);
 			})
 			.error(function (data, status, headers, config) {
-				ctrl.response = 'DATA: ' + data + '|STATUS: ' + status + '|HEADERS: ' + headers + '|CONFIG: ' + config;
+				ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 				ctrl.error = 'Oops! Something bad happened. The shift cannot be edited.';
 			});
 		};

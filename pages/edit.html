@@ -4,7 +4,7 @@
 	<div class="error message-box" ng-show="editForm.$submitted && !editForm.$valid">Cannot submit. Fill out "Wage", "Date", and "Start" fields, and make sure all fields are formatted correctly.</div>
 	<form name="editForm" class="edit-form" novalidate
 			ng-class="{submitted:editForm.$submitted}" 
-			ng-submit="editForm.$valid && shiftEditCtrl.editShift(shift)">
+			ng-submit="editForm.$valid && shiftEditCtrl.editShift()">
 		<div class="form-group half-width">
 			<label for="wage">Wage</label>
 			<input ng-model="shiftEditCtrl.shift.wage" required type="number" id="wage" name="wage" min="0" step="0.01"/>
