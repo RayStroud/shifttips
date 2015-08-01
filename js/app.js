@@ -3,9 +3,9 @@
 
 	app.config(function ($routeProvider) {
 		$routeProvider.when('/shifts', {
-			templateUrl: 'pages/list.html',
-			controller: 'ShiftListController',
-			contrllerAs: 'shiftListCtrl'
+			templateUrl: 'pages/shift-grid.html',
+			controller: 'ShiftGridController',
+			contrllerAs: 'shiftGridCtrl'
 		})
 		// .when('/shifts/weekly', {
 		// 	templateUrl: 'pages/list-weekly.html',
@@ -13,7 +13,7 @@
 		// 	contrllerAs: 'shiftListWeeklyCtrl'
 		// })
 		.when('/shift/:id', {
-			templateUrl: 'pages/view.html',
+			templateUrl: 'pages/shift-view.html',
 			controller: 'ShiftViewController',
 			contrllerAs: 'shiftViewCtrl'
 		})
@@ -33,12 +33,12 @@
 		// 	contrllerAs: 'summaryMonthlyCtrl'
 		// })
 		.when('/shifts/add', {
-			templateUrl: 'pages/add.html',
+			templateUrl: 'pages/shift-add.html',
 			controller: 'ShiftAddController',
 			contrllerAs: 'shiftAddCtrl'
 		})
 		.when('/shift/:id/edit', {
-			templateUrl: 'pages/edit.html',
+			templateUrl: 'pages/shift-edit.html',
 			controller: 'ShiftEditController',
 			contrllerAs: 'shiftEditCtrl'
 		})
@@ -82,7 +82,7 @@
 		};
 	}]);
 
-	app.controller('ShiftListController', [ '$http', function($http) {
+	app.controller('ShiftGridController', [ '$http', function($http) {
 		var ctrl = this;
 
 		$http.get('./data/shifts.php')
