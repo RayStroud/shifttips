@@ -1,0 +1,79 @@
+<div ng-controller="SummaryWeeklyController as summaryWeeklyCtrl">
+	<h1>Weekly Summary</h1>
+	<div class="error message-box" ng-show="summaryWeeklyCtrl.error">{{summaryWeeklyCtrl.error}}</div>
+	<div ng-hide="summaryWeeklyCtrl.error">
+		<div class="mobile-table">
+			<table class="summary-table">
+				<tr class="header">
+					<th>Start (Mon)</th>
+					<th>End (Sun)</th>
+					<th>#</th>
+					<th>Hours</th>
+					<th>Wage</th>
+					<th>Tips</th>
+					<th>Earned</th>
+					<th>Sales</th>
+					<th>Tipout</th>
+					<th>Covers</th>
+					<th>Camp</th>
+					<th>Sales/h</th>
+					<th>Sales/cov</th>
+					<th>%Tips</th>
+					<th>%T/O</th>
+					<th>%TvsW</th>
+					<th>Earn/h</th>
+				</tr>
+				<tr ng-repeat="week in summaryWeeklyCtrl.weeks" ng-class-even="'alt'">
+					<td>{{week.startWeek | date:'MMM d, yyyy'}}</td>
+					<td>{{week.endWeek | date:'MMM d, yyyy'}}</td>
+					<td>{{week.shifts}}</td>
+					<td>{{week.hours}}h</td>
+					<td>{{week.earnedWage | currency:undefined:0}}</td>
+					<td>{{week.earnedTips | currency:undefined:0}}</td>
+					<td>{{week.earnedTotal | currency:undefined:0}}</td>
+					<td>{{week.sales | currency}}</td>
+					<td>{{week.tipout | currency:undefined:0}}</td>
+					<td>{{week.covers}}</td>
+					<td>{{week.campHours}}h</td>
+					<td>{{week.salesPerHour | currency:undefined:0}}/h</td>
+					<td>{{week.salesPerCover | currency:undefined:0}}/cov</td>
+					<td>{{week.tipsPercent}}%</td>
+					<td>{{week.tipoutPercent}}%</td>
+					<td>{{week.tipsVsWage}}%</td>
+					<td>{{week.earnedHourly | currency}}/h</td>
+				</tr>
+				<tr class="summary">
+					<td colspan="2">{{summaryWeeklyCtrl.total.count}} Weeks Total</td>
+					<td>{{summaryWeeklyCtrl.total.shifts}}</td>
+					<td>{{summaryWeeklyCtrl.total.hours}}h</td>
+					<td>{{summaryWeeklyCtrl.total.earnedWage | currency:undefined:0}}</td>
+					<td>{{summaryWeeklyCtrl.total.earnedTips | currency:undefined:0}}</td>
+					<td>{{summaryWeeklyCtrl.total.earnedTotal | currency:undefined:0}}</td>
+					<td>{{summaryWeeklyCtrl.total.sales | currency:undefined:0}}</td>
+					<td>{{summaryWeeklyCtrl.total.tipout | currency:undefined:0}}</td>
+					<td>{{summaryWeeklyCtrl.total.covers}}</td>
+					<td>{{summaryWeeklyCtrl.total.campHours}}h</td>
+					<td colspan="6"></td>
+				</tr>
+				<tr class="summary">
+					<td colspan="2">Average</td>
+					<td>{{summaryWeeklyCtrl.average.shifts}}</td>
+					<td>{{summaryWeeklyCtrl.average.hours}}h</td>
+					<td>{{summaryWeeklyCtrl.average.earnedWage | currency:undefined:0}}</td>
+					<td>{{summaryWeeklyCtrl.average.earnedTips | currency:undefined:0}}</td>
+					<td>{{summaryWeeklyCtrl.average.earnedTotal | currency:undefined:0}}</td>
+					<td>{{summaryWeeklyCtrl.average.sales | currency}}</td>
+					<td>{{summaryWeeklyCtrl.average.tipout | currency}}</td>
+					<td>{{summaryWeeklyCtrl.average.covers}}</td>
+					<td>{{summaryWeeklyCtrl.average.campHours}}h</td>
+					<td>{{summaryWeeklyCtrl.average.salesPerHour | currency:undefined:0}}/h</td>
+					<td>{{summaryWeeklyCtrl.average.salesPerCover | currency:undefined:0}}/cov</td>
+					<td>{{summaryWeeklyCtrl.average.tipsPercent}}%</td>
+					<td>{{summaryWeeklyCtrl.average.tipoutPercent}}%</td>
+					<td>{{summaryWeeklyCtrl.average.tipsVsWage}}%</td>
+					<td>{{summaryWeeklyCtrl.average.earnedHourly | currency}}/h</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

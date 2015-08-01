@@ -5,7 +5,7 @@
 	$mysql_database = 'shifttips';
 	$mysql_user = 'root';
 	$mysql_password = '';		//LORAX, Vader
-	//$mysql_password = 'root';	//Zeppelin
+	$mysql_password = 'root';	//Zeppelin
 
 	//connect to db
 	//* DEBUG */ echo '<p>Attempting to connect...</p>';

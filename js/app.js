@@ -22,11 +22,11 @@
 		// 	controller: 'SummaryController',
 		// 	contrllerAs: 'summaryCtrl'
 		// })
-		// .when('/summary/weekly', {
-		// 	templateUrl: 'pages/summary-weekly.html',
-		// 	controller: 'SummaryWeeklyController',
-		// 	contrllerAs: 'summaryWeeklyCtrl'
-		// })
+		.when('/summary/weekly', {
+			templateUrl: 'pages/summary-weekly.html',
+			controller: 'SummaryWeeklyController',
+			contrllerAs: 'summaryWeeklyCtrl'
+		})
 		// .when('/summary/monthly', {
 		// 	templateUrl: 'pages/summary-monthly.html',
 		// 	controller: 'SummaryMonthlyController',
@@ -59,7 +59,7 @@
 			ctrl.shift = data;
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.getResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.getResponse = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
 		});
 
@@ -91,7 +91,7 @@
 			ctrl.shifts = data;
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
 		});
 	}]);
@@ -214,7 +214,7 @@
 
 		$http.get('./data/shifts.php?id=' + $routeParams.id)
 		.success(function (data, status, headers, config) {
-			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			var retrievedShift = data;
 			//convert date fields
 			retrievedShift.date = retrievedShift.date ? moment(retrievedShift.date, 'YYYY-MM-DD').toDate() : null;
@@ -261,6 +261,22 @@
 				ctrl.error = 'Oops! Something bad happened. The shift cannot be edited.';
 			});
 		};
+	}]);
+
+	app.controller('SummaryWeeklyController', [ '$http', function($http) {
+		var ctrl = this;
+
+		$http.get('./data/summaries.php')
+		.success(function (data, status, headers, config) {
+			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.weeks = data.weeks;
+			ctrl.total = data.total;
+			ctrl.average = data.average;
+		})
+		.error(function (data, status, headers, config) {
+			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
 	}]);
 
 	app.filter('timeToDate', function() {

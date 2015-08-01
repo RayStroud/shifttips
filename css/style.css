@@ -548,7 +548,6 @@ div.mobile-table {
 .summary-table {
   margin: 0 auto; }
   .summary-table td, .summary-table th {
-    background-color: white;
     vertical-align: middle; }
   .summary-table td {
     color: black;
@@ -559,6 +558,15 @@ div.mobile-table {
     color: white;
     padding: 0.5em;
     text-align: center; }
+  .summary-table tr.header {
+    background-color: dimgray;
+    color: white; }
+  .summary-table tr.alt {
+    background-color: lightgray;
+    color: black; }
+  .summary-table tr.summary {
+    background-color: gray;
+    color: black; }
 
 th.hdr-avg-cell {
   background-color: dimgrey; }
