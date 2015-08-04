@@ -48,6 +48,7 @@
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$row = $result->fetch_assoc();
+	$summary->summary = new stdClass();
 	$summary->summary->count = $row['count'];
 	$summary->summary->avgShifts = $row['avgShifts'];
 	$summary->summary->totShifts = $row['totShifts'];
