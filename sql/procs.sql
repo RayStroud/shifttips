@@ -238,10 +238,8 @@ BEGIN
 	DECLARE v_noCampHourly	DECIMAL(5,2);
 	DECLARE v_lunchDinner	CHAR(1);
 	DECLARE v_dayOfWeek		CHAR(3);
-	-- endTime variable if past startTime
+	-- endTime variable for calculating hours
 	DECLARE v_endTime		TIME;
-	-- return newly inserted id if p_id is NULL
-	DECLARE v_id			INT;
 
 	IF (p_endTime BETWEEN '00:00' AND p_startTime)
 		THEN SET v_endTime := ADDTIME(p_endTime, '24:00');
@@ -616,15 +614,22 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS calculateWeeklySummary;
 DELIMITER //
-CREATE PROCEDURE calculateWeeklySummary (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE calculateWeeklySummary (p_dateFrom DATE, p_dateTo DATE, p_insert BIT)
+-- p_insert: NULL or 0 will return, 1 will insert row into summary table
 BEGIN
+	DECLARE v_dateFrom			DATE;
+	DECLARE v_dateTo			DATE;
 	DECLARE v_count 			INT;
+	DECLARE v_avgShifts 		INT;
+	DECLARE v_totShifts 		INT;
 	DECLARE v_avgHours 			DECIMAL(5,2);
 	DECLARE v_totHours 			DECIMAL(7,2);
 	DECLARE v_avgWage 			DECIMAL(5,2);
 	DECLARE v_totWage 			DECIMAL(7,2);
 	DECLARE v_avgTips 			DECIMAL(5,2);
 	DECLARE v_totTips 			INT;
+	DECLARE v_avgEarned			DECIMAL(5,2);
+	DECLARE v_totEarned			DECIMAL(7,2);
 	DECLARE v_avgTipout 		DECIMAL(5,2);
 	DECLARE v_totTipout 		INT;
 	DECLARE v_avgSales 			DECIMAL(7,2);
@@ -640,90 +645,141 @@ BEGIN
 	DECLARE v_tipsVsWage 		INT;
 	DECLARE v_hourlyWage 		DECIMAL(4,2);
 
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	CALL calculateWeeks();
+
 	SELECT COUNT(id) 
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_count;
+	SELECT AVG(count)
+		FROM week 
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
+		INTO v_avgShifts;
+	SELECT SUM(count) 
+		FROM week 
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
+		INTO v_totShifts;
 	SELECT AVG(hours)
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_avgHours;
 	SELECT SUM(hours) 
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_totHours;
 	SELECT AVG(earnedWage)
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_avgWage;
 	SELECT SUM(earnedWage) 
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_totWage;
 	SELECT AVG(earnedTips)
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_avgTips;
 	SELECT SUM(earnedTips) 
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_totTips;
-	SELECT AVG(tipout)
+	SELECT AVG(tipout + transfers)
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_avgTipout;
-	SELECT SUM(tipout) 
+	SELECT SUM(tipout + transfers) 
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_totTipout;
 	SELECT AVG(sales)
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_avgSales;
 	SELECT SUM(sales) 
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_totSales;
 	SELECT AVG(covers)
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_avgCovers;
 	SELECT SUM(covers) 
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_totCovers;
 	SELECT AVG(campHours)
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_avgCampHours;
 	SELECT SUM(campHours) 
 		FROM week 
-		WHERE startWeek >= p_dateFrom
-			AND endWeek <= p_dateTo
+		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_totCampHours;
+	SET v_avgEarned = v_avgWage + v_avgTips;
+	SET v_totEarned = v_totWage + v_totTips;
 	SET v_salesPerHour = v_totSales / v_totHours;
 	SET v_salesPerCover = v_totSales / v_totCovers;
 	SET v_tipsPercent = v_totTips * 100 / v_totSales;
 	SET v_tipoutPercent = v_totTipout * 100 / v_totSales;
 	SET v_tipsVsWage = v_totTips * 100 / v_totWage;
-	SET v_hourlyWage = (v_totWage + v_totTips) / v_totHours;
+	SET v_hourlyWage = v_totEarned / v_totHours;
 
-	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timestamp)
-		VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, '-', 'Wkl', CURRENT_TIMESTAMP);
+	IF (p_insert = 1)
+		THEN INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timestamp)
+			VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, '-', 'Wkl', CURRENT_TIMESTAMP);
+		ELSE SELECT v_count as count,
+			v_avgShifts as avgShifts,
+			v_totShifts as totShifts,
+			v_avgHours as avgHours,
+			v_totHours as totHours,
+			v_avgWage as avgWage,
+			v_totWage as totWage,
+			v_avgTips as avgTips,
+			v_totTips as totTips,
+			v_avgEarned as avgEarned,
+			v_totEarned as totEarned,
+			v_avgTipout as avgTipout,
+			v_totTipout as totTipout,
+			v_avgSales as avgSales,
+			v_totSales as totSales,
+			v_avgCovers as avgCovers,
+			v_totCovers as totCovers,
+			v_avgCampHours as avgCampHours,
+			v_totCampHours as totCampHours,
+			v_salesPerHour as salesPerHour,
+			v_salesPerCover as salesPerCover,
+			v_tipsPercent as tipsPercent,
+			v_tipoutPercent as tipoutPercent,
+			v_tipsVsWage as tipsVsWage,
+			v_hourlyWage as hourly;
+	END IF;	
 END //
 DELIMITER ;
 
@@ -755,108 +811,78 @@ BEGIN
 
 	SELECT COUNT(id) 
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_count;
 	SELECT AVG(hours)
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_avgHours;
 	SELECT SUM(hours) 
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_totHours;
 	SELECT AVG(earnedWage)
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_avgWage;
 	SELECT SUM(earnedWage) 
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_totWage;
 	SELECT AVG(earnedTips)
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_avgTips;
 	SELECT SUM(earnedTips) 
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_totTips;
 	SELECT AVG(tipout)
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_avgTipout;
 	SELECT SUM(tipout) 
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_totTipout;
 	SELECT AVG(sales)
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_avgSales;
 	SELECT SUM(sales) 
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_totSales;
 	SELECT AVG(covers)
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_avgCovers;
 	SELECT SUM(covers) 
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_totCovers;
 	SELECT AVG(campHours)
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_avgCampHours;
 	SELECT SUM(campHours) 
 		FROM month 
-		WHERE year >= YEAR(p_dateFrom)
-			AND month >= MONTH(p_dateFrom)
-			AND year <= YEAR(p_dateTo)
-			AND month <= MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
+			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
 		INTO v_totCampHours;
 	SET v_salesPerHour = v_totSales / v_totHours;
 	SET v_salesPerCover = v_totSales / v_totCovers;

@@ -270,8 +270,7 @@
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.weeks = data.weeks;
-			ctrl.total = data.total;
-			ctrl.average = data.average;
+			ctrl.summary = data.summary;
 		})
 		.error(function (data, status, headers, config) {
 			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};

@@ -1,7 +1,7 @@
-<div ng-controller="SummaryWeeklyController as summaryWeeklyCtrl">
+<div ng-controller="SummaryWeeklyController as ctrl">
 	<h1>Weekly Summary</h1>
-	<div class="error message-box" ng-show="summaryWeeklyCtrl.error">{{summaryWeeklyCtrl.error}}</div>
-	<div ng-hide="summaryWeeklyCtrl.error">
+	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
+	<div ng-hide="ctrl.error">
 		<div class="mobile-table">
 			<table class="summary-table">
 				<tr class="header">
@@ -23,7 +23,7 @@
 					<th>%TvsW</th>
 					<th>Earn/h</th>
 				</tr>
-				<tr ng-repeat="week in summaryWeeklyCtrl.weeks" ng-class-even="'alt'">
+				<tr ng-repeat="week in ctrl.weeks" ng-class-even="'alt'">
 					<td>{{week.startWeek | date:'MMM d, yyyy'}}</td>
 					<td>{{week.endWeek | date:'MMM d, yyyy'}}</td>
 					<td>{{week.shifts}}</td>
@@ -43,35 +43,35 @@
 					<td>{{week.earnedHourly | currency}}/h</td>
 				</tr>
 				<tr class="summary">
-					<td colspan="2">{{summaryWeeklyCtrl.total.count}} Weeks Total</td>
-					<td>{{summaryWeeklyCtrl.total.shifts}}</td>
-					<td>{{summaryWeeklyCtrl.total.hours}}h</td>
-					<td>{{summaryWeeklyCtrl.total.earnedWage | currency:undefined:0}}</td>
-					<td>{{summaryWeeklyCtrl.total.earnedTips | currency:undefined:0}}</td>
-					<td>{{summaryWeeklyCtrl.total.earnedTotal | currency:undefined:0}}</td>
-					<td>{{summaryWeeklyCtrl.total.sales | currency:undefined:0}}</td>
-					<td>{{summaryWeeklyCtrl.total.tipout | currency:undefined:0}}</td>
-					<td>{{summaryWeeklyCtrl.total.covers}}</td>
-					<td>{{summaryWeeklyCtrl.total.campHours}}h</td>
+					<td colspan="2">Total in {{ctrl.summary.count}} Weeks</td>
+					<td>{{ctrl.summary.totShifts}}</td>
+					<td>{{ctrl.summary.totHours}}h</td>
+					<td>{{ctrl.summary.totWage | currency:undefined:0}}</td>
+					<td>{{ctrl.summary.totTips | currency:undefined:0}}</td>
+					<td>{{ctrl.summary.totEarned | currency:undefined:0}}</td>
+					<td>{{ctrl.summary.totSales | currency:undefined:0}}</td>
+					<td>{{ctrl.summary.totTipout | currency:undefined:0}}</td>
+					<td>{{ctrl.summary.totCovers}}</td>
+					<td>{{ctrl.summary.totCampHours}}h</td>
 					<td colspan="6"></td>
 				</tr>
 				<tr class="summary">
-					<td colspan="2">Average</td>
-					<td>{{summaryWeeklyCtrl.average.shifts}}</td>
-					<td>{{summaryWeeklyCtrl.average.hours}}h</td>
-					<td>{{summaryWeeklyCtrl.average.earnedWage | currency:undefined:0}}</td>
-					<td>{{summaryWeeklyCtrl.average.earnedTips | currency:undefined:0}}</td>
-					<td>{{summaryWeeklyCtrl.average.earnedTotal | currency:undefined:0}}</td>
-					<td>{{summaryWeeklyCtrl.average.sales | currency}}</td>
-					<td>{{summaryWeeklyCtrl.average.tipout | currency}}</td>
-					<td>{{summaryWeeklyCtrl.average.covers}}</td>
-					<td>{{summaryWeeklyCtrl.average.campHours}}h</td>
-					<td>{{summaryWeeklyCtrl.average.salesPerHour | currency:undefined:0}}/h</td>
-					<td>{{summaryWeeklyCtrl.average.salesPerCover | currency:undefined:0}}/cov</td>
-					<td>{{summaryWeeklyCtrl.average.tipsPercent}}%</td>
-					<td>{{summaryWeeklyCtrl.average.tipoutPercent}}%</td>
-					<td>{{summaryWeeklyCtrl.average.tipsVsWage}}%</td>
-					<td>{{summaryWeeklyCtrl.average.earnedHourly | currency}}/h</td>
+					<td colspan="2">Weekly Average</td>
+					<td>{{ctrl.summary.avgShifts}}</td>
+					<td>{{ctrl.summary.avgHours}}h</td>
+					<td>{{ctrl.summary.avgWage | currency:undefined:0}}</td>
+					<td>{{ctrl.summary.avgTips | currency:undefined:0}}</td>
+					<td>{{ctrl.summary.avgEarned | currency:undefined:0}}</td>
+					<td>{{ctrl.summary.avgSales | currency}}</td>
+					<td>{{ctrl.summary.avgTipout | currency}}</td>
+					<td>{{ctrl.summary.avgCovers}}</td>
+					<td>{{ctrl.summary.avgCampHours}}h</td>
+					<td>{{ctrl.summary.salesPerHour | currency:undefined:0}}/h</td>
+					<td>{{ctrl.summary.salesPerCover | currency:undefined:0}}/cov</td>
+					<td>{{ctrl.summary.tipsPercent}}%</td>
+					<td>{{ctrl.summary.tipoutPercent}}%</td>
+					<td>{{ctrl.summary.tipsVsWage}}%</td>
+					<td>{{ctrl.summary.hourly | currency}}/h</td>
 				</tr>
 			</table>
 		</div>
