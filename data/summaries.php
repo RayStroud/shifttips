@@ -48,6 +48,7 @@
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$row = $result->fetch_assoc();
+	$summary->summary = new stdClass();
 	$summary->summary->count 			= (int) 	$row['count'];
 	$summary->summary->avgShifts 		= (float) 	$row['avgShifts'];
 	$summary->summary->totShifts 		= (int) 	$row['totShifts'];
@@ -75,8 +76,6 @@
 	$summary->summary->hourly 			= (float) 	$row['hourly'];
 	$stmt->free_result();
 	$stmt->close();
-
-	//var_dump($summary->weeks[0]);
 
 	echo json_encode($summary);
 ?>
