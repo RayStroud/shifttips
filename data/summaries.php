@@ -17,27 +17,27 @@
 	while($stmt->fetch())
 	{
 		$week = new stdClass();
-		$week->startWeek = $startWeek;
-		$week->endWeek = $endWeek;
-		$week->shifts = $shifts;
-		$week->campHours = $campHours;
-		$week->sales = $sales;
-		$week->tipout = $tipout;
-		$week->transfers = $transfers;
-		$week->covers = $covers;
+		$week->startWeek 		= $startWeek;
+		$week->endWeek 			= $endWeek;
+		$week->shifts 			= (int)		$shifts;
+		$week->campHours 		= (float)	$campHours;
+		$week->sales 			= (float)	$sales;
+		$week->tipout 			= (int)		$tipout;
+		$week->transfers 		= (int)		$transfers;
+		$week->covers 			= (int)		$covers;
 
-		$week->hours = $hours;
-		$week->earnedWage = $earnedWage;
-		$week->earnedTips = $earnedTips;
-		$week->earnedTotal = $earnedTotal;
-		$week->tipsVsWage = $tipsVsWage;
-		$week->salesPerHour = $salesPerHour;
-		$week->salesPerCover = $salesPerCover;
-		$week->tipsPercent = $tipsPercent;
-		$week->tipoutPercent = $tipoutPercent;
-		$week->earnedHourly = $earnedHourly;
+		$week->hours 			= (float)	$hours;
+		$week->earnedWage 		= (float)	$earnedWage;
+		$week->earnedTips 		= (int)		$earnedTips;
+		$week->earnedTotal 		= (float)	$earnedTotal;
+		$week->tipsVsWage 		= (int)		$tipsVsWage;
+		$week->salesPerHour 	= (float)	$salesPerHour;
+		$week->salesPerCover 	= (float)	$salesPerCover;
+		$week->tipsPercent 		= (float)	$tipsPercent;
+		$week->tipoutPercent 	= (float)	$tipoutPercent;
+		$week->earnedHourly 	= (float)	$earnedHourly;
 
-		$week->id = $id;
+		$week->id 				= (int)		$id;
 		$summary->weeks[] = $week;
 	}
 	$stmt->free_result();
@@ -48,33 +48,35 @@
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$row = $result->fetch_assoc();
-	$summary->summary->count = $row['count'];
-	$summary->summary->avgShifts = $row['avgShifts'];
-	$summary->summary->totShifts = $row['totShifts'];
-	$summary->summary->avgHours = $row['avgHours'];
-	$summary->summary->totHours = $row['totHours'];
-	$summary->summary->avgWage = $row['avgWage'];
-	$summary->summary->totWage = $row['totWage'];
-	$summary->summary->avgTips = $row['avgTips'];
-	$summary->summary->totTips = $row['totTips'];
-	$summary->summary->avgEarned = $row['avgEarned'];
-	$summary->summary->totEarned = $row['totEarned'];
-	$summary->summary->avgTipout = $row['avgTipout'];
-	$summary->summary->totTipout = $row['totTipout'];
-	$summary->summary->avgSales = $row['avgSales'];
-	$summary->summary->totSales = $row['totSales'];
-	$summary->summary->avgCovers = $row['avgCovers'];
-	$summary->summary->totCovers = $row['totCovers'];
-	$summary->summary->avgCampHours = $row['avgCampHours'];
-	$summary->summary->totCampHours = $row['totCampHours'];
-	$summary->summary->salesPerHour = $row['salesPerHour'];
-	$summary->summary->salesPerCover = $row['salesPerCover'];
-	$summary->summary->tipsPercent = $row['tipsPercent'];
-	$summary->summary->tipoutPercent = $row['tipoutPercent'];
-	$summary->summary->tipsVsWage = $row['tipsVsWage'];
-	$summary->summary->hourly = $row['hourly'];
+	$summary->summary->count 			= (int) 	$row['count'];
+	$summary->summary->avgShifts 		= (float) 	$row['avgShifts'];
+	$summary->summary->totShifts 		= (int) 	$row['totShifts'];
+	$summary->summary->avgHours 		= (float) 	$row['avgHours'];
+	$summary->summary->totHours 		= (float) 	$row['totHours'];
+	$summary->summary->avgWage 			= (float) 	$row['avgWage'];
+	$summary->summary->totWage 			= (float) 	$row['totWage'];
+	$summary->summary->avgTips 			= (float) 	$row['avgTips'];
+	$summary->summary->totTips 			= (int) 	$row['totTips'];
+	$summary->summary->avgEarned 		= (float) 	$row['avgEarned'];
+	$summary->summary->totEarned 		= (float) 	$row['totEarned'];
+	$summary->summary->avgTipout 		= (float) 	$row['avgTipout'];
+	$summary->summary->totTipout 		= (int) 	$row['totTipout'];
+	$summary->summary->avgSales 		= (float) 	$row['avgSales'];
+	$summary->summary->totSales 		= (float) 	$row['totSales'];
+	$summary->summary->avgCovers 		= (float) 	$row['avgCovers'];
+	$summary->summary->totCovers 		= (int) 	$row['totCovers'];
+	$summary->summary->avgCampHours 	= (float) 	$row['avgCampHours'];
+	$summary->summary->totCampHours 	= (float) 	$row['totCampHours'];
+	$summary->summary->salesPerHour 	= (float) 	$row['salesPerHour'];
+	$summary->summary->salesPerCover 	= (float) 	$row['salesPerCover'];
+	$summary->summary->tipsPercent 		= (float) 	$row['tipsPercent'];
+	$summary->summary->tipoutPercent 	= (float) 	$row['tipoutPercent'];
+	$summary->summary->tipsVsWage 		= (int) 	$row['tipsVsWage'];
+	$summary->summary->hourly 			= (float) 	$row['hourly'];
 	$stmt->free_result();
 	$stmt->close();
+
+	//var_dump($summary->weeks[0]);
 
 	echo json_encode($summary);
 ?>

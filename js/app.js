@@ -265,6 +265,8 @@
 
 	app.controller('SummaryWeeklyController', [ '$http', function($http) {
 		var ctrl = this;
+		ctrl.sortField = 'startWeek';
+		ctrl.sortReverse = false;
 
 		$http.get('./data/summaries.php')
 		.success(function (data, status, headers, config) {
@@ -276,6 +278,19 @@
 			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
 		});
+
+		ctrl.changeSortField = function(field) {
+			// if field is already selected, toggle the sort direction
+			if(ctrl.sortField == field) {
+				ctrl.sortReverse = !ctrl.sortReverse;
+			} else {
+				ctrl.sortField = field;
+				ctrl.sortReverse = false;
+			}
+		};
+		ctrl.isSortField = function(field) {
+			return ctrl.sortField == field;
+		};
 	}]);
 
 	app.filter('timeToDate', function() {

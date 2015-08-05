@@ -511,7 +511,7 @@ span.filter-bold {
 }
 
 /* ############################################
-	SUMMARY
+	TABLES
 ############################################ */
 div.mobile-table {
 	width: 100%;
@@ -537,6 +537,12 @@ div.mobile-table {
 	tr.header {background-color: dimgray; color: white;}
 	tr.alt {background-color: lightgray; color: black;}
 	tr.summary {background-color: gray; color: black;}
+}
+th.sort-field {
+	box-shadow: inset 0 -3px 0 0 black;
+}
+th.sort-field.reverse {
+	box-shadow: inset 0 3px 0 0 black;	
 }
 
 th.hdr-avg-cell {background-color: dimgrey;}
