@@ -7,8 +7,8 @@
 			controller: 'ShiftGridController',
 			contrllerAs: 'shiftGridCtrl'
 		})
-		// .when('/shifts/weekly', {
-		// 	templateUrl: 'pages/list-weekly.html',
+		// .when('/weekly/grid', {
+		// 	templateUrl: 'pages/weekly-grid.html',
 		// 	controller: 'ShiftListWeeklyController',
 		// 	contrllerAs: 'shiftListWeeklyCtrl'
 		// })
@@ -22,10 +22,10 @@
 		// 	controller: 'SummaryController',
 		// 	contrllerAs: 'summaryCtrl'
 		// })
-		.when('/summary/weekly', {
-			templateUrl: 'pages/summary-weekly.html',
-			controller: 'SummaryWeeklyController',
-			contrllerAs: 'summaryWeeklyCtrl'
+		.when('/weekly/list', {
+			templateUrl: 'pages/weekly-list.html',
+			controller: 'WeeklyListController',
+			contrllerAs: 'weeklyListCtrl'
 		})
 		// .when('/summary/monthly', {
 		// 	templateUrl: 'pages/summary-monthly.html',
@@ -263,7 +263,7 @@
 		};
 	}]);
 
-	app.controller('SummaryWeeklyController', [ '$http', function($http) {
+	app.controller('WeeklyListController', [ '$http', function($http) {
 		var ctrl = this;
 		ctrl.sortField = 'startWeek';
 		ctrl.sortReverse = false;

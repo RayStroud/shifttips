@@ -93,116 +93,6 @@ BEGIN
 END //
 DELIMITER ;
 
-#rename to saveShift and change the name everywhere else
-DROP PROCEDURE IF EXISTS insertShift;
-DELIMITER //
-CREATE PROCEDURE insertShift (
-	-- p_id: # to update, NULL to insert with id return, 0 to insert without return
-	p_id			INT,
-	p_wage 			DECIMAL(5,2),
-	p_date			DATE,
-	p_startTime		TIME,
-	p_endTime		TIME,
-	p_firstTable 	TIME,
-	p_campHours		DECIMAL(5,2),
-	p_sales			DECIMAL(7,2),
-	p_tipout		INT,
-	p_transfers		INT,
-	p_cash			INT,
-	p_due 			INT,
-	p_covers		INT,
-	p_cut 			CHAR(1),
-	p_section		VARCHAR(25),
-	p_notes 		VARCHAR(250)
-)
-BEGIN	
-	DECLARE v_hours			DECIMAL(5,2);
-	DECLARE v_earnedWage	INT;
-	DECLARE v_earnedTips	INT;
-	DECLARE v_earnedTotal	INT;
-	DECLARE v_tipsVsWage	INT;
-	DECLARE v_salesPerHour	DECIMAL(6,2);
-	DECLARE v_salesPerCover	DECIMAL(6,2);
-	DECLARE v_tipsPercent	DECIMAL(4,1);
-	DECLARE v_tipoutPercent	DECIMAL(4,1);
-	DECLARE v_earnedHourly	DECIMAL(5,2);
-	DECLARE v_noCampHourly	DECIMAL(5,2);
-	DECLARE v_lunchDinner	CHAR(1);
-	DECLARE v_dayOfWeek		CHAR(3);
-	-- endTime variable if past startTime
-	DECLARE v_endTime		TIME;
-	-- return newly inserted id if p_id is NULL
-	DECLARE v_id			INT;
-
-	IF (p_endTime BETWEEN '00:00' AND p_startTime)
-		THEN SET v_endTime := ADDTIME(p_endTime, '24:00');
-		ELSE SET v_endTime := p_endTime; 
-	END IF;
-
-	SET v_hours := HOUR(TIMEDIFF(v_endTime, p_startTime)) + (MINUTE(TIMEDIFF(v_endTime, p_startTime))/60);
-	SET v_earnedWage := p_wage * v_hours;
-	IF (p_cash IS NULL && p_due IS NULL)
-		THEN SET v_earnedTips := NULL;
-		ELSE SET v_earnedTips := IFNULL(p_cash,0) + IFNULL(p_due,0);
-	END IF;
-	IF (v_earnedWage IS NULL && v_earnedTips IS NULL)
-		THEN SET v_earnedTotal := NULL;
-		ELSE SET v_earnedTotal := IFNULL(v_earnedWage,0) + IFNULL(v_earnedTips,0);
-	END IF;
-	SET v_tipsVsWage := v_earnedTips * 100 / v_earnedWage; 
-	SET v_salesPerHour := p_sales / v_hours;
-	SET v_salesPerCover := p_sales / p_covers;
-	SET v_tipsPercent := v_earnedTips * 100 / p_sales;
-	SET v_tipoutPercent := p_tipout * 100 / p_sales;
-	SET v_earnedHourly := v_earnedTotal / v_hours;
-	SET v_noCampHourly := v_earnedTotal / (v_hours - p_campHours);
-	IF (p_startTime BETWEEN '10:00' AND '13:00')
-		THEN SET v_lunchDinner := 'L';
-		ELSE SET v_lunchDinner := 'D';
-	END IF;
-	SET v_dayOfWeek := LEFT(DAYNAME(p_date),3);
-
-	IF (p_id IS NULL)
-		THEN INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek) 
-				VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_earnedHourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
-			SELECT LAST_INSERT_ID() as id;
-		ELSEIF (p_id = 0)
-			THEN INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek) 
-					VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_earnedHourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
-		ELSE UPDATE shift SET
-			wage = p_wage,
-			date = p_date,
-			startTime = p_startTime,
-			endTime = p_endTime,
-			firstTable = p_firstTable,
-			campHours = p_campHours,
-			sales = p_sales,
-			tipout = p_tipout,
-			transfers = p_transfers,
-			cash = p_cash,
-			due = p_due,
-			covers = p_covers,
-			cut = p_cut,
-			section = p_section,
-			notes = p_notes,
-			hours = v_hours,
-			earnedWage = v_earnedWage,
-			earnedTips = v_earnedTips,
-			earnedTotal = v_earnedTotal,
-			tipsVsWage = v_tipsVsWage,
-			salesPerHour = v_salesPerHour,
-			salesPerCover = v_salesPerCover,
-			tipsPercent = v_tipsPercent,
-			tipoutPercent = v_tipoutPercent,
-			earnedHourly = v_earnedHourly,
-			noCampHourly = v_noCampHourly,
-			lunchDinner = v_lunchDinner,
-			dayOfWeek = v_dayOfWeek
-			WHERE id = p_id;
-	END IF;
-END //
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS saveShift;
 DELIMITER //
 CREATE PROCEDURE saveShift (
@@ -307,6 +197,20 @@ BEGIN
 			dayOfWeek = v_dayOfWeek
 			WHERE id = p_id;
 	END IF;
+	CALL calculateSplits();
+	CALL calculateWeeks();
+	CALL calculateMonths();
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS deleteShift;
+DELIMITER //
+CREATE PROCEDURE deleteShift (p_id INT)
+BEGIN
+	DELETE FROM shift WHERE id = p_id LIMIT 1;
+	CALL calculateSplits();
+	CALL calculateWeeks();
+	CALL calculateMonths();
 END //
 DELIMITER ;
 
@@ -352,7 +256,6 @@ BEGIN
 	CALL calculateSummary(v_dateFrom, v_dateTo, "L", "Fri");
 
 	#Day of the Week - Split
-	CALL calculateSplits();
 	CALL calculateSplitSummary(v_dateFrom, v_dateTo, "Mon");
 	CALL calculateSplitSummary(v_dateFrom, v_dateTo, "Tue");
 	CALL calculateSplitSummary(v_dateFrom, v_dateTo, "Wed");
@@ -360,12 +263,10 @@ BEGIN
 	CALL calculateSplitSummary(v_dateFrom, v_dateTo, "Fri");
 
 	#Weekly
-	CALL calculateWeeks();
-	CALL calculateWeeklySummary(v_dateFrom, v_dateTo);
+	CALL calculateWeeklySummary(v_dateFrom, v_dateTo, 1);
 
 	#Monthly
-	CALL calculateMonths();
-	CALL calculateMonthlySummary(v_dateFrom, v_dateTo);
+	CALL calculateMonthlySummary(v_dateFrom, v_dateTo, 1);
 
 	SELECT * FROM summary;
 END //
@@ -620,7 +521,7 @@ BEGIN
 	DECLARE v_dateFrom			DATE;
 	DECLARE v_dateTo			DATE;
 	DECLARE v_count 			INT;
-	DECLARE v_avgShifts 		INT;
+	DECLARE v_avgShifts 		DECIMAL(4,2);
 	DECLARE v_totShifts 		INT;
 	DECLARE v_avgHours 			DECIMAL(5,2);
 	DECLARE v_totHours 			DECIMAL(7,2);
@@ -654,8 +555,6 @@ BEGIN
 		THEN SET v_dateTo := '9999-12-31';
 		ELSE SET v_dateTo := p_dateTo;
 	END IF;
-
-	CALL calculateWeeks();
 
 	SELECT COUNT(id) 
 		FROM week 
@@ -785,15 +684,22 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS calculateMonthlySummary;
 DELIMITER //
-CREATE PROCEDURE calculateMonthlySummary (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE calculateMonthlySummary (p_dateFrom DATE, p_dateTo DATE, p_insert BIT)
+-- p_insert: NULL or 0 will return, 1 will insert row into summary table
 BEGIN
+	DECLARE v_dateFrom			DATE;
+	DECLARE v_dateTo			DATE;
 	DECLARE v_count 			INT;
+	DECLARE v_avgShifts 		DECIMAL(4,2);
+	DECLARE v_totShifts 		INT;
 	DECLARE v_avgHours 			DECIMAL(5,2);
 	DECLARE v_totHours 			DECIMAL(7,2);
 	DECLARE v_avgWage 			DECIMAL(5,2);
 	DECLARE v_totWage 			DECIMAL(7,2);
 	DECLARE v_avgTips 			DECIMAL(5,2);
 	DECLARE v_totTips 			INT;
+	DECLARE v_avgEarned			DECIMAL(5,2);
+	DECLARE v_totEarned			DECIMAL(7,2);
 	DECLARE v_avgTipout 		DECIMAL(5,2);
 	DECLARE v_totTipout 		INT;
 	DECLARE v_avgSales 			DECIMAL(7,2);
@@ -809,81 +715,103 @@ BEGIN
 	DECLARE v_tipsVsWage 		INT;
 	DECLARE v_hourlyWage 		DECIMAL(4,2);
 
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
 	SELECT COUNT(id) 
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_count;
+	SELECT AVG(count) 
+		FROM month 
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
+		INTO v_avgShifts;
+	SELECT SUM(count) 
+		FROM month 
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
+		INTO v_totShifts;
 	SELECT AVG(hours)
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_avgHours;
 	SELECT SUM(hours) 
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_totHours;
 	SELECT AVG(earnedWage)
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_avgWage;
 	SELECT SUM(earnedWage) 
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_totWage;
 	SELECT AVG(earnedTips)
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_avgTips;
 	SELECT SUM(earnedTips) 
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_totTips;
 	SELECT AVG(tipout)
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_avgTipout;
 	SELECT SUM(tipout) 
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_totTipout;
 	SELECT AVG(sales)
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_avgSales;
 	SELECT SUM(sales) 
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_totSales;
 	SELECT AVG(covers)
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_avgCovers;
 	SELECT SUM(covers) 
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_totCovers;
 	SELECT AVG(campHours)
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_avgCampHours;
 	SELECT SUM(campHours) 
 		FROM month 
-		WHERE year BETWEEN YEAR(p_dateFrom) AND YEAR(p_dateTo)
-			AND month BETWEEN MONTH(p_dateFrom) AND MONTH(p_dateTo)
+		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_totCampHours;
+	SET v_avgEarned = v_avgWage + v_avgTips;
+	SET v_totEarned = v_totWage + v_totTips;
 	SET v_salesPerHour = v_totSales / v_totHours;
 	SET v_salesPerCover = v_totSales / v_totCovers;
 	SET v_tipsPercent = v_totTips * 100 / v_totSales;
@@ -891,8 +819,35 @@ BEGIN
 	SET v_tipsVsWage = v_totTips * 100 / v_totWage;
 	SET v_hourlyWage = (v_totWage + v_totTips) / v_totHours;
 
-	INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timestamp)
-		VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, '-', 'Mth', CURRENT_TIMESTAMP);
+	IF (p_insert = 1)
+		THEN INSERT INTO summary (count, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgTipout, totTipout, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourlyWage, lunchDinner, dayOfWeek, timestamp)
+			VALUES (v_count, v_avgHours, v_totHours, v_avgWage, v_totWage, v_avgTips, v_totTips, v_avgTipout, v_totTipout, v_avgSales, v_totSales, v_avgCovers, v_totCovers, v_avgCampHours, v_totCampHours, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_tipsVsWage, v_hourlyWage, '-', 'Mth', CURRENT_TIMESTAMP);
+		ELSE SELECT v_count as count,
+			v_avgShifts as avgShifts,
+			v_totShifts as totShifts,
+			v_avgHours as avgHours,
+			v_totHours as totHours,
+			v_avgWage as avgWage,
+			v_totWage as totWage,
+			v_avgTips as avgTips,
+			v_totTips as totTips,
+			v_avgEarned as avgEarned,
+			v_totEarned as totEarned,
+			v_avgTipout as avgTipout,
+			v_totTipout as totTipout,
+			v_avgSales as avgSales,
+			v_totSales as totSales,
+			v_avgCovers as avgCovers,
+			v_totCovers as totCovers,
+			v_avgCampHours as avgCampHours,
+			v_totCampHours as totCampHours,
+			v_salesPerHour as salesPerHour,
+			v_salesPerCover as salesPerCover,
+			v_tipsPercent as tipsPercent,
+			v_tipoutPercent as tipoutPercent,
+			v_tipsVsWage as tipsVsWage,
+			v_hourlyWage as hourly;
+	END IF;	
 END //
 DELIMITER ;
 

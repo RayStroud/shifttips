@@ -1,16 +1,13 @@
-<?php
-	
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Error - Shift Tips</title>
+	<title>Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 	<div id="header">
-		<div class="name"><a href="index.php">Shift Tips</a></div>
+		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
 			<li><a class="link-button" href="shifts.php">Shifts</a></li>
 			<li><a class="link-button" href="summary.php">Summary</a></li>
@@ -19,8 +16,16 @@
 	</div>
 	<div id="content">
 		<div class="wrapper">
-			<h1>Error</h1>
-			<div class="message-box error">Oops! Something bad happened!</div>
+			<h1>PHP Homepage</h1>
+
+			<h2>Other Pages</h2>
+			<ul class="old-links">
+				<li><a class="link-button" href="../">Angular Home Page</a></li>
+				<li><a class="link-button" href="column-nonscrollable-summary.php">Column Summary</a></li>
+				<li><a class="link-button" href="one-row-summary.php">One Row Summary</a></li>
+				<li><a class="link-button" href="weekly.php">Weekly Summary</a></li>
+				<li><a class="link-button" href="monthly.php">Monthly Summary</a></li>
+			</ul>
 		</div>
 	</div>
 	<div id="footer">

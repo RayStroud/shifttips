@@ -80,7 +80,7 @@
 	}
 	function delete($db, $id)
 	{
-		$stmt = $db->prepare('DELETE FROM shift WHERE id = ? LIMIT 1;');
+		$stmt = $db->prepare('CALL deleteShift(?);');
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
 		echo $stmt->affected_rows;

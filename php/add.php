@@ -59,7 +59,7 @@
 			$db->query("SET @notes 		= " . $notes 		. ";");
 
 			//calculate summaries
-			$result = $db->query('CALL insertShift(NULL, @wage, @date, @startTime, @endTime, @firstTable, @campHours, @sales, @tipout, @transfers, @cash, @due, @covers, @cut, @section, @notes);');
+			$result = $db->query('CALL saveShift(NULL, @wage, @date, @startTime, @endTime, @firstTable, @campHours, @sales, @tipout, @transfers, @cash, @due, @covers, @cut, @section, @notes);');
 			//* DEBUG */ echo '<p>DB INFO:' . $db->info . '</p>';
 
 			//get insert id
@@ -80,11 +80,11 @@
 	<title>Add Shift - Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 	<div id="header">
-		<div class="name"><a href="index.php">Shift Tips</a></div>
+		<div class="name"><a href=".">Shift Tips</a></div>
 		<ul class="menu">
 			<li><a class="link-button" href="shifts.php">Shifts</a></li>
 			<li><a class="link-button" href="summary.php">Summary</a></li>
