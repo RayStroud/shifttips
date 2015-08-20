@@ -75,12 +75,12 @@
 							<div class="value">{{shift.sales | currency}}</div>
 						</div>
 						<div class="shift-info">
-							<div class="label">T/O</div>
-							<div class="value">{{shift.tipout | currency:undefined:0}}</div>
-						</div>
-						<div class="shift-info">
 							<div class="label">Tips</div>
 							<div class="value">{{shift.earnedTips | currency:undefined:0}}</div>
+						</div>
+						<div class="shift-info">
+							<div class="label">%</div>
+							<div class="value">{{shift.tipsPercent | number:1}}%</div>
 						</div>
 						<div class="shift-info">
 							<div class="label">$/h</div>
