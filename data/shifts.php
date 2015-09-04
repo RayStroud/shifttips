@@ -1,5 +1,5 @@
 <?php
-	include 'db.php';
+	include 'include/db.php';
 	function selectAll($db)
 	{
 		$stmt = $db->prepare('SELECT wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek, id FROM shift;');

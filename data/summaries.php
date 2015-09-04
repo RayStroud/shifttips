@@ -1,5 +1,5 @@
 <?php
-	include 'db.php';
+	include 'include/db.php';
 	
 	//extract dates if set, or use defaults
 	try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) 	: null; } catch(Exception $e) { $dateTimeFrom 	= null; }
