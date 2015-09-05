@@ -5,42 +5,42 @@
 		$routeProvider.when('/shifts', {
 			templateUrl: 'pages/shift-grid.html',
 			controller: 'ShiftGridController',
-			contrllerAs: 'shiftGridCtrl'
+			controllerAs: 'shiftGridCtrl'
 		})
 		// .when('/weekly/grid', {
 		// 	templateUrl: 'pages/weekly-grid.html',
 		// 	controller: 'ShiftListWeeklyController',
-		// 	contrllerAs: 'shiftListWeeklyCtrl'
+		// 	controllerAs: 'shiftListWeeklyCtrl'
 		// })
 		.when('/shift/:id', {
 			templateUrl: 'pages/shift-view.html',
 			controller: 'ShiftViewController',
-			contrllerAs: 'shiftViewCtrl'
+			controllerAs: 'shiftViewCtrl'
 		})
-		// .when('/summary', {
-		// 	templateUrl: 'pages/summary.html',
-		// 	controller: 'SummaryController',
-		// 	contrllerAs: 'summaryCtrl'
-		// })
-		.when('/weekly/list', {
-			templateUrl: 'pages/weekly-list.html',
-			controller: 'WeeklyListController',
-			contrllerAs: 'weeklyListCtrl'
+		.when('/summary', {
+			templateUrl: 'pages/summary.html',
+			controller: 'SummaryController',
+			controllerAs: 'summaryCtrl'
+		})
+		.when('/summary/weekly', {
+			templateUrl: 'pages/summary-weekly.html',
+			controller: 'SummaryWeeklyController',
+			controllerAs: 'summaryWeeklyCtrl'
 		})
 		// .when('/summary/monthly', {
 		// 	templateUrl: 'pages/summary-monthly.html',
 		// 	controller: 'SummaryMonthlyController',
-		// 	contrllerAs: 'summaryMonthlyCtrl'
+		// 	controllerAs: 'summaryMonthlyCtrl'
 		// })
 		.when('/shifts/add', {
 			templateUrl: 'pages/shift-add.html',
 			controller: 'ShiftAddController',
-			contrllerAs: 'shiftAddCtrl'
+			controllerAs: 'shiftAddCtrl'
 		})
 		.when('/shift/:id/edit', {
 			templateUrl: 'pages/shift-edit.html',
 			controller: 'ShiftEditController',
-			contrllerAs: 'shiftEditCtrl'
+			controllerAs: 'shiftEditCtrl'
 		})
 		.when('/', {
 			templateUrl: 'pages/home.html'
@@ -263,16 +263,43 @@
 		};
 	}]);
 
-	app.controller('WeeklyListController', [ '$http', function($http) {
+	app.controller('SummaryWeeklyController', [ '$http', function($http) {
 		var ctrl = this;
 		ctrl.sortField = 'startWeek';
 		ctrl.sortReverse = false;
 
-		$http.get('./data/summaries.php')
+		$http.get('./data/summaries.php?weekly')
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.weeks = data.weeks;
 			ctrl.summary = data.summary;
+		})
+		.error(function (data, status, headers, config) {
+			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
+
+		ctrl.changeSortField = function(field) {
+			// if field is already selected, toggle the sort direction
+			if(ctrl.sortField == field) {
+				ctrl.sortReverse = !ctrl.sortReverse;
+			} else {
+				ctrl.sortField = field;
+				ctrl.sortReverse = false;
+			}
+		};
+		ctrl.isSortField = function(field) {
+			return ctrl.sortField == field;
+		};
+	}]);
+
+	app.controller('SummaryController', [ '$http', function($http) {
+		var ctrl = this;
+
+		$http.get('./data/summaries.php')
+		.success(function (data, status, headers, config) {
+			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.summaries = data;
 		})
 		.error(function (data, status, headers, config) {
 			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};

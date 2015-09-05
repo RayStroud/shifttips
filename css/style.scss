@@ -548,6 +548,11 @@ th.sort-field.reverse {
 th.hdr-avg-cell {background-color: dimgrey;}
 th.hdr-tot-cell {background-color: grey;}
 
+td.avg-cell {background-color: #ddd;}
+td.tot-cell {background-color: #eee;}
+tbody.alt {td.avg-cell {background-color: #bbb;}}
+tbody.alt {td.tot-cell {background-color: #ccc;}}
+
 td.lun-avg-cell {background-color: rgba($lun-color,0.6);}
 td.lun-tot-cell {background-color: rgba($lun-color,0.4);}
 td.din-avg-cell {background-color: rgba($din-color,0.6);}

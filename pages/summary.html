@@ -1,0 +1,58 @@
+<div ng-controller="SummaryController as ctrl">
+	<h1>Summary</h1>
+	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
+	<div ng-hide="ctrl.error">
+		<div class="mobile-table">
+			<table class="summary-table">
+				<tr class="header">
+					<th class="hdr-avg-cell">Type</th>
+					<th class="hdr-avg-cell">#</th>
+					<th class="hdr-avg-cell">Hours</th>
+					<th class="hdr-avg-cell">Wage</th>
+					<th class="hdr-avg-cell">Tips</th>
+					<th class="hdr-avg-cell">Tipout</th>
+					<th class="hdr-avg-cell">Earned</th>
+					<th class="hdr-avg-cell">Sales</th>
+					<th class="hdr-avg-cell">Covers</th>
+					<th class="hdr-avg-cell">Camp</th>
+					<th class="hdr-avg-cell">Sales/h</th>
+					<th class="hdr-avg-cell">Sales/cov</th>
+					<th class="hdr-avg-cell">%Tips</th>
+					<th class="hdr-avg-cell">%T/O</th>
+					<th class="hdr-avg-cell">%TvsW</th>
+					<th class="hdr-avg-cell">Earn/h</th>
+				</tr>
+				<tbody ng-repeat="summary in ctrl.summaries" ng-class-even="'alt'">
+					<tr>
+						<td class="avg-cell" rowspan="2">{{summary.lunchDinner}}</td>
+						<td class="avg-cell" rowspan="2">{{summary.count}}</td>
+						<td class="avg-cell">{{summary.avgHours}}h</td>
+						<td class="avg-cell">{{summary.avgWage | currency}}</td>
+						<td class="avg-cell">{{summary.avgTips | currency}}</td>
+						<td class="avg-cell">{{summary.avgTipout | currency}}</td>
+						<td class="avg-cell">{{summary.avgEarned | currency}}</td>
+						<td class="avg-cell">{{summary.avgSales | currency:undefined:0}}</td>
+						<td class="avg-cell">{{summary.avgCovers}}</td>
+						<td class="avg-cell">{{summary.avgCampHours}}h</td>
+						<td class="avg-cell" rowspan="2">{{summary.salesPerHour | currency}}/h</td>
+						<td class="avg-cell" rowspan="2">{{summary.salesPerCover | currency}}/cov</td>
+						<td class="avg-cell" rowspan="2">{{summary.tipsPercent}}%</td>
+						<td class="avg-cell" rowspan="2">{{summary.tipoutPercent}}%</td>
+						<td class="avg-cell" rowspan="2">{{summary.tipsVsWage}}%</td>
+						<td class="avg-cell" rowspan="2">{{summary.hourly | currency}}/h</td>
+					</tr>
+					<tr>
+						<td class="tot-cell">{{summary.totHours}}h</td>
+						<td class="tot-cell">{{summary.totWage | currency:undefined:0}}</td>
+						<td class="tot-cell">{{summary.totTips | currency:undefined:0}}</td>
+						<td class="tot-cell">{{summary.totTipout | currency:undefined:0}}</td>
+						<td class="tot-cell">{{summary.totEarned | currency:undefined:0}}</td>
+						<td class="tot-cell">{{summary.totSales | currency:undefined:0}}</td>
+						<td class="tot-cell">{{summary.totCovers}}cov</td>
+						<td class="tot-cell">{{summary.totCampHours}}h</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -4,8 +4,8 @@
 	$mysql_host = 'localhost';
 	$mysql_database = 'shifttips';
 	$mysql_user = 'root';
-	$mysql_password = '';		//LORAX, Vader
-	$mysql_password = 'root';	//Zeppelin
+	$mysql_password = '';		//WAMP
+	//$mysql_password = 'root';	//MAMP
 
 	//connect to db
 	//* DEBUG */ echo '<p>Attempting to connect...</p>';

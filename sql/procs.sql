@@ -1,5 +1,29 @@
 DROP PROCEDURE IF EXISTS getShifts;
 DELIMITER //
+CREATE PROCEDURE getShifts (p_dateFrom DATE, p_dateTo DATE)
+BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	SELECT id, wage, YEARWEEK(date, 3) as 'yearWeek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek
+	FROM shift
+	WHERE date BETWEEN v_dateFrom AND v_dateTo
+	ORDER BY date, startTime ASC;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS getShiftsFiltered;
+DELIMITER //
 CREATE PROCEDURE getShifts (
 	p_dateFrom		DATE,
 	p_dateTo		DATE,
@@ -269,6 +293,201 @@ BEGIN
 	CALL calculateMonthlySummary(v_dateFrom, v_dateTo, 1);
 
 	SELECT * FROM summary;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS getSummary;
+DELIMITER //
+CREATE PROCEDURE getSummary (p_dateFrom DATE, p_dateTo DATE)
+BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	SELECT
+		lunchDinner,
+		COUNT(id) as count,
+		ROUND(AVG(hours)		,2) as avgHours,
+		ROUND(SUM(hours)		,0) as totHours,
+		ROUND(AVG(earnedWage)	,2) as avgWage,
+		ROUND(SUM(earnedWage)	,0) as totWage,
+		ROUND(AVG(earnedTips)	,2) as avgTips,
+		ROUND(SUM(earnedTips)	,0) as totTips,
+		ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
+		ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+		ROUND(AVG(tipout)		,2) as avgTipout,
+		ROUND(SUM(tipout)		,0) as totTipout,
+		ROUND(AVG(sales)		,0) as avgSales,
+		ROUND(SUM(sales)		,0) as totSales,
+		ROUND(AVG(covers)		,1) as avgCovers,
+		ROUND(SUM(covers)		,0) as totCovers,
+		ROUND(AVG(campHours)	,2) as avgCampHours,
+		ROUND(SUM(campHours)	,2) as totCampHours,
+		ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+		ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+		ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+		ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+		ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+	FROM shift
+	WHERE date BETWEEN v_dateFrom AND v_dateTo
+	GROUP BY lunchDinner;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS getSummaryByDayOfWeek;
+DELIMITER //
+CREATE PROCEDURE getSummaryByDayOfWeek (p_dateFrom DATE, p_dateTo DATE)
+BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	SELECT
+		dayOfWeek,
+		lunchDinner,
+		COUNT(id) as count,
+		ROUND(AVG(hours)		,2) as avgHours,
+		ROUND(SUM(hours)		,0) as totHours,
+		ROUND(AVG(earnedWage)	,2) as avgWage,
+		ROUND(SUM(earnedWage)	,0) as totWage,
+		ROUND(AVG(earnedTips)	,2) as avgTips,
+		ROUND(SUM(earnedTips)	,0) as totTips,
+		ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
+		ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+		ROUND(AVG(tipout)		,2) as avgTipout,
+		ROUND(SUM(tipout)		,0) as totTipout,
+		ROUND(AVG(sales)		,0) as avgSales,
+		ROUND(SUM(sales)		,0) as totSales,
+		ROUND(AVG(covers)		,1) as avgCovers,
+		ROUND(SUM(covers)		,0) as totCovers,
+		ROUND(AVG(campHours)	,2) as avgCampHours,
+		ROUND(SUM(campHours)	,2) as totCampHours,
+		ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+		ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+		ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+		ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+		ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+	FROM shift
+	WHERE date BETWEEN v_dateFrom AND v_dateTo
+	GROUP BY dayOfWeek, lunchDinner;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS getSummaryWeekly;
+DELIMITER //
+CREATE PROCEDURE getSummaryWeekly (p_dateFrom DATE, p_dateTo DATE)
+BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	SELECT
+		COUNT(id) as count,
+		ROUND(AVG(count)		,1) as avgShifts,
+		ROUND(SUM(count)		,0) as totShifts,
+		ROUND(AVG(hours)		,2) as avgHours,
+		ROUND(SUM(hours)		,0) as totHours,
+		ROUND(AVG(earnedWage)	,2) as avgWage,
+		ROUND(SUM(earnedWage)	,0) as totWage,
+		ROUND(AVG(earnedTips)	,2) as avgTips,
+		ROUND(SUM(earnedTips)	,0) as totTips,
+		ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
+		ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+		ROUND(AVG(tipout)		,2) as avgTipout,
+		ROUND(SUM(tipout)		,0) as totTipout,
+		ROUND(AVG(sales)		,0) as avgSales,
+		ROUND(SUM(sales)		,0) as totSales,
+		ROUND(AVG(covers)		,1) as avgCovers,
+		ROUND(SUM(covers)		,0) as totCovers,
+		ROUND(AVG(campHours)	,2) as avgCampHours,
+		ROUND(SUM(campHours)	,2) as totCampHours,
+		ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+		ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+		ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+		ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+		ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+	FROM week 
+	WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
+		OR endWeek BETWEEN v_dateFrom AND v_dateTo;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS getSummaryMonthly;
+DELIMITER //
+CREATE PROCEDURE getSummaryMonthly (p_dateFrom DATE, p_dateTo DATE)
+BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	SELECT
+		COUNT(id) as count,
+		ROUND(AVG(count)		,1) as avgShifts,
+		ROUND(SUM(count)		,0) as totShifts,
+		ROUND(AVG(hours)		,2) as avgHours,
+		ROUND(SUM(hours)		,0) as totHours,
+		ROUND(AVG(earnedWage)	,2) as avgWage,
+		ROUND(SUM(earnedWage)	,0) as totWage,
+		ROUND(AVG(earnedTips)	,2) as avgTips,
+		ROUND(SUM(earnedTips)	,0) as totTips,
+		ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
+		ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+		ROUND(AVG(tipout)		,2) as avgTipout,
+		ROUND(SUM(tipout)		,0) as totTipout,
+		ROUND(AVG(sales)		,0) as avgSales,
+		ROUND(SUM(sales)		,0) as totSales,
+		ROUND(AVG(covers)		,1) as avgCovers,
+		ROUND(SUM(covers)		,0) as totCovers,
+		ROUND(AVG(campHours)	,2) as avgCampHours,
+		ROUND(SUM(campHours)	,2) as totCampHours,
+		ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+		ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+		ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+		ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+		ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+	FROM month 
+	WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+		AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo);
 END //
 DELIMITER ;
 

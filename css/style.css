@@ -580,6 +580,18 @@ th.hdr-avg-cell {
 th.hdr-tot-cell {
   background-color: grey; }
 
+td.avg-cell {
+  background-color: #ddd; }
+
+td.tot-cell {
+  background-color: #eee; }
+
+tbody.alt td.avg-cell {
+  background-color: #bbb; }
+
+tbody.alt td.tot-cell {
+  background-color: #ccc; }
+
 td.lun-avg-cell {
   background-color: rgba(204, 132, 0, 0.6); }
 
