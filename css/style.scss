@@ -534,8 +534,9 @@ div.mobile-table {
 		padding: 0.5em;
 		text-align: center;
 	}
+	tr {background-color: #ddd;}
 	tr.header {background-color: dimgray; color: white;}
-	tr.alt {background-color: lightgray; color: black;}
+	tr.alt {background-color: #bbb; color: black;}
 	tr.summary {background-color: gray; color: black;}
 }
 th.sort-field {

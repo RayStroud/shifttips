@@ -558,11 +558,13 @@ div.mobile-table {
     color: white;
     padding: 0.5em;
     text-align: center; }
+  .summary-table tr {
+    background-color: #ddd; }
   .summary-table tr.header {
     background-color: dimgray;
     color: white; }
   .summary-table tr.alt {
-    background-color: lightgray;
+    background-color: #bbb;
     color: black; }
   .summary-table tr.summary {
     background-color: gray;

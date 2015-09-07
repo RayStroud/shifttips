@@ -122,27 +122,36 @@
 		
 	}
 	
-	//extract dates if set, or use defaults
-	try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) 	: null; } catch(Exception $e) { $dateTimeFrom 	= null; }
-	try { $dateTimeTo 	= !empty($_GET['to']) 	? new DateTime($_GET['to']) 	: null; } catch(Exception $e) { $dateTimeTo 	= null; }
-	$p_dateFrom = !empty($dateTimeFrom) ? $dateTimeFrom->format("Y-m-d") 	: '1000-01-01'; 
-	$p_dateTo 	= !empty($dateTimeTo) 	? $dateTimeTo->format("Y-m-d") 		: '9999-12-31'; 
-	//* DEBUG */ echo '<p>|dateFrom:' . $p_dateFrom . '|dateTo:' . $p_dateTo . '|</p>';
+	try
+	{	
+		//extract dates if set, or use defaults
+		try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) 	: null; } catch(Exception $e) { $dateTimeFrom 	= null; }
+		try { $dateTimeTo 	= !empty($_GET['to']) 	? new DateTime($_GET['to']) 	: null; } catch(Exception $e) { $dateTimeTo 	= null; }
+		$p_dateFrom = !empty($dateTimeFrom) ? $dateTimeFrom->format("Y-m-d") 	: '1000-01-01'; 
+		$p_dateTo 	= !empty($dateTimeTo) 	? $dateTimeTo->format("Y-m-d") 		: '9999-12-31'; 
+		//* DEBUG */ echo '<p>|dateFrom:' . $p_dateFrom . '|dateTo:' . $p_dateTo . '|</p>';
 
-	if(isset($_GET['weeks']) 
-		|| isset($_GET['week']) 
-		|| isset($_GET['weekly']))
-	{
-		getSummaryWeeks($db);
+		if(isset($_GET['weeks']) 
+			|| isset($_GET['week']) 
+			|| isset($_GET['weekly']))
+		{
+			getSummaryWeeks($db);
+		}
+		else if(isset($_GET['months']) 
+			|| isset($_GET['month']) 
+			|| isset($_GET['monthly']))
+		{
+			getSummaryMonths($db);
+		}
+		else
+		{
+			getSummary($db);
+		}
+		$db->close();
 	}
-	else if(isset($_GET['months']) 
-		|| isset($_GET['month']) 
-		|| isset($_GET['monthly']))
+	catch (Exception $e) 
 	{
-		getSummaryMonths($db);
-	}
-	else
-	{
-		getSummary($db);
+		http_response_code(500);
+		die();
 	}
 ?>
