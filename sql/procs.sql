@@ -24,7 +24,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getShiftsFiltered;
 DELIMITER //
-CREATE PROCEDURE getShifts (
+CREATE PROCEDURE getShiftsFiltered (
 	p_dateFrom		DATE,
 	p_dateTo		DATE,
 	p_lunchDinner	CHAR(1),
