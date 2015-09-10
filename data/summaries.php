@@ -4,6 +4,41 @@
 	{
 		$stmt = $db->prepare('CALL getSummary(NULL,NULL)');
 		$stmt->execute();
+		$stmt->bind_result($count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
+		$stmt->fetch();
+		$summary = new stdClass();
+		$summary->count 		= (int) 	$count;
+		$summary->avgHours 		= (float) 	$avgHours;
+		$summary->totHours 		= (float) 	$totHours;
+		$summary->avgWage 		= (float) 	$avgWage;
+		$summary->totWage 		= (float) 	$totWage;
+		$summary->avgTips 		= (float) 	$avgTips;
+		$summary->totTips 		= (int) 	$totTips;
+		$summary->avgEarned 	= (float) 	$avgEarned;
+		$summary->totEarned 	= (float) 	$totEarned;
+		$summary->avgTipout 	= (float) 	$avgTipout;
+		$summary->totTipout 	= (int) 	$totTipout;
+		$summary->avgSales 		= (float) 	$avgSales;
+		$summary->totSales 		= (float) 	$totSales;
+		$summary->avgCovers 	= (float) 	$avgCovers;
+		$summary->totCovers 	= (int) 	$totCovers;
+		$summary->avgCampHours 	= (float) 	$avgCampHours;
+		$summary->totCampHours 	= (float) 	$totCampHours;
+		$summary->salesPerHour 	= (float) 	$salesPerHour;
+		$summary->salesPerCover = (float) 	$salesPerCover;
+		$summary->tipsPercent 	= (float) 	$tipsPercent;
+		$summary->tipoutPercent = (float) 	$tipoutPercent;
+		$summary->tipsVsWage 	= (int) 	$tipsVsWage;
+		$summary->hourly 		= (float) 	$hourly;
+		$stmt->free_result();
+		$stmt->close();
+
+		echo json_encode($summary);
+	}
+	function getSummaryByTime($db)
+	{
+		$stmt = $db->prepare('CALL getSummaryByTime(NULL,NULL)');
+		$stmt->execute();
 		$stmt->bind_result($lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
 		while($stmt->fetch())
@@ -41,15 +76,58 @@
 
 		echo json_encode($summaries);
 	}
+	function getSummaryByDayOfWeek($db)
+	{
+		$stmt = $db->prepare('CALL getSummaryByDayOfWeek(NULL,NULL)');
+		$stmt->execute();
+		$stmt->bind_result($weekday, $dayOfWeek, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
+		$summaries = [];
+		while($stmt->fetch())
+		{
+			$summary = new stdClass();
+			$summary->weekday 		= $weekday;
+			$summary->dayOfWeek 	= $dayOfWeek;
+			$summary->lunchDinner 	= $lunchDinner;
+			$summary->count 		= (int) 	$count;
+			$summary->avgHours 		= (float) 	$avgHours;
+			$summary->totHours 		= (float) 	$totHours;
+			$summary->avgWage 		= (float) 	$avgWage;
+			$summary->totWage 		= (float) 	$totWage;
+			$summary->avgTips 		= (float) 	$avgTips;
+			$summary->totTips 		= (int) 	$totTips;
+			$summary->avgEarned 	= (float) 	$avgEarned;
+			$summary->totEarned 	= (float) 	$totEarned;
+			$summary->avgTipout 	= (float) 	$avgTipout;
+			$summary->totTipout 	= (int) 	$totTipout;
+			$summary->avgSales 		= (float) 	$avgSales;
+			$summary->totSales 		= (float) 	$totSales;
+			$summary->avgCovers 	= (float) 	$avgCovers;
+			$summary->totCovers 	= (int) 	$totCovers;
+			$summary->avgCampHours 	= (float) 	$avgCampHours;
+			$summary->totCampHours 	= (float) 	$totCampHours;
+			$summary->salesPerHour 	= (float) 	$salesPerHour;
+			$summary->salesPerCover = (float) 	$salesPerCover;
+			$summary->tipsPercent 	= (float) 	$tipsPercent;
+			$summary->tipoutPercent = (float) 	$tipoutPercent;
+			$summary->tipsVsWage 	= (int) 	$tipsVsWage;
+			$summary->hourly 		= (float) 	$hourly;
+
+			$summaries[] = $summary;
+		}
+		$stmt->free_result();
+		$stmt->close();
+
+		echo json_encode($summaries);
+	}
 	function getSummaryWeeks($db)
 	{
-		$stmt = $db->prepare('SELECT startWeek, endWeek, count, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, id 
+		$stmt = $db->prepare('SELECT startWeek, endWeek, count, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, id 
 			FROM week 
 			#WHERE startWeek BETWEEN ? AND ? OR endWeek BETWEEN ? and ?
 			;');
 		#$stmt->bind_param('ssss', $p_dateFrom, $p_dateTo, $p_dateFrom, $p_dateTo);
 		$stmt->execute();
-		$stmt->bind_result($startWeek, $endWeek, $shifts, $campHours, $sales, $tipout, $transfers, $covers, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $id);
+		$stmt->bind_result($startWeek, $endWeek, $shifts, $campHours, $sales, $tipout, $transfers, $covers, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $hourly, $id);
 		$summary = new stdClass();
 		$summary->weeks = [];
 		while($stmt->fetch())
@@ -73,7 +151,7 @@
 			$week->salesPerCover 	= (float)	$salesPerCover;
 			$week->tipsPercent 		= (float)	$tipsPercent;
 			$week->tipoutPercent 	= (float)	$tipoutPercent;
-			$week->earnedHourly 	= (float)	$earnedHourly;
+			$week->hourly 			= (float)	$hourly;
 
 			$week->id 				= (int)		$id;
 			$summary->weeks[] = $week;
@@ -129,7 +207,19 @@
 	$p_dateTo 	= !empty($dateTimeTo) 	? $dateTimeTo->format("Y-m-d") 		: '9999-12-31'; 
 	//* DEBUG */ echo '<p>|dateFrom:' . $p_dateFrom . '|dateTo:' . $p_dateTo . '|</p>';
 
-	if(isset($_GET['weeks']) 
+	if(isset($_GET['dayOfWeek']) 
+		|| isset($_GET['day']) 
+		|| isset($_GET['daily']))
+	{
+		getSummaryByDayOfWeek($db);
+	}
+	else if(isset($_GET['time']) 
+		|| isset($_GET['lunchDinner']) 
+		|| isset($_GET['shift']))
+	{
+		getSummaryByTime($db);
+	}
+	else if(isset($_GET['weeks']) 
 		|| isset($_GET['week']) 
 		|| isset($_GET['weekly']))
 	{

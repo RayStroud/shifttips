@@ -1,3 +1,15 @@
+@font-face {
+  font-family: 'caladeabold';
+  src: url("../fonts/caladea-bold-webfont.eot");
+  src: url("../fonts/caladea-bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/caladea-bold-webfont.woff2") format("woff2"), url("../fonts/caladea-bold-webfont.woff") format("woff"), url("../fonts/caladea-bold-webfont.ttf") format("truetype"), url("../fonts/caladea-bold-webfont.svg#caladeabold") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'carlitoregular';
+  src: url("../fonts/carlito-regular-webfont.eot");
+  src: url("../fonts/carlito-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/carlito-regular-webfont.woff2") format("woff2"), url("../fonts/carlito-regular-webfont.woff") format("woff"), url("../fonts/carlito-regular-webfont.ttf") format("truetype"), url("../fonts/carlito-regular-webfont.svg#carlitoregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
 /* ############################################
 	CLEANUP
 ############################################ */
@@ -35,13 +47,13 @@ body {
 
 h1 {
   text-align: center;
-  font-family: Georgia, serif;
+  font-family: Cambria, Caladea, CaladeaBold, Georgia, serif;
   font-weight: bold;
   font-size: 1.8em;
   margin: 2% 1%; }
 
 h2 {
-  font-family: Georgia, serif;
+  font-family: Cambria, Caladea, CaladeaBold, Georgia, serif;
   font-size: 1.5em;
   font-weight: bold;
   margin: 1em 0; }
@@ -55,7 +67,7 @@ h3 {
   padding: 2% 1% 1.5% 5%; }
   #header .name {
     display: inline-block;
-    font-family: Georgia, serif;
+    font-family: Cambria, Caladea, CaladeaBold, Georgia, serif;
     font-size: 3em;
     font-weight: bold;
     font-variant: small-caps; }
@@ -434,7 +446,7 @@ form.filter-form {
     margin: 0.25em; }
   .filter-group-body input[type=checkbox] + label {
     text-align: center;
-    font-family: Consolas, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
+    font-family: Consolas, Inconsolata, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
     font-variant: small-caps;
     font-weight: bold; }
 
@@ -550,47 +562,32 @@ div.mobile-table {
   .summary-table td, .summary-table th {
     vertical-align: middle; }
   .summary-table td {
+    background-color: #ddd;
     color: black;
     padding: 0.35em 0.5em;
     white-space: nowrap;
     text-align: right; }
   .summary-table th {
+    background-color: #666;
     color: white;
     padding: 0.5em;
-    text-align: center; }
-  .summary-table tr.header {
-    background-color: dimgray;
-    color: white; }
-  .summary-table tr.alt {
-    background-color: lightgray;
-    color: black; }
-  .summary-table tr.summary {
-    background-color: gray;
-    color: black; }
+    text-align: center;
+    cursor: pointer; }
+  .summary-table th.no-sort {
+    cursor: initial; }
+  .summary-table tr.alt td, .summary-table tbody.alt td {
+    background-color: #bbb; }
+  .summary-table tr.summary td {
+    background-color: #888; }
+  .summary-table i {
+    font-style: italic;
+    font-size: 80%; }
 
 th.sort-field {
   box-shadow: inset 0 -4px 0 0 black; }
 
 th.sort-field.reverse {
   box-shadow: inset 0 4px 0 0 black; }
-
-th.hdr-avg-cell {
-  background-color: dimgrey; }
-
-th.hdr-tot-cell {
-  background-color: grey; }
-
-td.avg-cell {
-  background-color: #ddd; }
-
-td.tot-cell {
-  background-color: #eee; }
-
-tbody.alt td.avg-cell {
-  background-color: #bbb; }
-
-tbody.alt td.tot-cell {
-  background-color: #ccc; }
 
 td.lun-avg-cell {
   background-color: rgba(204, 132, 0, 0.6); }
@@ -676,7 +673,7 @@ td.sun-tot-cell {
 a.debug {
   color: lime;
   font-weight: bolder;
-  font-family: Consolas, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
+  font-family: Consolas, Inconsolata, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
   padding: 0.5em; }
 
 a.debug:hover {

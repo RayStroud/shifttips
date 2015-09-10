@@ -41,7 +41,7 @@
 		$salesPerCover = $row['salesPerCover'];	
 		$tipsPercent = $row['tipsPercent'];	
 		$tipoutPercent = $row['tipoutPercent'];	
-		$earnedHourly = $row['earnedHourly'];	
+		$hourly = $row['hourly'];	
 
 		$startWeek = (new DateTime($startWeek))->format("M jS, Y");
 		$endWeek = (new DateTime($endWeek))->format("M jS, Y");
@@ -63,7 +63,7 @@
 		. "\n\t\t" . '<td class="wkl-avg-cell">' . $tipsPercent . '%' . '</td>'
 		. "\n\t\t" . '<td class="wkl-avg-cell">' . $tipoutPercent . '%' . '</td>'
 		. "\n\t\t" . '<td class="wkl-avg-cell">' . $tipsVsWage . '%' . '</td>'
-		. "\n\t\t" . '<td class="wkl-avg-cell">' . '$' . $earnedHourly . '/h' . '</td>'
+		. "\n\t\t" . '<td class="wkl-avg-cell">' . '$' . $hourly . '/h' . '</td>'
 		. "\n\t" . '</tr>';
 	}
 

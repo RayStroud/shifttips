@@ -119,17 +119,17 @@
 		return $tipoutPercent;
 	}
 
-	function calculateEarnedHourly($earnedTotal, $hours)
+	function calculateHourly($earnedTotal, $hours)
 	{
 		if(isset($earnedTotal) && isset($hours))
 		{
-			$earnedHourly = $earnedTotal / $hours;
+			$hourly = $earnedTotal / $hours;
 		}
 		else
 		{
-			$earnedHourly = null;
+			$hourly = null;
 		}
-		return $earnedHourly;
+		return $hourly;
 	}
 
 	function calculateNoCampHourly($earnedTotal, $hours, $campHours)

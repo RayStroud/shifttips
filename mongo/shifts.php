@@ -34,7 +34,7 @@
 		$shift['salesPerCover'] = $row['salesPerCover'];
 		$shift['tipsPercent'] = $row['tipsPercent'];
 		$shift['tipoutPercent'] = $row['tipoutPercent'];
-		$shift['earnedHourly'] = $row['earnedHourly'];
+		$shift['hourly'] = $row['hourly'];
 		$shift['noCampHourly'] = $row['noCampHourly'];
 		$shift['lunchDinner'] = $row['lunchDinner'];
 		$shift['dayOfWeek'] = $row['dayOfWeek'];

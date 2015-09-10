@@ -13,7 +13,7 @@
 					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedTips')}" ng-click="ctrl.changeSortField('earnedTips')">Tips</th>
 					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedTotal')}" ng-click="ctrl.changeSortField('earnedTotal')">Earned</th>
 					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('sales')}" ng-click="ctrl.changeSortField('sales')">Sales</th>
-					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipout')}" ng-click="ctrl.changeSortField('tipout')">Tipout</th>
+					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipout')}" ng-click="ctrl.changeSortField('tipout')">T/O</th>
 					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('covers')}" ng-click="ctrl.changeSortField('covers')">Covers</th>
 					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('campHours')}" ng-click="ctrl.changeSortField('campHours')">Camp</th>
 					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('salesPerHour')}" ng-click="ctrl.changeSortField('salesPerHour')">Sales/h</th>
@@ -21,7 +21,7 @@
 					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipsPercent')}" ng-click="ctrl.changeSortField('tipsPercent')">%Tips</th>
 					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipoutPercent')}" ng-click="ctrl.changeSortField('tipoutPercent')">%T/O</th>
 					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipsVsWage')}" ng-click="ctrl.changeSortField('tipsVsWage')">%TvsW</th>
-					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedHourly')}" ng-click="ctrl.changeSortField('earnedHourly')">Earn/h</th>
+					<th ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('hourly')}" ng-click="ctrl.changeSortField('hourly')">Earn/h</th>
 				</tr>
 				<tr ng-repeat="week in ctrl.weeks | orderBy:ctrl.sortField:ctrl.sortReverse" ng-class-even="'alt'">
 					<td>{{week.startWeek | date:'MMM d, yyyy'}}</td>
@@ -40,7 +40,7 @@
 					<td>{{week.tipsPercent | number:1}}%</td>
 					<td>{{week.tipoutPercent | number:1}}%</td>
 					<td>{{week.tipsVsWage | number:0}}%</td>
-					<td>{{week.earnedHourly | currency}}/h</td>
+					<td>{{week.hourly | currency}}/h</td>
 				</tr>
 				<tr class="summary">
 					<td colspan="2">Total in {{ctrl.summary.count}} Weeks</td>
@@ -62,8 +62,8 @@
 					<td>{{ctrl.summary.avgWage | currency:undefined:0}}</td>
 					<td>{{ctrl.summary.avgTips | currency:undefined:0}}</td>
 					<td>{{ctrl.summary.avgEarned | currency:undefined:0}}</td>
-					<td>{{ctrl.summary.avgSales | currency}}</td>
-					<td>{{ctrl.summary.avgTipout | currency}}</td>
+					<td>{{ctrl.summary.avgSales | currency:undefined:0}}</td>
+					<td>{{ctrl.summary.avgTipout | currency:undefined:0}}</td>
 					<td>{{ctrl.summary.avgCovers | number:1}}</td>
 					<td>{{ctrl.summary.avgCampHours | number:2}}h</td>
 					<td>{{ctrl.summary.salesPerHour | currency:undefined:0}}/h</td>
