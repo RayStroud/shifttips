@@ -15,7 +15,7 @@ CREATE TABLE shift
 	covers			INT,
 	cut 			CHAR(1),
 	section			VARCHAR(25),
-	notes 			VARCHAR(250),
+	notes 			VARCHAR(1000),
 	
 	hours			DECIMAL(5,2),
 	earnedWage		INT,
@@ -26,7 +26,7 @@ CREATE TABLE shift
 	salesPerCover	DECIMAL(6,2),
 	tipsPercent		DECIMAL(4,1),
 	tipoutPercent	DECIMAL(4,1),
-	earnedHourly	DECIMAL(5,2),
+	hourly			DECIMAL(5,2),
 	noCampHourly	DECIMAL(5,2),
 	lunchDinner		CHAR(1),
 	dayOfWeek		CHAR(3),
@@ -58,7 +58,7 @@ CREATE TABLE summary
 	tipsPercent 	DECIMAL(4,1),
 	tipoutPercent 	DECIMAL(4,1),
 	tipsVsWage 		INT,
-	hourlyWage 		DECIMAL(4,2),
+	hourly 		DECIMAL(4,2),
 	lunchDinner		CHAR(1),
 	dayOfWeek		CHAR(3),
 	timestamp		TIMESTAMP,
@@ -91,7 +91,7 @@ CREATE TABLE split
 	salesPerCover	DECIMAL(6,2),
 	tipsPercent		DECIMAL(4,1),
 	tipoutPercent	DECIMAL(4,1),
-	earnedHourly	DECIMAL(5,2),
+	hourly			DECIMAL(5,2),
 	dayOfWeek		CHAR(3),
 
 	id INT NOT NULL AUTO_INCREMENT,
@@ -121,7 +121,7 @@ CREATE TABLE week
 	salesPerCover	DECIMAL(6,2),
 	tipsPercent		DECIMAL(4,1),
 	tipoutPercent	DECIMAL(4,1),
-	earnedHourly	DECIMAL(5,2),
+	hourly			DECIMAL(5,2),
 
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
@@ -149,7 +149,7 @@ CREATE TABLE month
 	salesPerCover	DECIMAL(6,2),
 	tipsPercent		DECIMAL(4,1),
 	tipoutPercent	DECIMAL(4,1),
-	earnedHourly	DECIMAL(5,2),
+	hourly			DECIMAL(5,2),
 
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
