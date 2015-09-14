@@ -545,6 +545,16 @@ div.mobile-table {
 		//border: 1px solid $content-bgcolor;
 		//border: 1px solid white;
 	}
+	th {
+		background-color: #666;
+		color: white;
+		padding: 0.5em;
+		text-align: center;
+	}
+	th.tot-cell {color: #bbb;}
+	th.sortable {cursor: pointer;}
+	th.sortable:hover {color: black;}
+	th.right-align {text-align: right;}
 	td {
 		background-color: #ddd;
 		color: black;
@@ -552,16 +562,15 @@ div.mobile-table {
 		white-space: nowrap;
 		text-align: right;
 	}
-	th {
-		background-color: #666;
-		color: white;
-		padding: 0.5em;
-		text-align: center;
-		cursor: pointer;
+	td.tot-cell {color: #777;}
+	tr.alt, tbody.alt {
+		td {background-color: #bbb;}
+		.tot-cell {color: #666;}
 	}
-	th.no-sort {cursor: initial;}
-	tr.alt td, tbody.alt td {background-color: #bbb;}
-	tr.summary td {background-color: #888;}
+	tr.summary {
+		td {background-color: #888;}
+		.tot-cell {color: #444;}
+	}
 	i {font-style: italic; font-size: 80%;}
 }
 th.sort-field {
