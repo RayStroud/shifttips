@@ -42,7 +42,7 @@
 	$db->query("SET @p_sun = " . $p_sun . ";");
 
 	//calculate summaries
-	$result = $db->query('CALL getShifts(@p_dateFrom, @p_dateTo, @p_lunchDinner, @p_mon, @p_tue, @p_wed, @p_thu, @p_fri, @p_sat, @p_sun);');
+	$result = $db->query('CALL getShiftsFiltered(@p_dateFrom, @p_dateTo, @p_lunchDinner, @p_mon, @p_tue, @p_wed, @p_thu, @p_fri, @p_sat, @p_sun);');
 	$aWeekShifts = []; 
 	while($row = $result->fetch_assoc())
 	{
@@ -251,7 +251,7 @@
 <head>
 	<title>All Shifts - Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 	<div id="header">

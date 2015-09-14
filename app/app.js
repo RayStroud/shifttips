@@ -3,47 +3,47 @@
 
 	app.config(function ($routeProvider) {
 		$routeProvider.when('/shifts', {
-			templateUrl: 'pages/shift-grid.html',
+			templateUrl: 'app/shifts/shift-grid.html',
 			controller: 'ShiftGridController',
 			controllerAs: 'shiftGridCtrl'
 		})
 		// .when('/weekly/grid', {
-		// 	templateUrl: 'pages/weekly-grid.html',
+		// 	templateUrl: 'shifts/weekly-grid.html',
 		// 	controller: 'ShiftListWeeklyController',
 		// 	controllerAs: 'shiftListWeeklyCtrl'
 		// })
 		.when('/shift/:id', {
-			templateUrl: 'pages/shift-view.html',
+			templateUrl: 'app/shifts/shift-view.html',
 			controller: 'ShiftViewController',
 			controllerAs: 'shiftViewCtrl'
 		})
 		.when('/summary', {
-			templateUrl: 'pages/summary.html',
+			templateUrl: 'app/summary/summary.html',
 			controller: 'SummaryController',
 			controllerAs: 'summaryCtrl'
 		})
 		.when('/summary/weekly', {
-			templateUrl: 'pages/summary-weekly.html',
+			templateUrl: 'app/summary/summary-weekly.html',
 			controller: 'SummaryWeeklyController',
 			controllerAs: 'summaryWeeklyCtrl'
 		})
 		// .when('/summary/monthly', {
-		// 	templateUrl: 'pages/summary-monthly.html',
+		// 	templateUrl: 'summary/summary-monthly.html',
 		// 	controller: 'SummaryMonthlyController',
 		// 	controllerAs: 'summaryMonthlyCtrl'
 		// })
 		.when('/shifts/add', {
-			templateUrl: 'pages/shift-add.html',
+			templateUrl: 'app/shifts/shift-add.html',
 			controller: 'ShiftAddController',
 			controllerAs: 'shiftAddCtrl'
 		})
 		.when('/shift/:id/edit', {
-			templateUrl: 'pages/shift-edit.html',
+			templateUrl: 'app/shifts/shift-edit.html',
 			controller: 'ShiftEditController',
 			controllerAs: 'shiftEditCtrl'
 		})
 		.when('/', {
-			templateUrl: 'pages/home.html'
+			templateUrl: 'app/home/home.html'
 		})
 		.otherwise({
 			redirectTo: '/'
