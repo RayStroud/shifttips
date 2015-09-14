@@ -4,7 +4,7 @@
 	$dbname = 'shifttips';
 	$dbuser = 'root';
 	$dbpass = '';			//WAMP
-	$dbpass = 'root'; 	//MAMP
+	//$dbpass = 'root'; 	//MAMP
 	try 
 	{
 		$db = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
