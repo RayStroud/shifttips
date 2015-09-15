@@ -1,23 +1,26 @@
 angular.module('shiftTips')
-.service('ShiftsService', ['$http', function($http) {
+.service('shiftsService', ['$http', function($http) {
 	this.getShifts = function() {
-		return $http.get('../data/shifts.php');
+		return $http.get('./data/shifts.php');
 	};
 	this.getShift = function(id) {
-		return $http.get('../data/shifts.php', id);
+		return $http.get('./data/shifts.php?id=' + id);
 	};
-	this.saveShift = function(shift) {
-		return $http.post('../data/shifts.php', shift);
+	this.addShift = function(shift) {
+		return $http.post('./data/shifts.php', shift);
+	};
+	this.editShift = function(shift) {
+		return $http.put('./data/shifts.php?id=' + shift.id, shift);
 	};
 	this.removeShift = function(id) {
-		return $http.delete('../data/shifts.php', id);
+		return $http.delete('./data/shifts.php?id=' + id);
 	};
 }])
 
-.controller('ShiftViewController', [ '$http', '$routeParams', function($http, $routeParams) {
+.controller('ShiftViewController', [ 'shiftsService', '$routeParams', function(shiftsService, $routeParams) {
 	var ctrl = this;
 
-	$http.get('./data/shifts.php?id=' + $routeParams.id)
+	shiftsService.getShift($routeParams.id)
 	.success(function (data, status, headers, config) {
 		ctrl.getResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 		ctrl.shift = data;
@@ -28,13 +31,7 @@ angular.module('shiftTips')
 	});
 
 	this.deleteClick = function(shiftId) {
-		var deleteObject = {id: shiftId};
-		$http({
-			method: 'DELETE',
-			url: './data/shifts.php?id=' + shiftId,
-			data: null,
-			headers: {'Content-Type': 'application/c-www-form-urlencoded'}
-		})
+		shiftsService.removeShift(shiftId)
 		.success(function (data, status, headers, config) {
 			ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Shift deleted.';
@@ -46,10 +43,10 @@ angular.module('shiftTips')
 	};
 }])
 
-.controller('ShiftGridController', [ '$http', function($http) {
+.controller('ShiftGridController', ['shiftsService', function(shiftsService) {
 	var ctrl = this;
 
-	$http.get('./data/shifts.php')
+	this.shifts = shiftsService.getShifts()
 	.success(function (data, status, headers, config) {
 		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 		ctrl.shifts = data;
@@ -144,7 +141,7 @@ angular.module('shiftTips')
 	};
 })
 
-.controller('ShiftAddController', ['$http', function($http) {
+.controller('ShiftAddController', ['shiftsService', function(shiftsService) {
 	var ctrl = this;
 	this.shift = {wage: 9};
 
@@ -156,12 +153,8 @@ angular.module('shiftTips')
 		postShift.endTime = postShift.endTime ? moment(postShift.endTime).format('HH:mm:ss') : null;
 		postShift.firstTable = postShift.firstTable ? moment(postShift.firstTable).format('HH:mm:ss') : null;
 		ctrl.postShift = postShift;
-		$http({
-			method: 'POST',
-			url: './data/shifts.php',
-			data: postShift,
-			headers: {'Content-Type': 'application/c-www-form-urlencoded'}
-		})
+		//insert shift
+		shiftsService.addShift(postShift)
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			window.location.replace('#/shift/' + data);
@@ -173,10 +166,10 @@ angular.module('shiftTips')
 	};
 }])
 
-.controller('ShiftEditController', [ '$http', '$routeParams', function($http, $routeParams) {
+.controller('ShiftEditController', [ 'shiftsService', '$routeParams', function(shiftsService, $routeParams) {
 	var ctrl = this;
 
-	$http.get('./data/shifts.php?id=' + $routeParams.id)
+	shiftsService.getShift($routeParams.id)
 	.success(function (data, status, headers, config) {
 		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 		var retrievedShift = data;
@@ -210,12 +203,8 @@ angular.module('shiftTips')
 		postShift.endTime = postShift.endTime ? moment(postShift.endTime).format('HH:mm:ss') : null;
 		postShift.firstTable = postShift.firstTable ? moment(postShift.firstTable).format('HH:mm:ss') : null;
 		ctrl.postShift = postShift;
-		$http({
-			method: 'PUT',
-			url: './data/shifts.php?id=' + postShift.id,
-			data: postShift,
-			headers: {'Content-Type': 'application/c-www-form-urlencoded'}
-		})
+		//update shift
+		shiftsService.editShift(postShift)
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			window.location.replace('#/shift/' + postShift.id);
