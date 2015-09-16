@@ -2,7 +2,7 @@
 	<h1>Shifts</h1>
 	<div class="error message-box" ng-show="shiftGridCtrl.error">{{shiftGridCtrl.error}}</div>
 	<div ng-hide="shiftGridCtrl.error">
-		<div ng-controller="FilterController as filterCtrl">
+		<div ng-controller="ShiftFilterController as filterCtrl">
 			<form class="filter-form" method="get" action="#">
 				<div class="filter-group" id="date-range">
 					<div class="filter-group-wrap">

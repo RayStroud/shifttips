@@ -86,7 +86,7 @@ angular.module('shiftTips')
 		.success(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.summaries = data;
-			ctrl.changeSummaryType('[-lunchDinner, dayOfWeek]');
+			ctrl.changeSummaryType('[weekday, -lunchDinner]');
 		})
 		.error(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
@@ -153,4 +153,34 @@ angular.module('shiftTips')
 	ctrl.sortField = ctrl.type;
 	ctrl.sortReverse = false;
 	ctrl.getSummaryByLunchDinner();
-}]);
+}])
+
+.controller('SummaryFilterController', function() {
+	this.from = '';
+	this.to = '';
+
+	this.lunCheck = false;
+	this.dinCheck = false;
+	this.lunchDinner = '';	//value to filter by lunchDinner
+
+	this.toggleLun = function() {
+		if (this.lunCheck) {
+			this.lunCheck = false;
+			this.lunchDinner = '';
+		} else {
+			this.lunCheck = true;
+			this.dinCheck = false;
+			this.lunchDinner = 'L';
+		}
+	};
+	this.toggleDin = function() {
+		if (this.dinCheck) {
+			this.dinCheck = false;
+			this.lunchDinner = '';
+		} else {
+			this.dinCheck = true;
+			this.lunCheck = false;
+			this.lunchDinner = 'D';
+		}
+	};
+});

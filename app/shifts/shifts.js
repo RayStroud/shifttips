@@ -57,7 +57,7 @@ angular.module('shiftTips')
 	});
 }])
 
-.controller('FilterController', function() {
+.controller('ShiftFilterController', function() {
 	this.from = '';
 	this.to = '';
 
