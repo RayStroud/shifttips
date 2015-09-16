@@ -1,5 +1,6 @@
 <?php
 	include 'include/db.php';
+
 	function getSummary($db)
 	{
 		$stmt = $db->prepare('CALL getSummary(NULL,NULL)');
@@ -209,8 +210,9 @@
 		$p_dateTo 	= !empty($dateTimeTo) 	? $dateTimeTo->format("Y-m-d") 		: '9999-12-31'; 
 		//* DEBUG */ echo '<p>|dateFrom:' . $p_dateFrom . '|dateTo:' . $p_dateTo . '|</p>';
 
-		if(isset($_GET['dayOfWeek']) 
-			|| isset($_GET['day']) 
+		if(isset($_GET['day']) 
+			|| isset($_GET['dayOfWeek']) 
+			|| isset($_GET['days']) 
 			|| isset($_GET['daily']))
 		{
 			getSummaryByDayOfWeek($db);
@@ -221,14 +223,14 @@
 		{
 			getSummaryByTime($db);
 		}
-		else if(isset($_GET['weeks']) 
-			|| isset($_GET['week']) 
+		else if(isset($_GET['week']) 
+			|| isset($_GET['weeks']) 
 			|| isset($_GET['weekly']))
 		{
 			getSummaryWeeks($db);
 		}
-		else if(isset($_GET['months']) 
-			|| isset($_GET['month']) 
+		else if(isset($_GET['month']) 
+			|| isset($_GET['months']) 
 			|| isset($_GET['monthly']))
 		{
 			getSummaryMonths($db);

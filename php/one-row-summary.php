@@ -40,7 +40,6 @@
 		$summaries[$lunchDinner][$dayOfWeek]['tipoutPercent'] = $row['tipoutPercent'];
 		$summaries[$lunchDinner][$dayOfWeek]['tipsVsWage'] = $row['tipsVsWage'];
 		$summaries[$lunchDinner][$dayOfWeek]['hourly'] = number_format($row['hourly'],2);
-		$summaries[$lunchDinner][$dayOfWeek]['timedate'] = $row['timedate'];
 
 		$summaries[$lunchDinner][$dayOfWeek]['avgEarned'] = number_format($row['avgWage'] + $row['avgTips'],2);
 		$summaries[$lunchDinner][$dayOfWeek]['totEarned'] = number_format($row['totWage'] + $row['totTips'],0);		
