@@ -3,17 +3,26 @@ angular.module('shiftTips')
 	this.getSummary = function() {
 		return $http.get('./data/summary.php');
 	};
+	this.getSummaryByLunchDinner = function(id) {
+		return $http.get('./data/summary.php?lunchDinner');
+	};
+	this.getSummaryByDayOfWeek = function(id) {
+		return $http.get('./data/summary.php?day');
+	};
+	this.getSummaryBySection = function(id) {
+		return $http.get('./data/summary.php?section');
+	};
+	this.getSummaryByStartTime = function(id) {
+		return $http.get('./data/summary.php?startTime');
+	};
+	this.getSummaryByCut = function(id) {
+		return $http.get('./data/summary.php?cut');
+	};
 	this.getSummaryWeekly = function() {
 		return $http.get('./data/summary.php?week');
 	};
 	this.getSummaryMonthly = function() {
 		return $http.get('./data/summary.php?month');
-	};
-	this.getSummaryByTime = function(id) {
-		return $http.get('./data/summary.php?time');
-	};
-	this.getSummaryByDayOfWeek = function(id) {
-		return $http.get('./data/summary.php?day');
 	};
 }])
 
@@ -60,11 +69,12 @@ angular.module('shiftTips')
 		ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
 	});
 
-	ctrl.getSummaryByTime = function() {
-		summaryService.getSummaryByTime()
+	ctrl.getSummaryByLunchDinner = function() {
+		summaryService.getSummaryByLunchDinner()
 		.success(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.summaries = data;
+			ctrl.changeSummaryType('-lunchDinner');
 		})
 		.error(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
@@ -76,12 +86,56 @@ angular.module('shiftTips')
 		.success(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.summaries = data;
+			ctrl.changeSummaryType('[-lunchDinner, dayOfWeek]');
 		})
 		.error(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
 		});
 	};
+	ctrl.getSummaryBySection = function() {
+		summaryService.getSummaryBySection()
+		.success(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.summaries = data;
+			ctrl.changeSummaryType('[-lunchDinner, section]');
+		})
+		.error(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
+	};
+	ctrl.getSummaryByStartTime = function() {
+		summaryService.getSummaryByStartTime()
+		.success(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.summaries = data;
+			ctrl.changeSummaryType('[-lunchDinner, startTime]');
+		})
+		.error(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
+	};
+	ctrl.getSummaryByCut = function() {
+		summaryService.getSummaryByCut()
+		.success(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.summaries = data;
+			ctrl.changeSummaryType('[-lunchDinner, cut]');
+		})
+		.error(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
+	};
+	ctrl.changeSummaryType = function(type) {
+		//if sort field was set to previous type, change it
+		if(ctrl.sortField == ctrl.type) {
+			ctrl.sortField = type;
+		}
+		ctrl.type = type;
+	}
 	ctrl.changeSortField = function(field) {
 		// if field is already selected, toggle the sort direction
 		if(ctrl.sortField == field) {
@@ -95,7 +149,8 @@ angular.module('shiftTips')
 		return ctrl.sortField == field;
 	};
 
-	ctrl.sortField = '[weekday,-lunchDinner]';
+	ctrl.type = '-lunchDinner';
+	ctrl.sortField = ctrl.type;
 	ctrl.sortReverse = false;
-	ctrl.getSummaryByTime();
+	ctrl.getSummaryByLunchDinner();
 }]);

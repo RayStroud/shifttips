@@ -218,7 +218,8 @@ angular.module('shiftTips')
 
 .filter('timeToDate', function() {
 	return function(time) {
-		return new Date('January 1, 1970 ' + time);
+		var returnDate = time == null ? null : new Date('January 1, 1970 ' + time);
+		return returnDate;
 	};
 })
 

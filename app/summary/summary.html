@@ -2,12 +2,15 @@
 	<h1>Summary</h1>
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
 	<div ng-hide="ctrl.error">
-		<button class="link-button" ng-click="ctrl.getSummaryByTime()">Time</button>
+		<button class="link-button" ng-click="ctrl.getSummaryByLunchDinner()">Lunch/Dinner</button>
 		<button class="link-button" ng-click="ctrl.getSummaryByDayOfWeek()">Day Of Week</button>
+		<button class="link-button" ng-click="ctrl.getSummaryBySection()">Section</button>
+		<button class="link-button" ng-click="ctrl.getSummaryByStartTime()">Start Time</button>
+		<button class="link-button" ng-click="ctrl.getSummaryByCut()">Cut</button>
 		<div class="mobile-table">
 			<table class="summary-table">
 				<tr class="header">
-					<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('[weekday,-lunchDinner]')}" ng-click="ctrl.changeSortField('[weekday,-lunchDinner]')">Type</th>
+					<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField(ctrl.type)}" ng-click="ctrl.changeSortField(ctrl.type)">Type</th>
 					<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('count')}" ng-click="ctrl.changeSortField('count')">#</th>
 					<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('avgHours')}" ng-click="ctrl.changeSortField('avgHours')">Hours</th>
 					<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('avgWage')}" ng-click="ctrl.changeSortField('avgWage')">Wage</th>
@@ -38,7 +41,7 @@
 				</tr>
 				<tbody ng-repeat="summary in ctrl.summaries | orderBy:ctrl.sortField:ctrl.sortReverse" ng-class-even="'alt'">
 					<tr>
-						<td>{{summary.dayOfWeek}} {{summary.lunchDinner}}</td>
+						<td>{{summary.lunchDinner}} {{summary.dayOfWeek}}{{summary.section}}{{summary.startTime | timeToDate | date:'h:mma'}}{{summary.cut}} </td>
 						<td>{{summary.count}}</td>
 						<td>{{summary.avgHours}}h</td>
 						<td>{{summary.avgWage | currency}}</td>
