@@ -2,14 +2,14 @@
 	<h1>Summary</h1>
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
 	<div ng-hide="ctrl.error">
-		<div ng-controller="ShiftFilterController as filterCtrl">
+		<div ng-controller="SummaryFilterController as filterCtrl">
 			<form class="filter-form">
 				<div class="filter-group" id="date-range">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Date Range</div>
 						<div class="filter-group-body">
-							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filterCtrl.from" ng-change="filterCtrl.fromDateChange()" />
-							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filterCtrl.to" ng-change="filterCtrl.toDateChange()" />
+							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filterCtrl.from" ng-change="ctrl.changeSummaryType(ctrl.type, filterCtrl.from, filterCtrl.to)" />
+							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filterCtrl.to" ng-change="ctrl.changeSummaryType(ctrl.type, filterCtrl.from, filterCtrl.to)" />
 						</div>
 					</div>
 				</div>
@@ -28,16 +28,15 @@
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Summary by...</div>
 						<div class="filter-group-body">
-							<button class="link-button" ng-click="ctrl.changeSummaryType('dayOfWeek')">Day Of Week</button>
-							<button class="link-button" ng-click="ctrl.changeSummaryType('section')">Section</button>
-							<button class="link-button" ng-click="ctrl.changeSummaryType('startTime')">Start Time</button>
-							<button class="link-button" ng-click="ctrl.changeSummaryType('cut')">Cut</button>
-							<button class="link-button button-inverse" ng-click="ctrl.changeSummaryType('lunchDinner')">Reset</button>
+							<button class="link-button" ng-click="ctrl.changeSummaryType('dayOfWeek', filterCtrl.from, filterCtrl.to)">Day Of Week</button>
+							<button class="link-button" ng-click="ctrl.changeSummaryType('section', filterCtrl.from, filterCtrl.to)">Section</button>
+							<button class="link-button" ng-click="ctrl.changeSummaryType('startTime', filterCtrl.from, filterCtrl.to)">Start Time</button>
+							<button class="link-button" ng-click="ctrl.changeSummaryType('cut', filterCtrl.from, filterCtrl.to)">Cut</button>
+							<button class="link-button button-inverse" ng-click="ctrl.changeSummaryType('lunchDinner', filterCtrl.from, filterCtrl.to)">Reset</button>
 						</div>
 					</div>
 				</div>
 			</form>
-			{{ctrl.typeSort}}
 			<div class="mobile-table">
 				<table class="summary-table">
 					<tr class="header">

@@ -1,28 +1,28 @@
 angular.module('shiftTips')
 .service('summaryService', ['$http', function($http) {
-	this.getSummary = function() {
-		return $http.get('./data/summary.php');
+	this.getSummary = function(from, to) {
+		return $http.get('./data/summary.php?from=' + from + '&to=' + to);
 	};
-	this.getSummaryByLunchDinner = function(id) {
-		return $http.get('./data/summary.php?lunchDinner');
+	this.getSummaryByLunchDinner = function(from, to) {
+		return $http.get('./data/summary.php?lunchDinner&from=' + from + '&to=' + to);
 	};
-	this.getSummaryByDayOfWeek = function(id) {
-		return $http.get('./data/summary.php?day');
+	this.getSummaryByDayOfWeek = function(from, to) {
+		return $http.get('./data/summary.php?day&from=' + from + '&to=' + to);
 	};
-	this.getSummaryBySection = function(id) {
-		return $http.get('./data/summary.php?section');
+	this.getSummaryBySection = function(from, to) {
+		return $http.get('./data/summary.php?section&from=' + from + '&to=' + to);
 	};
-	this.getSummaryByStartTime = function(id) {
-		return $http.get('./data/summary.php?startTime');
+	this.getSummaryByStartTime = function(from, to) {
+		return $http.get('./data/summary.php?startTime&from=' + from + '&to=' + to);
 	};
-	this.getSummaryByCut = function(id) {
-		return $http.get('./data/summary.php?cut');
+	this.getSummaryByCut = function(from, to) {
+		return $http.get('./data/summary.php?cut&from=' + from + '&to=' + to);
 	};
-	this.getSummaryWeekly = function() {
-		return $http.get('./data/summary.php?week');
+	this.getSummaryWeekly = function(from, to) {
+		return $http.get('./data/summary.php?week&from=' + from + '&to=' + to);
 	};
-	this.getSummaryMonthly = function() {
-		return $http.get('./data/summary.php?month');
+	this.getSummaryMonthly = function(from, to) {
+		return $http.get('./data/summary.php?month&from=' + from + '&to=' + to);
 	};
 }])
 
@@ -59,43 +59,45 @@ angular.module('shiftTips')
 .controller('SummaryController', [ 'summaryService', function(summaryService) {
 	var ctrl = this;
 
-	summaryService.getSummary()
-	.success(function (data, status, headers, config) {
-		//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
-		ctrl.summaryTotal = data;
-	})
-	.error(function (data, status, headers, config) {
-		//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-		ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
-	});
-
-	ctrl.changeSummaryType = function(type) {
+	ctrl.changeSummaryType = function(type, from, to) {
+		ctrl.type = type;
+		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
+		var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
 		var promise = null;
 		switch(type) {
 			case 'lunchDinner':
 				ctrl.changeSummaryTypeSort('-lunchDinner');
-				promise = summaryService.getSummaryByLunchDinner();
+				promise = summaryService.getSummaryByLunchDinner(p_dateFrom, p_dateTo);
 				break;
 			case 'dayOfWeek':
 				ctrl.changeSummaryTypeSort(['weekday','-lunchDinner']);
-				promise = summaryService.getSummaryByDayOfWeek();
+				promise = summaryService.getSummaryByDayOfWeek(p_dateFrom, p_dateTo);
 				break;
 			case 'section':
 				ctrl.changeSummaryTypeSort(['-lunchDinner','section']);
-				promise = summaryService.getSummaryBySection();
+				promise = summaryService.getSummaryBySection(p_dateFrom, p_dateTo);
 				break;
 			case 'startTime':
 				ctrl.changeSummaryTypeSort(['-lunchDinner','startTime']);
-				promise = summaryService.getSummaryByStartTime();
+				promise = summaryService.getSummaryByStartTime(p_dateFrom, p_dateTo);
 				break;
 			case 'cut':
 				ctrl.changeSummaryTypeSort(['-lunchDinner','cut']);
-				promise = summaryService.getSummaryByCut();
+				promise = summaryService.getSummaryByCut(p_dateFrom, p_dateTo);
 				break;
 		}
 		promise.success(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.summaries = data;
+		})
+		.error(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
+		summaryService.getSummary(p_dateFrom, p_dateTo)
+		.success(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.summaryTotal = data;
 		})
 		.error(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
@@ -125,7 +127,7 @@ angular.module('shiftTips')
 	ctrl.typeSort = '-lunchDinner';
 	ctrl.sortField = ctrl.typeSort;
 	ctrl.sortReverse = false;
-	ctrl.changeSummaryType('lunchDinner');
+	ctrl.changeSummaryType('lunchDinner', null, null);
 }])
 
 .controller('SummaryFilterController', function() {
@@ -156,4 +158,5 @@ angular.module('shiftTips')
 			this.lunchDinner = 'D';
 		}
 	};
-});
+})
+;

@@ -1,9 +1,10 @@
 <?php
 	include 'include/db.php';
 
-	function getSummary($db)
+	function getSummary($db, $from, $to)
 	{
-		$stmt = $db->prepare('CALL getSummary(NULL,NULL)');
+		$stmt = $db->prepare('CALL getSummary(?,?)');
+		$stmt->bind_param('ss', $from, $to);
 		$stmt->execute();
 		$stmt->bind_result($count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$stmt->fetch();
@@ -36,9 +37,10 @@
 
 		echo json_encode($summary);
 	}
-	function getSummaryByLunchDinner($db)
+	function getSummaryByLunchDinner($db, $from, $to)
 	{
-		$stmt = $db->prepare('CALL getSummaryByLunchDinner(NULL,NULL)');
+		$stmt = $db->prepare('CALL getSummaryByLunchDinner(?,?)');
+		$stmt->bind_param('ss', $from, $to);
 		$stmt->execute();
 		$stmt->bind_result($lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
@@ -77,9 +79,10 @@
 
 		echo json_encode($summaries);
 	}
-	function getSummaryBySection($db)
+	function getSummaryBySection($db, $from, $to)
 	{
-		$stmt = $db->prepare('CALL getSummaryBySection(NULL,NULL)');
+		$stmt = $db->prepare('CALL getSummaryBySection(?,?)');
+		$stmt->bind_param('ss', $from, $to);
 		$stmt->execute();
 		$stmt->bind_result($section, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
@@ -119,9 +122,10 @@
 
 		echo json_encode($summaries);
 	}
-	function getSummaryByStartTime($db)
+	function getSummaryByStartTime($db, $from, $to)
 	{
-		$stmt = $db->prepare('CALL getSummaryByStartTime(NULL,NULL)');
+		$stmt = $db->prepare('CALL getSummaryByStartTime(?,?)');
+		$stmt->bind_param('ss', $from, $to);
 		$stmt->execute();
 		$stmt->bind_result($startTime, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
@@ -161,9 +165,10 @@
 
 		echo json_encode($summaries);
 	}
-	function getSummaryByCut($db)
+	function getSummaryByCut($db, $from, $to)
 	{
-		$stmt = $db->prepare('CALL getSummaryByCut(NULL,NULL)');
+		$stmt = $db->prepare('CALL getSummaryByCut(?,?)');
+		$stmt->bind_param('ss', $from, $to);
 		$stmt->execute();
 		$stmt->bind_result($cut, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
@@ -203,9 +208,10 @@
 
 		echo json_encode($summaries);
 	}
-	function getSummaryByDayOfWeek($db)
+	function getSummaryByDayOfWeek($db, $from, $to)
 	{
-		$stmt = $db->prepare('CALL getSummaryByDayOfWeek(NULL,NULL)');
+		$stmt = $db->prepare('CALL getSummaryByDayOfWeek(?,?)');
+		$stmt->bind_param('ss', $from, $to);
 		$stmt->execute();
 		$stmt->bind_result($weekday, $dayOfWeek, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
@@ -246,7 +252,7 @@
 
 		echo json_encode($summaries);
 	}
-	function getSummaryWeeks($db)
+	function getSummaryWeeks($db, $from, $to)
 	{
 		$stmt = $db->prepare('SELECT startWeek, endWeek, count, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, id 
 			FROM week 
@@ -286,8 +292,8 @@
 		$stmt->free_result();
 		$stmt->close();
 
-		$stmt = $db->prepare('CALL getSummaryWeekly(NULL,NULL)');
-		#$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+		$stmt = $db->prepare('CALL getSummaryWeekly(?,?)');
+		$stmt->bind_param('ss', $from, $to);
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_assoc();
@@ -322,7 +328,7 @@
 
 		echo json_encode($summary);
 	}
-	function getSummaryMonths($db)
+	function getSummaryMonths($db, $from, $to)
 	{
 		
 	}
@@ -332,49 +338,49 @@
 		//extract dates if set, or use defaults
 		try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) 	: null; } catch(Exception $e) { $dateTimeFrom 	= null; }
 		try { $dateTimeTo 	= !empty($_GET['to']) 	? new DateTime($_GET['to']) 	: null; } catch(Exception $e) { $dateTimeTo 	= null; }
-		$p_dateFrom = !empty($dateTimeFrom) ? $dateTimeFrom->format("Y-m-d") 	: '1000-01-01'; 
-		$p_dateTo 	= !empty($dateTimeTo) 	? $dateTimeTo->format("Y-m-d") 		: '9999-12-31'; 
-		//* DEBUG */ echo '<p>|dateFrom:' . $p_dateFrom . '|dateTo:' . $p_dateTo . '|</p>';
+		$from 	= !empty($dateTimeFrom) ? $dateTimeFrom->format("Y-m-d") 	: '1000-01-01'; 
+		$to 	= !empty($dateTimeTo) 	? $dateTimeTo->format("Y-m-d") 		: '9999-12-31'; 
+		//* DEBUG */ echo '<p>|dateFrom:' . $from . '|dateTo:' . $to . '|</p>';
 
 		if(isset($_GET['lunchDinner']) 
 			|| isset($_GET['shift']))
 		{
-			getSummaryByLunchDinner($db);
+			getSummaryByLunchDinner($db, $from, $to);
 		}
 		else if(isset($_GET['day']) 
 			|| isset($_GET['dayOfWeek']) 
 			|| isset($_GET['days']) 
 			|| isset($_GET['daily']))
 		{
-			getSummaryByDayOfWeek($db);
+			getSummaryByDayOfWeek($db, $from, $to);
 		}
 		else if(isset($_GET['section']))
 		{
-			getSummaryBySection($db);
+			getSummaryBySection($db, $from, $to);
 		}
 		else if(isset($_GET['startTime']))
 		{
-			getSummaryByStartTime($db);
+			getSummaryByStartTime($db, $from, $to);
 		}
 		else if(isset($_GET['cut']))
 		{
-			getSummaryByCut($db);
+			getSummaryByCut($db, $from, $to);
 		}
 		else if(isset($_GET['week']) 
 			|| isset($_GET['weeks']) 
 			|| isset($_GET['weekly']))
 		{
-			getSummaryWeeks($db);
+			getSummaryWeeks($db, $from, $to);
 		}
 		else if(isset($_GET['month']) 
 			|| isset($_GET['months']) 
 			|| isset($_GET['monthly']))
 		{
-			getSummaryMonths($db);
+			getSummaryMonths($db, $from, $to);
 		}
 		else
 		{
-			getSummary($db);
+			getSummary($db, $from, $to);
 		}
 		$db->close();
 	}

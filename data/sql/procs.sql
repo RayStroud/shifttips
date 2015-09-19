@@ -441,7 +441,6 @@ BEGIN
 END //
 DELIMITER ;
 
-
 DROP PROCEDURE IF EXISTS getSummaryBySection;
 DELIMITER //
 CREATE PROCEDURE getSummaryBySection (p_dateFrom DATE, p_dateTo DATE)
