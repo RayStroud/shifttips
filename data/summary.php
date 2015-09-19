@@ -256,9 +256,9 @@
 	{
 		$stmt = $db->prepare('SELECT startWeek, endWeek, count, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, id 
 			FROM week 
-			#WHERE startWeek BETWEEN ? AND ? OR endWeek BETWEEN ? and ?
+			WHERE startWeek BETWEEN ? AND ? OR endWeek BETWEEN ? and ?
 			;');
-		#$stmt->bind_param('ssss', $p_dateFrom, $p_dateTo, $p_dateFrom, $p_dateTo);
+		$stmt->bind_param('ssss', $from, $to, $from, $to);
 		$stmt->execute();
 		$stmt->bind_result($startWeek, $endWeek, $shifts, $campHours, $sales, $tipout, $transfers, $covers, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $hourly, $id);
 		$summary = new stdClass();

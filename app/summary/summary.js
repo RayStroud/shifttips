@@ -31,17 +31,20 @@ angular.module('shiftTips')
 	ctrl.sortField = 'startWeek';
 	ctrl.sortReverse = false;
 
-	summaryService.getSummaryWeekly()
-	.success(function (data, status, headers, config) {
-		//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
-		ctrl.weeks = data.weeks;
-		ctrl.summary = data.summary;
-	})
-	.error(function (data, status, headers, config) {
-		//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-		ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
-	});
-
+	ctrl.getSummaryWeekly = function(from, to) {
+		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
+		var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
+		summaryService.getSummaryWeekly(p_dateFrom, p_dateTo)
+		.success(function (data, status, headers, config) {
+			/* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.weeks = data.weeks;
+			ctrl.summary = data.summary;
+		})
+		.error(function (data, status, headers, config) {
+			/* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
+	}
 	ctrl.changeSortField = function(field) {
 		// if field is already selected, toggle the sort direction
 		if(ctrl.sortField == field) {
@@ -54,6 +57,7 @@ angular.module('shiftTips')
 	ctrl.isSortField = function(field) {
 		return ctrl.sortField == field;
 	};
+	ctrl.getSummaryWeekly(null, null);
 }])
 
 .controller('SummaryController', [ 'summaryService', function(summaryService) {
