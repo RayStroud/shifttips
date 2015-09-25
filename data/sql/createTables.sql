@@ -104,7 +104,7 @@ CREATE TABLE week
 	yearweek		CHAR(6),
 	startWeek		DATE,
 	endWeek			DATE,
-	count			INT,
+	shifts			INT,
 
 	campHours		DECIMAL(5,2),
 	sales			DECIMAL(7,2),
@@ -132,7 +132,7 @@ CREATE TABLE month
 (
 	year			CHAR(4),
 	month			CHAR(3),
-	count			INT,
+	shifts			INT,
 
 	campHours		DECIMAL(5,2),
 	sales			DECIMAL(7,2),

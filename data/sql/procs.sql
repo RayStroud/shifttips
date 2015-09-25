@@ -120,7 +120,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS saveShift;
 DELIMITER //
 CREATE PROCEDURE saveShift (
-	-- p_id: # to update, NULL to insert with id return, 0 to insert without return
+	# p_id: # to update, NULL to insert with id return, 0 to insert without return
 	p_id			INT,
 	p_wage 			DECIMAL(5,2),
 	p_date			DATE,
@@ -152,7 +152,7 @@ BEGIN
 	DECLARE v_noCampHourly	DECIMAL(5,2);
 	DECLARE v_lunchDinner	CHAR(1);
 	DECLARE v_dayOfWeek		CHAR(3);
-	-- endTime variable for calculating hours
+	# endTime variable for calculating hours
 	DECLARE v_endTime		TIME;
 
 	IF (p_endTime BETWEEN '00:00' AND p_startTime)
@@ -222,8 +222,6 @@ BEGIN
 			WHERE id = p_id;
 	END IF;
 	CALL calculateSplits();
-	CALL calculateWeeks();
-	CALL calculateMonths();
 END //
 DELIMITER ;
 
@@ -590,25 +588,13 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getSummaryWeekly;
 DELIMITER //
-CREATE PROCEDURE getSummaryWeekly (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE getSummaryWeekly (p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
-	DECLARE v_dateFrom		DATE;
-	DECLARE v_dateTo		DATE;
-
-	IF (p_dateFrom IS NULL)
-		THEN SET v_dateFrom := '1000-01-01';
-		ELSE SET v_dateFrom := p_dateFrom;
-	END IF;
-
-	IF (p_dateTo IS NULL)
-		THEN SET v_dateTo := '9999-12-31';
-		ELSE SET v_dateTo := p_dateTo;
-	END IF;
-
+	CALL calculateWeeks(p_dateFrom, p_dateTo, p_lunchDinner);
 	SELECT
 		COUNT(id) as count,
-		ROUND(AVG(count)		,1) as avgShifts,
-		ROUND(SUM(count)		,0) as totShifts,
+		ROUND(AVG(shifts)		,1) as avgShifts,
+		ROUND(SUM(shifts)		,0) as totShifts,
 		ROUND(AVG(hours)		,2) as avgHours,
 		ROUND(SUM(hours)		,0) as totHours,
 		ROUND(AVG(earnedWage)	,2) as avgWage,
@@ -631,9 +617,7 @@ BEGIN
 		ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 		ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
 		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
-	FROM week 
-	WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
-		OR endWeek BETWEEN v_dateFrom AND v_dateTo;
+	FROM week;
 END //
 DELIMITER ;
 
@@ -656,8 +640,8 @@ BEGIN
 
 	SELECT
 		COUNT(id) as count,
-		ROUND(AVG(count)		,1) as avgShifts,
-		ROUND(SUM(count)		,0) as totShifts,
+		ROUND(AVG(shifts)		,1) as avgShifts,
+		ROUND(SUM(shifts)		,0) as totShifts,
 		ROUND(AVG(hours)		,2) as avgHours,
 		ROUND(SUM(hours)		,0) as totHours,
 		ROUND(AVG(earnedWage)	,2) as avgWage,
@@ -930,7 +914,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS calculateWeeklySummary;
 DELIMITER //
 CREATE PROCEDURE calculateWeeklySummary (p_dateFrom DATE, p_dateTo DATE, p_insert BIT)
--- p_insert: NULL or 0 will return, 1 will insert row into summary table
+# p_insert: NULL or 0 will return, 1 will insert row into summary table
 BEGIN
 	DECLARE v_dateFrom			DATE;
 	DECLARE v_dateTo			DATE;
@@ -975,12 +959,12 @@ BEGIN
 		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
 			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_count;
-	SELECT AVG(count)
+	SELECT AVG(shifts)
 		FROM week 
 		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
 			OR endWeek BETWEEN v_dateFrom AND v_dateTo
 		INTO v_avgShifts;
-	SELECT SUM(count) 
+	SELECT SUM(shifts) 
 		FROM week 
 		WHERE startWeek BETWEEN v_dateFrom AND v_dateTo
 			OR endWeek BETWEEN v_dateFrom AND v_dateTo
@@ -1099,7 +1083,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS calculateMonthlySummary;
 DELIMITER //
 CREATE PROCEDURE calculateMonthlySummary (p_dateFrom DATE, p_dateTo DATE, p_insert BIT)
--- p_insert: NULL or 0 will return, 1 will insert row into summary table
+# p_insert: NULL or 0 will return, 1 will insert row into summary table
 BEGIN
 	DECLARE v_dateFrom			DATE;
 	DECLARE v_dateTo			DATE;
@@ -1144,12 +1128,12 @@ BEGIN
 		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
 			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_count;
-	SELECT AVG(count) 
+	SELECT AVG(shifts) 
 		FROM month 
 		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
 			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		INTO v_avgShifts;
-	SELECT SUM(count) 
+	SELECT SUM(shifts) 
 		FROM month 
 		WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
 			AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
@@ -1306,7 +1290,7 @@ BEGIN
 		SUM(earnedTotal) AS earnedTotal,
 
 		(SUM(earnedTips) / earnedWage) * 100 AS tipsVsWage,
-		SUM(sales) / SUM(hours)  AS salesPerHours,
+		SUM(sales) / SUM(hours)  AS salesPerHour,
 		SUM(sales) / SUM(covers) AS salesPerCover,
 		(SUM(earnedTips) / SUM(sales)) * 100 AS tipsPercent,
 		(SUM(tipout) / SUM(sales)) * 100 AS tipoutPercent,
@@ -1350,15 +1334,37 @@ CALL calculateSplits;
 
 DROP PROCEDURE IF EXISTS calculateWeeks;
 DELIMITER //
-CREATE PROCEDURE calculateWeeks()
+CREATE PROCEDURE calculateWeeks(p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+	DECLARE v_lunchDinner	CHAR(1);
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	IF (p_lunchDinner = 'L') 
+		THEN SET v_lunchDinner = 'L';
+		ELSEIF (p_lunchDinner = 'D') 
+			THEN SET v_lunchDinner = 'D';
+		ELSE 
+			SET v_lunchDinner = '%';
+	END IF;
+
 	TRUNCATE TABLE week;
-	INSERT INTO week (yearweek, startWeek, endWeek, count, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly)
+	INSERT INTO week (yearweek, startWeek, endWeek, shifts, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly)
 	SELECT 
 		YEARWEEK(date, 3) as yearweek, 
 		STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Monday'), '%x%v %W') as startWeek,
 		STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Sunday'), '%x%v %W') as endWeek,
-		COUNT(id) AS count,
+		COUNT(id) AS shifts,
 
 		SUM(campHours) AS campHours,
 		SUM(sales) AS sales,
@@ -1372,23 +1378,80 @@ BEGIN
 		SUM(earnedTotal) AS earnedTotal,
 
 		SUM(earnedTips) * 100 / SUM(earnedWage) AS tipsVsWage,
-		SUM(sales) / SUM(hours)  AS salesPerHours,
+		SUM(sales) / SUM(hours)  AS salesPerHour,
 		SUM(sales) / SUM(covers) AS salesPerCover,
 		SUM(earnedTips) * 100 / SUM(sales) AS tipsPercent,
 		SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
 		SUM(earnedTotal) / SUM(hours) AS hourly
 	FROM shift
-	GROUP BY yearweek;
+	WHERE YEARWEEK(date, 3) BETWEEN YEARWEEK(v_dateFrom, 3) AND YEARWEEK(v_dateTo, 3)
+		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+	GROUP BY YEARWEEK(date, 3);
 END //
 DELIMITER ;
-CALL calculateWeeks;
+
+DROP PROCEDURE IF EXISTS getWeeks;
+DELIMITER //
+CREATE PROCEDURE getWeeks(p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+	DECLARE v_lunchDinner	CHAR(1);
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	IF (p_lunchDinner = 'L') 
+		THEN SET v_lunchDinner = 'L';
+		ELSEIF (p_lunchDinner = 'D') 
+			THEN SET v_lunchDinner = 'D';
+		ELSE 
+			SET v_lunchDinner = '%';
+	END IF;
+
+	SELECT 
+		YEARWEEK(date, 3) as yearweek, 
+		STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Monday'), '%x%v %W') as startWeek,
+		STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Sunday'), '%x%v %W') as endWeek,
+		COUNT(id) AS shifts,
+
+		SUM(campHours) AS campHours,
+		SUM(sales) AS sales,
+		SUM(tipout) AS tipout,
+		SUM(transfers) AS transfers,
+		SUM(covers) AS covers,
+
+		SUM(hours) AS hours,
+		SUM(earnedWage) AS earnedWage,
+		SUM(earnedTips) AS earnedTips,
+		SUM(earnedTotal) AS earnedTotal,
+
+		SUM(earnedTips) * 100 / SUM(earnedWage) AS tipsVsWage,
+		SUM(sales) / SUM(hours)  AS salesPerHour,
+		SUM(sales) / SUM(covers) AS salesPerCover,
+		SUM(earnedTips) * 100 / SUM(sales) AS tipsPercent,
+		SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
+		SUM(earnedTotal) / SUM(hours) AS hourly
+	FROM shift
+	WHERE YEARWEEK(date, 3) BETWEEN YEARWEEK(v_dateFrom, 3) AND YEARWEEK(v_dateTo, 3)
+		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+	GROUP BY YEARWEEK(date, 3);
+END //
+DELIMITER ;
 
 DROP PROCEDURE IF EXISTS calculateMonths;
 DELIMITER //
 CREATE PROCEDURE calculateMonths()
 BEGIN
 	TRUNCATE TABLE month;
-	INSERT INTO month (year, month, count, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly)
+	INSERT INTO month (year, month, shifts, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly)
 	SELECT 
 		YEAR(date) as year,
 		MONTH(date) as month,
@@ -1406,7 +1469,7 @@ BEGIN
 		SUM(earnedTotal) AS earnedTotal,
 
 		SUM(earnedTips) * 100 / SUM(earnedWage) AS tipsVsWage,
-		SUM(sales) / SUM(hours)  AS salesPerHours,
+		SUM(sales) / SUM(hours)  AS salesPerHour,
 		SUM(sales) / SUM(covers) AS salesPerCover,
 		SUM(earnedTips) * 100 / SUM(sales) AS tipsPercent,
 		SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
@@ -1415,7 +1478,6 @@ BEGIN
 	GROUP BY year, month;
 END //
 DELIMITER ;
-CALL calculateWeeks;
 
 /*
 ###############################################################################################

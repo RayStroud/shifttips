@@ -18,11 +18,11 @@ angular.module('shiftTips')
 	this.getSummaryByCut = function(from, to) {
 		return $http.get('./data/summary.php?cut&from=' + from + '&to=' + to);
 	};
-	this.getSummaryWeekly = function(from, to) {
-		return $http.get('./data/summary.php?week&from=' + from + '&to=' + to);
+	this.getSummaryWeekly = function(from, to, lunchDinner) {
+		return $http.get('./data/summary.php?week&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
-	this.getSummaryMonthly = function(from, to) {
-		return $http.get('./data/summary.php?month&from=' + from + '&to=' + to);
+	this.getSummaryMonthly = function(from, to, lunchDinner) {
+		return $http.get('./data/summary.php?month&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
 }])
 
@@ -31,10 +31,10 @@ angular.module('shiftTips')
 	ctrl.sortField = 'startWeek';
 	ctrl.sortReverse = false;
 
-	ctrl.getSummaryWeekly = function(from, to) {
+	ctrl.getSummaryWeekly = function(from, to, lunchDinner) {
 		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
 		var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
-		summaryService.getSummaryWeekly(p_dateFrom, p_dateTo)
+		summaryService.getSummaryWeekly(p_dateFrom, p_dateTo, lunchDinner)
 		.success(function (data, status, headers, config) {
 			/* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.weeks = data.weeks;
@@ -57,7 +57,7 @@ angular.module('shiftTips')
 	ctrl.isSortField = function(field) {
 		return ctrl.sortField == field;
 	};
-	ctrl.getSummaryWeekly(null, null);
+	ctrl.getSummaryWeekly(null, null, null);
 }])
 
 .controller('SummaryController', [ 'summaryService', function(summaryService) {
