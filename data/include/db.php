@@ -2,12 +2,12 @@
 	//* DEBUG */ echo 'php version: ' . phpversion() . '<hr>';
 	//* DEBUG */ error_reporting(E_ALL);
 	//* DEBUG */ ini_set('display_errors', 1);
-	//* DEBUG */ mysqli_report(MYSQLI_REPORT_STRICT);
+	mysqli_report(MYSQLI_REPORT_STRICT);	//to suppress WAMP mysqli warnings
 	$dbhost = 'localhost';
 	$dbname = 'shifttips';
 	$dbuser = 'root';
 	$dbpass = '';			//WAMP
-	$dbpass = 'root'; 	//MAMP
+	//$dbpass = 'root'; 	//MAMP
 	try 
 	{
 		$db = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
@@ -15,7 +15,7 @@
 		if ($db->connect_error) 
 		{
 			http_response_code(500);
-			die('Connect Error (' . $mysqli->connect_errno . ') '. $mysqli->connect_error);
+			die('Connect Error (' . $db->connect_errno . ') '. $db->connect_error);
 		}
 	} 
 	catch (Exception $e) 

@@ -1479,6 +1479,63 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS getMonths;
+DELIMITER //
+CREATE PROCEDURE getMonths(p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+	DECLARE v_lunchDinner	CHAR(1);
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	IF (p_lunchDinner = 'L') 
+		THEN SET v_lunchDinner = 'L';
+		ELSEIF (p_lunchDinner = 'D') 
+			THEN SET v_lunchDinner = 'D';
+		ELSE 
+			SET v_lunchDinner = '%';
+	END IF;
+
+	SELECT 
+		YEAR(date) as year,
+		MONTH(date) as month,
+		COUNT(id) AS shifts,
+
+		SUM(campHours) AS campHours,
+		SUM(sales) AS sales,
+		SUM(tipout) AS tipout,
+		SUM(transfers) AS transfers,
+		SUM(covers) AS covers,
+
+		SUM(hours) AS hours,
+		SUM(earnedWage) AS earnedWage,
+		SUM(earnedTips) AS earnedTips,
+		SUM(earnedTotal) AS earnedTotal,
+
+		SUM(earnedTips) * 100 / SUM(earnedWage) AS tipsVsWage,
+		SUM(sales) / SUM(hours)  AS salesPerHour,
+		SUM(sales) / SUM(covers) AS salesPerCover,
+		SUM(earnedTips) * 100 / SUM(sales) AS tipsPercent,
+		SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
+		SUM(earnedTotal) / SUM(hours) AS hourly
+	FROM shift
+	WHERE YEAR(date) BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+		MONTH(date) BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
+		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+	GROUP BY YEAR(date), MONTH(date);
+END //
+DELIMITER ;
+
+
 /*
 ###############################################################################################
 

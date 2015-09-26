@@ -26,8 +26,70 @@ angular.module('shiftTips')
 	};
 }])
 
-.controller('SummaryWeeklyController', [ 'summaryService', function(summaryService) {
+.controller('SummaryPeriodController', [ 'summaryService', function(summaryService) {
 	var ctrl = this;
+
+	ctrl.changePeriodType = function(type, from, to, lunchDinner) {
+		ctrl.type = type;
+		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
+		var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
+		var promise = null;
+		switch(type) {
+			case 'weekly':
+				ctrl.changePeriodTypeSort('yearweek');
+				promise = summaryService.getSummaryByLunchDinner(p_dateFrom, p_dateTo);
+				break;
+			case 'monthly':
+				ctrl.changePeriodTypeSort(['year','month']);
+				promise = summaryService.getSummaryByDayOfWeek(p_dateFrom, p_dateTo);
+				break;
+		}
+		promise.success(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.summaries = data;
+		})
+		.error(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
+		summaryService.getSummary(p_dateFrom, p_dateTo)
+		.success(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.summaryTotal = data;
+		})
+		.error(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
+	};
+	ctrl.changeSummaryTypeSort = function(typeSort) {
+		//if sort field was set to previous typeSort, change it
+		if(ctrl.sortField == ctrl.typeSort) {
+			ctrl.sortField = typeSort;
+		}
+		ctrl.typeSort = typeSort;
+	}
+	ctrl.changeSortField = function(field) {
+		// if field is already selected, toggle the sort direction
+		if(ctrl.sortField == field) {
+			ctrl.sortReverse = !ctrl.sortReverse;
+		} else {
+			ctrl.sortField = field;
+			ctrl.sortReverse = false;
+		}
+	};
+	ctrl.isSortField = function(field) {
+		return ctrl.sortField == field;
+	};
+
+	ctrl.typeSort = '-lunchDinner';
+	ctrl.sortField = ctrl.typeSort;
+	ctrl.sortReverse = false;
+	ctrl.changeSummaryType('lunchDinner', null, null);
+
+	//###################################################
+	// OLD STUFF
+	//###################################################
 	ctrl.sortField = 'startWeek';
 	ctrl.sortReverse = false;
 

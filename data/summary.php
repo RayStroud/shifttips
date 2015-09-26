@@ -383,7 +383,7 @@
 			$stmt->close();
 		}
 
-		//while($db->next_result()){}
+		while($db->more_results()) { $db->next_result(); }
 
 		if($stmt = $db->prepare('CALL getSummaryWeekly(?,?,?);'))
 		{
@@ -470,7 +470,7 @@
 			$result->free();
 		}
 
-		$db->next_result();
+		while($db->more_results()) { $db->next_result(); }
 
 		if($result = $db->query('CALL getSummaryWeekly(@p_dateFrom, @p_dateTo, @p_lunchDinner);'))
 		{

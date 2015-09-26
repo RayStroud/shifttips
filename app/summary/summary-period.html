@@ -1,5 +1,5 @@
-<div ng-controller="SummaryWeeklyController as ctrl">
-	<h1>Weekly Summary</h1>
+<div ng-controller="SummaryPeriodController as ctrl">
+	<h1>Period Summary</h1>
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
 	<div ng-hide="ctrl.error">
 		<div ng-controller="SummaryFilterController as filterCtrl">
@@ -24,12 +24,20 @@
 						</div>
 					</div>
 				</div>
+				<div class="filter-group" id="filter-buttons">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Summary by...</div>
+						<div class="filter-group-body">
+							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'weekly'}" ng-click="ctrl.changePeriodType('weekly', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Weekly</button>
+							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'monthly'}" ng-click="ctrl.changePeriodType('monthly', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Monthly</button>
+						</div>
+					</div>
+				</div>
 			</form>
 			<div class="mobile-table">
 				<table class="summary-table">
 					<tr class="header">
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('startWeek')}" ng-click="ctrl.changeSortField('startWeek')">Start (Mon)</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('endWeek')}" ng-click="ctrl.changeSortField('endWeek')">End (Sun)</th>
+						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('period')}" ng-click="ctrl.changeSortField('period')">Period</th>
 						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('shifts')}" ng-click="ctrl.changeSortField('shifts')">#</th>
 						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('hours')}" ng-click="ctrl.changeSortField('hours')">Hours</th>
 						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedWage')}" ng-click="ctrl.changeSortField('earnedWage')">Wage</th>
@@ -47,8 +55,7 @@
 						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('hourly')}" ng-click="ctrl.changeSortField('hourly')">Earn/h</th>
 					</tr>
 					<tr ng-repeat="week in ctrl.weeks | orderBy:ctrl.sortField:ctrl.sortReverse" ng-class-even="'alt'">
-						<td>{{week.startWeek | date:'MMM d, yyyy'}}</td>
-						<td>{{week.endWeek | date:'MMM d, yyyy'}}</td>
+						<td>{{week.startWeek | date:'yyyy-MMM-dd'}} to {{week.endWeek | date:'yyyy-MMM-dd'}}</td>
 						<td>{{week.shifts | number:0}}</td>
 						<td>{{week.hours | number:2}}h</td>
 						<td>{{week.earnedWage | currency:undefined:0}}</td>
@@ -66,7 +73,7 @@
 						<td>{{week.hourly | currency}}/h</td>
 					</tr>
 					<tr class="summary">
-						<td colspan="2">Average of {{ctrl.summary.count}} Weeks</td>
+						<td>Average of {{ctrl.summary.count}} Weeks</td>
 						<td>{{ctrl.summary.avgShifts | number:1}}</td>
 						<td>{{ctrl.summary.avgHours | number:2}}h</td>
 						<td>{{ctrl.summary.avgWage | currency:undefined:0}}</td>
@@ -84,7 +91,7 @@
 						<td>{{ctrl.summary.hourly | currency}}/h</td>
 					</tr>
 					<tr class="summary">
-						<td class="right-align" colspan="2">Total</td>
+						<td class="right-align">Total</td>
 						<td>{{ctrl.summary.totShifts | number:0}}</td>
 						<td>{{ctrl.summary.totHours | number:2}}h</td>
 						<td>{{ctrl.summary.totWage | currency:undefined:0}}</td>

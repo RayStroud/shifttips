@@ -28,11 +28,11 @@
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Summary by...</div>
 						<div class="filter-group-body">
-							<button class="link-button" ng-click="ctrl.changeSummaryType('dayOfWeek', filterCtrl.from, filterCtrl.to)">Day Of Week</button>
-							<button class="link-button" ng-click="ctrl.changeSummaryType('section', filterCtrl.from, filterCtrl.to)">Section</button>
-							<button class="link-button" ng-click="ctrl.changeSummaryType('startTime', filterCtrl.from, filterCtrl.to)">Start Time</button>
-							<button class="link-button" ng-click="ctrl.changeSummaryType('cut', filterCtrl.from, filterCtrl.to)">Cut</button>
-							<button class="link-button button-inverse" ng-click="ctrl.changeSummaryType('lunchDinner', filterCtrl.from, filterCtrl.to)">Reset</button>
+							<button class="link-button button-inverse" ng-class="{'button-inverse': ctrl.type != 'lunchDinner'}" ng-click="ctrl.changeSummaryType('lunchDinner', filterCtrl.from, filterCtrl.to)">Lun/Din</button>
+							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'dayOfWeek'}" ng-click="ctrl.changeSummaryType('dayOfWeek', filterCtrl.from, filterCtrl.to)">Day Of Week</button>
+							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'section'}" ng-click="ctrl.changeSummaryType('section', filterCtrl.from, filterCtrl.to)">Section</button>
+							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'startTime'}" ng-click="ctrl.changeSummaryType('startTime', filterCtrl.from, filterCtrl.to)">Start Time</button>
+							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'cut'}" ng-click="ctrl.changeSummaryType('cut', filterCtrl.from, filterCtrl.to)">Cut</button>
 						</div>
 					</div>
 				</div>
