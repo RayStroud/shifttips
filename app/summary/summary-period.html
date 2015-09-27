@@ -1,15 +1,17 @@
 <div ng-controller="SummaryPeriodController as ctrl">
 	<h1>Period Summary</h1>
+	{{ctrl.type}}
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
 	<div ng-hide="ctrl.error">
 		<div ng-controller="SummaryFilterController as filterCtrl">
+			from {{filterCtrl.from}} to {{filterCtrl.to}} during {{filterCtrl.lunchDinner}}
 			<form class="filter-form">
 				<div class="filter-group" id="date-range">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Date Range</div>
 						<div class="filter-group-body">
-							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filterCtrl.from" ng-change="ctrl.getSummaryWeekly(filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)" />
-							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filterCtrl.to" ng-change="ctrl.getSummaryWeekly(filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)" />
+							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filterCtrl.from" ng-change="ctrl.changePeriodType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)" />
+							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filterCtrl.to" ng-change="ctrl.changePeriodType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)" />
 						</div>
 					</div>
 				</div>
@@ -18,9 +20,9 @@
 						<div class="filter-group-header">Time</div>
 						<div class="filter-group-body">
 							<input type="checkbox" id="lun-check" name="lun" ng-checked="filterCtrl.lunCheck">
-							<label ng-click="filterCtrl.toggleLun(); ctrl.getSummaryWeekly(filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">AM</label>
+							<label ng-click="filterCtrl.toggleLun(); ctrl.changePeriodType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">AM</label>
 							<input type="checkbox" id="din-check" name="din" ng-checked="filterCtrl.dinCheck">
-							<label ng-click="filterCtrl.toggleDin(); ctrl.getSummaryWeekly(filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">PM</label>
+							<label ng-click="filterCtrl.toggleDin(); ctrl.changePeriodType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">PM</label>
 						</div>
 					</div>
 				</div>
@@ -54,23 +56,23 @@
 						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipsVsWage')}" ng-click="ctrl.changeSortField('tipsVsWage')">%TvsW</th>
 						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('hourly')}" ng-click="ctrl.changeSortField('hourly')">Earn/h</th>
 					</tr>
-					<tr ng-repeat="week in ctrl.weeks | orderBy:ctrl.sortField:ctrl.sortReverse" ng-class-even="'alt'">
-						<td>{{week.startWeek | date:'yyyy-MMM-dd'}} to {{week.endWeek | date:'yyyy-MMM-dd'}}</td>
-						<td>{{week.shifts | number:0}}</td>
-						<td>{{week.hours | number:2}}h</td>
-						<td>{{week.earnedWage | currency:undefined:0}}</td>
-						<td>{{week.earnedTips | currency:undefined:0}}</td>
-						<td>{{week.earnedTotal | currency:undefined:0}}</td>
-						<td>{{week.sales | currency}}</td>
-						<td>{{week.tipout | currency:undefined:0}}</td>
-						<td>{{week.covers | number:0}}</td>
-						<td>{{week.campHours | number:2}}h</td>
-						<td>{{week.salesPerHour | currency:undefined:0}}/h</td>
-						<td>{{week.salesPerCover | currency:undefined:0}}/cov</td>
-						<td>{{week.tipsPercent | number:1}}%</td>
-						<td>{{week.tipoutPercent | number:1}}%</td>
-						<td>{{week.tipsVsWage | number:0}}%</td>
-						<td>{{week.hourly | currency}}/h</td>
+					<tr ng-repeat="list in ctrl.list | orderBy:ctrl.sortField:ctrl.sortReverse" ng-class-even="'alt'">
+						<td>{{list.startWeek | date:'yyyy-MMM-dd to'}} {{list.endWeek | date:'yyyy-MMM-dd'}}</td>
+						<td>{{list.shifts | number:0}}</td>
+						<td>{{list.hours | number:2}}h</td>
+						<td>{{list.earnedWage | currency:undefined:0}}</td>
+						<td>{{list.earnedTips | currency:undefined:0}}</td>
+						<td>{{list.earnedTotal | currency:undefined:0}}</td>
+						<td>{{list.sales | currency}}</td>
+						<td>{{list.tipout | currency:undefined:0}}</td>
+						<td>{{list.covers | number:0}}</td>
+						<td>{{list.campHours | number:2}}h</td>
+						<td>{{list.salesPerHour | currency:undefined:0}}/h</td>
+						<td>{{list.salesPerCover | currency:undefined:0}}/cov</td>
+						<td>{{list.tipsPercent | number:1}}%</td>
+						<td>{{list.tipoutPercent | number:1}}%</td>
+						<td>{{list.tipsVsWage | number:0}}%</td>
+						<td>{{list.hourly | currency}}/h</td>
 					</tr>
 					<tr class="summary">
 						<td>Average of {{ctrl.summary.count}} Weeks</td>

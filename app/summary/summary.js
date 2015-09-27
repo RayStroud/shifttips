@@ -37,32 +37,24 @@ angular.module('shiftTips')
 		switch(type) {
 			case 'weekly':
 				ctrl.changePeriodTypeSort('yearweek');
-				promise = summaryService.getSummaryByLunchDinner(p_dateFrom, p_dateTo);
+				promise = summaryService.getSummaryWeekly(p_dateFrom, p_dateTo, lunchDinner);
 				break;
 			case 'monthly':
 				ctrl.changePeriodTypeSort(['year','month']);
-				promise = summaryService.getSummaryByDayOfWeek(p_dateFrom, p_dateTo);
+				promise = summaryService.getSummaryMonthly(p_dateFrom, p_dateTo, lunchDinner);
 				break;
 		}
 		promise.success(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
-			ctrl.summaries = data;
-		})
-		.error(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
-		});
-		summaryService.getSummary(p_dateFrom, p_dateTo)
-		.success(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
-			ctrl.summaryTotal = data;
+			ctrl.list = data.list;
+			ctrl.summary = data.summary;
 		})
 		.error(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
 		});
 	};
-	ctrl.changeSummaryTypeSort = function(typeSort) {
+	ctrl.changePeriodTypeSort = function(typeSort) {
 		//if sort field was set to previous typeSort, change it
 		if(ctrl.sortField == ctrl.typeSort) {
 			ctrl.sortField = typeSort;
@@ -82,44 +74,44 @@ angular.module('shiftTips')
 		return ctrl.sortField == field;
 	};
 
-	ctrl.typeSort = '-lunchDinner';
+	ctrl.typeSort = 'yearweek';
 	ctrl.sortField = ctrl.typeSort;
 	ctrl.sortReverse = false;
-	ctrl.changeSummaryType('lunchDinner', null, null);
+	ctrl.changePeriodType('weekly', null, null, null);
 
 	//###################################################
 	// OLD STUFF
 	//###################################################
-	ctrl.sortField = 'startWeek';
-	ctrl.sortReverse = false;
+	// ctrl.sortField = 'startWeek';
+	// ctrl.sortReverse = false;
 
-	ctrl.getSummaryWeekly = function(from, to, lunchDinner) {
-		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
-		var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
-		summaryService.getSummaryWeekly(p_dateFrom, p_dateTo, lunchDinner)
-		.success(function (data, status, headers, config) {
-			/* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
-			ctrl.weeks = data.weeks;
-			ctrl.summary = data.summary;
-		})
-		.error(function (data, status, headers, config) {
-			/* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
-		});
-	}
-	ctrl.changeSortField = function(field) {
-		// if field is already selected, toggle the sort direction
-		if(ctrl.sortField == field) {
-			ctrl.sortReverse = !ctrl.sortReverse;
-		} else {
-			ctrl.sortField = field;
-			ctrl.sortReverse = false;
-		}
-	};
-	ctrl.isSortField = function(field) {
-		return ctrl.sortField == field;
-	};
-	ctrl.getSummaryWeekly(null, null, null);
+	// ctrl.getSummaryWeekly = function(from, to, lunchDinner) {
+	// 	var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
+	// 	var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
+	// 	summaryService.getSummaryWeekly(p_dateFrom, p_dateTo, lunchDinner)
+	// 	.success(function (data, status, headers, config) {
+	// 		/* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+	// 		ctrl.weeks = data.weeks;
+	// 		ctrl.summary = data.summary;
+	// 	})
+	// 	.error(function (data, status, headers, config) {
+	// 		/* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+	// 		ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+	// 	});
+	// }
+	// ctrl.changeSortField = function(field) {
+	// 	// if field is already selected, toggle the sort direction
+	// 	if(ctrl.sortField == field) {
+	// 		ctrl.sortReverse = !ctrl.sortReverse;
+	// 	} else {
+	// 		ctrl.sortField = field;
+	// 		ctrl.sortReverse = false;
+	// 	}
+	// };
+	// ctrl.isSortField = function(field) {
+	// 	return ctrl.sortField == field;
+	// };
+	// ctrl.getSummaryWeekly(null, null, null);
 }])
 
 .controller('SummaryController', [ 'summaryService', function(summaryService) {

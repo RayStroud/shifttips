@@ -426,7 +426,7 @@
 	function getSummaryWeekly($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
 	{
 		$return = new stdClass();
-		$return->weeks = [];
+		$return->list = [];
 		$return->summary = new stdClass();
 		
 		if ($stmt = $db->prepare('SET @p_dateFrom = ?, @p_dateTo = ?, @p_lunchDinner = ?;'))
@@ -465,7 +465,7 @@
 				$week->tipsPercent 		= (float)	$row['tipsPercent'];
 				$week->tipoutPercent 	= (float)	$row['tipoutPercent'];
 				$week->hourly 			= (float)	$row['hourly'];
-				$return->weeks[] = $week;
+				$return->list[] = $week;
 			}
 			$result->free();
 		}
@@ -502,9 +502,10 @@
 			$return->summary->hourly 		= (float) 	$row['hourly'];
 			$result->free();
 		}
+
 		echo json_encode($return);
 	}
-	function getSummaryMonthly($db, $p_dateFrom, $p_dateTo)
+	function getSummaryMonthly($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
 	{
 		
 	}
@@ -567,7 +568,7 @@
 			|| isset($_GET['months']) 
 			|| isset($_GET['monthly']))
 		{
-			getSummaryMonthly($db, $p_dateFrom, $p_dateTo);
+			getSummaryMonthly($db, $p_dateFrom, $p_dateTo, $p_lunchDinner);
 		}
 		else
 		{
