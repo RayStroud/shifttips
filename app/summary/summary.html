@@ -76,9 +76,9 @@
 							<td>{{summary.avgHours}}h</td>
 							<td>{{summary.avgWage | currency}}</td>
 							<td>{{summary.avgTips | currency}}</td>
-							<td>{{summary.avgTipout | currency}}</td>
 							<td>{{summary.avgEarned | currency}}</td>
 							<td>{{summary.avgSales | currency:undefined:0}}</td>
+							<td>{{summary.avgTipout | currency}}</td>
 							<td>{{summary.avgCovers | number:0}}</td>
 							<td>{{summary.avgCampHours | number:2}}h</td>
 							<td>{{summary.salesPerHour | currency:undefined:0}}/h</td>
@@ -93,9 +93,9 @@
 							<td class="tot-cell">{{summary.totHours | number:2}}h</td>
 							<td class="tot-cell">{{summary.totWage | currency:undefined:0}}</td>
 							<td class="tot-cell">{{summary.totTips | currency:undefined:0}}</td>
-							<td class="tot-cell">{{summary.totTipout | currency:undefined:0}}</td>
 							<td class="tot-cell">{{summary.totEarned | currency:undefined:0}}</td>
 							<td class="tot-cell">{{summary.totSales | currency:undefined:0}}</td>
+							<td class="tot-cell">{{summary.totTipout | currency:undefined:0}}</td>
 							<td class="tot-cell">{{summary.totCovers | number:0}}cov</td>
 							<td class="tot-cell">{{summary.totCampHours | number:2}}h</td>
 							<td colspan="6"></td>
@@ -107,9 +107,9 @@
 						<td>{{ctrl.summaryTotal.avgHours | number:2}}h</td>
 						<td>{{ctrl.summaryTotal.avgWage | currency}}</td>
 						<td>{{ctrl.summaryTotal.avgTips | currency}}</td>
-						<td>{{ctrl.summaryTotal.avgTipout | currency}}</td>
 						<td>{{ctrl.summaryTotal.avgEarned | currency}}</td>
 						<td>{{ctrl.summaryTotal.avgSales | currency:undefined:0}}</td>
+						<td>{{ctrl.summaryTotal.avgTipout | currency}}</td>
 						<td>{{ctrl.summaryTotal.avgCovers | number:1}}</td>
 						<td>{{ctrl.summaryTotal.avgCampHours | number:2}}h</td>
 						<td>{{ctrl.summaryTotal.salesPerHour | currency:undefined:0}}/h</td>
@@ -124,10 +124,10 @@
 						<td class="tot-cell">{{ctrl.summaryTotal.totHours | number:0}}h</td>
 						<td class="tot-cell">{{ctrl.summaryTotal.totWage | currency:undefined:0}}</td>
 						<td class="tot-cell">{{ctrl.summaryTotal.totTips | currency:undefined:0}}</td>
-						<td class="tot-cell">{{ctrl.summaryTotal.totTipout | currency:undefined:0}}</td>
 						<td class="tot-cell">{{ctrl.summaryTotal.totEarned | currency:undefined:0}}</td>
 						<td class="tot-cell">{{ctrl.summaryTotal.totSales | currency:undefined:0}}</td>
-						<td class="tot-cell">{{ctrl.summaryTotal.totCovers | number:0}}cov</td>
+						<td class="tot-cell">{{ctrl.summaryTotal.totTipout | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summaryTotal.totCovers | number:0}}</td>
 						<td class="tot-cell">{{ctrl.summaryTotal.totCampHours | number:2}}h</td>
 						<td class="tot-cell" colspan="6"></td>
 					</tr>

@@ -131,7 +131,8 @@ DROP TABLE IF EXISTS month;
 CREATE TABLE month
 (
 	year			CHAR(4),
-	month			CHAR(3),
+	month			CHAR(2),
+	monthname		CHAR(3),
 	shifts			INT,
 
 	campHours		DECIMAL(5,2),

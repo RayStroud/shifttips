@@ -623,21 +623,9 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getSummaryMonthly;
 DELIMITER //
-CREATE PROCEDURE getSummaryMonthly (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE getSummaryMonthly (p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
-	DECLARE v_dateFrom		DATE;
-	DECLARE v_dateTo		DATE;
-
-	IF (p_dateFrom IS NULL)
-		THEN SET v_dateFrom := '1000-01-01';
-		ELSE SET v_dateFrom := p_dateFrom;
-	END IF;
-
-	IF (p_dateTo IS NULL)
-		THEN SET v_dateTo := '9999-12-31';
-		ELSE SET v_dateTo := p_dateTo;
-	END IF;
-
+	CALL calculateMonths(p_dateFrom, p_dateTo, p_lunchDinner);
 	SELECT
 		COUNT(id) as count,
 		ROUND(AVG(shifts)		,1) as avgShifts,
@@ -664,9 +652,7 @@ BEGIN
 		ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 		ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
 		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
-	FROM month 
-	WHERE year BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
-		AND month BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo);
+	FROM month;
 END //
 DELIMITER ;
 
@@ -1448,14 +1434,37 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS calculateMonths;
 DELIMITER //
-CREATE PROCEDURE calculateMonths()
+CREATE PROCEDURE calculateMonths(p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+	DECLARE v_lunchDinner	CHAR(1);
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	IF (p_lunchDinner = 'L') 
+		THEN SET v_lunchDinner = 'L';
+		ELSEIF (p_lunchDinner = 'D') 
+			THEN SET v_lunchDinner = 'D';
+		ELSE 
+			SET v_lunchDinner = '%';
+	END IF;
+
 	TRUNCATE TABLE month;
-	INSERT INTO month (year, month, shifts, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly)
+	INSERT INTO month (year, month, monthname, shifts, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly)
 	SELECT 
-		YEAR(date) as year,
+		YEAR(DATE) AS year,
 		MONTH(date) as month,
-		COUNT(id) AS count,
+		MONTHNAME(date) as monthname,
+		COUNT(id) AS shifts,
 
 		SUM(campHours) AS campHours,
 		SUM(sales) AS sales,
@@ -1475,7 +1484,10 @@ BEGIN
 		SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
 		SUM(earnedTotal) / SUM(hours) AS hourly
 	FROM shift
-	GROUP BY year, month;
+	WHERE YEAR(date) BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
+		AND MONTH(date) BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
+		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+	GROUP BY YEAR(date), MONTH(date);
 END //
 DELIMITER ;
 
@@ -1508,6 +1520,7 @@ BEGIN
 	SELECT 
 		YEAR(date) as year,
 		MONTH(date) as month,
+		MONTHNAME(date) as monthname,
 		COUNT(id) AS shifts,
 
 		SUM(campHours) AS campHours,
@@ -1529,7 +1542,7 @@ BEGIN
 		SUM(earnedTotal) / SUM(hours) AS hourly
 	FROM shift
 	WHERE YEAR(date) BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
-		MONTH(date) BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
+		AND MONTH(date) BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
 	GROUP BY YEAR(date), MONTH(date);
 END //

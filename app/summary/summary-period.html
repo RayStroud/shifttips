@@ -1,10 +1,8 @@
 <div ng-controller="SummaryPeriodController as ctrl">
 	<h1>Period Summary</h1>
-	{{ctrl.type}}
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
 	<div ng-hide="ctrl.error">
 		<div ng-controller="SummaryFilterController as filterCtrl">
-			from {{filterCtrl.from}} to {{filterCtrl.to}} during {{filterCtrl.lunchDinner}}
 			<form class="filter-form">
 				<div class="filter-group" id="date-range">
 					<div class="filter-group-wrap">
@@ -39,7 +37,7 @@
 			<div class="mobile-table">
 				<table class="summary-table">
 					<tr class="header">
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('period')}" ng-click="ctrl.changeSortField('period')">Period</th>
+						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField(ctrl.typeSort)}" ng-click="ctrl.changeSortField(ctrl.typeSort)">Period</th>
 						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('shifts')}" ng-click="ctrl.changeSortField('shifts')">#</th>
 						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('hours')}" ng-click="ctrl.changeSortField('hours')">Hours</th>
 						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedWage')}" ng-click="ctrl.changeSortField('earnedWage')">Wage</th>
@@ -57,13 +55,13 @@
 						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('hourly')}" ng-click="ctrl.changeSortField('hourly')">Earn/h</th>
 					</tr>
 					<tr ng-repeat="list in ctrl.list | orderBy:ctrl.sortField:ctrl.sortReverse" ng-class-even="'alt'">
-						<td>{{list.startWeek | date:'yyyy-MMM-dd to'}} {{list.endWeek | date:'yyyy-MMM-dd'}}</td>
+						<td>{{list.startWeek | date:'MMM dd, yyyy →'}} {{list.endWeek | date:'MMM dd, yyyy'}}{{list.monthname}} {{list.year}}</td>
 						<td>{{list.shifts | number:0}}</td>
 						<td>{{list.hours | number:2}}h</td>
 						<td>{{list.earnedWage | currency:undefined:0}}</td>
 						<td>{{list.earnedTips | currency:undefined:0}}</td>
 						<td>{{list.earnedTotal | currency:undefined:0}}</td>
-						<td>{{list.sales | currency}}</td>
+						<td>{{list.sales | currency:undefined:0}}</td>
 						<td>{{list.tipout | currency:undefined:0}}</td>
 						<td>{{list.covers | number:0}}</td>
 						<td>{{list.campHours | number:2}}h</td>
@@ -75,14 +73,14 @@
 						<td>{{list.hourly | currency}}/h</td>
 					</tr>
 					<tr class="summary">
-						<td>Average of {{ctrl.summary.count}} Weeks</td>
+						<td><i>average</i></td>
 						<td>{{ctrl.summary.avgShifts | number:1}}</td>
 						<td>{{ctrl.summary.avgHours | number:2}}h</td>
-						<td>{{ctrl.summary.avgWage | currency:undefined:0}}</td>
-						<td>{{ctrl.summary.avgTips | currency:undefined:0}}</td>
-						<td>{{ctrl.summary.avgEarned | currency:undefined:0}}</td>
+						<td>{{ctrl.summary.avgWage | currency}}</td>
+						<td>{{ctrl.summary.avgTips | currency}}</td>
+						<td>{{ctrl.summary.avgEarned | currency}}</td>
 						<td>{{ctrl.summary.avgSales | currency:undefined:0}}</td>
-						<td>{{ctrl.summary.avgTipout | currency:undefined:0}}</td>
+						<td>{{ctrl.summary.avgTipout | currency}}</td>
 						<td>{{ctrl.summary.avgCovers | number:1}}</td>
 						<td>{{ctrl.summary.avgCampHours | number:2}}h</td>
 						<td>{{ctrl.summary.salesPerHour | currency:undefined:0}}/h</td>
@@ -93,17 +91,17 @@
 						<td>{{ctrl.summary.hourly | currency}}/h</td>
 					</tr>
 					<tr class="summary">
-						<td class="right-align">Total</td>
-						<td>{{ctrl.summary.totShifts | number:0}}</td>
-						<td>{{ctrl.summary.totHours | number:2}}h</td>
-						<td>{{ctrl.summary.totWage | currency:undefined:0}}</td>
-						<td>{{ctrl.summary.totTips | currency:undefined:0}}</td>
-						<td>{{ctrl.summary.totEarned | currency:undefined:0}}</td>
-						<td>{{ctrl.summary.totSales | currency:undefined:0}}</td>
-						<td>{{ctrl.summary.totTipout | currency:undefined:0}}</td>
-						<td>{{ctrl.summary.totCovers | number:0}}</td>
-						<td>{{ctrl.summary.totCampHours | number:2}}h</td>
-						<td colspan="6"></td>
+						<td class="tot-cell"><i>{{ctrl.summary.count}} total</i></td>
+						<td class="tot-cell">{{ctrl.summary.totShifts | number:0}}</td>
+						<td class="tot-cell">{{ctrl.summary.totHours | number:0}}h</td>
+						<td class="tot-cell">{{ctrl.summary.totWage | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summary.totTips | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summary.totEarned | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summary.totSales | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summary.totTipout | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summary.totCovers | number:0}}</td>
+						<td class="tot-cell">{{ctrl.summary.totCampHours | number:2}}h</td>
+						<td class="tot-cell" colspan="6"></td>
 					</tr>
 				</table>
 			</div>

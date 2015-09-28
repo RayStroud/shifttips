@@ -507,7 +507,85 @@
 	}
 	function getSummaryMonthly($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
 	{
+		$return = new stdClass();
+		$return->list = [];
+		$return->summary = new stdClass();
 		
+		if ($stmt = $db->prepare('SET @p_dateFrom = ?, @p_dateTo = ?, @p_lunchDinner = ?;'))
+		{
+			$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			$stmt->execute(); 
+			$stmt->store_result();
+			$stmt->free_result();
+			$stmt->close();	
+		}
+
+		if($result = $db->query('CALL getMonths(@p_dateFrom, @p_dateTo, @p_lunchDinner);'))
+		{
+			while($row = $result->fetch_assoc())
+			{
+				$month = new stdClass();
+				$month->year 			= $row['year'];
+				$month->month 			= $row['month'];
+				$month->monthname 		= substr($row['monthname'],0,3);
+				$month->shifts 			= (int)		$row['shifts'];
+
+				$month->campHours 		= (float)	$row['campHours'];
+				$month->sales 			= (float)	$row['sales'];
+				$month->tipout 			= (int)		$row['tipout'];
+				$month->transfers 		= (int)		$row['transfers'];
+				$month->covers 			= (int)		$row['covers'];
+
+				$month->hours 			= (float)	$row['hours'];
+				$month->earnedWage 		= (float)	$row['earnedWage'];
+				$month->earnedTips 		= (int)		$row['earnedTips'];
+				$month->earnedTotal 	= (float)	$row['earnedTotal'];
+
+				$month->tipsVsWage 		= (int)		$row['tipsVsWage'];
+				$month->salesPerHour 	= (float)	$row['salesPerHour'];
+				$month->salesPerCover 	= (float)	$row['salesPerCover'];
+				$month->tipsPercent 	= (float)	$row['tipsPercent'];
+				$month->tipoutPercent 	= (float)	$row['tipoutPercent'];
+				$month->hourly 			= (float)	$row['hourly'];
+				$return->list[] = $month;
+			}
+			$result->free();
+		}
+
+		while($db->more_results()) { $db->next_result(); }
+
+		if($result = $db->query('CALL getSummaryMonthly(@p_dateFrom, @p_dateTo, @p_lunchDinner);'))
+		{
+			$row = $result->fetch_assoc();
+			$return->summary->count 		= (int) 	$row['count'];
+			$return->summary->avgShifts 	= (float) 	$row['avgShifts'];
+			$return->summary->totShifts 	= (int) 	$row['totShifts'];
+			$return->summary->avgHours 		= (float) 	$row['avgHours'];
+			$return->summary->totHours 		= (float) 	$row['totHours'];
+			$return->summary->avgWage 		= (float) 	$row['avgWage'];
+			$return->summary->totWage 		= (float) 	$row['totWage'];
+			$return->summary->avgTips 		= (float) 	$row['avgTips'];
+			$return->summary->totTips 		= (int) 	$row['totTips'];
+			$return->summary->avgEarned 	= (float) 	$row['avgEarned'];
+			$return->summary->totEarned 	= (float) 	$row['totEarned'];
+			$return->summary->avgTipout 	= (float) 	$row['avgTipout'];
+			$return->summary->totTipout 	= (int) 	$row['totTipout'];
+			$return->summary->avgSales 		= (float) 	$row['avgSales'];
+			$return->summary->totSales 		= (float) 	$row['totSales'];
+			$return->summary->avgCovers 	= (float) 	$row['avgCovers'];
+			$return->summary->totCovers 	= (int) 	$row['totCovers'];
+			$return->summary->avgCampHours 	= (float) 	$row['avgCampHours'];
+			$return->summary->totCampHours 	= (float) 	$row['totCampHours'];
+			$return->summary->salesPerHour 	= (float) 	$row['salesPerHour'];
+			$return->summary->salesPerCover = (float) 	$row['salesPerCover'];
+			$return->summary->tipsPercent 	= (float) 	$row['tipsPercent'];
+			$return->summary->tipoutPercent = (float) 	$row['tipoutPercent'];
+			$return->summary->tipsVsWage 	= (int) 	$row['tipsVsWage'];
+			$return->summary->hourly 		= (float) 	$row['hourly'];
+			$result->free();
+		}
+
+		echo json_encode($return);
 	}
 	
 	try
