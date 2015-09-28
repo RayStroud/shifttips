@@ -147,6 +147,9 @@ angular.module('shiftTips')
 	ctrl.isSortField = function(field) {
 		return ctrl.sortField == field;
 	};
+	ctrl.isSummaryType = function(type) {
+		return ctrl.type == type;
+	};
 
 	ctrl.typeSort = '-lunchDinner';
 	ctrl.sortField = ctrl.typeSort;

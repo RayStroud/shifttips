@@ -87,7 +87,7 @@ angular.module('shiftTips')
 
 	ctrl.sortDate = ['date','startTime'];
 	ctrl.sortDayOfWeek = ['weekday','date','startTime'];
-	ctrl.sortLunchDinner = ['lunchDinner','date','startTime'];
+	ctrl.sortLunchDinner = ['-lunchDinner','date','startTime'];
 	ctrl.sortReverse = false;
 	ctrl.changeSortField(ctrl.sortDate);
 }])

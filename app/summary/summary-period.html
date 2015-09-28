@@ -36,24 +36,42 @@
 			</form>
 			<div class="mobile-table">
 				<table class="summary-table">
-					<tr class="header">
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField(ctrl.typeSort)}" ng-click="ctrl.changeSortField(ctrl.typeSort)">Period</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('shifts')}" ng-click="ctrl.changeSortField('shifts')">#</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('hours')}" ng-click="ctrl.changeSortField('hours')">Hours</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedWage')}" ng-click="ctrl.changeSortField('earnedWage')">Wage</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedTips')}" ng-click="ctrl.changeSortField('earnedTips')">Tips</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedTotal')}" ng-click="ctrl.changeSortField('earnedTotal')">Earned</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('sales')}" ng-click="ctrl.changeSortField('sales')">Sales</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipout')}" ng-click="ctrl.changeSortField('tipout')">T/O</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('covers')}" ng-click="ctrl.changeSortField('covers')">Covers</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('campHours')}" ng-click="ctrl.changeSortField('campHours')">Camp</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('salesPerHour')}" ng-click="ctrl.changeSortField('salesPerHour')">Sales/h</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('salesPerCover')}" ng-click="ctrl.changeSortField('salesPerCover')">Sales/cov</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipsPercent')}" ng-click="ctrl.changeSortField('tipsPercent')">%Tips</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipoutPercent')}" ng-click="ctrl.changeSortField('tipoutPercent')">%T/O</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipsVsWage')}" ng-click="ctrl.changeSortField('tipsVsWage')">%TvsW</th>
-						<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('hourly')}" ng-click="ctrl.changeSortField('hourly')">Earn/h</th>
-					</tr>
+					<thead ng-class="{'sort-reverse':ctrl.sortReverse}">
+						<tr>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField(ctrl.typeSort)}" 
+								ng-click="ctrl.changeSortField(ctrl.typeSort)">Period</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('shifts')}" 
+								ng-click="ctrl.changeSortField('shifts')">#</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('hours')}" 
+								ng-click="ctrl.changeSortField('hours')">Hours</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('earnedWage')}" 
+								ng-click="ctrl.changeSortField('earnedWage')">Wage</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('earnedTips')}" 
+								ng-click="ctrl.changeSortField('earnedTips')">Tips</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('earnedTotal')}" 
+								ng-click="ctrl.changeSortField('earnedTotal')">Earned</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('sales')}" 
+								ng-click="ctrl.changeSortField('sales')">Sales</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('tipout')}" 
+								ng-click="ctrl.changeSortField('tipout')">T/O</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('covers')}" 
+								ng-click="ctrl.changeSortField('covers')">Covers</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('campHours')}" 
+								ng-click="ctrl.changeSortField('campHours')">Camp</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('salesPerHour')}" 
+								ng-click="ctrl.changeSortField('salesPerHour')">Sales/h</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('salesPerCover')}" 
+								ng-click="ctrl.changeSortField('salesPerCover')">Sales/cov</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('tipsPercent')}" 
+								ng-click="ctrl.changeSortField('tipsPercent')">%Tips</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('tipoutPercent')}" 
+								ng-click="ctrl.changeSortField('tipoutPercent')">%T/O</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('tipsVsWage')}" 
+								ng-click="ctrl.changeSortField('tipsVsWage')">%TvsW</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('hourly')}" 
+								ng-click="ctrl.changeSortField('hourly')">Earn/h</th>
+						</tr>
+					</thead>
 					<tr ng-repeat="list in ctrl.list | orderBy:ctrl.sortField:ctrl.sortReverse" ng-class-even="'alt'">
 						<td>{{list.startWeek | date:'MMM dd, yyyy →'}} {{list.endWeek | date:'MMM dd, yyyy'}}{{list.monthname}} {{list.year}}</td>
 						<td>{{list.shifts | number:0}}</td>
