@@ -1,7 +1,7 @@
-<div ng-controller="ShiftGridController as shiftGridCtrl">
+<div ng-controller="ShiftGridController as ctrl">
 	<h1>Shifts</h1>
-	<div class="error message-box" ng-show="shiftGridCtrl.error">{{shiftGridCtrl.error}}</div>
-	<div ng-hide="shiftGridCtrl.error">
+	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
+	<div ng-hide="ctrl.error">
 		<div ng-controller="ShiftFilterController as filterCtrl">
 			<form class="filter-form" method="get" action="#">
 				<div class="filter-group" id="date-range">
@@ -62,9 +62,9 @@
 			<div ng-show="filteredShifts.length < 1">
 				No shifts found
 			</div>
-			<div id="shifts" ng-hide="filteredShifts.length < 1 || shiftGridCtrl.error">
+			<div id="shifts" ng-hide="filteredShifts.length < 1 || ctrl.error">
 				<div class="clickable shift-summary {{shift.dayOfWeek | lowercase}}-shift {{shift.lunchDinner | lowercase}}-shift"
-					 ng-repeat="shift in filteredShifts = (shiftGridCtrl.shifts | isValidShift:{fromDate:filterCtrl.from,toDate:filterCtrl.to,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:['date','startTime']) track by $index">
+					 ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:{fromDate:filterCtrl.from,toDate:filterCtrl.to,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:['date','startTime']) track by $index">
 					<div class="shift-datetime">
 						<div class="shift-date">{{shift.date | date:'EEE, MMM d, yyyy'}}</div>
 						<div class="shift-time">{{shift.startTime | timeToDate | date:'h:mma'}} - {{shift.endTime | timeToDate | date:'h:mma'}}</div>

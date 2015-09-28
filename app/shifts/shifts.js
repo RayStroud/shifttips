@@ -57,6 +57,41 @@ angular.module('shiftTips')
 	});
 }])
 
+.controller('ShiftListController', ['shiftsService', function(shiftsService) {
+	var ctrl = this;
+
+	this.shifts = shiftsService.getShifts()
+	.success(function (data, status, headers, config) {
+		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+		ctrl.shifts = data;
+	})
+	.error(function (data, status, headers, config) {
+		ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+		ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
+	});
+
+	//ctrl.getSummary(p_from, p_to, p_mon, p_tue, p_wed, p_thu, p_fri, p_sat, p_sun, p_lunchDinner) {}
+
+	ctrl.changeSortField = function(field) {
+		// if field is already selected, toggle the sort direction
+		if(ctrl.sortField == field) {
+			ctrl.sortReverse = !ctrl.sortReverse;
+		} else {
+			ctrl.sortField = field;
+			ctrl.sortReverse = false;
+		}
+	};
+	ctrl.isSortField = function(field) {
+		return ctrl.sortField == field;
+	};
+
+	ctrl.sortDate = ['date','startTime'];
+	ctrl.sortDayOfWeek = ['weekday','date','startTime'];
+	ctrl.sortLunchDinner = ['lunchDinner','date','startTime'];
+	ctrl.sortReverse = false;
+	ctrl.changeSortField(ctrl.sortDate);
+}])
+
 .controller('ShiftFilterController', function() {
 	this.from = '';
 	this.to = '';

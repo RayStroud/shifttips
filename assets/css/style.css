@@ -678,6 +678,33 @@ td.sun-avg-cell {
 td.sun-tot-cell {
   background-color: rgba(26, 26, 26, 0.25); }
 
+tr.l-shift td.ld-cell {
+  color: #956204; }
+
+tr.d-shift td.ld-cell {
+  color: #056acb; }
+
+tr.mon-shift td.day-cell {
+  color: #ae0404; }
+
+tr.tue-shift td.day-cell {
+  color: #7c7c03; }
+
+tr.wed-shift td.day-cell {
+  color: #049504; }
+
+tr.thu-shift td.day-cell {
+  color: #049595; }
+
+tr.fri-shift td.day-cell {
+  color: #0404ae; }
+
+tr.sat-shift td.day-cell {
+  color: #ae04ae; }
+
+tr.sun-shift td.day-cell {
+  color: #595959; }
+
 /* ############################################
 	OTHER
 ############################################ */

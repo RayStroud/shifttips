@@ -1,0 +1,146 @@
+<div ng-controller="ShiftListController as ctrl">
+	<h1>Shifts</h1>
+	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
+	<div ng-hide="ctrl.error">
+		<div ng-controller="ShiftFilterController as filterCtrl">
+			<form class="filter-form" method="get" action="#">
+				<div class="filter-group" id="date-range">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Date Range</div>
+						<div class="filter-group-body">
+							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filterCtrl.from" />
+							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filterCtrl.to" />
+						</div>
+					</div>
+				</div>
+				<div class="filter-group" id="day-of-week">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Day of Week</div>
+						<div class="filter-group-body">
+							<input type="checkbox" id="mon-check" name="mon" ng-checked="filterCtrl.monCheck">
+							<label ng-click="filterCtrl.toggleMon()">Mon</label>
+							<input type="checkbox" id="tue-check" name="tue" ng-checked="filterCtrl.tueCheck">
+							<label ng-click="filterCtrl.toggleTue()">Tue</label>
+							<input type="checkbox" id="wed-check" name="wed" ng-checked="filterCtrl.wedCheck">
+							<label ng-click="filterCtrl.toggleWed()">Wed</label>
+							<input type="checkbox" id="thu-check" name="thu" ng-checked="filterCtrl.thuCheck">
+							<label ng-click="filterCtrl.toggleThu()">Thu</label>
+							<input type="checkbox" id="fri-check" name="fri" ng-checked="filterCtrl.friCheck">
+							<label ng-click="filterCtrl.toggleFri()">Fri</label>
+							<input type="checkbox" id="sat-check" name="sat" ng-checked="filterCtrl.satCheck">
+							<label ng-click="filterCtrl.toggleSat()">Sat</label>
+							<input type="checkbox" id="sun-check" name="sun" ng-checked="filterCtrl.sunCheck">
+							<label ng-click="filterCtrl.toggleSun()">Sun</label>
+						</div>
+					</div>
+				</div>
+				<div class="filter-group" id="shift-time">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Time</div>
+						<div class="filter-group-body">
+							<input type="checkbox" id="lun-check" name="lun" ng-checked="filterCtrl.lunCheck">
+							<label ng-click="filterCtrl.toggleLun()">AM</label>
+							<input type="checkbox" id="din-check" name="din" ng-checked="filterCtrl.dinCheck">
+							<label ng-click="filterCtrl.toggleDin()">PM</label>
+						</div>
+					</div>
+				</div>
+				<!--div class="filter-group" id="filter-buttons">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Filter</div>
+						<div class="filter-group-body">
+							<button class="link-button" type="submit">Filter</button> 
+							<button class="link-button" type="submit" name="week">Weekly</button>
+							<a class="link-button button-inverse" href="#">Reset</a>
+						</div>
+					</div>
+				</div-->
+			</form>
+			<h3 class="filter-message">
+				Viewing {{filteredShifts.length}} <span class="{{filterCtrl.lunchDinner ? 'filter-bold' : ''}}">{{filterCtrl.lunchDinner == 'L' ? 'Lunch' : ''}}{{filterCtrl.lunchDinner == 'D' ? 'Dinner' : ''}}</span> shifts on <span class="{{filterCtrl.sDays ? 'filter-bold' : ''}}">{{filterCtrl.sDays || 'any day'}}</span> from <span class="{{filterCtrl.from ? 'filter-bold' : ''}}">{{filterCtrl.from ? (filterCtrl.from | date) : 'any date'}}</span> to <span class="{{filterCtrl.to ? 'filter-bold' : ''}}">{{filterCtrl.to ? (filterCtrl.to | date) : 'any date'}}</span>
+			</h3>
+			<div ng-show="filteredShifts.length < 1">
+				No shifts found
+			</div>
+			<div ng-hide="filteredShifts.length < 1 || ctrl.error">
+				<div class="mobile-table">
+					<table class="summary-table">
+						<tr class="header">
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField(ctrl.sortLunchDinner)}" ng-click="ctrl.changeSortField(ctrl.sortLunchDinner)">L/D</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField(ctrl.sortDayOfWeek)}" ng-click="ctrl.changeSortField(ctrl.sortDayOfWeek)">Day</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField(ctrl.sortDate)}" ng-click="ctrl.changeSortField(ctrl.sortDate)">Date</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('startTime')}" ng-click="ctrl.changeSortField('startTime')">Start</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('endTime')}" ng-click="ctrl.changeSortField('endTime')">End</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('hours')}" ng-click="ctrl.changeSortField('hours')">Hours</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedWage')}" ng-click="ctrl.changeSortField('earnedWage')">Wage</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedTips')}" ng-click="ctrl.changeSortField('earnedTips')">Tips</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('earnedTotal')}" ng-click="ctrl.changeSortField('earnedTotal')">Earned</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('sales')}" ng-click="ctrl.changeSortField('sales')">Sales</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipout')}" ng-click="ctrl.changeSortField('tipout')">T/O</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('covers')}" ng-click="ctrl.changeSortField('covers')">Covers</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('campHours')}" ng-click="ctrl.changeSortField('campHours')">Camp</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('salesPerHour')}" ng-click="ctrl.changeSortField('salesPerHour')">Sales/h</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('salesPerCover')}" ng-click="ctrl.changeSortField('salesPerCover')">Sales/cov</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipsPercent')}" ng-click="ctrl.changeSortField('tipsPercent')">%Tips</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipoutPercent')}" ng-click="ctrl.changeSortField('tipoutPercent')">%T/O</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('tipsVsWage')}" ng-click="ctrl.changeSortField('tipsVsWage')">%TvsW</th>
+							<th class="sortable" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('hourly')}" ng-click="ctrl.changeSortField('hourly')">Earn/h</th>
+						</tr>
+						<tr class="{{shift.dayOfWeek | lowercase}}-shift {{shift.lunchDinner | lowercase}}-shift" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:{fromDate:filterCtrl.from,toDate:filterCtrl.to,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:ctrl.sortField:ctrl.sortReverse ) track by $index" ng-class-even="'alt'">
+							<td class="ld-cell">{{shift.lunchDinner}}</td>
+							<td class="day-cell">{{shift.dayOfWeek}}</td>
+							<td><a href="#/shift/{{shift.id}}">{{shift.date | date:'MMM dd, yyyy'}}</a></td>
+							<td>{{shift.startTime | timeToDate | date:'h:mma'}}</td>
+							<td>{{shift.endTime | timeToDate | date:'h:mma'}}</td>
+							<td>{{shift.hours | number:2}}h</td>
+							<td>{{shift.earnedWage | currency:undefined:0}}</td>
+							<td>{{shift.earnedTips | currency:undefined:0}}</td>
+							<td>{{shift.earnedTotal | currency:undefined:0}}</td>
+							<td>{{shift.sales | currency:undefined:0}}</td>
+							<td>{{shift.tipout | currency:undefined:0}}</td>
+							<td>{{shift.covers | number:0}}</td>
+							<td>{{shift.campHours | number:2}}h</td>
+							<td>{{shift.salesPerHour | currency:undefined:0}}/h</td>
+							<td>{{shift.salesPerCover | currency:undefined:0}}/cov</td>
+							<td>{{shift.tipsPercent | number:1}}%</td>
+							<td>{{shift.tipoutPercent | number:1}}%</td>
+							<td>{{shift.tipsVsWage | number:0}}%</td>
+							<td>{{shift.hourly | currency}}/h</td>
+						</tr>
+						<!-- <tr class="summary">
+							<td colspan="5"><i>average</i></td>
+							<td>{{ctrl.summary.avgHours | number:2}}h</td>
+							<td>{{ctrl.summary.avgWage | currency}}</td>
+							<td>{{ctrl.summary.avgTips | currency}}</td>
+							<td>{{ctrl.summary.avgEarned | currency}}</td>
+							<td>{{ctrl.summary.avgSales | currency:undefined:0}}</td>
+							<td>{{ctrl.summary.avgTipout | currency}}</td>
+							<td>{{ctrl.summary.avgCovers | number:1}}</td>
+							<td>{{ctrl.summary.avgCampHours | number:2}}h</td>
+							<td>{{ctrl.summary.salesPerHour | currency:undefined:0}}/h</td>
+							<td>{{ctrl.summary.salesPerCover | currency:undefined:0}}/cov</td>
+							<td>{{ctrl.summary.tipsPercent | number:1}}%</td>
+							<td>{{ctrl.summary.tipoutPercent | number:1}}%</td>
+							<td>{{ctrl.summary.tipsVsWage | number:0}}%</td>
+							<td>{{ctrl.summary.hourly | currency}}/h</td>
+						</tr>
+						<tr class="summary">
+							<td class="tot-cell" colspan="5"><i>{{ctrl.summary.count}} total</i></td>
+							<td class="tot-cell">{{ctrl.summary.totHours | number:0}}h</td>
+							<td class="tot-cell">{{ctrl.summary.totWage | currency:undefined:0}}</td>
+							<td class="tot-cell">{{ctrl.summary.totTips | currency:undefined:0}}</td>
+							<td class="tot-cell">{{ctrl.summary.totEarned | currency:undefined:0}}</td>
+							<td class="tot-cell">{{ctrl.summary.totSales | currency:undefined:0}}</td>
+							<td class="tot-cell">{{ctrl.summary.totTipout | currency:undefined:0}}</td>
+							<td class="tot-cell">{{ctrl.summary.totCovers | number:0}}</td>
+							<td class="tot-cell">{{ctrl.summary.totCampHours | number:2}}h</td>
+							<td class="tot-cell" colspan="6"></td>
+						</tr> -->
+					</table>
+						
+					</div>
+				</tr>
+			</div>
+		</div>
+	</div>
+</div>

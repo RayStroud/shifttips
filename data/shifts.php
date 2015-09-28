@@ -2,15 +2,16 @@
 	include 'include/db.php';
 	function selectAll($db)
 	{
-		$stmt = $db->prepare('SELECT wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, id FROM shift;');
+		$stmt = $db->prepare('SELECT wage, YEARWEEK(date,3), date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday, id FROM shift;');
 		$stmt->execute(); 
 		$stmt->store_result();
-		$stmt->bind_result($wage, $date, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $hourly, $noCampHourly, $lunchDinner, $dayOfWeek, $id);
+		$stmt->bind_result($wage, $yearweek, $date, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $hourly, $noCampHourly, $lunchDinner, $dayOfWeek, $weekday, $id);
 		$shifts = [];
 		while($stmt->fetch())
 		{
 			$shift = new stdClass();
 			$shift->wage = $wage;
+			$shift->yearweek = $yearweek;
 			$shift->date = $date;
 			$shift->startTime = $startTime;
 			$shift->endTime = $endTime;
@@ -39,6 +40,7 @@
 			$shift->noCampHourly = $noCampHourly;
 			$shift->lunchDinner = $lunchDinner;
 			$shift->dayOfWeek = $dayOfWeek;
+			$shift->weekday = $weekday;
 
 			$shift->id = $id;
 			$shifts[] = $shift;
