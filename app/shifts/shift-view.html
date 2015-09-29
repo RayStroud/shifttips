@@ -98,16 +98,16 @@
 
 				<div class="shift-info">
 					<div class="label">Earn/h</div>
-					<div class="value">{{shiftViewCtrl.shift.earnedHourly | currency}}/h</div>
+					<div class="value">{{shiftViewCtrl.shift.hourly | currency}}/h</div>
 				</div>
 			</div>
 		</div>
 		<div class="shift-buttons">
 			<div class="form-group button-group half-width">
-				<a class="link-button button-wide" href="#/shift/{{shiftViewCtrl.shift.id}}/edit">Edit</a>
+				<a class="link-button button-wide" href="#/shift/{{shiftViewCtrl.shift.id}}/edit"><span class="fa fa-edit"></span> Edit</a>
 			</div>
 			<div class="form-group button-group half-width">
-				<button type="submit" class="link-button button-warning button-wide" ng-click="shiftViewCtrl.deleteClick(shiftViewCtrl.shift.id)">Delete</button>
+				<button type="submit" class="link-button button-warning button-wide" ng-click="shiftViewCtrl.deleteClick(shiftViewCtrl.shift.id)"><span class="fa fa-trash"></span> Delete</button>
 			</div>
 		</div>
 	</div>

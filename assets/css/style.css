@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'caladeabold';
+  src: url("../fonts/caladea-bold-webfont.eot");
+  src: url("../fonts/caladea-bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/caladea-bold-webfont.woff2") format("woff2"), url("../fonts/caladea-bold-webfont.woff") format("woff"), url("../fonts/caladea-bold-webfont.ttf") format("truetype"), url("../fonts/caladea-bold-webfont.svg#caladeabold") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'carlitoregular';
+  src: url("../fonts/carlito-regular-webfont.eot");
+  src: url("../fonts/carlito-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/carlito-regular-webfont.woff2") format("woff2"), url("../fonts/carlito-regular-webfont.woff") format("woff"), url("../fonts/carlito-regular-webfont.ttf") format("truetype"), url("../fonts/carlito-regular-webfont.svg#carlitoregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../fonts/fontawesome-webfont.eot?v=4.1.0");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.1.0") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff?v=4.1.0") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.1.0") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular") format("svg"); }
 /* ############################################
 	CLEANUP
 ############################################ */
@@ -35,13 +51,13 @@ body {
 
 h1 {
   text-align: center;
-  font-family: Georgia, serif;
+  font-family: Cambria, Caladea, CaladeaBold, Georgia, serif;
   font-weight: bold;
   font-size: 1.8em;
   margin: 2% 1%; }
 
 h2 {
-  font-family: Georgia, serif;
+  font-family: Cambria, Caladea, CaladeaBold, Georgia, serif;
   font-size: 1.5em;
   font-weight: bold;
   margin: 1em 0; }
@@ -55,7 +71,7 @@ h3 {
   padding: 2% 1% 1.5% 5%; }
   #header .name {
     display: inline-block;
-    font-family: Georgia, serif;
+    font-family: Cambria, Caladea, CaladeaBold, Georgia, serif;
     font-size: 3em;
     font-weight: bold;
     font-variant: small-caps; }
@@ -111,10 +127,12 @@ h3 {
 /* ############################################
 	HOME
 ############################################ */
-ul.old-links {
-  margin: 1em 0; }
-  ul.old-links li {
-    margin: 0.5em 0; }
+.old-links {
+  margin: 0 auto; }
+  .old-links td {
+    padding: 0.3em 0; }
+  .old-links .link-button {
+    width: 100%; }
 
 /* ############################################
 	SHIFT BOX
@@ -434,22 +452,25 @@ form.filter-form {
     margin: 0.25em; }
   .filter-group-body input[type=checkbox] + label {
     text-align: center;
-    font-family: Consolas, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
+    font-family: Consolas, Inconsolata, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
     font-variant: small-caps;
     font-weight: bold; }
 
 #filter-buttons .link-button {
   min-width: 60px; }
 
+#filter-lunch-dinner label {
+  min-width: 38px; }
+
 span.filter-bold {
   font-variant: small-caps;
   border-radius: 5px;
   background-color: grey;
   color: white;
-  padding: 0.2em 0.3em; }
+  padding: 0.1em 0.3em; }
 
 .filter-message {
-  line-height: 1.5em; }
+  line-height: 1.6em; }
 
 #mon-check + label {
   background-color: white;
@@ -549,36 +570,46 @@ div.mobile-table {
   margin: 0 auto; }
   .summary-table td, .summary-table th {
     vertical-align: middle; }
+  .summary-table th {
+    background-color: #666;
+    color: white;
+    padding: 0.5em;
+    text-align: center; }
+  .summary-table th.tot-cell {
+    color: #bbb; }
+  .summary-table th.sortable {
+    cursor: pointer; }
+  .summary-table th.sortable:hover {
+    color: black; }
+  .summary-table th.right-align {
+    text-align: right; }
   .summary-table td {
+    background-color: #ddd;
     color: black;
     padding: 0.35em 0.5em;
     white-space: nowrap;
     text-align: right; }
-  .summary-table th {
-    color: white;
-    padding: 0.5em;
-    text-align: center; }
-  .summary-table tr.header {
-    background-color: dimgray;
-    color: white; }
-  .summary-table tr.alt {
-    background-color: lightgray;
-    color: black; }
-  .summary-table tr.summary {
-    background-color: gray;
-    color: black; }
+  .summary-table td.tot-cell {
+    color: #777; }
+  .summary-table tr.alt td, .summary-table tbody.alt td {
+    background-color: #bbb; }
+  .summary-table tr.alt .tot-cell, .summary-table tbody.alt .tot-cell {
+    color: #666; }
+  .summary-table tr.summary td {
+    background-color: #888; }
+  .summary-table tr.summary .tot-cell {
+    color: #444; }
+  .summary-table i {
+    font-style: italic;
+    font-size: 80%; }
 
 th.sort-field {
+  background-color: #337ab7;
+  color: white;
   box-shadow: inset 0 -4px 0 0 black; }
 
-th.sort-field.reverse {
+thead.sort-reverse th.sort-field {
   box-shadow: inset 0 4px 0 0 black; }
-
-th.hdr-avg-cell {
-  background-color: dimgrey; }
-
-th.hdr-tot-cell {
-  background-color: grey; }
 
 td.lun-avg-cell {
   background-color: rgba(204, 132, 0, 0.6); }
@@ -658,13 +689,40 @@ td.sun-avg-cell {
 td.sun-tot-cell {
   background-color: rgba(26, 26, 26, 0.25); }
 
+tr.l-row .ld-cell {
+  color: #956204; }
+
+tr.d-row .ld-cell {
+  color: #056acb; }
+
+tr.mon-row .day-cell {
+  color: #ae0404; }
+
+tr.tue-row .day-cell {
+  color: #7c7c03; }
+
+tr.wed-row .day-cell {
+  color: #049504; }
+
+tr.thu-row .day-cell {
+  color: #049595; }
+
+tr.fri-row .day-cell {
+  color: #0404ae; }
+
+tr.sat-row .day-cell {
+  color: #ae04ae; }
+
+tr.sun-row .day-cell {
+  color: #595959; }
+
 /* ############################################
 	OTHER
 ############################################ */
 a.debug {
   color: lime;
   font-weight: bolder;
-  font-family: Consolas, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
+  font-family: Consolas, Inconsolata, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
   padding: 0.5em; }
 
 a.debug:hover {

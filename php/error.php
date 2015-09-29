@@ -6,7 +6,7 @@
 <head>
 	<title>Error - Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 	<div id="header">
@@ -18,7 +18,7 @@
 		</ul>
 	</div>
 	<div id="content">
-		<div class="wrapper">
+		<div id="wrapper">
 			<h1>Error</h1>
 			<div class="message-box error">Oops! Something bad happened!</div>
 		</div>

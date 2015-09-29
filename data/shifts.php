@@ -1,15 +1,17 @@
 <?php
-	include 'db.php';
+	include 'include/db.php';
 	function selectAll($db)
 	{
-		$stmt = $db->prepare('SELECT wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek, id FROM shift;');
-		$stmt->execute();
-		$stmt->bind_result($wage, $date, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $earnedHourly, $noCampHourly, $lunchDinner, $dayOfWeek, $id);
+		$stmt = $db->prepare('SELECT wage, YEARWEEK(date,3), date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday, id FROM shift;');
+		$stmt->execute(); 
+		$stmt->store_result();
+		$stmt->bind_result($wage, $yearweek, $date, $startTime, $endTime, $firstTable, $campHours, $sales, $tipout, $transfers, $cash, $due, $covers, $cut, $section, $notes, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $hourly, $noCampHourly, $lunchDinner, $dayOfWeek, $weekday, $id);
 		$shifts = [];
 		while($stmt->fetch())
 		{
 			$shift = new stdClass();
 			$shift->wage = $wage;
+			$shift->yearweek = $yearweek;
 			$shift->date = $date;
 			$shift->startTime = $startTime;
 			$shift->endTime = $endTime;
@@ -34,10 +36,11 @@
 			$shift->salesPerCover = $salesPerCover;
 			$shift->tipsPercent = $tipsPercent;
 			$shift->tipoutPercent = $tipoutPercent;
-			$shift->earnedHourly = $earnedHourly;
+			$shift->hourly = $hourly;
 			$shift->noCampHourly = $noCampHourly;
 			$shift->lunchDinner = $lunchDinner;
 			$shift->dayOfWeek = $dayOfWeek;
+			$shift->weekday = $weekday;
 
 			$shift->id = $id;
 			$shifts[] = $shift;
@@ -49,10 +52,11 @@
 	function selectById($db, $id)
 	{
 		$shift = new stdClass();
-		$stmt = $db->prepare('SELECT wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, earnedHourly, noCampHourly, lunchDinner, dayOfWeek, id FROM shift WHERE id = ? LIMIT 1;');
+		$stmt = $db->prepare('SELECT wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, id FROM shift WHERE id = ? LIMIT 1;');
 		$stmt->bind_param('i', $id);
-		$stmt->execute();
-		$stmt->bind_result($shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->covers, $shift->cut, $shift->section, $shift->notes, $shift->hours, $shift->earnedWage, $shift->earnedTips, $shift->earnedTotal, $shift->tipsVsWage, $shift->salesPerHour, $shift->salesPerCover, $shift->tipsPercent, $shift->tipoutPercent, $shift->earnedHourly, $shift->noCampHourly, $shift->lunchDinner, $shift->dayOfWeek, $shift->id);
+		$stmt->execute(); 
+		$stmt->store_result();
+		$stmt->bind_result($shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->covers, $shift->cut, $shift->section, $shift->notes, $shift->hours, $shift->earnedWage, $shift->earnedTips, $shift->earnedTotal, $shift->tipsVsWage, $shift->salesPerHour, $shift->salesPerCover, $shift->tipsPercent, $shift->tipoutPercent, $shift->hourly, $shift->noCampHourly, $shift->lunchDinner, $shift->dayOfWeek, $shift->id);
 		$stmt->fetch();
 		echo json_encode($shift);
 		$stmt->free_result();
@@ -62,7 +66,8 @@
 	{
 		$stmt = $db->prepare('CALL saveShift(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);');
 		$stmt->bind_param('dssssddiiiiisss', $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->covers, $shift->cut, $shift->section, $shift->notes);
-		$stmt->execute();
+		$stmt->execute(); 
+		$stmt->store_result();
 		$stmt->bind_result($id);
 		$stmt->fetch();
 		echo $id;
@@ -73,7 +78,8 @@
 	{
 		$stmt = $db->prepare('CALL saveShift(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);');
 		$stmt->bind_param('idssssddiiiiisss', $id, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->covers, $shift->cut, $shift->section, $shift->notes);
-		$stmt->execute();
+		$stmt->execute(); 
+		$stmt->store_result();
 		echo $stmt->affected_rows;
 		$stmt->free_result();
 		$stmt->close();
@@ -82,7 +88,8 @@
 	{
 		$stmt = $db->prepare('CALL deleteShift(?);');
 		$stmt->bind_param('i', $id);
-		$stmt->execute();
+		$stmt->execute(); 
+		$stmt->store_result();
 		echo $stmt->affected_rows;
 		$stmt->free_result();
 		$stmt->close();

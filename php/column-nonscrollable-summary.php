@@ -39,8 +39,7 @@
 		$summaries[$lunchDinner][$dayOfWeek]['tipsPercent'] = $row['tipsPercent'];
 		$summaries[$lunchDinner][$dayOfWeek]['tipoutPercent'] = $row['tipoutPercent'];
 		$summaries[$lunchDinner][$dayOfWeek]['tipsVsWage'] = $row['tipsVsWage'];
-		$summaries[$lunchDinner][$dayOfWeek]['hourlyWage'] = number_format($row['hourlyWage'],2);
-		$summaries[$lunchDinner][$dayOfWeek]['timedate'] = $row['timedate'];
+		$summaries[$lunchDinner][$dayOfWeek]['hourly'] = number_format($row['hourly'],2);
 
 		$summaries[$lunchDinner][$dayOfWeek]['avgEarned'] = number_format($row['avgWage'] + $row['avgTips'],2);
 		$summaries[$lunchDinner][$dayOfWeek]['totEarned'] = number_format($row['totWage'] + $row['totTips'],0);		
@@ -59,7 +58,7 @@
 	<title>Summary - Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 	<div id="header">
@@ -201,9 +200,9 @@
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">Earn/h</th>
-					<td colspan="2" class="lun-avg-cell"><?php echo '$' . $summaries['L']['%']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="din-avg-cell"><?php echo '$' . $summaries['D']['%']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="bth-avg-cell"><?php echo '$' . $summaries['%']['%']['hourlyWage'] . '/h'; ?></td>
+					<td colspan="2" class="lun-avg-cell"><?php echo '$' . $summaries['L']['%']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="din-avg-cell"><?php echo '$' . $summaries['D']['%']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="bth-avg-cell"><?php echo '$' . $summaries['%']['%']['hourly'] . '/h'; ?></td>
 				</tr>
 			</table>
 
@@ -434,13 +433,13 @@
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">$/h</th>
-					<td colspan="2" class="mon-avg-cell"><?php echo '$' . $summaries['D']['Mon']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="tue-avg-cell"><?php echo '$' . $summaries['D']['Tue']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="wed-avg-cell"><?php echo '$' . $summaries['D']['Wed']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="thu-avg-cell"><?php echo '$' . $summaries['D']['Thu']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="fri-avg-cell"><?php echo '$' . $summaries['D']['Fri']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="sat-avg-cell"><?php echo '$' . $summaries['D']['Sat']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="sun-avg-cell"><?php echo '$' . $summaries['D']['Sun']['hourlyWage'] . '/h'; ?></td>
+					<td colspan="2" class="mon-avg-cell"><?php echo '$' . $summaries['D']['Mon']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="tue-avg-cell"><?php echo '$' . $summaries['D']['Tue']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="wed-avg-cell"><?php echo '$' . $summaries['D']['Wed']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="thu-avg-cell"><?php echo '$' . $summaries['D']['Thu']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="fri-avg-cell"><?php echo '$' . $summaries['D']['Fri']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="sat-avg-cell"><?php echo '$' . $summaries['D']['Sat']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="sun-avg-cell"><?php echo '$' . $summaries['D']['Sun']['hourly'] . '/h'; ?></td>
 				</tr>
 			</table>
 
@@ -621,11 +620,11 @@
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">$/h</th>
-					<td colspan="2" class="mon-avg-cell"><?php echo '$' . $summaries['L']['Mon']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="tue-avg-cell"><?php echo '$' . $summaries['L']['Tue']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="wed-avg-cell"><?php echo '$' . $summaries['L']['Wed']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="thu-avg-cell"><?php echo '$' . $summaries['L']['Thu']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="fri-avg-cell"><?php echo '$' . $summaries['L']['Fri']['hourlyWage'] . '/h'; ?></td>
+					<td colspan="2" class="mon-avg-cell"><?php echo '$' . $summaries['L']['Mon']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="tue-avg-cell"><?php echo '$' . $summaries['L']['Tue']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="wed-avg-cell"><?php echo '$' . $summaries['L']['Wed']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="thu-avg-cell"><?php echo '$' . $summaries['L']['Thu']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="fri-avg-cell"><?php echo '$' . $summaries['L']['Fri']['hourly'] . '/h'; ?></td>
 				</tr>
 			</table>
 
@@ -806,11 +805,11 @@
 				</tr>
 				<tr>
 					<th class="hdr-avg-cell">$/h</th>
-					<td colspan="2" class="mon-avg-cell"><?php echo '$' . $summaries['S']['Mon']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="tue-avg-cell"><?php echo '$' . $summaries['S']['Tue']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="wed-avg-cell"><?php echo '$' . $summaries['S']['Wed']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="thu-avg-cell"><?php echo '$' . $summaries['S']['Thu']['hourlyWage'] . '/h'; ?></td>
-					<td colspan="2" class="fri-avg-cell"><?php echo '$' . $summaries['S']['Fri']['hourlyWage'] . '/h'; ?></td>
+					<td colspan="2" class="mon-avg-cell"><?php echo '$' . $summaries['S']['Mon']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="tue-avg-cell"><?php echo '$' . $summaries['S']['Tue']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="wed-avg-cell"><?php echo '$' . $summaries['S']['Wed']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="thu-avg-cell"><?php echo '$' . $summaries['S']['Thu']['hourly'] . '/h'; ?></td>
+					<td colspan="2" class="fri-avg-cell"><?php echo '$' . $summaries['S']['Fri']['hourly'] . '/h'; ?></td>
 				</tr>
 			</table>
 		</div>

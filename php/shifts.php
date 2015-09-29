@@ -42,7 +42,7 @@
 	$db->query("SET @p_sun = " . $p_sun . ";");
 
 	//calculate summaries
-	$result = $db->query('CALL getShifts(@p_dateFrom, @p_dateTo, @p_lunchDinner, @p_mon, @p_tue, @p_wed, @p_thu, @p_fri, @p_sat, @p_sun);');
+	$result = $db->query('CALL getShiftsFiltered(@p_dateFrom, @p_dateTo, @p_lunchDinner, @p_mon, @p_tue, @p_wed, @p_thu, @p_fri, @p_sat, @p_sun);');
 	$aWeekShifts = []; 
 	while($row = $result->fetch_assoc())
 	{
@@ -73,7 +73,7 @@
 		$shift['salesPerCover'] = $row['salesPerCover'];
 		$shift['tipsPercent'] = $row['tipsPercent'];
 		$shift['tipoutPercent'] = $row['tipoutPercent'];
-		$shift['earnedHourly'] = $row['earnedHourly'];
+		$shift['hourly'] = $row['hourly'];
 		$shift['noCampHourly'] = $row['noCampHourly'];
 		$shift['lunchDinner'] = $row['lunchDinner'];
 		$shift['dayOfWeek'] = $row['dayOfWeek'];
@@ -141,7 +141,7 @@
 				foreach ($aWeekShifts[$yearweek] as $shift)
 				{
 					$nShifts = $nShifts + 1;
-					//* DEBUG */ echo '<p>' . $wagde . '|' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $earnedHourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
+					//* DEBUG */ echo '<p>' . $wagde . '|' . $wage . '|' . $date . '|' . $startTime . '|' . $endTime . '|' . $firstTable . '|' . $campHours . '|' . $sales . '|' . $tipout . '|' . $transfers . '|' . $cash . '|' . $due . '|' . $covers . '|' . $cut . '|' . $section . '|' . $notes . '|</p><p>' . $hours . '|' . $earnedWage . '|' . $earnedTips . '|' . $earnedTotal . '|' . $tipsVsWage . '|' . $salesPerHour . '|' . $salesPerCover . '|' . $tipsPercent . '|' . $tipoutPercent . '|' . $hourly . '|' . $noCampHourly . '|' . $lunchDinner . '|' . $dayOfWeek . '|</p>';
 
 					//format values
 					try { $date = !empty($shift['date']) ? (new DateTime($shift['date']))->format("D M jS, Y") : null; }
@@ -165,7 +165,7 @@
 											. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Sales</div><div class="value">' . (isset($shift['sales']) ? '$' . $shift['sales'] : null) . '</div></div>'
 											. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">T/O</div><div class="value">' . (isset($shift['tipout']) ? '$' . $shift['tipout'] : null) . '</div></div>'
 											. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">Tips</div><div class="value">' . (isset($shift['earnedTips']) ? '$' . $shift['earnedTips'] : null) . '</div></div>'
-											. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">$/h</div><div class="value">' . (isset($shift['earnedHourly']) ? '$' . $shift['earnedHourly'] . '/h' : null) . '</div></div>'
+											. "\n\t\t\t\t\t" . '<div class="shift-info"><div class="label">$/h</div><div class="value">' . (isset($shift['hourly']) ? '$' . $shift['hourly'] . '/h' : null) . '</div></div>'
 											. "\n\t\t\t\t\t" . '<a href="view.php?id=' . (isset($shift['id']) ? $shift['id'] : null) . '"><span class="link-spanner"></span></a>
 			'
 										. "\n\t\t\t\t\t" . '</div>'
@@ -251,7 +251,7 @@
 <head>
 	<title>All Shifts - Shift Tips</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 	<div id="header">

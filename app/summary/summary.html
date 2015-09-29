@@ -1,0 +1,159 @@
+<div ng-controller="SummaryController as ctrl">
+	<h1>Summary</h1>
+	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
+	<div ng-hide="ctrl.error">
+		<div ng-controller="SummaryFilterController as filterCtrl">
+			<form class="filter-form">
+				<div class="filter-group" id="filter-date-range">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Date Range</div>
+						<div class="filter-group-body">
+							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filterCtrl.from" ng-change="ctrl.changeSummaryType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)" />
+							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filterCtrl.to" ng-change="ctrl.changeSummaryType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)" />
+						</div>
+					</div>
+				</div>
+				<div class="filter-group" id="filter-lunch-dinner">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Lunch / Dinner</div>
+						<div class="filter-group-body">
+							<input type="checkbox" id="lun-check" name="lun" ng-checked="filterCtrl.lunCheck">
+							<label ng-click="filterCtrl.toggleLun(); ctrl.changeSummaryType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">L</label>
+							<input type="checkbox" id="din-check" name="din" ng-checked="filterCtrl.dinCheck">
+							<label ng-click="filterCtrl.toggleDin(); ctrl.changeSummaryType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">D</label>
+						</div>
+					</div>
+				</div>
+				<div class="filter-group" id="filter-buttons">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Summary by...</div>
+						<div class="filter-group-body">
+							<button class="link-button" ng-class="{'button-inverse': !ctrl.isSummaryType('lunchDinner')}" ng-click="ctrl.changeSummaryType('lunchDinner', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Lunch/Dinner</button>
+							<button class="link-button" ng-class="{'button-inverse': !ctrl.isSummaryType('dayOfWeek')}" ng-click="ctrl.changeSummaryType('dayOfWeek', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Day Of Week</button>
+							<button class="link-button" ng-class="{'button-inverse': !ctrl.isSummaryType('section')}" ng-click="ctrl.changeSummaryType('section', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Section</button>
+							<button class="link-button" ng-class="{'button-inverse': !ctrl.isSummaryType('startTime')}" ng-click="ctrl.changeSummaryType('startTime', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Start Time</button>
+							<button class="link-button" ng-class="{'button-inverse': !ctrl.isSummaryType('cut')}" ng-click="ctrl.changeSummaryType('cut', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Cut</button>
+						</div>
+					</div>
+				</div>
+			</form>
+			<h3 class="filter-message">
+				Viewing <span class="{{ctrl.typeName ? 'filter-bold' : ''}}">{{ctrl.typeName ? ctrl.typeName : null}}</span> summary for <span class="{{filterCtrl.lunchDinner ? 'filter-bold' : ''}}">{{filterCtrl.lunchDinner == 'L' ? 'Lunch' : filterCtrl.lunchDinner == 'D' ? 'Dinner' : 'all'}}</span> shifts from <span class="{{filterCtrl.from ? 'filter-bold' : ''}}">{{filterCtrl.from ? (filterCtrl.from | date) : 'any date'}}</span> to <span class="{{filterCtrl.to ? 'filter-bold' : ''}}">{{filterCtrl.to ? (filterCtrl.to | date) : 'any date'}}</span>
+			</h3>
+			<div class="mobile-table">
+				<table class="summary-table">
+					<thead ng-class="{'sort-reverse':ctrl.sortReverse}">
+						<tr>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField(ctrl.typeSort)}" 
+								ng-click="ctrl.changeSortField(ctrl.typeSort)">Type</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('count')}" 
+								ng-click="ctrl.changeSortField('count')">#</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('avgHours')}" 
+								ng-click="ctrl.changeSortField('avgHours')">Hours</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('avgWage')}" 
+								ng-click="ctrl.changeSortField('avgWage')">Wage</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('avgTips')}" 
+								ng-click="ctrl.changeSortField('avgTips')">Tips</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('avgEarned')}" 
+								ng-click="ctrl.changeSortField('avgEarned')">Earned</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('avgSales')}" 
+								ng-click="ctrl.changeSortField('avgSales')">Sales</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('avgTipout')}" 
+								ng-click="ctrl.changeSortField('avgTipout')">Tipout</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('avgCovers')}" 
+								ng-click="ctrl.changeSortField('avgCovers')">Covers</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('avgCampHours')}" 
+								ng-click="ctrl.changeSortField('avgCampHours')">Camp</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('salesPerHour')}" 
+								ng-click="ctrl.changeSortField('salesPerHour')">Sales/h</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('salesPerCover')}" 
+								ng-click="ctrl.changeSortField('salesPerCover')">Sales/cov</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('tipsPercent')}" 
+								ng-click="ctrl.changeSortField('tipsPercent')">%Tips</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('tipoutPercent')}" 
+								ng-click="ctrl.changeSortField('tipoutPercent')">%T/O</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('tipsVsWage')}" 
+								ng-click="ctrl.changeSortField('tipsVsWage')">%TvsW</th>
+							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('hourly')}" 
+								ng-click="ctrl.changeSortField('hourly')">Earn/h</th>
+						</tr>
+						<tr>
+							<th class="tot-cell right-align" colspan="2"><i>total</i></th>
+							<th class="sortable tot-cell" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('totHours')}" ng-click="ctrl.changeSortField('totHours')">Hours</th>
+							<th class="sortable tot-cell" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('totWage')}" ng-click="ctrl.changeSortField('totWage')">Wage</th>
+							<th class="sortable tot-cell" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('totTips')}" ng-click="ctrl.changeSortField('totTips')">Tips</th>
+							<th class="sortable tot-cell" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('totEarned')}" ng-click="ctrl.changeSortField('totEarned')">Earned</th>
+							<th class="sortable tot-cell" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('totSales')}" ng-click="ctrl.changeSortField('totSales')">Sales</th>
+							<th class="sortable tot-cell" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('totTipout')}" ng-click="ctrl.changeSortField('totTipout')">Tipout</th>
+							<th class="sortable tot-cell" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('totCovers')}" ng-click="ctrl.changeSortField('totCovers')">Covers</th>
+							<th class="sortable tot-cell" ng-class="{reverse:ctrl.sortReverse, 'sort-field':ctrl.isSortField('totCampHours')}" ng-click="ctrl.changeSortField('totCampHours')">Camp</th>
+							<th class="tot-cell" colspan="6"></th>
+						</tr>
+					</thead>
+					<tbody ng-repeat="summary in ctrl.summaries | orderBy:ctrl.sortField:ctrl.sortReverse | filter:{lunchDinner:filterCtrl.lunchDinner}" ng-class-even="'alt'">
+						<tr class="{{summary.dayOfWeek | lowercase}}-row {{summary.lunchDinner | lowercase}}-row">
+							<td><span class="ld-cell">{{summary.lunchDinner}}</span> <span class="day-cell">{{summary.dayOfWeek}}</span>{{summary.section}}{{summary.startTime | timeToDate | date:'h:mma'}}{{summary.cut}} </td>
+							<td>{{summary.count}}</td>
+							<td>{{summary.avgHours}}h</td>
+							<td>{{summary.avgWage | currency}}</td>
+							<td>{{summary.avgTips | currency}}</td>
+							<td>{{summary.avgEarned | currency}}</td>
+							<td>{{summary.avgSales | currency:undefined:0}}</td>
+							<td>{{summary.avgTipout | currency}}</td>
+							<td>{{summary.avgCovers | number:0}}</td>
+							<td>{{summary.avgCampHours | number:2}}h</td>
+							<td>{{summary.salesPerHour | currency:undefined:0}}/h</td>
+							<td>{{summary.salesPerCover | currency:undefined:0}}/cov</td>
+							<td>{{summary.tipsPercent | number:1}}%</td>
+							<td>{{summary.tipoutPercent | number:1}}%</td>
+							<td>{{summary.tipsVsWage | number:0}}%</td>
+							<td>{{summary.hourly | currency}}/h</td>
+						</tr>
+						<tr>
+							<td class="tot-cell" colspan="2"><i>total</i></td>
+							<td class="tot-cell">{{summary.totHours | number:2}}h</td>
+							<td class="tot-cell">{{summary.totWage | currency:undefined:0}}</td>
+							<td class="tot-cell">{{summary.totTips | currency:undefined:0}}</td>
+							<td class="tot-cell">{{summary.totEarned | currency:undefined:0}}</td>
+							<td class="tot-cell">{{summary.totSales | currency:undefined:0}}</td>
+							<td class="tot-cell">{{summary.totTipout | currency:undefined:0}}</td>
+							<td class="tot-cell">{{summary.totCovers | number:0}}cov</td>
+							<td class="tot-cell">{{summary.totCampHours | number:2}}h</td>
+							<td colspan="6"></td>
+						</tr>
+					</tbody>
+					<tr class="summary">
+						<td>All</td>
+						<td>{{ctrl.summaryTotal.count | number:0}}</td>
+						<td>{{ctrl.summaryTotal.avgHours | number:2}}h</td>
+						<td>{{ctrl.summaryTotal.avgWage | currency}}</td>
+						<td>{{ctrl.summaryTotal.avgTips | currency}}</td>
+						<td>{{ctrl.summaryTotal.avgEarned | currency}}</td>
+						<td>{{ctrl.summaryTotal.avgSales | currency:undefined:0}}</td>
+						<td>{{ctrl.summaryTotal.avgTipout | currency}}</td>
+						<td>{{ctrl.summaryTotal.avgCovers | number:1}}</td>
+						<td>{{ctrl.summaryTotal.avgCampHours | number:2}}h</td>
+						<td>{{ctrl.summaryTotal.salesPerHour | currency:undefined:0}}/h</td>
+						<td>{{ctrl.summaryTotal.salesPerCover | currency:undefined:0}}/cov</td>
+						<td>{{ctrl.summaryTotal.tipsPercent | number:1}}%</td>
+						<td>{{ctrl.summaryTotal.tipoutPercent | number:1}}%</td>
+						<td>{{ctrl.summaryTotal.tipsVsWage | number:0}}%</td>
+						<td>{{ctrl.summaryTotal.hourly | currency}}/h</td>
+					</tr>
+					<tr class="summary">
+						<td class="tot-cell" colspan="2"><i>total</i></td>
+						<td class="tot-cell">{{ctrl.summaryTotal.totHours | number:0}}h</td>
+						<td class="tot-cell">{{ctrl.summaryTotal.totWage | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summaryTotal.totTips | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summaryTotal.totEarned | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summaryTotal.totSales | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summaryTotal.totTipout | currency:undefined:0}}</td>
+						<td class="tot-cell">{{ctrl.summaryTotal.totCovers | number:0}}</td>
+						<td class="tot-cell">{{ctrl.summaryTotal.totCampHours | number:2}}h</td>
+						<td class="tot-cell" colspan="6"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
