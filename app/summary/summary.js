@@ -67,7 +67,7 @@ angular.module('shiftTips')
 		})
 		.error(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+			ctrl.error = 'Oops! Something bad happened. Cannot get summary.';
 		});
 		summaryService.getSummary(p_dateFrom, p_dateTo, lunchDinner)
 		.success(function (data, status, headers, config) {
@@ -76,7 +76,7 @@ angular.module('shiftTips')
 		})
 		.error(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+			ctrl.error = 'Oops! Something bad happened. Cannot get summary.';
 		});
 	};
 	ctrl.changeSummaryTypeSort = function(typeSort) {
@@ -133,7 +133,7 @@ angular.module('shiftTips')
 		})
 		.error(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+			ctrl.error = 'Oops! Something bad happened. Cannot get summary.';
 		});
 	};
 	ctrl.changePeriodTypeSort = function(typeSort) {

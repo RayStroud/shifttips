@@ -3,231 +3,329 @@
 
 	function getSummary($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
 	{
-		$stmt = $db->prepare('CALL getSummary(?,?,?)');
-		$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
-		$stmt->execute(); 
-		$stmt->store_result();
-		$stmt->bind_result($count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
-		$stmt->fetch();
 		$summary = new stdClass();
-		$summary->count 		= (int) 	$count;
-		$summary->avgHours 		= (float) 	$avgHours;
-		$summary->totHours 		= (float) 	$totHours;
-		$summary->avgWage 		= (float) 	$avgWage;
-		$summary->totWage 		= (float) 	$totWage;
-		$summary->avgTips 		= (float) 	$avgTips;
-		$summary->totTips 		= (int) 	$totTips;
-		$summary->avgEarned 	= (float) 	$avgEarned;
-		$summary->totEarned 	= (float) 	$totEarned;
-		$summary->avgTipout 	= (float) 	$avgTipout;
-		$summary->totTipout 	= (int) 	$totTipout;
-		$summary->avgSales 		= (float) 	$avgSales;
-		$summary->totSales 		= (float) 	$totSales;
-		$summary->avgCovers 	= (float) 	$avgCovers;
-		$summary->totCovers 	= (int) 	$totCovers;
-		$summary->avgCampHours 	= (float) 	$avgCampHours;
-		$summary->totCampHours 	= (float) 	$totCampHours;
-		$summary->salesPerHour 	= (float) 	$salesPerHour;
-		$summary->salesPerCover = (float) 	$salesPerCover;
-		$summary->tipsPercent 	= (float) 	$tipsPercent;
-		$summary->tipoutPercent = (float) 	$tipoutPercent;
-		$summary->tipsVsWage 	= (int) 	$tipsVsWage;
-		$summary->hourly 		= (float) 	$hourly;
-		$stmt->free_result();
-		$stmt->close();
-
+		if($stmt = $db->prepare('CALL getSummary(?,?,?)'))
+		{
+			$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			$stmt->execute(); 
+			$stmt->store_result();
+			$stmt->bind_result($count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
+			$stmt->fetch();
+			$summary->count 		= (int) 	$count;
+			$summary->avgHours 		= (float) 	$avgHours;
+			$summary->totHours 		= (float) 	$totHours;
+			$summary->avgWage 		= (float) 	$avgWage;
+			$summary->totWage 		= (float) 	$totWage;
+			$summary->avgTips 		= (float) 	$avgTips;
+			$summary->totTips 		= (int) 	$totTips;
+			$summary->avgEarned 	= (float) 	$avgEarned;
+			$summary->totEarned 	= (float) 	$totEarned;
+			$summary->avgTipout 	= (float) 	$avgTipout;
+			$summary->totTipout 	= (int) 	$totTipout;
+			$summary->avgSales 		= (float) 	$avgSales;
+			$summary->totSales 		= (float) 	$totSales;
+			$summary->avgCovers 	= (float) 	$avgCovers;
+			$summary->totCovers 	= (int) 	$totCovers;
+			$summary->avgCampHours 	= (float) 	$avgCampHours;
+			$summary->totCampHours 	= (float) 	$totCampHours;
+			$summary->salesPerHour 	= (float) 	$salesPerHour;
+			$summary->salesPerCover = (float) 	$salesPerCover;
+			$summary->tipsPercent 	= (float) 	$tipsPercent;
+			$summary->tipoutPercent = (float) 	$tipoutPercent;
+			$summary->tipsVsWage 	= (int) 	$tipsVsWage;
+			$summary->hourly 		= (float) 	$hourly;
+			$stmt->free_result();
+			$stmt->close();
+		}
+		else {http_response_code(500);}
 		echo json_encode($summary);
 	}
 	function getSummaryByLunchDinner($db, $p_dateFrom, $p_dateTo)
 	{
-		$stmt = $db->prepare('CALL getSummaryByLunchDinner(?,?)');
-		$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
-		$stmt->execute(); 
-		$stmt->store_result();
-		$stmt->bind_result($lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
-		while($stmt->fetch())
+		if($stmt = $db->prepare('CALL getSummaryByLunchDinner(?,?)'))
 		{
-			$summary = new stdClass();
-			$summary->lunchDinner 	= $lunchDinner;
-			$summary->count 		= (int) 	$count;
-			$summary->avgHours 		= (float) 	$avgHours;
-			$summary->totHours 		= (float) 	$totHours;
-			$summary->avgWage 		= (float) 	$avgWage;
-			$summary->totWage 		= (float) 	$totWage;
-			$summary->avgTips 		= (float) 	$avgTips;
-			$summary->totTips 		= (int) 	$totTips;
-			$summary->avgEarned 	= (float) 	$avgEarned;
-			$summary->totEarned 	= (float) 	$totEarned;
-			$summary->avgTipout 	= (float) 	$avgTipout;
-			$summary->totTipout 	= (int) 	$totTipout;
-			$summary->avgSales 		= (float) 	$avgSales;
-			$summary->totSales 		= (float) 	$totSales;
-			$summary->avgCovers 	= (float) 	$avgCovers;
-			$summary->totCovers 	= (int) 	$totCovers;
-			$summary->avgCampHours 	= (float) 	$avgCampHours;
-			$summary->totCampHours 	= (float) 	$totCampHours;
-			$summary->salesPerHour 	= (float) 	$salesPerHour;
-			$summary->salesPerCover = (float) 	$salesPerCover;
-			$summary->tipsPercent 	= (float) 	$tipsPercent;
-			$summary->tipoutPercent = (float) 	$tipoutPercent;
-			$summary->tipsVsWage 	= (int) 	$tipsVsWage;
-			$summary->hourly 		= (float) 	$hourly;
+			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->execute(); 
+			$stmt->store_result();
+			$stmt->bind_result($lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
+			while($stmt->fetch())
+			{
+				$summary = new stdClass();
+				$summary->lunchDinner 	= $lunchDinner;
+				$summary->count 		= (int) 	$count;
+				$summary->avgHours 		= (float) 	$avgHours;
+				$summary->totHours 		= (float) 	$totHours;
+				$summary->avgWage 		= (float) 	$avgWage;
+				$summary->totWage 		= (float) 	$totWage;
+				$summary->avgTips 		= (float) 	$avgTips;
+				$summary->totTips 		= (int) 	$totTips;
+				$summary->avgEarned 	= (float) 	$avgEarned;
+				$summary->totEarned 	= (float) 	$totEarned;
+				$summary->avgTipout 	= (float) 	$avgTipout;
+				$summary->totTipout 	= (int) 	$totTipout;
+				$summary->avgSales 		= (float) 	$avgSales;
+				$summary->totSales 		= (float) 	$totSales;
+				$summary->avgCovers 	= (float) 	$avgCovers;
+				$summary->totCovers 	= (int) 	$totCovers;
+				$summary->avgCampHours 	= (float) 	$avgCampHours;
+				$summary->totCampHours 	= (float) 	$totCampHours;
+				$summary->salesPerHour 	= (float) 	$salesPerHour;
+				$summary->salesPerCover = (float) 	$salesPerCover;
+				$summary->tipsPercent 	= (float) 	$tipsPercent;
+				$summary->tipoutPercent = (float) 	$tipoutPercent;
+				$summary->tipsVsWage 	= (int) 	$tipsVsWage;
+				$summary->hourly 		= (float) 	$hourly;
 
-			$summaries[] = $summary;
+				$summaries[] = $summary;
+			}
+			$stmt->free_result();
+			$stmt->close();
 		}
-		$stmt->free_result();
-		$stmt->close();
-
+		else {http_response_code(500);}
 		echo json_encode($summaries);
 	}
 	function getSummaryBySection($db, $p_dateFrom, $p_dateTo)
 	{
-		$stmt = $db->prepare('CALL getSummaryBySection(?,?)');
-		$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
-		$stmt->execute(); 
-		$stmt->store_result();
-		$stmt->bind_result($section, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
-		while($stmt->fetch())
+		if($stmt = $db->prepare('CALL getSummaryBySection(?,?)'))
 		{
-			$summary = new stdClass();
-			$summary->section 		= $section;
-			$summary->lunchDinner 	= $lunchDinner;
-			$summary->count 		= (int) 	$count;
-			$summary->avgHours 		= (float) 	$avgHours;
-			$summary->totHours 		= (float) 	$totHours;
-			$summary->avgWage 		= (float) 	$avgWage;
-			$summary->totWage 		= (float) 	$totWage;
-			$summary->avgTips 		= (float) 	$avgTips;
-			$summary->totTips 		= (int) 	$totTips;
-			$summary->avgEarned 	= (float) 	$avgEarned;
-			$summary->totEarned 	= (float) 	$totEarned;
-			$summary->avgTipout 	= (float) 	$avgTipout;
-			$summary->totTipout 	= (int) 	$totTipout;
-			$summary->avgSales 		= (float) 	$avgSales;
-			$summary->totSales 		= (float) 	$totSales;
-			$summary->avgCovers 	= (float) 	$avgCovers;
-			$summary->totCovers 	= (int) 	$totCovers;
-			$summary->avgCampHours 	= (float) 	$avgCampHours;
-			$summary->totCampHours 	= (float) 	$totCampHours;
-			$summary->salesPerHour 	= (float) 	$salesPerHour;
-			$summary->salesPerCover = (float) 	$salesPerCover;
-			$summary->tipsPercent 	= (float) 	$tipsPercent;
-			$summary->tipoutPercent = (float) 	$tipoutPercent;
-			$summary->tipsVsWage 	= (int) 	$tipsVsWage;
-			$summary->hourly 		= (float) 	$hourly;
+			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->execute(); 
+			$stmt->store_result();
+			$stmt->bind_result($section, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
+			while($stmt->fetch())
+			{
+				$summary = new stdClass();
+				$summary->section 		= $section;
+				$summary->lunchDinner 	= $lunchDinner;
+				$summary->count 		= (int) 	$count;
+				$summary->avgHours 		= (float) 	$avgHours;
+				$summary->totHours 		= (float) 	$totHours;
+				$summary->avgWage 		= (float) 	$avgWage;
+				$summary->totWage 		= (float) 	$totWage;
+				$summary->avgTips 		= (float) 	$avgTips;
+				$summary->totTips 		= (int) 	$totTips;
+				$summary->avgEarned 	= (float) 	$avgEarned;
+				$summary->totEarned 	= (float) 	$totEarned;
+				$summary->avgTipout 	= (float) 	$avgTipout;
+				$summary->totTipout 	= (int) 	$totTipout;
+				$summary->avgSales 		= (float) 	$avgSales;
+				$summary->totSales 		= (float) 	$totSales;
+				$summary->avgCovers 	= (float) 	$avgCovers;
+				$summary->totCovers 	= (int) 	$totCovers;
+				$summary->avgCampHours 	= (float) 	$avgCampHours;
+				$summary->totCampHours 	= (float) 	$totCampHours;
+				$summary->salesPerHour 	= (float) 	$salesPerHour;
+				$summary->salesPerCover = (float) 	$salesPerCover;
+				$summary->tipsPercent 	= (float) 	$tipsPercent;
+				$summary->tipoutPercent = (float) 	$tipoutPercent;
+				$summary->tipsVsWage 	= (int) 	$tipsVsWage;
+				$summary->hourly 		= (float) 	$hourly;
 
-			$summaries[] = $summary;
+				$summaries[] = $summary;
+			}
+			$stmt->free_result();
+			$stmt->close();
 		}
-		$stmt->free_result();
-		$stmt->close();
-
+		else {http_response_code(500);}
 		echo json_encode($summaries);
 	}
 	function getSummaryByStartTime($db, $p_dateFrom, $p_dateTo)
 	{
-		$stmt = $db->prepare('CALL getSummaryByStartTime(?,?)');
-		$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
-		$stmt->execute(); 
-		$stmt->store_result();
-		$stmt->bind_result($startTime, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
-		while($stmt->fetch())
+		if($stmt = $db->prepare('CALL getSummaryByStartTime(?,?)'))
 		{
-			$summary = new stdClass();
-			$summary->startTime 	= $startTime;
-			$summary->lunchDinner 	= $lunchDinner;
-			$summary->count 		= (int) 	$count;
-			$summary->avgHours 		= (float) 	$avgHours;
-			$summary->totHours 		= (float) 	$totHours;
-			$summary->avgWage 		= (float) 	$avgWage;
-			$summary->totWage 		= (float) 	$totWage;
-			$summary->avgTips 		= (float) 	$avgTips;
-			$summary->totTips 		= (int) 	$totTips;
-			$summary->avgEarned 	= (float) 	$avgEarned;
-			$summary->totEarned 	= (float) 	$totEarned;
-			$summary->avgTipout 	= (float) 	$avgTipout;
-			$summary->totTipout 	= (int) 	$totTipout;
-			$summary->avgSales 		= (float) 	$avgSales;
-			$summary->totSales 		= (float) 	$totSales;
-			$summary->avgCovers 	= (float) 	$avgCovers;
-			$summary->totCovers 	= (int) 	$totCovers;
-			$summary->avgCampHours 	= (float) 	$avgCampHours;
-			$summary->totCampHours 	= (float) 	$totCampHours;
-			$summary->salesPerHour 	= (float) 	$salesPerHour;
-			$summary->salesPerCover = (float) 	$salesPerCover;
-			$summary->tipsPercent 	= (float) 	$tipsPercent;
-			$summary->tipoutPercent = (float) 	$tipoutPercent;
-			$summary->tipsVsWage 	= (int) 	$tipsVsWage;
-			$summary->hourly 		= (float) 	$hourly;
+			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->execute(); 
+			$stmt->store_result();
+			$stmt->bind_result($startTime, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
+			while($stmt->fetch())
+			{
+				$summary = new stdClass();
+				$summary->startTime 	= $startTime;
+				$summary->lunchDinner 	= $lunchDinner;
+				$summary->count 		= (int) 	$count;
+				$summary->avgHours 		= (float) 	$avgHours;
+				$summary->totHours 		= (float) 	$totHours;
+				$summary->avgWage 		= (float) 	$avgWage;
+				$summary->totWage 		= (float) 	$totWage;
+				$summary->avgTips 		= (float) 	$avgTips;
+				$summary->totTips 		= (int) 	$totTips;
+				$summary->avgEarned 	= (float) 	$avgEarned;
+				$summary->totEarned 	= (float) 	$totEarned;
+				$summary->avgTipout 	= (float) 	$avgTipout;
+				$summary->totTipout 	= (int) 	$totTipout;
+				$summary->avgSales 		= (float) 	$avgSales;
+				$summary->totSales 		= (float) 	$totSales;
+				$summary->avgCovers 	= (float) 	$avgCovers;
+				$summary->totCovers 	= (int) 	$totCovers;
+				$summary->avgCampHours 	= (float) 	$avgCampHours;
+				$summary->totCampHours 	= (float) 	$totCampHours;
+				$summary->salesPerHour 	= (float) 	$salesPerHour;
+				$summary->salesPerCover = (float) 	$salesPerCover;
+				$summary->tipsPercent 	= (float) 	$tipsPercent;
+				$summary->tipoutPercent = (float) 	$tipoutPercent;
+				$summary->tipsVsWage 	= (int) 	$tipsVsWage;
+				$summary->hourly 		= (float) 	$hourly;
 
-			$summaries[] = $summary;
+				$summaries[] = $summary;
+			}
+			$stmt->free_result();
+			$stmt->close();
 		}
-		$stmt->free_result();
-		$stmt->close();
-
+		else {http_response_code(500);}
 		echo json_encode($summaries);
 	}
 	function getSummaryByCut($db, $p_dateFrom, $p_dateTo)
 	{
-		$stmt = $db->prepare('CALL getSummaryByCut(?,?)');
-		$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
-		$stmt->execute(); 
-		$stmt->store_result();
-		$stmt->bind_result($cut, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
-		while($stmt->fetch())
+		if($stmt = $db->prepare('CALL getSummaryByCut(?,?)'))
 		{
-			$summary = new stdClass();
-			$summary->cut 			= $cut;
-			$summary->lunchDinner 	= $lunchDinner;
-			$summary->count 		= (int) 	$count;
-			$summary->avgHours 		= (float) 	$avgHours;
-			$summary->totHours 		= (float) 	$totHours;
-			$summary->avgWage 		= (float) 	$avgWage;
-			$summary->totWage 		= (float) 	$totWage;
-			$summary->avgTips 		= (float) 	$avgTips;
-			$summary->totTips 		= (int) 	$totTips;
-			$summary->avgEarned 	= (float) 	$avgEarned;
-			$summary->totEarned 	= (float) 	$totEarned;
-			$summary->avgTipout 	= (float) 	$avgTipout;
-			$summary->totTipout 	= (int) 	$totTipout;
-			$summary->avgSales 		= (float) 	$avgSales;
-			$summary->totSales 		= (float) 	$totSales;
-			$summary->avgCovers 	= (float) 	$avgCovers;
-			$summary->totCovers 	= (int) 	$totCovers;
-			$summary->avgCampHours 	= (float) 	$avgCampHours;
-			$summary->totCampHours 	= (float) 	$totCampHours;
-			$summary->salesPerHour 	= (float) 	$salesPerHour;
-			$summary->salesPerCover = (float) 	$salesPerCover;
-			$summary->tipsPercent 	= (float) 	$tipsPercent;
-			$summary->tipoutPercent = (float) 	$tipoutPercent;
-			$summary->tipsVsWage 	= (int) 	$tipsVsWage;
-			$summary->hourly 		= (float) 	$hourly;
+			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->execute(); 
+			$stmt->store_result();
+			$stmt->bind_result($cut, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
+			while($stmt->fetch())
+			{
+				$summary = new stdClass();
+				$summary->cut 			= $cut;
+				$summary->lunchDinner 	= $lunchDinner;
+				$summary->count 		= (int) 	$count;
+				$summary->avgHours 		= (float) 	$avgHours;
+				$summary->totHours 		= (float) 	$totHours;
+				$summary->avgWage 		= (float) 	$avgWage;
+				$summary->totWage 		= (float) 	$totWage;
+				$summary->avgTips 		= (float) 	$avgTips;
+				$summary->totTips 		= (int) 	$totTips;
+				$summary->avgEarned 	= (float) 	$avgEarned;
+				$summary->totEarned 	= (float) 	$totEarned;
+				$summary->avgTipout 	= (float) 	$avgTipout;
+				$summary->totTipout 	= (int) 	$totTipout;
+				$summary->avgSales 		= (float) 	$avgSales;
+				$summary->totSales 		= (float) 	$totSales;
+				$summary->avgCovers 	= (float) 	$avgCovers;
+				$summary->totCovers 	= (int) 	$totCovers;
+				$summary->avgCampHours 	= (float) 	$avgCampHours;
+				$summary->totCampHours 	= (float) 	$totCampHours;
+				$summary->salesPerHour 	= (float) 	$salesPerHour;
+				$summary->salesPerCover = (float) 	$salesPerCover;
+				$summary->tipsPercent 	= (float) 	$tipsPercent;
+				$summary->tipoutPercent = (float) 	$tipoutPercent;
+				$summary->tipsVsWage 	= (int) 	$tipsVsWage;
+				$summary->hourly 		= (float) 	$hourly;
 
-			$summaries[] = $summary;
+				$summaries[] = $summary;
+			}
+			$stmt->free_result();
+			$stmt->close();
 		}
-		$stmt->free_result();
-		$stmt->close();
-
+		else {http_response_code(500);}
 		echo json_encode($summaries);
 	}
 	function getSummaryByDayOfWeek($db, $p_dateFrom, $p_dateTo)
 	{
-		$stmt = $db->prepare('CALL getSummaryByDayOfWeek(?,?)');
-		$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
-		$stmt->execute(); 
-		$stmt->store_result();
-		$stmt->bind_result($weekday, $dayOfWeek, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
 		$summaries = [];
-		while($stmt->fetch())
+		if($stmt = $db->prepare('CALL getSummaryByDayOfWeek(?,?)'))
 		{
-			$summary = new stdClass();
-			$summary->weekday 		= $weekday;
-			$summary->dayOfWeek 	= $dayOfWeek;
-			$summary->lunchDinner 	= $lunchDinner;
+			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->execute(); 
+			$stmt->store_result();
+			$stmt->bind_result($weekday, $dayOfWeek, $lunchDinner, $count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
+			while($stmt->fetch())
+			{
+				$summary = new stdClass();
+				$summary->weekday 		= $weekday;
+				$summary->dayOfWeek 	= $dayOfWeek;
+				$summary->lunchDinner 	= $lunchDinner;
+				$summary->count 		= (int) 	$count;
+				$summary->avgHours 		= (float) 	$avgHours;
+				$summary->totHours 		= (float) 	$totHours;
+				$summary->avgWage 		= (float) 	$avgWage;
+				$summary->totWage 		= (float) 	$totWage;
+				$summary->avgTips 		= (float) 	$avgTips;
+				$summary->totTips 		= (int) 	$totTips;
+				$summary->avgEarned 	= (float) 	$avgEarned;
+				$summary->totEarned 	= (float) 	$totEarned;
+				$summary->avgTipout 	= (float) 	$avgTipout;
+				$summary->totTipout 	= (int) 	$totTipout;
+				$summary->avgSales 		= (float) 	$avgSales;
+				$summary->totSales 		= (float) 	$totSales;
+				$summary->avgCovers 	= (float) 	$avgCovers;
+				$summary->totCovers 	= (int) 	$totCovers;
+				$summary->avgCampHours 	= (float) 	$avgCampHours;
+				$summary->totCampHours 	= (float) 	$totCampHours;
+				$summary->salesPerHour 	= (float) 	$salesPerHour;
+				$summary->salesPerCover = (float) 	$salesPerCover;
+				$summary->tipsPercent 	= (float) 	$tipsPercent;
+				$summary->tipoutPercent = (float) 	$tipoutPercent;
+				$summary->tipsVsWage 	= (int) 	$tipsVsWage;
+				$summary->hourly 		= (float) 	$hourly;
+
+				$summaries[] = $summary;
+			}
+			$stmt->free_result();
+			$stmt->close();
+		}
+		else {http_response_code(500);}
+		echo json_encode($summaries);
+	}
+	function getWeeks($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
+	{
+		$weeks = [];
+		if($stmt = $db->prepare('CALL getWeeks(?,?,?);'))
+		{
+			$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			#if($stmt = $db->prepare('SELECT yearweek, startWeek, endWeek, shifts, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly FROM week;'))
+			$stmt->execute(); 
+			$stmt->store_result();
+			$stmt->bind_result($yearweek, $startWeek, $endWeek, $shifts, $campHours, $sales, $tipout, $transfers, $covers, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $hourly);
+			while($stmt->fetch())
+			{
+				$week = new stdClass();
+				$week->yearweek 		= $yearweek;
+				$week->startWeek 		= $startWeek;
+				$week->endWeek 			= $endWeek;
+				$week->shifts 			= (int)		$shifts;
+
+				$week->campHours 		= (float)	$campHours;
+				$week->sales 			= (float)	$sales;
+				$week->tipout 			= (int)		$tipout;
+				$week->transfers 		= (int)		$transfers;
+				$week->covers 			= (int)		$covers;
+
+				$week->hours 			= (float)	$hours;
+				$week->earnedWage 		= (float)	$earnedWage;
+				$week->earnedTips 		= (int)		$earnedTips;
+				$week->earnedTotal 		= (float)	$earnedTotal;
+
+				$week->tipsVsWage 		= (int)		$tipsVsWage;
+				$week->salesPerHour 	= (float)	$salesPerHour;
+				$week->salesPerCover 	= (float)	$salesPerCover;
+				$week->tipsPercent 		= (float)	$tipsPercent;
+				$week->tipoutPercent 	= (float)	$tipoutPercent;
+				$week->hourly 			= (float)	$hourly;
+				$weeks[] = $week;
+			}
+			$stmt->free_result();
+			$stmt->close();
+		}
+		else {http_response_code(500);}
+		echo json_encode($weeks);
+	}
+	function getSummaryWeeklySingle($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
+	{
+		$summary = new stdClass();
+		if($stmt = $db->prepare('CALL getSummaryWeekly(?,?,?);'))
+		{
+			$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			$stmt->execute(); 
+			$stmt->store_result();
+			$stmt->bind_result($count, $avgShifts, $totShifts, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
+			$stmt->fetch();
 			$summary->count 		= (int) 	$count;
+			$summary->avgShifts 	= (float) 	$avgShifts;
+			$summary->totShifts 	= (int) 	$totShifts;
 			$summary->avgHours 		= (float) 	$avgHours;
 			$summary->totHours 		= (float) 	$totHours;
 			$summary->avgWage 		= (float) 	$avgWage;
@@ -250,92 +348,10 @@
 			$summary->tipoutPercent = (float) 	$tipoutPercent;
 			$summary->tipsVsWage 	= (int) 	$tipsVsWage;
 			$summary->hourly 		= (float) 	$hourly;
-
-			$summaries[] = $summary;
+			$stmt->free_result();
+			$stmt->close();
 		}
-		$stmt->free_result();
-		$stmt->close();
-
-		echo json_encode($summaries);
-	}
-	function getWeeks($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
-	{
-		$stmt = $db->prepare('CALL getWeeks(?,?,?);');
-		$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
-		#$stmt = $db->prepare('SELECT yearweek, startWeek, endWeek, shifts, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly FROM week;');
-		$stmt->execute(); 
-		$stmt->store_result();
-		$stmt->bind_result($yearweek, $startWeek, $endWeek, $shifts, $campHours, $sales, $tipout, $transfers, $covers, $hours, $earnedWage, $earnedTips, $earnedTotal, $tipsVsWage, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $hourly);
-		$weeks = [];
-		while($stmt->fetch())
-		{
-			$week = new stdClass();
-			$week->yearweek 		= $yearweek;
-			$week->startWeek 		= $startWeek;
-			$week->endWeek 			= $endWeek;
-			$week->shifts 			= (int)		$shifts;
-
-			$week->campHours 		= (float)	$campHours;
-			$week->sales 			= (float)	$sales;
-			$week->tipout 			= (int)		$tipout;
-			$week->transfers 		= (int)		$transfers;
-			$week->covers 			= (int)		$covers;
-
-			$week->hours 			= (float)	$hours;
-			$week->earnedWage 		= (float)	$earnedWage;
-			$week->earnedTips 		= (int)		$earnedTips;
-			$week->earnedTotal 		= (float)	$earnedTotal;
-
-			$week->tipsVsWage 		= (int)		$tipsVsWage;
-			$week->salesPerHour 	= (float)	$salesPerHour;
-			$week->salesPerCover 	= (float)	$salesPerCover;
-			$week->tipsPercent 		= (float)	$tipsPercent;
-			$week->tipoutPercent 	= (float)	$tipoutPercent;
-			$week->hourly 			= (float)	$hourly;
-			$weeks[] = $week;
-		}
-		$stmt->free_result();
-		$stmt->close();
-
-		echo json_encode($weeks);
-	}
-	function getSummaryWeeklySingle($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
-	{
-		$stmt = $db->prepare('CALL getSummaryWeekly(?,?,?);');
-		$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
-		$stmt->execute(); 
-		$stmt->store_result();
-		$stmt->bind_result($count, $avgShifts, $totShifts, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
-		$stmt->fetch();
-		$summary = new stdClass();
-		$summary->count 		= (int) 	$count;
-		$summary->avgShifts 	= (float) 	$avgShifts;
-		$summary->totShifts 	= (int) 	$totShifts;
-		$summary->avgHours 		= (float) 	$avgHours;
-		$summary->totHours 		= (float) 	$totHours;
-		$summary->avgWage 		= (float) 	$avgWage;
-		$summary->totWage 		= (float) 	$totWage;
-		$summary->avgTips 		= (float) 	$avgTips;
-		$summary->totTips 		= (int) 	$totTips;
-		$summary->avgEarned 	= (float) 	$avgEarned;
-		$summary->totEarned 	= (float) 	$totEarned;
-		$summary->avgTipout 	= (float) 	$avgTipout;
-		$summary->totTipout 	= (int) 	$totTipout;
-		$summary->avgSales 		= (float) 	$avgSales;
-		$summary->totSales 		= (float) 	$totSales;
-		$summary->avgCovers 	= (float) 	$avgCovers;
-		$summary->totCovers 	= (int) 	$totCovers;
-		$summary->avgCampHours 	= (float) 	$avgCampHours;
-		$summary->totCampHours 	= (float) 	$totCampHours;
-		$summary->salesPerHour 	= (float) 	$salesPerHour;
-		$summary->salesPerCover = (float) 	$salesPerCover;
-		$summary->tipsPercent 	= (float) 	$tipsPercent;
-		$summary->tipoutPercent = (float) 	$tipoutPercent;
-		$summary->tipsVsWage 	= (int) 	$tipsVsWage;
-		$summary->hourly 		= (float) 	$hourly;
-		$stmt->free_result();
-		$stmt->close();
-
+		else {http_response_code(500);}
 		echo json_encode($summary);
 	}
 	function getSummaryWeeklyOld($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
@@ -382,6 +398,7 @@
 			$stmt->free_result();
 			$stmt->close();
 		}
+		else {http_response_code(500);}
 
 		while($db->more_results()) { $db->next_result(); }
 
@@ -419,9 +436,9 @@
 			$return->summary->hourly 		= (float) 	$hourly;
 			$stmt->free_result();
 			$stmt->close();
-
-			echo json_encode($return);
 		}
+		else {http_response_code(500);}
+		echo json_encode($return);
 	}
 	function getSummaryWeekly($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
 	{
@@ -437,6 +454,7 @@
 			$stmt->free_result();
 			$stmt->close();	
 		}
+		else {http_response_code(500);}
 
 		if($result = $db->query('CALL getWeeks(@p_dateFrom, @p_dateTo, @p_lunchDinner);'))
 		{
@@ -469,6 +487,7 @@
 			}
 			$result->free();
 		}
+		else {http_response_code(500);}
 
 		while($db->more_results()) { $db->next_result(); }
 
@@ -502,6 +521,7 @@
 			$return->summary->hourly 		= (float) 	$row['hourly'];
 			$result->free();
 		}
+		else {http_response_code(500);}
 
 		echo json_encode($return);
 	}
@@ -519,6 +539,7 @@
 			$stmt->free_result();
 			$stmt->close();	
 		}
+		else {http_response_code(500);}
 
 		if($result = $db->query('CALL getMonths(@p_dateFrom, @p_dateTo, @p_lunchDinner);'))
 		{
@@ -551,6 +572,7 @@
 			}
 			$result->free();
 		}
+		else {http_response_code(500);}
 
 		while($db->more_results()) { $db->next_result(); }
 
@@ -584,6 +606,7 @@
 			$return->summary->hourly 		= (float) 	$row['hourly'];
 			$result->free();
 		}
+		else {http_response_code(500);}
 
 		echo json_encode($return);
 	}

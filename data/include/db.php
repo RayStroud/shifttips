@@ -1,7 +1,7 @@
 <?php
 	//* DEBUG */ error_reporting(E_ALL);
 	//* DEBUG */ ini_set('display_errors', 1);
-	mysqli_report(MYSQLI_REPORT_STRICT);	//to suppress WAMP mysqli warnings
+	error_reporting(0);	//to suppress errors
 	$dbhost = 'localhost';
 	$dbname = 'shifttips';
 	$dbuser = 'root';
