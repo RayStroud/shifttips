@@ -174,7 +174,10 @@ BEGIN
 	SET v_salesPerHour := p_sales / v_hours;
 	SET v_salesPerCover := p_sales / p_covers;
 	SET v_tipsPercent := v_earnedTips * 100 / p_sales;
-	SET v_tipoutPercent := (p_tipout + p_transfers) * 100 / p_sales;
+	IF (p_tipout IS NULL && p_transfers IS NULL)
+		THEN SET v_tipoutPercent := NULL;
+		ELSE SET v_tipoutPercent := (IFNULL(p_tipout,0) + IFNULL(p_transfers,0)) * 100 / p_sales ;
+	END IF;
 	SET v_hourly := v_earnedTotal / v_hours;
 	SET v_noCampHourly := v_earnedTotal / (v_hours - p_campHours);
 	IF (p_startTime BETWEEN '10:00' AND '13:00')
