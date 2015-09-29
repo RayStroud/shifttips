@@ -15,17 +15,16 @@
 		</ul>
 	</div>
 	<div id="content">
-		<div class="wrapper">
-			<h1>PHP Homepage</h1>
-
-			<h2>Other Pages</h2>
-			<ul class="old-links">
-				<li><a class="link-button button-inverse" href="../">Angular Home Page</a></li>
-				<li><a class="link-button" href="column-nonscrollable-summary.php">Column Summary</a></li>
-				<li><a class="link-button" href="one-row-summary.php">One Row Summary</a></li>
-				<li><a class="link-button" href="weekly.php">Weekly Summary</a></li>
-				<li><a class="link-button" href="monthly.php">Monthly Summary</a></li>
-			</ul>
+		<div id="wrapper">
+			<h1>PHP Home Page</h1>
+			<table class="old-links">
+				<tr><td><a class="link-button button-inverse" href="../">Angular Home Page</a></td></tr>
+				<tr><th><h2>Incomplete Pages</h2></th></tr>
+				<tr><td><a class="link-button" href="column-nonscrollable-summary.php">Column Summary</a></td></tr>
+				<tr><td><a class="link-button" href="one-row-summary.php">One Row Summary</a></td></tr>
+				<tr><td><a class="link-button" href="weekly.php">Weekly Summary</a></td></tr>
+				<tr><td><a class="link-button" href="monthly.php">Monthly Summary</a></td></tr>
+			</table>
 		</div>
 	</div>
 	<div id="footer">

@@ -18,7 +18,7 @@
 		</ul>
 	</div>
 	<div id="content">
-		<div class="wrapper">
+		<div id="wrapper">
 			<h1>Error</h1>
 			<div class="message-box error">Oops! Something bad happened!</div>
 		</div>
