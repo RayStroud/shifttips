@@ -148,7 +148,7 @@ BEGIN
 	DECLARE v_salesPerCover	DECIMAL(6,2);
 	DECLARE v_tipsPercent	DECIMAL(4,1);
 	DECLARE v_tipoutPercent	DECIMAL(4,1);
-	DECLARE v_hourly	DECIMAL(5,2);
+	DECLARE v_hourly		DECIMAL(5,2);
 	DECLARE v_noCampHourly	DECIMAL(5,2);
 	DECLARE v_lunchDinner	CHAR(1);
 	DECLARE v_dayOfWeek		CHAR(3);
@@ -174,7 +174,7 @@ BEGIN
 	SET v_salesPerHour := p_sales / v_hours;
 	SET v_salesPerCover := p_sales / p_covers;
 	SET v_tipsPercent := v_earnedTips * 100 / p_sales;
-	SET v_tipoutPercent := p_tipout * 100 / p_sales;
+	SET v_tipoutPercent := (p_tipout + p_transfers) * 100 / p_sales;
 	SET v_hourly := v_earnedTotal / v_hours;
 	SET v_noCampHourly := v_earnedTotal / (v_hours - p_campHours);
 	IF (p_startTime BETWEEN '10:00' AND '13:00')
@@ -296,10 +296,11 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getSummary;
 DELIMITER //
-CREATE PROCEDURE getSummary (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE getSummary (p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
+	DECLARE v_lunchDinner	CHAR(1);
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -309,6 +310,14 @@ BEGIN
 	IF (p_dateTo IS NULL)
 		THEN SET v_dateTo := '9999-12-31';
 		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	IF (p_lunchDinner = 'L') 
+		THEN SET v_lunchDinner = 'L';
+		ELSEIF (p_lunchDinner = 'D') 
+			THEN SET v_lunchDinner = 'D';
+		ELSE 
+			SET v_lunchDinner = '%';
 	END IF;
 
 	SELECT
@@ -336,7 +345,8 @@ BEGIN
 		ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
 		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
 	FROM shift
-	WHERE date BETWEEN v_dateFrom AND v_dateTo;
+	WHERE date BETWEEN v_dateFrom AND v_dateTo
+		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner);
 END //
 DELIMITER ;
 
@@ -680,7 +690,7 @@ BEGIN
 	DECLARE v_tipsPercent 		DECIMAL(4,1);
 	DECLARE v_tipoutPercent 	DECIMAL(4,1);
 	DECLARE v_tipsVsWage 		INT;
-	DECLARE v_hourly 		DECIMAL(4,2);
+	DECLARE v_hourly 			DECIMAL(4,2);
 
 	SELECT COUNT(id) 
 		FROM shift 

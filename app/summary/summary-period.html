@@ -4,7 +4,7 @@
 	<div ng-hide="ctrl.error">
 		<div ng-controller="SummaryFilterController as filterCtrl">
 			<form class="filter-form">
-				<div class="filter-group" id="date-range">
+				<div class="filter-group" id="filter-date-range">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Date Range</div>
 						<div class="filter-group-body">
@@ -13,14 +13,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="filter-group" id="shift-time">
+				<div class="filter-group" id="filter-lunch-dinner">
 					<div class="filter-group-wrap">
-						<div class="filter-group-header">Time</div>
+						<div class="filter-group-header">Lunch / Dinner</div>
 						<div class="filter-group-body">
 							<input type="checkbox" id="lun-check" name="lun" ng-checked="filterCtrl.lunCheck">
-							<label ng-click="filterCtrl.toggleLun(); ctrl.changePeriodType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">AM</label>
+							<label ng-click="filterCtrl.toggleLun(); ctrl.changePeriodType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">L</label>
 							<input type="checkbox" id="din-check" name="din" ng-checked="filterCtrl.dinCheck">
-							<label ng-click="filterCtrl.toggleDin(); ctrl.changePeriodType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">PM</label>
+							<label ng-click="filterCtrl.toggleDin(); ctrl.changePeriodType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">D</label>
 						</div>
 					</div>
 				</div>
@@ -34,6 +34,9 @@
 					</div>
 				</div>
 			</form>
+			<h3 class="filter-message">
+				Viewing <span class="{{ctrl.typeName ? 'filter-bold' : ''}}">{{ctrl.typeName ? ctrl.typeName : null}}</span> summary for <span class="{{filterCtrl.lunchDinner ? 'filter-bold' : ''}}">{{filterCtrl.lunchDinner == 'L' ? 'Lunch' : filterCtrl.lunchDinner == 'D' ? 'Dinner' : 'all'}}</span> shifts from <span class="{{filterCtrl.from ? 'filter-bold' : ''}}">{{filterCtrl.from ? (filterCtrl.from | date) : 'any date'}}</span> to <span class="{{filterCtrl.to ? 'filter-bold' : ''}}">{{filterCtrl.to ? (filterCtrl.to | date) : 'any date'}}</span>
+			</h3>
 			<div class="mobile-table">
 				<table class="summary-table">
 					<thead ng-class="{'sort-reverse':ctrl.sortReverse}">
@@ -94,24 +97,24 @@
 						<td><i>average</i></td>
 						<td>{{ctrl.summary.avgShifts | number:1}}</td>
 						<td>{{ctrl.summary.avgHours | number:2}}h</td>
-						<td>{{ctrl.summary.avgWage | currency}}</td>
-						<td>{{ctrl.summary.avgTips | currency}}</td>
-						<td>{{ctrl.summary.avgEarned | currency}}</td>
+						<td>{{ctrl.summary.avgWage | currency:undefined:0}}</td>
+						<td>{{ctrl.summary.avgTips | currency:undefined:0}}</td>
+						<td>{{ctrl.summary.avgEarned | currency:undefined:0}}</td>
 						<td>{{ctrl.summary.avgSales | currency:undefined:0}}</td>
-						<td>{{ctrl.summary.avgTipout | currency}}</td>
-						<td>{{ctrl.summary.avgCovers | number:1}}</td>
+						<td>{{ctrl.summary.avgTipout | currency:undefined:0}}</td>
+						<td>{{ctrl.summary.avgCovers | number:0}}</td>
 						<td>{{ctrl.summary.avgCampHours | number:2}}h</td>
 						<td>{{ctrl.summary.salesPerHour | currency:undefined:0}}/h</td>
 						<td>{{ctrl.summary.salesPerCover | currency:undefined:0}}/cov</td>
 						<td>{{ctrl.summary.tipsPercent | number:1}}%</td>
 						<td>{{ctrl.summary.tipoutPercent | number:1}}%</td>
 						<td>{{ctrl.summary.tipsVsWage | number:0}}%</td>
-						<td>{{ctrl.summary.hourly | currency}}/h</td>
+						<td>{{ctrl.summary.hourly | currency:undefined:2}}/h</td>
 					</tr>
 					<tr class="summary">
 						<td class="tot-cell"><i>{{ctrl.summary.count}} total</i></td>
 						<td class="tot-cell">{{ctrl.summary.totShifts | number:0}}</td>
-						<td class="tot-cell">{{ctrl.summary.totHours | number:0}}h</td>
+						<td class="tot-cell">{{ctrl.summary.totHours | number:2}}h</td>
 						<td class="tot-cell">{{ctrl.summary.totWage | currency:undefined:0}}</td>
 						<td class="tot-cell">{{ctrl.summary.totTips | currency:undefined:0}}</td>
 						<td class="tot-cell">{{ctrl.summary.totEarned | currency:undefined:0}}</td>

@@ -70,7 +70,7 @@ angular.module('shiftTips')
 		ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
 	});
 
-	//ctrl.getSummary(p_from, p_to, p_mon, p_tue, p_wed, p_thu, p_fri, p_sat, p_sun, p_lunchDinner) {}
+	//ctrl.getSummaryFiltered(p_from, p_to, p_mon, p_tue, p_wed, p_thu, p_fri, p_sat, p_sun, p_lunchDinner) {}
 
 	ctrl.changeSortField = function(field) {
 		// if field is already selected, toggle the sort direction

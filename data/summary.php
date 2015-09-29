@@ -1,10 +1,10 @@
 <?php
 	include 'include/db.php';
 
-	function getSummary($db, $p_dateFrom, $p_dateTo)
+	function getSummary($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
 	{
-		$stmt = $db->prepare('CALL getSummary(?,?)');
-		$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+		$stmt = $db->prepare('CALL getSummary(?,?,?)');
+		$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
 		$stmt->execute(); 
 		$stmt->store_result();
 		$stmt->bind_result($count, $avgHours, $totHours, $avgWage, $totWage, $avgTips, $totTips, $avgEarned, $totEarned, $avgTipout, $totTipout, $avgSales, $totSales, $avgCovers, $totCovers, $avgCampHours, $totCampHours, $salesPerHour, $salesPerCover, $tipsPercent, $tipoutPercent, $tipsVsWage, $hourly);
@@ -650,7 +650,7 @@
 		}
 		else
 		{
-			getSummary($db, $p_dateFrom, $p_dateTo);
+			getSummary($db, $p_dateFrom, $p_dateTo, $p_lunchDinner);
 		}
 		$db->close();
 	}

@@ -1,7 +1,7 @@
 angular.module('shiftTips')
 .service('summaryService', ['$http', function($http) {
-	this.getSummary = function(from, to) {
-		return $http.get('./data/summary.php?from=' + from + '&to=' + to);
+	this.getSummary = function(from, to, lunchDinner) {
+		return $http.get('./data/summary.php?from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
 	this.getSummaryByLunchDinner = function(from, to) {
 		return $http.get('./data/summary.php?lunchDinner&from=' + from + '&to=' + to);
@@ -26,6 +26,86 @@ angular.module('shiftTips')
 	};
 }])
 
+.controller('SummaryController', [ 'summaryService', function(summaryService) {
+	var ctrl = this;
+
+	ctrl.changeSummaryType = function(type, from, to, lunchDinner) {
+		ctrl.type = type;
+		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
+		var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
+		var promise = null;
+		switch(type) {
+			case 'lunchDinner':
+				ctrl.typeName = 'Lunch/Dinner';
+				ctrl.changeSummaryTypeSort('-lunchDinner');
+				promise = summaryService.getSummaryByLunchDinner(p_dateFrom, p_dateTo);
+				break;
+			case 'dayOfWeek':
+				ctrl.typeName = 'Day of Week';
+				ctrl.changeSummaryTypeSort(['weekday','-lunchDinner']);
+				promise = summaryService.getSummaryByDayOfWeek(p_dateFrom, p_dateTo);
+				break;
+			case 'section':
+				ctrl.typeName = 'Section';
+				ctrl.changeSummaryTypeSort(['-lunchDinner','section']);
+				promise = summaryService.getSummaryBySection(p_dateFrom, p_dateTo);
+				break;
+			case 'startTime':
+				ctrl.typeName = 'Start Time';
+				ctrl.changeSummaryTypeSort(['-lunchDinner','startTime']);
+				promise = summaryService.getSummaryByStartTime(p_dateFrom, p_dateTo);
+				break;
+			case 'cut':
+				ctrl.typeName = 'Cut Order';
+				ctrl.changeSummaryTypeSort(['-lunchDinner','cut']);
+				promise = summaryService.getSummaryByCut(p_dateFrom, p_dateTo);
+				break;
+		}
+		promise.success(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.summaries = data;
+		})
+		.error(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
+		summaryService.getSummary(p_dateFrom, p_dateTo, lunchDinner)
+		.success(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.summaryTotal = data;
+		})
+		.error(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
+		});
+	};
+	ctrl.changeSummaryTypeSort = function(typeSort) {
+		//if sortField was set to previous typeSort, change it
+		if(ctrl.sortField == ctrl.typeSort) {
+			ctrl.sortField = typeSort;
+		}
+		ctrl.typeSort = typeSort;
+	}
+	ctrl.changeSortField = function(field) {
+		// if field is already selected, toggle the sort direction
+		if(ctrl.sortField == field) {
+			ctrl.sortReverse = !ctrl.sortReverse;
+		} else {
+			ctrl.sortField = field;
+			ctrl.sortReverse = false;
+		}
+	};
+	ctrl.isSortField = function(field) {
+		return ctrl.sortField == field;
+	};
+	ctrl.isSummaryType = function(type) {
+		return ctrl.type == type;
+	};
+
+	ctrl.sortReverse = false;
+	ctrl.changeSummaryType('lunchDinner', null, null, null);
+}])
+
 .controller('SummaryPeriodController', [ 'summaryService', function(summaryService) {
 	var ctrl = this;
 
@@ -36,10 +116,12 @@ angular.module('shiftTips')
 		var promise = null;
 		switch(type) {
 			case 'weekly':
+				ctrl.typeName = 'Weekly';
 				ctrl.changePeriodTypeSort('yearweek');
 				promise = summaryService.getSummaryWeekly(p_dateFrom, p_dateTo, lunchDinner);
 				break;
 			case 'monthly':
+				ctrl.typeName = 'Monthly';
 				ctrl.changePeriodTypeSort(['year','month']);
 				promise = summaryService.getSummaryMonthly(p_dateFrom, p_dateTo, lunchDinner);
 				break;
@@ -78,83 +160,6 @@ angular.module('shiftTips')
 	ctrl.sortField = ctrl.typeSort;
 	ctrl.sortReverse = false;
 	ctrl.changePeriodType('weekly', null, null, null);
-}])
-
-.controller('SummaryController', [ 'summaryService', function(summaryService) {
-	var ctrl = this;
-
-	ctrl.changeSummaryType = function(type, from, to) {
-		ctrl.type = type;
-		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
-		var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
-		var promise = null;
-		switch(type) {
-			case 'lunchDinner':
-				ctrl.changeSummaryTypeSort('-lunchDinner');
-				promise = summaryService.getSummaryByLunchDinner(p_dateFrom, p_dateTo);
-				break;
-			case 'dayOfWeek':
-				ctrl.changeSummaryTypeSort(['weekday','-lunchDinner']);
-				promise = summaryService.getSummaryByDayOfWeek(p_dateFrom, p_dateTo);
-				break;
-			case 'section':
-				ctrl.changeSummaryTypeSort(['-lunchDinner','section']);
-				promise = summaryService.getSummaryBySection(p_dateFrom, p_dateTo);
-				break;
-			case 'startTime':
-				ctrl.changeSummaryTypeSort(['-lunchDinner','startTime']);
-				promise = summaryService.getSummaryByStartTime(p_dateFrom, p_dateTo);
-				break;
-			case 'cut':
-				ctrl.changeSummaryTypeSort(['-lunchDinner','cut']);
-				promise = summaryService.getSummaryByCut(p_dateFrom, p_dateTo);
-				break;
-		}
-		promise.success(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
-			ctrl.summaries = data;
-		})
-		.error(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
-		});
-		summaryService.getSummary(p_dateFrom, p_dateTo)
-		.success(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
-			ctrl.summaryTotal = data;
-		})
-		.error(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. Cannot find summary.';
-		});
-	};
-	ctrl.changeSummaryTypeSort = function(typeSort) {
-		//if sort field was set to previous typeSort, change it
-		if(ctrl.sortField == ctrl.typeSort) {
-			ctrl.sortField = typeSort;
-		}
-		ctrl.typeSort = typeSort;
-	}
-	ctrl.changeSortField = function(field) {
-		// if field is already selected, toggle the sort direction
-		if(ctrl.sortField == field) {
-			ctrl.sortReverse = !ctrl.sortReverse;
-		} else {
-			ctrl.sortField = field;
-			ctrl.sortReverse = false;
-		}
-	};
-	ctrl.isSortField = function(field) {
-		return ctrl.sortField == field;
-	};
-	ctrl.isSummaryType = function(type) {
-		return ctrl.type == type;
-	};
-
-	ctrl.typeSort = '-lunchDinner';
-	ctrl.sortField = ctrl.typeSort;
-	ctrl.sortReverse = false;
-	ctrl.changeSummaryType('lunchDinner', null, null);
 }])
 
 .controller('SummaryFilterController', function() {
