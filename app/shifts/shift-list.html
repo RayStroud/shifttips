@@ -8,8 +8,8 @@
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Date Range</div>
 						<div class="filter-group-body">
-							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filterCtrl.from" />
-							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filterCtrl.to" />
+							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filterCtrl.from" ng-change="ctrl.updateSummary(filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner, filterCtrl.monCheck, filterCtrl.tueCheck, filterCtrl.wedCheck, filterCtrl.thuCheck, filterCtrl.friCheck, filterCtrl.satCheck, filterCtrl.sunCheck)"/>
+							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filterCtrl.to" ng-change="ctrl.updateSummary(filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner, filterCtrl.aDays)"/>
 						</div>
 					</div>
 				</div>
@@ -49,8 +49,8 @@
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">View Style</div>
 						<div class="filter-group-body">
-							<a class="link-button button-inverse" href="#/shifts/grid"><span class="fa fa-th-large"></span></a>
 							<a class="link-button" href="#/shifts/list"><span class="fa fa-table"></span></a>
+							<a class="link-button button-inverse" href="#/shifts/grid"><span class="fa fa-th-large"></span></a>
 						</div>
 					</div>
 				</div>
@@ -130,15 +130,15 @@
 							<td>{{shift.tipsVsWage | number:0}}%</td>
 							<td>{{shift.hourly | currency}}/h</td>
 						</tr>
-						<!-- <tr class="summary">
+						<tr class="summary">
 							<td colspan="5"><i>average</i></td>
 							<td>{{ctrl.summary.avgHours | number:2}}h</td>
-							<td>{{ctrl.summary.avgWage | currency}}</td>
-							<td>{{ctrl.summary.avgTips | currency}}</td>
-							<td>{{ctrl.summary.avgEarned | currency}}</td>
+							<td>{{ctrl.summary.avgWage | currency:undefined:0}}</td>
+							<td>{{ctrl.summary.avgTips | currency:undefined:0}}</td>
+							<td>{{ctrl.summary.avgEarned | currency:undefined:0}}</td>
 							<td>{{ctrl.summary.avgSales | currency:undefined:0}}</td>
-							<td>{{ctrl.summary.avgTipout | currency}}</td>
-							<td>{{ctrl.summary.avgTransfers | currency}}</td>
+							<td>{{ctrl.summary.avgTipout | currency:undefined:0}}</td>
+							<td>{{ctrl.summary.avgTransfers | currency:undefined:0}}</td>
 							<td>{{ctrl.summary.avgCovers | number:1}}</td>
 							<td>{{ctrl.summary.avgCampHours | number:2}}h</td>
 							<td>{{ctrl.summary.salesPerHour | currency:undefined:0}}/h</td>
@@ -160,7 +160,7 @@
 							<td class="tot-cell">{{ctrl.summary.totCovers | number:0}}</td>
 							<td class="tot-cell">{{ctrl.summary.totCampHours | number:2}}h</td>
 							<td class="tot-cell" colspan="6"></td>
-						</tr> -->
+						</tr>
 					</table>
 						
 					</div>

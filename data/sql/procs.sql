@@ -353,6 +353,125 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS getSummaryFiltered;
+DELIMITER //
+CREATE PROCEDURE getSummaryFiltered (
+	p_dateFrom		DATE,
+	p_dateTo		DATE,
+	p_lunchDinner	CHAR(1),
+	p_mon			BIT,
+	p_tue			BIT,
+	p_wed			BIT,
+	p_thu			BIT,
+	p_fri			BIT,
+	p_sat			BIT,
+	p_sun			BIT
+)
+BEGIN
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+	DECLARE v_lunchDinner	CHAR(1);
+	DECLARE v_anyDay		CHAR(1);
+	DECLARE v_mon			CHAR(3);
+	DECLARE v_tue			CHAR(3);
+	DECLARE v_wed			CHAR(3);
+	DECLARE v_thu			CHAR(3);
+	DECLARE v_fri			CHAR(3);
+	DECLARE v_sat			CHAR(3);
+	DECLARE v_sun			CHAR(3);
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	IF (p_lunchDinner = 'L') 
+		THEN SET v_lunchDinner = 'L';
+		ELSEIF (p_lunchDinner = 'D') 
+			THEN SET v_lunchDinner = 'D';
+		ELSE 
+			SET v_lunchDinner = '%';
+	END IF;
+
+	IF (p_mon = 0 && p_tue = 0 && p_wed = 0 && p_thu = 0 && p_fri = 0 && p_sat = 0 && p_sun = 0)
+		THEN SET v_anyDay := '%';
+		ELSE SET v_anyDay := '';
+	END IF;
+
+	IF (p_mon = 1)
+		THEN SET v_mon := 'MON';
+		ELSE SET v_mon := '';
+	END IF;
+
+	IF (p_tue = 1)
+		THEN SET v_tue := 'TUE';
+		ELSE SET v_tue := '';
+	END IF;
+
+	IF (p_wed = 1)
+		THEN SET v_wed := 'WED';
+		ELSE SET v_wed := '';
+	END IF;
+
+	IF (p_thu = 1)
+		THEN SET v_thu := 'THU';
+		ELSE SET v_thu := '';
+	END IF;
+
+	IF (p_fri = 1)
+		THEN SET v_fri := 'FRI';
+		ELSE SET v_fri := '';
+	END IF;
+
+	IF (p_sat = 1)
+		THEN SET v_sat := 'SAT';
+		ELSE SET v_sat := '';
+	END IF;
+
+	IF (p_sun = 1)
+		THEN SET v_sun := 'SUN';
+		ELSE SET v_sun := '';
+	END IF;
+
+	SELECT
+		COUNT(id) as count,
+		ROUND(AVG(hours)		,2) as avgHours,
+		ROUND(SUM(hours)		,0) as totHours,
+		ROUND(AVG(earnedWage)	,2) as avgWage,
+		ROUND(SUM(earnedWage)	,0) as totWage,
+		ROUND(AVG(earnedTips)	,2) as avgTips,
+		ROUND(SUM(earnedTips)	,0) as totTips,
+		ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
+		ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+		ROUND(AVG(tipout)		,2) as avgTipout,
+		ROUND(SUM(tipout)		,0) as totTipout,
+		ROUND(AVG(transfers)	,2) as avgTransfers,
+		ROUND(SUM(transfers)	,0) as totTransfers,
+		ROUND(AVG(sales)		,0) as avgSales,
+		ROUND(SUM(sales)		,0) as totSales,
+		ROUND(AVG(covers)		,1) as avgCovers,
+		ROUND(SUM(covers)		,0) as totCovers,
+		ROUND(AVG(campHours)	,2) as avgCampHours,
+		ROUND(SUM(campHours)	,2) as totCampHours,
+		ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+		ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+		ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+		ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+		ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+	FROM shift
+	WHERE date BETWEEN v_dateFrom AND v_dateTo
+		AND UPPER(lunchDinner) LIKE v_lunchDinner
+		AND (UPPER(dayOfWeek) IN (v_mon, v_tue, v_wed, v_thu, v_fri, v_sat, v_sun) 
+			OR dayOfWeek LIKE v_anyDay);
+END //
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS getSummaryByLunchDinner;
 DELIMITER //
 CREATE PROCEDURE getSummaryByLunchDinner (p_dateFrom DATE, p_dateTo DATE)

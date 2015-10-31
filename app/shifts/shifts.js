@@ -57,7 +57,7 @@ angular.module('shiftTips')
 	});
 }])
 
-.controller('ShiftListController', ['shiftsService', function(shiftsService) {
+.controller('ShiftListController', ['shiftsService', 'summaryService', function(shiftsService, summaryService) {
 	var ctrl = this;
 
 	this.shifts = shiftsService.getShifts()
@@ -70,7 +70,21 @@ angular.module('shiftTips')
 		ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
 	});
 
-	//ctrl.getSummaryFiltered(p_from, p_to, p_mon, p_tue, p_wed, p_thu, p_fri, p_sat, p_sun, p_lunchDinner) {}
+	ctrl.updateSummary = function(from, to, lunchDinner, mon, tue, wed, thu, fri, sat, sun) {
+		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
+		var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
+
+		summaryService.getSummaryFiltered(p_dateFrom, p_dateTo, lunchDinner, mon, tue, wed, thu, fri, sat, sun)
+		.success(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.summary = data;
+		})
+		.error(function (data, status, headers, config) {
+			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot get summary.';
+		});
+
+	};
 
 	ctrl.changeSortField = function(field) {
 		// if field is already selected, toggle the sort direction
@@ -90,6 +104,7 @@ angular.module('shiftTips')
 	ctrl.sortLunchDinner = ['-lunchDinner','date','startTime'];
 	ctrl.sortReverse = false;
 	ctrl.changeSortField(ctrl.sortDate);
+	ctrl.updateSummary(null, null, null, null, null, null, null, null, null, null); // this is all null until I can keep the data constant in the Service
 }])
 
 .controller('ShiftFilterController', function() {

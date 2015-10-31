@@ -26,7 +26,7 @@
 				</div>
 				<div class="filter-group" id="filter-buttons">
 					<div class="filter-group-wrap">
-						<div class="filter-group-header">Summary by...</div>
+						<div class="filter-group-header">Period Type</div>
 						<div class="filter-group-body">
 							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'weekly'}" ng-click="ctrl.changePeriodType('weekly', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Weekly</button>
 							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'monthly'}" ng-click="ctrl.changePeriodType('monthly', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Monthly</button>
@@ -58,7 +58,7 @@
 							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('tipout')}" 
 								ng-click="ctrl.changeSortField('tipout')">T/O</th>
 							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('covers')}" 
-								ng-click="ctrl.changeSortField('covers')">Covers</th>
+								ng-click="ctrl.changeSortField('covers')">Cov</th>
 							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('campHours')}" 
 								ng-click="ctrl.changeSortField('campHours')">Camp</th>
 							<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('salesPerHour')}" 
@@ -102,7 +102,7 @@
 						<td>{{ctrl.summary.avgEarned | currency:undefined:0}}</td>
 						<td>{{ctrl.summary.avgSales | currency:undefined:0}}</td>
 						<td>{{ctrl.summary.avgTipout | currency:undefined:0}}</td>
-						<td>{{ctrl.summary.avgCovers | number:0}}</td>
+						<td>{{ctrl.summary.avgCovers | number:1}}</td>
 						<td>{{ctrl.summary.avgCampHours | number:2}}h</td>
 						<td>{{ctrl.summary.salesPerHour | currency:undefined:0}}/h</td>
 						<td>{{ctrl.summary.salesPerCover | currency:undefined:0}}/cov</td>

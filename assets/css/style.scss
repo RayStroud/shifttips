@@ -548,29 +548,27 @@ div.mobile-table {
 }
 .summary-table {
 	margin: 0 auto;
-	td, th {
-		vertical-align: middle;
-		//border: 1px solid $content-bgcolor;
-		//border: 1px solid white;
-	}
 	th {
 		background-color: #666;
 		color: white;
 		padding: 0.5em;
 		text-align: center;
+		vertical-align: middle;
 	}
-	th.tot-cell {color: #bbb;}
-	th.sortable {cursor: pointer;}
-	th.sortable:hover {color: black;}
-	th.right-align {text-align: right;}
 	td {
 		background-color: #ddd;
 		color: black;
 		padding: 0.35em 0.5em;
 		white-space: nowrap;
 		text-align: right;
+		vertical-align: middle;
 	}
+	th.sortable {cursor: pointer;}
+	th.sortable:hover {color: black;}	
+	th.tot-cell {color: #bbb;}
 	td.tot-cell {color: #777;}
+	th.left-align, td.left-align {text-align: left;}
+	th.right-align, td.right-align {text-align: right;}
 	tr.alt, tbody.alt {
 		td {background-color: #bbb;}
 		.tot-cell {color: #666;}
@@ -579,7 +577,7 @@ div.mobile-table {
 		td {background-color: #888;}
 		.tot-cell {color: #444;}
 	}
-	i {font-style: italic; font-size: 80%;}
+	i {font-style: italic; font-size: 80%; font-variant: small-caps;}
 }
 th.sort-field {
 	background-color: $body-bgcolor; color: white;

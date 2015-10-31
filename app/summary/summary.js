@@ -3,6 +3,16 @@ angular.module('shiftTips')
 	this.getSummary = function(from, to, lunchDinner) {
 		return $http.get('./data/summary.php?from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
+	this.getSummaryFiltered = function(from, to, lunchDinner, mon, tue, wed, thu, fri, sat, sun) {
+		var dayString = mon ? '&mon' : '';
+		dayString += tue ? '&tue' : '';
+		dayString += wed ? '&wed' : '';
+		dayString += thu ? '&thu' : '';
+		dayString += fri ? '&fri' : '';
+		dayString += sat ? '&sat' : '';
+		dayString += sun ? '&sun' : '';
+		return $http.get('./data/summary.php?from=' + from + '&to=' + to + '&ld=' + lunchDinner + dayString);
+	};
 	this.getSummaryByLunchDinner = function(from, to) {
 		return $http.get('./data/summary.php?lunchDinner&from=' + from + '&to=' + to);
 	};

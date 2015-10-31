@@ -568,29 +568,31 @@ div.mobile-table {
 
 .summary-table {
   margin: 0 auto; }
-  .summary-table td, .summary-table th {
-    vertical-align: middle; }
   .summary-table th {
     background-color: #666;
     color: white;
     padding: 0.5em;
-    text-align: center; }
-  .summary-table th.tot-cell {
-    color: #bbb; }
-  .summary-table th.sortable {
-    cursor: pointer; }
-  .summary-table th.sortable:hover {
-    color: black; }
-  .summary-table th.right-align {
-    text-align: right; }
+    text-align: center;
+    vertical-align: middle; }
   .summary-table td {
     background-color: #ddd;
     color: black;
     padding: 0.35em 0.5em;
     white-space: nowrap;
-    text-align: right; }
+    text-align: right;
+    vertical-align: middle; }
+  .summary-table th.sortable {
+    cursor: pointer; }
+  .summary-table th.sortable:hover {
+    color: black; }
+  .summary-table th.tot-cell {
+    color: #bbb; }
   .summary-table td.tot-cell {
     color: #777; }
+  .summary-table th.left-align, .summary-table td.left-align {
+    text-align: left; }
+  .summary-table th.right-align, .summary-table td.right-align {
+    text-align: right; }
   .summary-table tr.alt td, .summary-table tbody.alt td {
     background-color: #bbb; }
   .summary-table tr.alt .tot-cell, .summary-table tbody.alt .tot-cell {
@@ -601,7 +603,8 @@ div.mobile-table {
     color: #444; }
   .summary-table i {
     font-style: italic;
-    font-size: 80%; }
+    font-size: 80%;
+    font-variant: small-caps; }
 
 th.sort-field {
   background-color: #337ab7;
