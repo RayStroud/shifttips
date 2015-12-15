@@ -76,6 +76,7 @@ h3 {
     font-weight: bold;
     font-variant: small-caps; }
     #header .name a:hover {
+      cursor: pointer;
       color: white;
       text-shadow: 0px 0px 16px rgba(255, 255, 255, 0.7);
       text-decoration: none; }
@@ -108,6 +109,7 @@ h3 {
   position: relative; }
 
 .clickable:hover {
+  cursor: pointer;
   border-color: black; }
 
 .link-spanner {
@@ -117,6 +119,11 @@ h3 {
   top: 0;
   left: 0;
   z-index: 1; }
+
+.invisible {
+  color: transparent !important;
+  background-color: transparent !important;
+  border-color: transparent !important; }
 
 @media screen and (max-width: 700px) {
   h1 {
@@ -329,7 +336,8 @@ a.link-button {
 
 .link-button:hover,
 a.link-button:hover {
-  background-color: #4f93ce; }
+  cursor: pointer;
+  background-color: #63a0d4; }
 
 /* ############################################
 	ADD/EDIT FORMS
@@ -363,13 +371,15 @@ form.add-form, form.edit-form {
   color: #337ab7; }
 
 .link-button.button-inverse:hover {
-  background-color: #e6e6e6; }
+  cursor: pointer;
+  background-color: #c7ddef; }
 
 .link-button.button-warning {
   background-color: #bf4040;
   color: white; }
 
 .link-button.button-warning:hover {
+  cursor: pointer;
   background-color: #cc6666; }
 
 .button-narrow {
@@ -480,6 +490,10 @@ span.filter-bold {
   background-color: rgba(204, 0, 0, 0.3);
   color: white; }
 
+#mon-check + label:hover {
+  cursor: pointer;
+  background-color: rgba(204, 0, 0, 0.1); }
+
 #tue-check + label {
   background-color: white;
   color: rgba(127, 128, 0, 0.6); }
@@ -487,6 +501,10 @@ span.filter-bold {
 #tue-check:checked + label {
   background-color: rgba(204, 204, 0, 0.3);
   color: white; }
+
+#tue-check + label:hover {
+  cursor: pointer;
+  background-color: rgba(204, 204, 0, 0.1); }
 
 #wed-check + label {
   background-color: white;
@@ -496,6 +514,10 @@ span.filter-bold {
   background-color: rgba(0, 204, 0, 0.3);
   color: white; }
 
+#wed-check + label:hover {
+  cursor: pointer;
+  background-color: rgba(0, 204, 0, 0.1); }
+
 #thu-check + label {
   background-color: white;
   color: rgba(0, 153, 153, 0.6); }
@@ -503,6 +525,10 @@ span.filter-bold {
 #thu-check:checked + label {
   background-color: rgba(0, 204, 204, 0.3);
   color: white; }
+
+#thu-check + label:hover {
+  cursor: pointer;
+  background-color: rgba(0, 204, 204, 0.1); }
 
 #fri-check + label {
   background-color: white;
@@ -512,6 +538,10 @@ span.filter-bold {
   background-color: rgba(0, 0, 204, 0.3);
   color: white; }
 
+#fri-check + label:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 204, 0.1); }
+
 #sat-check + label {
   background-color: white;
   color: rgba(204, 0, 204, 0.6); }
@@ -519,6 +549,10 @@ span.filter-bold {
 #sat-check:checked + label {
   background-color: rgba(204, 0, 204, 0.3);
   color: white; }
+
+#sat-check + label:hover {
+  cursor: pointer;
+  background-color: rgba(204, 0, 204, 0.1); }
 
 #sun-check + label {
   background-color: white;
@@ -528,6 +562,10 @@ span.filter-bold {
   background-color: rgba(26, 26, 26, 0.3);
   color: white; }
 
+#sun-check + label:hover {
+  cursor: pointer;
+  background-color: rgba(26, 26, 26, 0.1); }
+
 #lun-check + label {
   background-color: white;
   color: rgba(153, 99, 0, 0.6); }
@@ -536,6 +574,10 @@ span.filter-bold {
   background-color: rgba(204, 132, 0, 0.3);
   color: white; }
 
+#lun-check + label:hover {
+  cursor: pointer;
+  background-color: rgba(204, 132, 0, 0.1); }
+
 #din-check + label {
   background-color: white;
   color: rgba(0, 119, 234, 0.6); }
@@ -543,6 +585,10 @@ span.filter-bold {
 #din-check:checked + label {
   background-color: rgba(0, 119, 234, 0.3);
   color: white; }
+
+#din-check + label:hover {
+  cursor: pointer;
+  background-color: rgba(0, 119, 234, 0.1); }
 
 @media screen and (max-width: 600px) {
   form.filter-form {
@@ -581,9 +627,8 @@ div.mobile-table {
     white-space: nowrap;
     text-align: right;
     vertical-align: middle; }
-  .summary-table th.sortable {
-    cursor: pointer; }
   .summary-table th.sortable:hover {
+    cursor: pointer;
     color: black; }
   .summary-table th.tot-cell {
     color: #bbb; }
@@ -613,6 +658,16 @@ th.sort-field {
 
 thead.sort-reverse th.sort-field {
   box-shadow: inset 0 4px 0 0 black; }
+
+tr.clickable-row:hover {
+  cursor: pointer; }
+  tr.clickable-row:hover td {
+    background-color: #c7ddef; }
+
+tr.alt.clickable-row:hover {
+  cursor: pointer; }
+  tr.alt.clickable-row:hover td {
+    background-color: #9fc4e4; }
 
 td.lun-avg-cell {
   background-color: rgba(204, 132, 0, 0.6); }
@@ -729,6 +784,7 @@ a.debug {
   padding: 0.5em; }
 
 a.debug:hover {
+  cursor: pointer;
   background-color: black; }
 
 /*# sourceMappingURL=style.css.map */

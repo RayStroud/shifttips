@@ -124,6 +124,7 @@ h3 {
 		font-weight: bold;
 		font-variant: small-caps;
 		a:hover {
+			cursor: pointer;
 			color: $header-text-color; 
 			text-shadow: $glow-big;
 			text-decoration: none;
@@ -158,7 +159,7 @@ h3 {
 	padding: 1.5em;
 }
 .clickable { position: relative;}
-.clickable:hover { border-color: $border-hover-color;}
+.clickable:hover { cursor: pointer; border-color: $border-hover-color;}
 .link-spanner {
 	position: absolute; 
 	width: 100%;
@@ -166,6 +167,11 @@ h3 {
 	top: 0;
 	left: 0;
 	z-index: 1;
+}
+.invisible {
+	color: transparent !important;
+	background-color: transparent !important;
+	border-color: transparent !important;
 }
 
 @media screen and (max-width: 700px) {
@@ -363,7 +369,7 @@ a.link-button {
 	border: 1px solid $border-color;
 }
 .link-button:hover, 
-a.link-button:hover {background-color: lighten($body-bgcolor, 10%);}
+a.link-button:hover {cursor: pointer; background-color: lighten($body-bgcolor, 15%);}
 
 /* ############################################
 	ADD/EDIT FORMS
@@ -393,12 +399,12 @@ form.add-form, form.edit-form {
 	background-color: $header-text-color;
 	color: $body-bgcolor;
 }
-.link-button.button-inverse:hover {background-color: darken($header-text-color, 10%);}
+.link-button.button-inverse:hover {cursor: pointer; background-color: lighten($body-bgcolor, 40%);}
 .link-button.button-warning {
 	background-color: desaturate(red, 50%);
 	color: white;
 }
-.link-button.button-warning:hover {background-color: lighten(desaturate(red, 50%), 10%);}
+.link-button.button-warning:hover {cursor: pointer; background-color: lighten(desaturate(red, 50%), 10%);}
 .button-narrow {
 	margin: 0 25%;
 	width: 50%;
@@ -504,22 +510,31 @@ span.filter-bold {
 
 #mon-check + label {background-color: white; color: rgba($mon-color, 0.6);}
 #mon-check:checked + label {background-color: rgba($mon-color, 0.3); color: white;}
+#mon-check + label:hover {cursor: pointer; background-color: rgba($mon-color, 0.1);}
 #tue-check + label {background-color: white; color: rgba(darken($tue-color,15%), 0.6);}
 #tue-check:checked + label {background-color: rgba($tue-color, 0.3); color: white;}
+#tue-check + label:hover {cursor: pointer; background-color: rgba($tue-color, 0.1);}
 #wed-check + label {background-color: white; color: rgba(darken($wed-color,10%), 0.6);}
 #wed-check:checked + label {background-color: rgba($wed-color, 0.3); color: white;}
+#wed-check + label:hover {cursor: pointer; background-color: rgba($wed-color, 0.1);}
 #thu-check + label {background-color: white; color: rgba(darken($thu-color,10%), 0.6);}
 #thu-check:checked + label {background-color: rgba($thu-color, 0.3); color: white;}
+#thu-check + label:hover {cursor: pointer; background-color: rgba($thu-color, 0.1);}
 #fri-check + label {background-color: white; color: rgba($fri-color, 0.6);}
 #fri-check:checked + label {background-color: rgba($fri-color, 0.3); color: white;}
+#fri-check + label:hover {cursor: pointer; background-color: rgba($fri-color, 0.1);}
 #sat-check + label {background-color: white; color: rgba($sat-color, 0.6);}
 #sat-check:checked + label {background-color: rgba($sat-color, 0.3); color: white;}
+#sat-check + label:hover {cursor: pointer; background-color: rgba($sat-color, 0.1);}
 #sun-check + label {background-color: white; color: rgba($sun-color, 0.6);}
 #sun-check:checked + label {background-color: rgba($sun-color, 0.3); color: white;}
+#sun-check + label:hover {cursor: pointer; background-color: rgba($sun-color, 0.1);}
 #lun-check + label {background-color: white; color: rgba(darken($lun-color,10%), 0.6);}
 #lun-check:checked + label {background-color: rgba($lun-color, 0.3); color: white;}
+#lun-check + label:hover {cursor: pointer; background-color: rgba($lun-color, 0.1);}
 #din-check + label {background-color: white; color: rgba($din-color, 0.6);}
 #din-check:checked + label {background-color: rgba($din-color, 0.3); color: white;}
+#din-check + label:hover {cursor: pointer; background-color: rgba($din-color, 0.1);}
 
 @media screen and (max-width: 600px) {
 	form.filter-form {display: block;}
@@ -563,8 +578,7 @@ div.mobile-table {
 		text-align: right;
 		vertical-align: middle;
 	}
-	th.sortable {cursor: pointer;}
-	th.sortable:hover {color: black;}	
+	th.sortable:hover {cursor: pointer; color: black;}	
 	th.tot-cell {color: #bbb;}
 	td.tot-cell {color: #777;}
 	th.left-align, td.left-align {text-align: left;}
@@ -586,6 +600,9 @@ th.sort-field {
 thead.sort-reverse th.sort-field {
 	box-shadow: inset 0 4px 0 0 black;	
 }
+
+tr.clickable-row:hover {cursor: pointer; td {background-color: lighten($body-bgcolor, 40%);} }
+tr.alt.clickable-row:hover {cursor: pointer; td {background-color: lighten($body-bgcolor, 30%);} }
 
 td.lun-avg-cell {background-color: rgba($lun-color,0.6);}
 td.lun-tot-cell {background-color: rgba($lun-color,0.4);}
@@ -633,4 +650,4 @@ body {
 	//transform: scale(0.5);
 }
 a.debug {color: lime; font-weight: bolder; font-family: $mono-font; padding: 0.5em;}
-a.debug:hover {background-color: black;}
+a.debug:hover {cursor: pointer; background-color: black;}

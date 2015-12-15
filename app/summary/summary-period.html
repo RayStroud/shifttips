@@ -4,7 +4,16 @@
 	<div ng-hide="ctrl.error">
 		<div ng-controller="SummaryFilterController as filterCtrl">
 			<form class="filter-form">
-				<div class="filter-group" id="filter-date-range">
+				<div class="filter-group" id="filter-visible">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Filters</div>
+						<div class="filter-group-body">
+							<div ng-hide="filterCtrl.visible" class="link-button button-inverse" ng-click="filterCtrl.show()"><span class="fa fa-eye"></span></div>
+							<div ng-show="filterCtrl.visible" class="link-button" ng-click="filterCtrl.hide()"><span class="fa fa-eye-slash"></span></div>
+						</div>
+					</div>
+				</div>
+				<div ng-show="filterCtrl.visible" class="filter-group" id="filter-date-range">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Date Range</div>
 						<div class="filter-group-body">
@@ -13,7 +22,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="filter-group" id="filter-lunch-dinner">
+				<div ng-show="filterCtrl.visible" class="filter-group" id="filter-lunch-dinner">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Lunch / Dinner</div>
 						<div class="filter-group-body">
@@ -24,7 +33,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="filter-group" id="filter-buttons">
+				<div ng-show="filterCtrl.visible" class="filter-group" id="filter-buttons">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Period Type</div>
 						<div class="filter-group-body">

@@ -173,12 +173,17 @@ angular.module('shiftTips')
 }])
 
 .controller('SummaryFilterController', function() {
+	this.visible = false;
+	
 	this.from = '';
 	this.to = '';
 
 	this.lunCheck = false;
 	this.dinCheck = false;
 	this.lunchDinner = '';	//value to filter by lunchDinner
+
+	this.show = function() {this.visible = true;};
+	this.hide = function() {this.visible = false;};
 
 	this.toggleLun = function() {
 		if (this.lunCheck) {

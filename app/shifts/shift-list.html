@@ -4,7 +4,16 @@
 	<div ng-hide="ctrl.error">
 		<div ng-controller="ShiftFilterController as filterCtrl">
 			<form class="filter-form" method="get" action="#">
-				<div class="filter-group" id="filter-date-range">
+				<div class="filter-group" id="filter-visible">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Filters</div>
+						<div class="filter-group-body">
+							<div ng-hide="filterCtrl.visible" class="link-button button-inverse" ng-click="filterCtrl.show()"><span class="fa fa-eye"></span></div>
+							<div ng-show="filterCtrl.visible" class="link-button" ng-click="filterCtrl.hide()"><span class="fa fa-eye-slash"></span></div>
+						</div>
+					</div>
+				</div>
+				<div ng-show="filterCtrl.visible" class="filter-group" id="filter-date-range">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Date Range</div>
 						<div class="filter-group-body">
@@ -13,7 +22,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="filter-group" id="filter-lunch-dinner">
+				<div ng-show="filterCtrl.visible" class="filter-group" id="filter-lunch-dinner">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Lunch / Dinner</div>
 						<div class="filter-group-body">
@@ -24,7 +33,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="filter-group" id="filter-day-of-week">
+				<div ng-show="filterCtrl.visible" class="filter-group" id="filter-day-of-week">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Day of Week</div>
 						<div class="filter-group-body">
@@ -108,10 +117,10 @@
 									ng-click="ctrl.changeSortField('hourly')">Earn/h</th>
 							</tr>
 						</thead>
-						<tr class="{{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:{fromDate:filterCtrl.from,toDate:filterCtrl.to,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:ctrl.sortField:ctrl.sortReverse ) track by $index" ng-class-even="'alt'">
+						<tr class="clickable-row {{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:{fromDate:filterCtrl.from,toDate:filterCtrl.to,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:ctrl.sortField:ctrl.sortReverse ) track by $index" ng-class-even="'alt'" ng-click="ctrl.viewShift(shift.id)">
 							<td class="ld-cell">{{shift.lunchDinner | placeholder:'-'}}</td>
 							<td class="day-cell">{{shift.dayOfWeek | placeholder:'-'}}</td>
-							<td><a href="#/shift/{{shift.id}}">{{shift.date | date:'MMM dd, yyyy' | placeholder:'-'}}</a></td>
+							<td>{{shift.date | date:'MMM dd, yyyy' | placeholder:'-'}}</td>
 							<td>{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'-'}}</td>
 							<td>{{shift.endTime | timeToDate | date:'h:mma' | placeholder:'-'}}</td>
 							<td>{{shift.hours | number:2 | placeholder:'-':undefined:'h'}}</td>
@@ -163,8 +172,7 @@
 						</tr>
 					</table>
 						
-					</div>
-				</tr>
+				</div>
 			</div>
 		</div>
 	</div>

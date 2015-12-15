@@ -57,7 +57,7 @@ angular.module('shiftTips')
 	});
 }])
 
-.controller('ShiftListController', ['shiftsService', 'summaryService', function(shiftsService, summaryService) {
+.controller('ShiftListController', ['$location', 'shiftsService', 'summaryService', function($location, shiftsService, summaryService) {
 	var ctrl = this;
 
 	this.shifts = shiftsService.getShifts()
@@ -99,6 +99,10 @@ angular.module('shiftTips')
 		return ctrl.sortField == field;
 	};
 
+	ctrl.viewShift = function(id) {
+		$location.path('/shift/' + id);
+	};
+
 	ctrl.sortDate = ['date','startTime'];
 	ctrl.sortDayOfWeek = ['weekday','date','startTime'];
 	ctrl.sortLunchDinner = ['-lunchDinner','date','startTime'];
@@ -108,6 +112,8 @@ angular.module('shiftTips')
 }])
 
 .controller('ShiftFilterController', function() {
+	this.visible = false;
+
 	this.from = '';
 	this.to = '';
 
@@ -123,6 +129,9 @@ angular.module('shiftTips')
 	this.satCheck = false;
 	this.sunCheck = false;
 	this.aDays = [null,null,null,null,null,null,null];		//array to keep track of checked days
+
+	this.show = function() {this.visible = true;};
+	this.hide = function() {this.visible = false;};
 
 	this.toggleLun = function() {
 		if (this.lunCheck) {
