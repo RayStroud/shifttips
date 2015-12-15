@@ -317,11 +317,15 @@ angular.module('shiftTips')
 })
 
 .filter('placeholder', function() {
-	return function(input, placeholder) {
+	return function(input, placeholder, prefix, suffix) {
 		if (input == undefined || input == null) {
 			return placeholder;
 		} else {
-			return input;
+			var output = '';
+			if(prefix != undefined && prefix != null) { output += prefix; } 
+			output += input;
+			if(suffix != undefined && suffix != null) { output += suffix; }
+			return output;
 		}
 	};
 });

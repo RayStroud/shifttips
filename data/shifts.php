@@ -3,33 +3,33 @@
 	function shiftRowToObject($row) {
 		$object = new stdClass();
 
-		$object->wage 		= (float) $row->wage;
+		$object->wage 		= is_null($row->wage) 		? null : (float) $row->wage;
 		$object->date 		= $row->date;
 		$object->startTime 	= $row->startTime;
 		$object->endTime 	= $row->endTime;
 		$object->firstTable = $row->firstTable;
-		$object->campHours 	= (float) $row->campHours;
-		$object->sales 		= (float) $row->sales;
-		$object->tipout 	= (int) $row->tipout;
-		$object->transfers 	= (int) $row->transfers;
-		$object->cash 		= (int) $row->cash;
-		$object->due 		= (int) $row->due;
-		$object->covers 	= (int) $row->covers;
+		$object->campHours 	= is_null($row->campHours) 	? null : (float) $row->campHours;
+		$object->sales 		= is_null($row->sales) 		? null : (float) $row->sales;
+		$object->tipout 	= is_null($row->tipout) 	? null : (int) $row->tipout;
+		$object->transfers 	= is_null($row->transfers) 	? null : (int) $row->transfers;
+		$object->cash 		= is_null($row->cash) 		? null : (int) $row->cash;
+		$object->due 		= is_null($row->due) 		? null : (int) $row->due;
+		$object->covers 	= is_null($row->covers) 	? null : (int) $row->covers;
 		$object->cut 		= $row->cut;
 		$object->section 	= $row->section;
 		$object->notes 		= $row->notes;
 
-		$object->hours 			= (float) $row->hours;
-		$object->earnedWage 	= (int) $row->earnedWage;
-		$object->earnedTips 	= (int) $row->earnedTips;
-		$object->earnedTotal 	= (int) $row->earnedTotal;
-		$object->tipsVsWage 	= (int) $row->tipsVsWage;
-		$object->salesPerHour 	= (float) $row->salesPerHour;
-		$object->salesPerCover 	= (float) $row->salesPerCover;
-		$object->tipsPercent 	= (float) $row->tipsPercent;
-		$object->tipoutPercent 	= (float) $row->tipoutPercent;
-		$object->hourly 		= (float) $row->hourly;
-		$object->noCampHourly 	= (float) $row->noCampHourly;
+		$object->hours 			= is_null($row->hours) 			? null : (float) $row->hours;
+		$object->earnedWage 	= is_null($row->earnedWage) 	? null : (int) $row->earnedWage;
+		$object->earnedTips 	= is_null($row->earnedTips) 	? null : (int) $row->earnedTips;
+		$object->earnedTotal 	= is_null($row->earnedTotal) 	? null : (int) $row->earnedTotal;
+		$object->tipsVsWage 	= is_null($row->tipsVsWage) 	? null : (int) $row->tipsVsWage;
+		$object->salesPerHour 	= is_null($row->salesPerHour) 	? null : (float) $row->salesPerHour;
+		$object->salesPerCover 	= is_null($row->salesPerCover) 	? null : (float) $row->salesPerCover;
+		$object->tipsPercent 	= is_null($row->tipsPercent) 	? null : (float) $row->tipsPercent;
+		$object->tipoutPercent 	= is_null($row->tipoutPercent) 	? null : (float) $row->tipoutPercent;
+		$object->hourly 		= is_null($row->hourly) 		? null : (float) $row->hourly;
+		$object->noCampHourly 	= is_null($row->noCampHourly) 	? null : (float) $row->noCampHourly;
 		$object->lunchDinner 	= $row->lunchDinner;
 		$object->dayOfWeek 		= $row->dayOfWeek;
 

@@ -109,44 +109,44 @@
 							</tr>
 						</thead>
 						<tr class="{{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:{fromDate:filterCtrl.from,toDate:filterCtrl.to,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:ctrl.sortField:ctrl.sortReverse ) track by $index" ng-class-even="'alt'">
-							<td class="ld-cell">{{shift.lunchDinner}}</td>
-							<td class="day-cell">{{shift.dayOfWeek}}</td>
-							<td><a href="#/shift/{{shift.id}}">{{shift.date | date:'MMM dd, yyyy'}}</a></td>
-							<td>{{shift.startTime | timeToDate | date:'h:mma'}}</td>
-							<td>{{shift.endTime | timeToDate | date:'h:mma'}}</td>
-							<td>{{shift.hours | number:2}}h</td>
-							<td>{{shift.earnedWage | currency:undefined:0}}</td>
-							<td>{{shift.earnedTips | currency:undefined:0}}</td>
-							<td>{{shift.earnedTotal | currency:undefined:0}}</td>
-							<td>{{shift.sales | currency:undefined:0}}</td>
-							<td>{{shift.tipout | currency:undefined:0}}</td>
-							<td>{{shift.transfers | currency:undefined:0}}</td>
-							<td>{{shift.covers | number:0}}</td>
-							<td>{{shift.campHours | number:2}}h</td>
-							<td>{{shift.salesPerHour | currency:undefined:0}}/h</td>
-							<td>{{shift.salesPerCover | currency:undefined:0}}/cov</td>
-							<td>{{shift.tipsPercent | number:1}}%</td>
-							<td>{{shift.tipoutPercent | number:1}}%</td>
-							<td>{{shift.tipsVsWage | number:0}}%</td>
-							<td>{{shift.hourly | currency}}/h</td>
+							<td class="ld-cell">{{shift.lunchDinner | placeholder:'-'}}</td>
+							<td class="day-cell">{{shift.dayOfWeek | placeholder:'-'}}</td>
+							<td><a href="#/shift/{{shift.id}}">{{shift.date | date:'MMM dd, yyyy' | placeholder:'-'}}</a></td>
+							<td>{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'-'}}</td>
+							<td>{{shift.endTime | timeToDate | date:'h:mma' | placeholder:'-'}}</td>
+							<td>{{shift.hours | number:2 | placeholder:'-':undefined:'h'}}</td>
+							<td>{{shift.earnedWage | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{shift.earnedTips | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{shift.earnedTotal | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{shift.sales | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{shift.tipout | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{shift.transfers | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{shift.covers | number:0 | placeholder:'-'}}</td>
+							<td>{{shift.campHours | number:2 | placeholder:'-':undefined:'h'}}</td>
+							<td>{{shift.salesPerHour | currency:undefined:0 | placeholder:'-':undefined:'/h'}}</td>
+							<td>{{shift.salesPerCover | currency:undefined:0 | placeholder:'-':undefined:'/cov'}}</td>
+							<td>{{shift.tipsPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
+							<td>{{shift.tipoutPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
+							<td>{{shift.tipsVsWage | number:0 | placeholder:'-':undefined:'%'}}</td>
+							<td>{{shift.hourly | currency | placeholder:'-':undefined:'/h'}}</td>
 						</tr>
 						<tr class="summary">
 							<td colspan="5"><i>average</i></td>
-							<td>{{ctrl.summary.avgHours | number:2}}h</td>
-							<td>{{ctrl.summary.avgWage | currency:undefined:0}}</td>
-							<td>{{ctrl.summary.avgTips | currency:undefined:0}}</td>
-							<td>{{ctrl.summary.avgEarned | currency:undefined:0}}</td>
-							<td>{{ctrl.summary.avgSales | currency:undefined:0}}</td>
-							<td>{{ctrl.summary.avgTipout | currency:undefined:0}}</td>
-							<td>{{ctrl.summary.avgTransfers | currency:undefined:0}}</td>
-							<td>{{ctrl.summary.avgCovers | number:1}}</td>
-							<td>{{ctrl.summary.avgCampHours | number:2}}h</td>
-							<td>{{ctrl.summary.salesPerHour | currency:undefined:0}}/h</td>
-							<td>{{ctrl.summary.salesPerCover | currency:undefined:0}}/cov</td>
-							<td>{{ctrl.summary.tipsPercent | number:1}}%</td>
-							<td>{{ctrl.summary.tipoutPercent | number:1}}%</td>
-							<td>{{ctrl.summary.tipsVsWage | number:0}}%</td>
-							<td>{{ctrl.summary.hourly | currency}}/h</td>
+							<td>{{ctrl.summary.avgHours | number:2 | placeholder:'-':undefined:'h'}}</td>
+							<td>{{ctrl.summary.avgWage | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{ctrl.summary.avgTips | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{ctrl.summary.avgEarned | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{ctrl.summary.avgSales | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{ctrl.summary.avgTipout | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{ctrl.summary.avgTransfers | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>{{ctrl.summary.avgCovers | number:1 | placeholder:'-'}}</td>
+							<td>{{ctrl.summary.avgCampHours | number:2 | placeholder:'-':undefined:'h'}}</td>
+							<td>{{ctrl.summary.salesPerHour | currency:undefined:0 | placeholder:'-':undefined:'/h'}}</td>
+							<td>{{ctrl.summary.salesPerCover | currency:undefined:0 | placeholder:'-':undefined:'/cov'}}</td>
+							<td>{{ctrl.summary.tipsPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
+							<td>{{ctrl.summary.tipoutPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
+							<td>{{ctrl.summary.tipsVsWage | number:0 | placeholder:'-':undefined:'%'}}</td>
+							<td>{{ctrl.summary.hourly | currency | placeholder:'-':undefined:'/h'}}</td>
 						</tr>
 						<tr class="summary">
 							<td class="tot-cell" colspan="5"><i>{{ctrl.summary.count}} total</i></td>

@@ -4,101 +4,101 @@
 	<div ng-hide="shiftViewCtrl.error">
 	<div class="shift-detailed {{shiftViewCtrl.shift.dayOfWeek | lowercase}}-shift {{shiftViewCtrl.shift.lunchDinner | lowercase}}-shift">
 		<div class="shift-datetime">
-			<div class="shift-date">{{shiftViewCtrl.shift.date | date:'EEE, MMM d, yyyy'}}</div>
-			<div class="shift-time">{{shiftViewCtrl.shift.startTime | timeToDate | date:'h:mma'}} to {{shiftViewCtrl.shift.endTime | timeToDate | date:'h:mma'}} <div class="shift-hours-wage">({{shiftViewCtrl.shift.hours}} hours) @ {{shiftViewCtrl.shift.wage | currency}}/h</div></div>
+			<div class="shift-date">{{shiftViewCtrl.shift.date | date:'EEE, MMM d, yyyy' | placeholder:'Unknown Date'}}</div>
+			<div class="shift-time">{{shiftViewCtrl.shift.startTime | timeToDate | date:'h:mma' | placeholder:'?:??'}} to {{shiftViewCtrl.shift.endTime | timeToDate | date:'h:mma' | placeholder:'?:??'}} <div class="shift-hours-wage">{{shiftViewCtrl.shift.hours | placeholder:'':'(':' hours)'}} {{shiftViewCtrl.shift.wage | currency | placeholder:'':'@ ':'/h'}}</div></div>
 		</div>
 		<div class="shift-details">
 			<div class="shift-info">
 				<div class="label">1st Tbl</div>
-				<div class="value">{{shiftViewCtrl.shift.firstTable | timeToDate | date:'h:mma'}}</div>
+				<div class="value">{{shiftViewCtrl.shift.firstTable | timeToDate | date:'h:mma' | placeholder:'-'}}</div>
 			</div>
 			<div class="shift-info">
 				<div class="label">Camp</div>
-				<div class="value">{{shiftViewCtrl.shift.campHours}} hours</div>
+				<div class="value">{{shiftViewCtrl.shift.campHours | placeholder:'-':undefined:' hours'}}</div>
 			</div>
 
 			<div class="shift-info">
 				<div class="label">Sales</div>
-					<div class="value">{{shiftViewCtrl.shift.sales | currency}}</div>
+					<div class="value">{{shiftViewCtrl.shift.sales | currency | placeholder:'-'}}</div>
 				</div>
 				<div class="shift-info">
 					<div class="label">Covers</div>
-					<div class="value">{{shiftViewCtrl.shift.covers}} covers</div>
+					<div class="value">{{shiftViewCtrl.shift.covers | placeholder:'-':undefined:' covers'}}</div>
 				</div>
 
 				<div class="shift-info">
 					<div class="label">Tipout</div>
-					<div class="value">{{shiftViewCtrl.shift.tipout | currency:undefined:0}}</div>
+					<div class="value">{{shiftViewCtrl.shift.tipout | currency:undefined:0 | placeholder:'-'}}</div>
 				</div>
 				<div class="shift-info">
 					<div class="label">Transfer</div>
-					<div class="value">{{shiftViewCtrl.shift.transfers | currency:undefined:0}}</div>
+					<div class="value">{{shiftViewCtrl.shift.transfers | currency:undefined:0 | placeholder:'-'}}</div>
 				</div>
 
 				<div class="shift-info">
 					<div class="label">Cash</div>
-					<div class="value">{{shiftViewCtrl.shift.cash | currency:undefined:0}}</div>
+					<div class="value">{{shiftViewCtrl.shift.cash | currency:undefined:0 | placeholder:'-'}}</div>
 				</div>
 				<div class="shift-info">
 					<div class="label">Due</div>
-					<div class="value">{{shiftViewCtrl.shift.due | currency:undefined:0}}</div>
+					<div class="value">{{shiftViewCtrl.shift.due | currency:undefined:0 | placeholder:'-'}}</div>
 				</div>
 
 				<div class="shift-info">
 					<div class="label">Section</div>
-					<div class="value">{{shiftViewCtrl.shift.section}}</div>
+					<div class="value">{{shiftViewCtrl.shift.section | placeholder:'-'}}</div>
 				</div>
 				<div class="shift-info">
 					<div class="label">Cut</div>
-					<div class="value">{{shiftViewCtrl.shift.cut}}</div>
+					<div class="value">{{shiftViewCtrl.shift.cut | placeholder:'-'}}</div>
 				</div>
 
 				<div class="shift-info full-width">
 					<div class="label">Notes</div>
-					<div class="value">{{shiftViewCtrl.shift.notes}}</div>
+					<div class="value">{{shiftViewCtrl.shift.notes | placeholder:'-'}}</div>
 				</div>
 
 				<hr>
 
 				<div class="shift-info">
 					<div class="label">Wage</div>
-					<div class="value">{{shiftViewCtrl.shift.earnedWage | currency:undefined:0}}</div>
+					<div class="value">{{shiftViewCtrl.shift.earnedWage | currency:undefined:0 | placeholder:'-'}}</div>
 				</div>
 				<div class="shift-info">
 					<div class="label">Tips</div>
-					<div class="value">{{shiftViewCtrl.shift.earnedTips | currency:undefined:0}}</div>
+					<div class="value">{{shiftViewCtrl.shift.earnedTips | currency:undefined:0 | placeholder:'-'}}</div>
 				</div>
 
 				<div class="shift-info">
 					<div class="label">Total</div>
-					<div class="value">{{shiftViewCtrl.shift.earnedTotal | currency:undefined:0}}</div>
+					<div class="value">{{shiftViewCtrl.shift.earnedTotal | currency:undefined:0 | placeholder:'-'}}</div>
 				</div>
 				<div class="shift-info">
 					<div class="label">%TvW</div>
-					<div class="value">{{shiftViewCtrl.shift.tipsVsWage}}%</div>
+					<div class="value">{{shiftViewCtrl.shift.tipsVsWage | placeholder:'-':undefined:'%'}}</div>
 				</div>
 
 				<div class="shift-info">
 					<div class="label">Sale/h</div>
-					<div class="value">{{shiftViewCtrl.shift.salesPerHour | currency}}/h</div>
+					<div class="value">{{shiftViewCtrl.shift.salesPerHour | currency | placeholder:'-':undefined:'/h'}}</div>
 				</div>
 				<div class="shift-info">
 					<div class="label">Sale/cov</div>
-					<div class="value">{{shiftViewCtrl.shift.salesPerCover | currency}}/cov</div>
+					<div class="value">{{shiftViewCtrl.shift.salesPerCover | currency | placeholder:'-':undefined:'/cov'}}</div>
 				</div>
 
 				<div class="shift-info">
 					<div class="label">%Tips</div>
-					<div class="value">{{shiftViewCtrl.shift.tipsPercent}}%</div>
+					<div class="value">{{shiftViewCtrl.shift.tipsPercent | placeholder:'-':undefined:'%'}}</div>
 				</div>
 				<div class="shift-info">
 					<div class="label">%Tipout</div>
-					<div class="value">{{shiftViewCtrl.shift.tipoutPercent}}%</div>
+					<div class="value">{{shiftViewCtrl.shift.tipoutPercent | placeholder:'-':undefined:'%'}}</div>
 				</div>
 
 				<div class="shift-info">
 					<div class="label">Earn/h</div>
-					<div class="value">{{shiftViewCtrl.shift.hourly | currency}}/h</div>
+					<div class="value">{{shiftViewCtrl.shift.hourly | currency | placeholder:'-':undefined:'/h'}}</div>
 				</div>
 			</div>
 		</div>
