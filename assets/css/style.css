@@ -629,7 +629,13 @@ div.mobile-table {
     vertical-align: middle; }
   .summary-table th.sortable:hover {
     cursor: pointer;
-    color: black; }
+    background-color: #777; }
+  .summary-table th.sort-field {
+    background-color: #337ab7;
+    color: white;
+    box-shadow: inset 0 -4px 0 0 black; }
+  .summary-table th.sort-field:hover {
+    background-color: #63a0d4; }
   .summary-table th.tot-cell {
     color: #bbb; }
   .summary-table td.tot-cell {
@@ -650,11 +656,6 @@ div.mobile-table {
     font-style: italic;
     font-size: 80%;
     font-variant: small-caps; }
-
-th.sort-field {
-  background-color: #337ab7;
-  color: white;
-  box-shadow: inset 0 -4px 0 0 black; }
 
 thead.sort-reverse th.sort-field {
   box-shadow: inset 0 4px 0 0 black; }
