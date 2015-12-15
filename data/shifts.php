@@ -40,10 +40,11 @@
 
 		return $object;
 	}
-	function selectAll($db)
+	function selectAll($db, $p_dateFrom, $p_dateTo)
 	{
-		if($stmt = $db->prepare('SELECT wage, YEARWEEK(date,3) as yearweek, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday, id FROM shift;'))
+		if($stmt = $db->prepare('CALL getShifts(?,?)'))
 		{
+			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
 			$stmt->execute(); 
 			$shifts = [];
 			$result = $stmt->get_result();
@@ -60,7 +61,7 @@
 	function selectById($db, $id)
 	{
 		$shift = new stdClass();
-		if($stmt = $db->prepare('SELECT wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, id FROM shift WHERE id = ? LIMIT 1;'))
+		if($stmt = $db->prepare('CALL getShiftById(?)'))
 		{
 			$stmt->bind_param('i', $id);
 			$stmt->execute();
@@ -74,7 +75,7 @@
 	}
 	function insert($db, $shift)
 	{
-		if($stmt = $db->prepare('CALL saveShift(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'))
+		if($stmt = $db->prepare('CALL saveShift(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
 		{
 			$stmt->bind_param('dssssddiiiiisss', $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->covers, $shift->cut, $shift->section, $shift->notes);
 			$stmt->execute();
@@ -88,7 +89,7 @@
 	}
 	function update($db, $id, $shift)
 	{
-		if($stmt = $db->prepare('CALL saveShift(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'))
+		if($stmt = $db->prepare('CALL saveShift(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
 		{
 			$stmt->bind_param('idssssddiiiiisss', $id, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->covers, $shift->cut, $shift->section, $shift->notes);
 			$stmt->execute();
@@ -122,7 +123,14 @@
 				}
 				else
 				{
-					selectAll($db);
+					//extract dates if set, or use defaults
+					try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) 	: null; } catch(Exception $e) { $dateTimeFrom 	= null; }
+					try { $dateTimeTo 	= !empty($_GET['to']) 	? new DateTime($_GET['to']) 	: null; } catch(Exception $e) { $dateTimeTo 	= null; }
+					$p_dateFrom = !empty($dateTimeFrom) ? $dateTimeFrom->format("Y-m-d") 	: '1000-01-01'; 
+					$p_dateTo 	= !empty($dateTimeTo) 	? $dateTimeTo->format("Y-m-d") 		: '9999-12-31'; 
+					//* DEBUG */ echo '<p>dateFrom: ' . $p_dateFrom . '</p><p>dateTo: ' . $p_dateTo . '</p>';
+
+					selectAll($db, $p_dateFrom, $p_dateTo);
 				}
 				break;
 			case 'POST':

@@ -47,6 +47,8 @@ CREATE TABLE summary
 	totTips 		INT,
 	avgTipout 		DECIMAL(5,2),
 	totTipout 		INT,
+	avgTransfers 	DECIMAL(5,2),
+	totTransfers 	INT,
 	avgSales 		DECIMAL(7,2),
 	totSales 		DECIMAL(10,2),
 	avgCovers 		DECIMAL(5,2),
@@ -62,37 +64,6 @@ CREATE TABLE summary
 	lunchDinner		CHAR(1),
 	dayOfWeek		CHAR(3),
 	timestamp		TIMESTAMP,
-
-	id INT NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (id)
-);
-
-DROP TABLE IF EXISTS split;
-CREATE TABLE split
-(
-	splitDate		DATE,
-	count			INT,
-
-	campHours		DECIMAL(5,2),
-	sales			DECIMAL(7,2),
-	tipout			INT,
-	transfers		INT,
-	covers			INT,
-	cut 			VARCHAR(10),
-	section			VARCHAR(50),
-	notes 			VARCHAR(500),
-	
-	hours			DECIMAL(5,2),
-	earnedWage		INT,
-	earnedTips		INT,
-	earnedTotal		INT,
-	tipsVsWage		INT,
-	salesPerHour	DECIMAL(6,2),
-	salesPerCover	DECIMAL(6,2),
-	tipsPercent		DECIMAL(4,1),
-	tipoutPercent	DECIMAL(4,1),
-	hourly			DECIMAL(5,2),
-	dayOfWeek		CHAR(3),
 
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
