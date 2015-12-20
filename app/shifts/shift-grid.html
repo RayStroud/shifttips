@@ -4,6 +4,15 @@
 	<div ng-hide="ctrl.error">
 		<div ng-controller="ShiftFilterController as filterCtrl">
 			<form class="filter-form" method="get" action="#">
+				<div class="filter-group" id="filter-view-style">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">View Style</div>
+						<div class="filter-group-body">
+							<a class="link-button button-inverse" href="#/shifts/list"><span class="fa fa-table"></span></a>
+							<a class="link-button" href="#/shifts/grid"><span class="fa fa-th-large"></span></a>
+						</div>
+					</div>
+				</div>
 				<div class="filter-group" id="filter-visible">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Filters</div>
@@ -54,15 +63,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="filter-group" id="filter-view-style">
-					<div class="filter-group-wrap">
-						<div class="filter-group-header">View Style</div>
-						<div class="filter-group-body">
-							<a class="link-button button-inverse" href="#/shifts/list"><span class="fa fa-table"></span></a>
-							<a class="link-button" href="#/shifts/grid"><span class="fa fa-th-large"></span></a>
-						</div>
-					</div>
-				</div>
 			</form>
 			<h3 class="filter-message">
 				Viewing {{filteredShifts.length}} <span class="{{filterCtrl.lunchDinner ? 'filter-bold' : ''}}">{{filterCtrl.lunchDinner == 'L' ? 'Lunch' : ''}}{{filterCtrl.lunchDinner == 'D' ? 'Dinner' : ''}}</span> shifts on <span class="{{filterCtrl.sDays ? 'filter-bold' : ''}}">{{filterCtrl.sDays || 'any day'}}</span> from <span class="{{filterCtrl.from ? 'filter-bold' : ''}}">{{filterCtrl.from ? (filterCtrl.from | date) : 'any date'}}</span> to <span class="{{filterCtrl.to ? 'filter-bold' : ''}}">{{filterCtrl.to ? (filterCtrl.to | date) : 'any date'}}</span>
@@ -71,30 +71,39 @@
 				No shifts found
 			</div>
 			<div id="shifts" ng-hide="filteredShifts.length < 1 || ctrl.error">
-				<div class="clickable shift-summary {{shift.dayOfWeek | lowercase}}-shift {{shift.lunchDinner | lowercase}}-shift"
-					 ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:{fromDate:filterCtrl.from,toDate:filterCtrl.to,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:['date','startTime']) track by $index">
-					<div class="shift-datetime">
-						<div class="shift-date">{{shift.date | date:'EEE, MMM d, yyyy' | placeholder:'Unknown Date'}}</div>
-						<div class="shift-time">{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'?:??'}} - {{shift.endTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</div>
-					</div>
-					<div class="shift-details">
-						<div class="shift-info">
-							<div class="label">Sales</div>
-							<div class="value">{{shift.sales | currency | placeholder:'-'}}</div>
+				<div class="filter-group week-group" ng-repeat="(key,value) in filteredShifts = (ctrl.shifts | isValidShift:{fromDate:filterCtrl.from,toDate:filterCtrl.to,lunchDinner:filterCtrl.lunchDinner,aDays:filterCtrl.aDays} | orderBy:['date','startTime']) | groupBy: 'yearweek'">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">{{key | yearweek}}</div>
+							<div class="filter-group-body">
+								<div class="clickable shift-summary {{shift.dayOfWeek | lowercase}}-shift {{shift.lunchDinner | lowercase}}-shift"
+									 ng-repeat="shift in value">
+
+									<div class="shift-datetime">
+										<div class="shift-date">{{shift.date | date:'EEE, MMM d, yyyy' | placeholder:'Unknown Date'}}</div>
+										<div class="shift-time">{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'?:??'}} - {{shift.endTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</div>
+									</div>
+									<div class="shift-details">
+										<div class="shift-info">
+											<div class="label">Sales</div>
+											<div class="value">{{shift.sales | currency | placeholder:'-'}}</div>
+										</div>
+										<div class="shift-info">
+											<div class="label">Tips</div>
+											<div class="value">{{shift.earnedTips | currency:undefined:0 | placeholder:'-'}}</div>
+										</div>
+										<div class="shift-info">
+											<div class="label">%</div>
+											<div class="value">{{shift.tipsPercent | number:1 | placeholder:'-':undefined:'%'}}</div>
+										</div>
+										<div class="shift-info">
+											<div class="label">$/h</div>
+											<div class="value">{{shift.hourly | currency | placeholder:'-':undefined:'/h'}}</div>
+										</div>
+										<a href="#/shift/{{shift.id}}"><span class="link-spanner"></span></a>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="shift-info">
-							<div class="label">Tips</div>
-							<div class="value">{{shift.earnedTips | currency:undefined:0 | placeholder:'-'}}</div>
-						</div>
-						<div class="shift-info">
-							<div class="label">%</div>
-							<div class="value">{{shift.tipsPercent | number:1 | placeholder:'-':undefined:'%'}}</div>
-						</div>
-						<div class="shift-info">
-							<div class="label">$/h</div>
-							<div class="value">{{shift.hourly | currency | placeholder:'-':undefined:'/h'}}</div>
-						</div>
-						<a href="#/shift/{{shift.id}}"><span class="link-spanner"></span></a>
 					</div>
 				</div>
 				<div class="filler"></div>

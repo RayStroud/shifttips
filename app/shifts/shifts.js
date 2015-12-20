@@ -337,4 +337,12 @@ angular.module('shiftTips')
 			return output;
 		}
 	};
+})
+
+.filter('yearweek', function() {
+	return function(yearweek) {
+		var weekStart = moment().year(yearweek.substr(0,4)).week(yearweek.substr(4,2)).day("Monday").format('ddd MMM Do, YYYY');
+		var weekEnd = moment().year(yearweek.substr(0,4)).week(parseInt(yearweek.substr(4,2))+1).day("Sunday").format('ddd MMM Do, YYYY');
+		return weekStart + " to " + weekEnd;
+	};
 });
