@@ -41,7 +41,7 @@
 				</div>
 				<div class="shift-info">
 					<div class="label">Due</div>
-					<div class="value">{{shiftViewCtrl.shift.due | currency:undefined:0 | placeholder:'-'}}</div>
+					<div class="value">{{shiftViewCtrl.shift.due | currency:undefined:0 | placeholder:'-'}} <button ng-if="shiftViewCtrl.shift.dueCheck == 1" class="link-button tiny-button button-success" ng-click="shiftViewCtrl.setDueCheck(shiftViewCtrl.shift.id,0)"><span class="fa fa-fw fa-check"></span></button><button ng-if="shiftViewCtrl.shift.dueCheck == 0" class="link-button tiny-button button-warning" ng-click="shiftViewCtrl.setDueCheck(shiftViewCtrl.shift.id,1)"><span class="fa fa-fw fa-times"></span></button></div>
 				</div>
 
 				<div class="shift-info">
@@ -104,10 +104,10 @@
 		</div>
 		<div class="shift-buttons">
 			<div class="form-group button-group half-width">
-				<a class="link-button button-wide" href="#/shift/{{shiftViewCtrl.shift.id}}/edit"><span class="fa fa-edit"></span> Edit</a>
+				<a class="link-button button-wide" href="#/shift/{{shiftViewCtrl.shift.id}}/edit"><span class="fa fa-fw fa-edit"></span> Edit</a>
 			</div>
 			<div class="form-group button-group half-width">
-				<button type="submit" class="link-button button-warning button-wide" ng-click="shiftViewCtrl.deleteClick(shiftViewCtrl.shift.id)"><span class="fa fa-trash"></span> Delete</button>
+				<button type="submit" class="link-button button-warning button-wide" ng-click="shiftViewCtrl.deleteClick(shiftViewCtrl.shift.id)"><span class="fa fa-fw fa-trash"></span> Delete</button>
 			</div>
 		</div>
 	</div>

@@ -1,0 +1,52 @@
+<div ng-controller="DuebackController as ctrl">
+	<h1>Shifts</h1>
+	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
+	<div ng-hide="ctrl.error">
+		<div ng-controller="ShiftFilterController as filterCtrl">
+			<form class="filter-form" method="get" action="#">
+				<div class="filter-group" id="filter-view-style">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Filters</div>
+							<div class="filter-group-body">
+								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('all')}" ng-click="ctrl.changeFilterType('all')">All Shifts</button>
+								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('dueback')}" ng-click="ctrl.changeFilterType('dueback')">All Duebacks</button>
+								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('unreceived')}" ng-click="ctrl.changeFilterType('unreceived')">Unreceived</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<h3 class="filter-message">
+				Viewing {{filteredShifts.length}} shifts
+			</h3>
+			<div ng-show="filteredShifts.length < 1">
+				No shifts found
+			</div>
+			<div ng-hide="filteredShifts.length < 1 || ctrl.error">
+				<div class="mobile-table">
+					<table class="summary-table">
+						<thead ng-class="{'sort-reverse':ctrl.sortReverse}">
+							<tr class="header">
+								<th colspan="5" class="sortable" ng-class="{'sort-field':ctrl.isSortField(ctrl.sortDate)}" 
+									ng-click="ctrl.changeSortField(ctrl.sortDate)">Shift</th>
+								<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('dueCheck')}" 
+									ng-click="ctrl.changeSortField('dueCheck')"></th>
+							</tr>
+						</thead>
+						<tr class="semi-clickable-row {{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | filter:{dueCheck:ctrl.dueCheckFilter} | orderBy:ctrl.sortField:ctrl.sortReverse ) track by $index" ng-class-even="'alt'">
+							<td><a class="link-button" href="#/shift/{{shift.id}}"><span class="fa fa-fw fa-eye"></a></td>
+							<td class="ld-cell">{{shift.lunchDinner | placeholder:'-'}}</td>
+							<td class="day-cell">{{shift.dayOfWeek | placeholder:'-'}}</td>
+							<td>{{shift.date | date:'MMM dd, yyyy' | placeholder:'-'}}</td>
+							<td>{{shift.due | currency:undefined:0 | placeholder:'-'}}</td>
+							<td>
+								<button ng-if="shift.dueCheck == 1" class="link-button button-success" ng-click="ctrl.setDueCheck(shift.id,0)"><span class="fa fa-fw fa-check"></span></button>
+								<button ng-if="shift.dueCheck == 0" class="link-button button-warning"><span class="fa fa-fw fa-times" ng-click="ctrl.setDueCheck(shift.id,1)"></span></button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

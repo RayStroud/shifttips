@@ -14,6 +14,7 @@
 		$object->transfers 	= is_null($row->transfers) 	? null : (int) $row->transfers;
 		$object->cash 		= is_null($row->cash) 		? null : (int) $row->cash;
 		$object->due 		= is_null($row->due) 		? null : (int) $row->due;
+		$object->dueCheck 	= is_null($row->dueCheck) 	? null : (int) $row->dueCheck;
 		$object->covers 	= is_null($row->covers) 	? null : (int) $row->covers;
 		$object->cut 		= $row->cut;
 		$object->section 	= $row->section;
@@ -75,9 +76,9 @@
 	}
 	function insert($db, $shift)
 	{
-		if($stmt = $db->prepare('CALL saveShift(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
+		if($stmt = $db->prepare('CALL saveShift(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
 		{
-			$stmt->bind_param('dssssddiiiiisss', $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->covers, $shift->cut, $shift->section, $shift->notes);
+			$stmt->bind_param('dssssddiiiiiisss', $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->dueCheck, $shift->covers, $shift->cut, $shift->section, $shift->notes);
 			$stmt->execute();
 			$stmt->bind_result($id);
 			$stmt->fetch();
@@ -89,9 +90,9 @@
 	}
 	function update($db, $id, $shift)
 	{
-		if($stmt = $db->prepare('CALL saveShift(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
+		if($stmt = $db->prepare('CALL saveShift(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
 		{
-			$stmt->bind_param('idssssddiiiiisss', $id, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->covers, $shift->cut, $shift->section, $shift->notes);
+			$stmt->bind_param('idssssddiiiiiisss', $id, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->dueCheck, $shift->covers, $shift->cut, $shift->section, $shift->notes);
 			$stmt->execute();
 			echo $stmt->affected_rows;
 			$stmt->free_result();
@@ -111,6 +112,19 @@
 		}
 		else {http_response_code(500);}
 	}
+	function setDueCheck($db, $id, $dueCheck)
+	{
+		$p_dueCheck = empty($dueCheck) ? 0 : 1;
+		if($stmt = $db->prepare('CALL setDueCheck(?,?);'))
+		{
+			$stmt->bind_param('ii', $id, $p_dueCheck);
+			$stmt->execute();
+			echo $stmt->affected_rows;
+			$stmt->free_result();
+			$stmt->close();
+		}
+		else {http_response_code(500);}
+	}
 
 	try 
 	{
@@ -119,7 +133,14 @@
 			case 'GET':
 				if(isset($_GET['id']))
 				{
-					selectById($db, $_GET['id']);
+					if(isset($_GET['dueCheck']))
+					{
+						setDueCheck($db, $_GET['id'], $_GET['dueCheck']);
+					}
+					else
+					{
+						selectById($db, $_GET['id']);
+					}
 				}
 				else
 				{

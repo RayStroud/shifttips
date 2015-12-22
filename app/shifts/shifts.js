@@ -15,20 +15,25 @@ angular.module('shiftTips')
 	this.removeShift = function(id) {
 		return $http.delete('./data/shifts.php?id=' + id);
 	};
+	this.setDueCheck = function(id, dueCheck) {
+		return $http.get('./data/shifts.php?dueCheck=' + dueCheck + '&id=' + id);
+	};
 }])
 
 .controller('ShiftViewController', [ 'shiftsService', '$routeParams', function(shiftsService, $routeParams) {
 	var ctrl = this;
 
-	shiftsService.getShift($routeParams.id)
-	.success(function (data, status, headers, config) {
-		ctrl.getResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
-		ctrl.shift = data;
-	})
-	.error(function (data, status, headers, config) {
-		ctrl.getResponse = {result: 'error', data: data, status: status, headers: headers, config: config};
-		ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
-	});
+	ctrl.loadShift = function() {
+		shiftsService.getShift($routeParams.id)
+		.success(function (data, status, headers, config) {
+			ctrl.getResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.shift = data;
+		})
+		.error(function (data, status, headers, config) {
+			ctrl.getResponse = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
+		});
+	};
 
 	this.deleteClick = function(shiftId) {
 		shiftsService.removeShift(shiftId)
@@ -41,6 +46,13 @@ angular.module('shiftTips')
 			ctrl.error = 'Oops! Something bad happened. Cannot delete shift.';
 		});
 	};
+
+	ctrl.setDueCheck = function(id, dueCheck) {
+		shiftsService.setDueCheck(id, dueCheck);
+		ctrl.loadShift();
+	};
+
+	ctrl.loadShift();
 }])
 
 .controller('ShiftGridController', ['shiftsService', function(shiftsService) {
@@ -109,6 +121,66 @@ angular.module('shiftTips')
 	ctrl.sortReverse = false;
 	ctrl.changeSortField(ctrl.sortDate);
 	ctrl.updateSummary(null, null, null, null, null, null, null, null, null, null); // this is all null until I can keep the data constant in the Service
+}])
+
+.controller('DuebackController', ['shiftsService', function(shiftsService) {
+	var ctrl = this;
+
+	ctrl.loadShifts = function() {
+		ctrl.shifts = shiftsService.getShifts()
+		.success(function (data, status, headers, config) {
+			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.shifts = data;
+		})
+		.error(function (data, status, headers, config) {
+			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
+		});
+	};
+
+	ctrl.changeSortField = function(field) {
+		// if field is already selected, toggle the sort direction
+		if(ctrl.sortField == field) {
+			ctrl.sortReverse = !ctrl.sortReverse;
+		} else {
+			ctrl.sortField = field;
+			ctrl.sortReverse = false;
+		}
+	};
+	ctrl.isSortField = function(field) {
+		return ctrl.sortField == field;
+	};
+
+	ctrl.isFilterType = function(filterType) {
+		return ctrl.filterType == filterType;
+	};
+
+	ctrl.changeFilterType = function(filterType) {
+		ctrl.filterType = filterType;
+		switch (filterType) {
+			case 'all':
+				ctrl.dueCheckFilter = undefined;
+				break;
+			case 'dueback':
+				ctrl.dueCheckFilter = '';
+				break;
+			default:
+				ctrl.dueCheckFilter = 0;
+				break;
+		}
+	};
+
+	ctrl.setDueCheck = function(id, dueCheck) {
+		shiftsService.setDueCheck(id, dueCheck);
+		ctrl.loadShifts();
+	};
+
+	ctrl.loadShifts();
+	ctrl.filterType = 'unreceived';
+	ctrl.dueCheckFilter = 0;
+	ctrl.sortDate = ['date','startTime'];
+	ctrl.sortReverse = false;
+	ctrl.changeSortField(ctrl.sortDate);
 }])
 
 .controller('ShiftFilterController', function() {

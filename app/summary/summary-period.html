@@ -4,12 +4,21 @@
 	<div ng-hide="ctrl.error">
 		<div ng-controller="SummaryFilterController as filterCtrl">
 			<form class="filter-form">
+				<div class="filter-group" id="filter-buttons">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Period Type</div>
+						<div class="filter-group-body">
+							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'weekly'}" ng-click="ctrl.changePeriodType('weekly', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Weekly</button>
+							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'monthly'}" ng-click="ctrl.changePeriodType('monthly', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Monthly</button>
+						</div>
+					</div>
+				</div>
 				<div class="filter-group" id="filter-visible">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Filters</div>
 						<div class="filter-group-body">
-							<div ng-hide="filterCtrl.visible" class="link-button button-inverse" ng-click="filterCtrl.show()"><span class="fa fa-eye"></span></div>
-							<div ng-show="filterCtrl.visible" class="link-button" ng-click="filterCtrl.hide()"><span class="fa fa-eye-slash"></span></div>
+							<div ng-hide="filterCtrl.visible" class="link-button button-inverse" ng-click="filterCtrl.show()"><span class="fa fa-fw fa-eye"></span></div>
+							<div ng-show="filterCtrl.visible" class="link-button" ng-click="filterCtrl.hide()"><span class="fa fa-fw fa-eye-slash"></span></div>
 						</div>
 					</div>
 				</div>
@@ -30,15 +39,6 @@
 							<label ng-click="filterCtrl.toggleLun(); ctrl.changePeriodType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">L</label>
 							<input type="checkbox" id="din-check" name="din" ng-checked="filterCtrl.dinCheck">
 							<label ng-click="filterCtrl.toggleDin(); ctrl.changePeriodType(ctrl.type, filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner);">D</label>
-						</div>
-					</div>
-				</div>
-				<div ng-show="filterCtrl.visible" class="filter-group" id="filter-buttons">
-					<div class="filter-group-wrap">
-						<div class="filter-group-header">Period Type</div>
-						<div class="filter-group-body">
-							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'weekly'}" ng-click="ctrl.changePeriodType('weekly', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Weekly</button>
-							<button class="link-button" ng-class="{'button-inverse': ctrl.type != 'monthly'}" ng-click="ctrl.changePeriodType('monthly', filterCtrl.from, filterCtrl.to, filterCtrl.lunchDinner)">Monthly</button>
 						</div>
 					</div>
 				</div>

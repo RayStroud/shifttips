@@ -2,7 +2,7 @@ DROP PROCEDURE IF EXISTS getShiftById;
 DELIMITER //
 CREATE PROCEDURE getShiftById (p_id INT)
 BEGIN
-	SELECT id, wage, YEARWEEK(date, 3) as 'yearweek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday
+	SELECT id, wage, YEARWEEK(date, 3) as 'yearweek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday
 	FROM shift
 	WHERE id = p_id
 	LIMIT 1;
@@ -26,7 +26,7 @@ BEGIN
 		ELSE SET v_dateTo := p_dateTo;
 	END IF;
 
-	SELECT id, wage, YEARWEEK(date, 3) as 'yearweek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday
+	SELECT id, wage, YEARWEEK(date, 3) as 'yearweek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday
 	FROM shift
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
 	ORDER BY date, startTime ASC;
@@ -118,7 +118,7 @@ BEGIN
 		ELSE SET v_sun := '';
 	END IF;
 
-	SELECT id, wage, YEARWEEK(date, 3) as 'yearWeek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek
+	SELECT id, wage, YEARWEEK(date, 3) as 'yearWeek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek
 	FROM shift
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
 		AND UPPER(lunchDinner) LIKE v_lunchDinner
@@ -144,12 +144,14 @@ CREATE PROCEDURE saveShift (
 	p_transfers		INT,
 	p_cash			INT,
 	p_due 			INT,
+	p_dueCheck		BIT,
 	p_covers		INT,
 	p_cut 			CHAR(1),
 	p_section		VARCHAR(25),
 	p_notes 		VARCHAR(1000)
 )
-BEGIN	
+BEGIN
+	DECLARE v_dueCheck		BIT;
 	DECLARE v_hours			DECIMAL(5,2);
 	DECLARE v_earnedWage	INT;
 	DECLARE v_earnedTips	INT;
@@ -171,6 +173,12 @@ BEGIN
 		ELSE SET v_endTime := p_endTime; 
 	END IF;
 
+	IF p_dueCheck = 1
+		THEN SET v_dueCheck := 1;
+		ELSEIF (p_due IS NULL || p_due < 1)
+			THEN SET v_dueCheck := NULL;
+		ELSE SET v_dueCheck := 0;
+	END IF;
 	SET v_hours := HOUR(TIMEDIFF(v_endTime, p_startTime)) + (MINUTE(TIMEDIFF(v_endTime, p_startTime))/60);
 	SET v_earnedWage := p_wage * v_hours;
 	IF (p_cash IS NULL && p_due IS NULL)
@@ -195,12 +203,12 @@ BEGIN
 	SET v_dayOfWeek := LEFT(DAYNAME(p_date),3);
 
 	IF (p_id IS NULL)
-		THEN INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek) 
-				VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
+		THEN INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek) 
+				VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, v_dueCheck, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
 			SELECT LAST_INSERT_ID() as id;
 		ELSEIF (p_id = 0)
-			THEN INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek) 
-					VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
+			THEN INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek) 
+					VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, v_dueCheck, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
 		ELSE UPDATE shift SET
 			wage = p_wage,
 			date = p_date,
@@ -213,6 +221,7 @@ BEGIN
 			transfers = p_transfers,
 			cash = p_cash,
 			due = p_due,
+			dueCheck = v_dueCheck,
 			covers = p_covers,
 			cut = p_cut,
 			section = p_section,
@@ -230,7 +239,7 @@ BEGIN
 			noCampHourly = v_noCampHourly,
 			lunchDinner = v_lunchDinner,
 			dayOfWeek = v_dayOfWeek
-			WHERE id = p_id;
+			WHERE id = p_id LIMIT 1;
 	END IF;
 END //
 DELIMITER ;
@@ -240,6 +249,14 @@ DELIMITER //
 CREATE PROCEDURE deleteShift (p_id INT)
 BEGIN
 	DELETE FROM shift WHERE id = p_id LIMIT 1;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS setDueCheck;
+DELIMITER //
+CREATE PROCEDURE setDueCheck (p_id INT, p_dueCheck BIT)
+BEGIN
+	UPDATE shift SET dueCheck = p_dueCheck WHERE id = p_id LIMIT 1;
 END //
 DELIMITER ;
 
