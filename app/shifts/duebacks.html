@@ -3,13 +3,13 @@
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
 	<div ng-hide="ctrl.error">
 		<div ng-controller="ShiftFilterController as filterCtrl">
-			<form class="filter-form" method="get" action="#">
+			<form class="filter-form">
 				<div class="filter-group" id="filter-view-style">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Filters</div>
 							<div class="filter-group-body">
 								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('all')}" ng-click="ctrl.changeFilterType('all')">All Shifts</button>
-								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('dueback')}" ng-click="ctrl.changeFilterType('dueback')">All Duebacks</button>
+								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('defined')}" ng-click="ctrl.changeFilterType('defined')">All Duebacks</button>
 								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('unreceived')}" ng-click="ctrl.changeFilterType('unreceived')">Unreceived</button>
 							</div>
 						</div>
@@ -33,7 +33,7 @@
 									ng-click="ctrl.changeSortField('dueCheck')"></th>
 							</tr>
 						</thead>
-						<tr class="semi-clickable-row {{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | filter:{dueCheck:ctrl.dueCheckFilter} | orderBy:ctrl.sortField:ctrl.sortReverse ) track by $index" ng-class-even="'alt'">
+						<tr class="semi-clickable-row {{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidDueCheck:ctrl.filterType | orderBy:ctrl.sortField:ctrl.sortReverse ) track by $index" ng-class-even="'alt'">
 							<td><a class="link-button" href="#/shift/{{shift.id}}"><span class="fa fa-fw fa-eye"></a></td>
 							<td class="ld-cell">{{shift.lunchDinner | placeholder:'-'}}</td>
 							<td class="day-cell">{{shift.dayOfWeek | placeholder:'-'}}</td>

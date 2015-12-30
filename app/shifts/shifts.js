@@ -397,6 +397,30 @@ angular.module('shiftTips')
 	};
 })
 
+.filter('isValidDueCheck', function() {
+	return function(shifts, filterType) {
+		var filteredShifts = [];
+		angular.forEach(shifts, function(shift) {
+			switch(filterType) {
+				case 'all':
+					filteredShifts.push(shift);
+					break;	
+				case 'defined':
+					if (shift.dueCheck == 0 || shift.dueCheck == 1) {
+						filteredShifts.push(shift);
+					}
+					break;	
+				case 'unreceived':
+					if (shift.dueCheck == 0) {
+						filteredShifts.push(shift);
+					}
+					break;	
+			}			
+		});
+		return filteredShifts;
+	};
+})
+
 .filter('placeholder', function() {
 	return function(input, placeholder, prefix, suffix) {
 		if (input == undefined || input == null) {
