@@ -123,7 +123,7 @@ angular.module('shiftTips')
 	ctrl.updateSummary(null, null, null, null, null, null, null, null, null, null); // this is all null until I can keep the data constant in the Service
 }])
 
-.controller('DuebackController', ['shiftsService', function(shiftsService) {
+.controller('ShiftDueController', ['shiftsService', function(shiftsService) {
 	var ctrl = this;
 
 	ctrl.loadShifts = function() {

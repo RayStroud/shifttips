@@ -1,4 +1,4 @@
-<div ng-controller="DuebackController as ctrl">
+<div ng-controller="ShiftDueController as ctrl">
 	<h1>Shifts</h1>
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
 	<div ng-hide="ctrl.error">
@@ -41,7 +41,7 @@
 							<td>{{shift.due | currency:undefined:0 | placeholder:'-'}}</td>
 							<td>
 								<button ng-if="shift.dueCheck == 1" class="link-button button-success" ng-click="ctrl.setDueCheck(shift.id,0)"><span class="fa fa-fw fa-check"></span></button>
-								<button ng-if="shift.dueCheck == 0" class="link-button button-warning"><span class="fa fa-fw fa-times" ng-click="ctrl.setDueCheck(shift.id,1)"></span></button>
+								<button ng-if="shift.dueCheck == 0" class="link-button button-warning"  ng-click="ctrl.setDueCheck(shift.id,1)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
 					</table>

@@ -9,7 +9,7 @@
 		.when('/shift/:id', 		{templateUrl: 'app/shifts/shift-view.html'})
 		.when('/shift/:id/edit', 	{templateUrl: 'app/shifts/shift-edit.html'})
 		.when('/shifts/add', 		{templateUrl: 'app/shifts/shift-add.html'})
-		.when('/shifts/due', 		{templateUrl: 'app/shifts/duebacks.html'})
+		.when('/shifts/due', 		{templateUrl: 'app/shifts/shift-due.html'})
 		.when('/summary', 			{templateUrl: 'app/summary/summary.html'})
 		.when('/summary/period', 	{templateUrl: 'app/summary/summary-period.html'})
 		.when('/', 					{templateUrl: 'app/home/home.html'})
