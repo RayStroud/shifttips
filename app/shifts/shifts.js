@@ -58,7 +58,7 @@ angular.module('shiftTips')
 .controller('ShiftGridController', ['shiftsService', function(shiftsService) {
 	var ctrl = this;
 
-	this.shifts = shiftsService.getShifts()
+	shiftsService.getShifts()
 	.success(function (data, status, headers, config) {
 		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 		ctrl.shifts = data;
@@ -72,7 +72,7 @@ angular.module('shiftTips')
 .controller('ShiftListController', ['$location', 'shiftsService', 'summaryService', function($location, shiftsService, summaryService) {
 	var ctrl = this;
 
-	this.shifts = shiftsService.getShifts()
+	shiftsService.getShifts()
 	.success(function (data, status, headers, config) {
 		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 		ctrl.shifts = data;
@@ -127,7 +127,7 @@ angular.module('shiftTips')
 	var ctrl = this;
 
 	ctrl.loadShifts = function() {
-		ctrl.shifts = shiftsService.getShifts()
+		shiftsService.getShifts()
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shifts = data;
