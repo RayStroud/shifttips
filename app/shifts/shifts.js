@@ -274,7 +274,7 @@ angular.module('shiftTips')
 
 .controller('ShiftAddController', ['shiftsService', function(shiftsService) {
 	var ctrl = this;
-	this.shift = {wage: 9};
+	this.shift = {wage: 9.2};
 
 	this.addShift = function() {
 		//remove the timezone information that angular adds during its validation
