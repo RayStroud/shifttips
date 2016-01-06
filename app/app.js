@@ -1,5 +1,5 @@
 (function() {
-	angular.module('shiftTips', ['ngRoute'])
+	angular.module('shiftTips', ['ngRoute', 'angular.filter'])
 
 	.config(function ($routeProvider) {
 		$routeProvider
