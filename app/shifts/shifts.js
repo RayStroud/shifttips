@@ -165,7 +165,7 @@ angular.module('shiftTips')
 				ctrl.dueCheckFilter = '';
 				break;
 			default:
-				ctrl.dueCheckFilter = 0;
+				ctrl.dueCheckFilter = 'N';
 				break;
 		}
 	};
@@ -177,9 +177,10 @@ angular.module('shiftTips')
 
 	ctrl.loadShifts();
 	ctrl.filterType = 'unreceived';
-	ctrl.dueCheckFilter = 0;
+	ctrl.dueCheckFilter = 'N';
 	ctrl.sortDate = ['date','startTime'];
-	ctrl.sortReverse = false;
+	ctrl.sortReverse = true;
+	ctrl.changeSortField(ctrl.sortDate);
 	ctrl.changeSortField(ctrl.sortDate);
 }])
 
@@ -406,12 +407,12 @@ angular.module('shiftTips')
 					filteredShifts.push(shift);
 					break;	
 				case 'defined':
-					if (shift.dueCheck == 0 || shift.dueCheck == 1) {
+					if (shift.dueCheck != null) {
 						filteredShifts.push(shift);
 					}
 					break;	
 				case 'unreceived':
-					if (shift.dueCheck == 0) {
+					if (shift.dueCheck == 'N') {
 						filteredShifts.push(shift);
 					}
 					break;	

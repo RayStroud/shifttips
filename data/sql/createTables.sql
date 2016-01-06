@@ -12,7 +12,7 @@ CREATE TABLE shift
 	transfers		INT,
 	cash			INT,
 	due 			INT,
-	dueCheck		BIT,
+	dueCheck		CHAR(1),
 	covers			INT,
 	cut 			CHAR(1),
 	section			VARCHAR(25),

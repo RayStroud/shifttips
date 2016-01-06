@@ -40,8 +40,10 @@
 							<td>{{shift.date | date:'MMM dd, yyyy' | placeholder:'-'}}</td>
 							<td>{{shift.due | currency:undefined:0 | placeholder:'-'}}</td>
 							<td>
-								<button ng-if="shift.dueCheck == 1" class="link-button button-success" ng-click="ctrl.setDueCheck(shift.id,0)"><span class="fa fa-fw fa-check"></span></button>
-								<button ng-if="shift.dueCheck == 0" class="link-button button-warning"  ng-click="ctrl.setDueCheck(shift.id,1)"><span class="fa fa-fw fa-times"></span></button>
+								<button ng-if="shift.dueCheck == 'Y'" class="link-button button-green" ng-click="ctrl.setDueCheck(shift.id,'N')"><span class="fa fa-fw fa-check"></span></button>
+								<button ng-if="shift.dueCheck == 'N'" class="link-button button-red"  ng-click="ctrl.setDueCheck(shift.id,'Y')"><span class="fa fa-fw fa-times"></span></button>
+								<div ng-if="shift.dueCheck == '?'" class="link-button button-invisible"><span class="fa fa-fw fa-question icon-blue"></span></div>
+								<div ng-if="shift.dueCheck == '!'" class="link-button button-invisible"><span class="fa fa-fw fa-exclamation icon-black"></span></div>
 							</td>
 						</tr>
 					</table>

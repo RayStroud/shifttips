@@ -162,7 +162,7 @@
 					<a class="link-button button-wide" href="edit.php?id=<?php echo isset($id) ? $id : null; ?>">Edit</a>
 				</div>
 				<div class="form-group button-group half-width">
-					<a class="link-button button-warning button-wide" href="delete.php?id=<?php echo isset($id) ? $id : null; ?>" onclick="return confirm('Are you sure you want to delete this shift?')">Delete</a>
+					<a class="link-button button-red button-wide" href="delete.php?id=<?php echo isset($id) ? $id : null; ?>" onclick="return confirm('Are you sure you want to delete this shift?')">Delete</a>
 				</div>
 			</div>
 		</div>
