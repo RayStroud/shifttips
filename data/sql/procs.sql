@@ -144,14 +144,14 @@ CREATE PROCEDURE saveShift (
 	p_transfers		INT,
 	p_cash			INT,
 	p_due 			INT,
-	p_dueCheck		BIT,
+	p_dueCheck		CHAR(1),
 	p_covers		INT,
 	p_cut 			CHAR(1),
 	p_section		VARCHAR(25),
 	p_notes 		VARCHAR(1000)
 )
 BEGIN
-	DECLARE v_dueCheck		BIT;
+	DECLARE v_dueCheck		CHAR(1);
 	DECLARE v_hours			DECIMAL(5,2);
 	DECLARE v_earnedWage	INT;
 	DECLARE v_earnedTips	INT;
@@ -173,11 +173,11 @@ BEGIN
 		ELSE SET v_endTime := p_endTime; 
 	END IF;
 
-	IF p_dueCheck = 1
-		THEN SET v_dueCheck := 1;
-		ELSEIF (p_due IS NULL || p_due < 1)
-			THEN SET v_dueCheck := NULL;
-		ELSE SET v_dueCheck := 0;
+	IF p < 1
+		THEN SET v_dueCheck = NULL 
+		ELSEIF p_dueCheck IS NULL AND p_due > 0
+			THEN SET v_dueCheck := 'N';
+		ELSE SET v_dueCheck := p_dueCheck; 
 	END IF;
 	SET v_hours := HOUR(TIMEDIFF(v_endTime, p_startTime)) + (MINUTE(TIMEDIFF(v_endTime, p_startTime))/60);
 	SET v_earnedWage := p_wage * v_hours;
@@ -254,7 +254,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS setDueCheck;
 DELIMITER //
-CREATE PROCEDURE setDueCheck (p_id INT, p_dueCheck BIT)
+CREATE PROCEDURE setDueCheck (p_id INT, p_dueCheck CHAR(1))
 BEGIN
 	UPDATE shift SET dueCheck = p_dueCheck WHERE id = p_id LIMIT 1;
 END //
