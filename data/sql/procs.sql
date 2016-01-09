@@ -173,8 +173,8 @@ BEGIN
 		ELSE SET v_endTime := p_endTime; 
 	END IF;
 
-	IF p < 1
-		THEN SET v_dueCheck = NULL 
+	IF p_due < 1
+		THEN SET v_dueCheck = NULL;
 		ELSEIF p_dueCheck IS NULL AND p_due > 0
 			THEN SET v_dueCheck := 'N';
 		ELSE SET v_dueCheck := p_dueCheck; 
