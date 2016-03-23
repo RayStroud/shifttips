@@ -57,15 +57,16 @@ h1 {
   margin: 2% 1%; }
 
 h2 {
-  font-family: Cambria, Caladea, CaladeaBold, Georgia, serif;
+  font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
   font-size: 1.5em;
   font-weight: bold;
   margin: 1em 0; }
 
 h3 {
+  font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
   text-align: center;
   font-size: 1.2em;
-  margin: 1em 0; }
+  font-weight: bold; }
 
 #header {
   color: white;
@@ -363,15 +364,29 @@ a.link-button {
 /* ############################################
 	ADD/EDIT FORMS
 ############################################ */
-form.add-form, form.edit-form {
+form.add-form, form.edit-form, form.login-form, form.user-form {
   display: flex;
   display: -webkit-flex;
   flex-flow: row wrap;
   -webkit-flex-flow: row wrap;
   margin: 2% auto 1%;
   max-width: 600px; }
-  form.add-form input, form.add-form textarea, form.edit-form input, form.edit-form textarea {
+  form.add-form input, form.add-form textarea, form.edit-form input, form.edit-form textarea, form.login-form input, form.login-form textarea, form.user-form input, form.user-form textarea {
     width: 100%; }
+
+.form-wrap {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+  margin: 2% auto 1%; }
+  .form-wrap form {
+    width: 46%;
+    min-width: 300px;
+    padding: 2%;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-bottom: 0.8em; }
 
 .form-group {
   margin: 1%; }

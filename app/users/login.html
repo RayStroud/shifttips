@@ -1,0 +1,47 @@
+<div ng-controller="LoginController as loginCtrl">
+	<h1>Login</h1>
+
+	<div class="form-wrap">
+		<form name="loginForm" class="login-form" novalidate
+				ng-class="{submitted:loginForm.$submitted}" 
+				ng-submit="loginForm.$valid && loginCtrl.login()">
+			<div class="form-group full-width">
+				<h3>Existing Account</h3>
+				<div class="error message-box" ng-show="loginCtrl.error">{{loginCtrl.error}}</div>
+				<div class="error message-box" ng-show="loginForm.$submitted && !loginForm.$valid">Cannot login. Fill out "Name" and "Email" fields, and make sure fields are formatted correctly.</div>
+			</div>
+			<div class="form-group half-width">
+				<label for="name">Name</label>
+				<input ng-model="loginCtrl.loginUser.name" required id="name" name="name" type="text"/>
+			</div>
+			<div class="form-group full-width">
+				<label for="email">Email</label>
+				<input ng-model="loginCtrl.loginUser.email" required id="email" name="email" type="email"/>
+			</div>
+			<div class="form-group button-group full-width">
+				<button class="link-button button-narrow" type="submit" name="submit"><span class="fa fa-fw fa-sign-in"></span> Login</button>
+			</div>
+		</form>
+
+		<form name="userAddForm" class="user-form" novalidate
+				ng-class="{submitted:userAddForm.$submitted}" 
+				ng-submit="userAddForm.$valid && loginCtrl.addUser()">
+			<div class="form-group full-width">
+				<h3>New Account</h3>
+				<div class="error message-box" ng-show="loginCtrl.error">{{loginCtrl.error}}</div>
+				<div class="error message-box" ng-show="userAddForm.$submitted && !userAddForm.$valid">Cannot create account. Fill out "Name" and "Email" fields, and make sure fields are formatted correctly.</div>
+			</div>
+			<div class="form-group half-width">
+				<label for="name">Name</label>
+				<input ng-model="loginCtrl.newUser.name" required id="name" name="name" type="text"/>
+			</div>
+			<div class="form-group full-width">
+				<label for="email">Email</label>
+				<input ng-model="loginCtrl.newUser.email" required id="email" name="email" type="email"/>
+			</div>
+			<div class="form-group button-group full-width">
+				<button class="link-button button-narrow" type="submit" name="submit"><span class="fa fa-fw fa-user-plus"></span> Sign Up</button>
+			</div>
+		</form>
+	</div>
+</div>

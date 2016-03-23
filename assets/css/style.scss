@@ -104,16 +104,16 @@ h1 {
 	margin: 2% 1%;
 }
 h2 {
-	font-family: $serif-font;
+	font-family: $sans-font;
 	font-size: 1.5em;
 	font-weight: bold;
 	margin: 1em 0;
 }
 h3 {
+	font-family: $sans-font;
 	text-align: center;
 	font-size: 1.2em;
-	//font-weight: bold;
-	margin: 1em 0;
+	font-weight: bold;
 }
 #header {
 	color: $header-text-color;
@@ -380,7 +380,7 @@ a.link-button {
 /* ############################################
 	ADD/EDIT FORMS
 ############################################ */
-form.add-form, form.edit-form {
+form.add-form, form.edit-form, form.login-form, form.user-form {
 	display: flex;
 	display: -webkit-flex;
 	flex-flow: row wrap;
@@ -388,6 +388,21 @@ form.add-form, form.edit-form {
 	margin: 2% auto 1%;
 	max-width: 600px;
 	input, textarea {width: 100%;}
+}
+.form-wrap {
+	display: flex;
+	display: -webkit-flex;
+	flex-flow: row wrap;
+	-webkit-flex-flow: row wrap;
+	margin: 2% auto 1%;
+	form {
+		width: 46%;
+		min-width: 300px;
+		padding: 2%;
+		border: 1px solid $border-color;
+		border-radius: 5px;	
+		margin-bottom: 0.8em;
+	}
 }
 .form-group {margin: 1%;}
 .form-group.half-width {

@@ -1119,7 +1119,23 @@ BEGIN
 		THEN INSERT INTO user SET
 				name = p_name,
 				email = p_email;
+			SELECT LAST_INSERT_ID() as id;
+		ELSE SELECT 0 as id;
 	END IF;
+END //
+DELIMITER ;
 
+DROP PROCEDURE IF EXISTS login;
+DELIMITER //
+CREATE PROCEDURE login(p_name VARCHAR(35), p_email VARCHAR(254))
+BEGIN
+	DECLARE v_user_id		VARCHAR(11);
+
+	SELECT id FROM user WHERE email = p_email AND name = p_name INTO v_user_id;
+
+	IF v_user_id > 0
+		THEN SELECT v_user_id AS id;
+		ELSE SELECT 0 as id;
+	END IF;
 END //
 DELIMITER ;
