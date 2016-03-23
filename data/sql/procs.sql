@@ -1,17 +1,22 @@
+-- ############################################################################################
+-- SHIFTS
+-- ############################################################################################
+
 DROP PROCEDURE IF EXISTS getShiftById;
 DELIMITER //
-CREATE PROCEDURE getShiftById (p_id INT)
+CREATE PROCEDURE getShiftById (p_user_id INT, p_id INT)
 BEGIN
-	SELECT id, wage, YEARWEEK(date, 3) as 'yearweek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday
+	SELECT user_id, id, wage, YEARWEEK(date, 3) as 'yearweek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday
 	FROM shift
 	WHERE id = p_id
+		AND user_id = p_user_id
 	LIMIT 1;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getShifts;
 DELIMITER //
-CREATE PROCEDURE getShifts (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE getShifts (p_user_id INT, p_dateFrom DATE, p_dateTo DATE)
 BEGIN
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
@@ -26,9 +31,10 @@ BEGIN
 		ELSE SET v_dateTo := p_dateTo;
 	END IF;
 
-	SELECT id, wage, YEARWEEK(date, 3) as 'yearweek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday
+	SELECT user_id, id, wage, YEARWEEK(date, 3) as 'yearweek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, WEEKDAY(date) as weekday
 	FROM shift
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
+		AND user_id = p_user_id
 	ORDER BY date, startTime ASC;
 END //
 DELIMITER ;
@@ -36,6 +42,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS getShiftsFiltered;
 DELIMITER //
 CREATE PROCEDURE getShiftsFiltered (
+	p_user_id		INT,
 	p_dateFrom		DATE,
 	p_dateTo		DATE,
 	p_lunchDinner	CHAR(1),
@@ -118,12 +125,13 @@ BEGIN
 		ELSE SET v_sun := '';
 	END IF;
 
-	SELECT id, wage, YEARWEEK(date, 3) as 'yearWeek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek
+	SELECT user_id, id, wage, YEARWEEK(date, 3) as 'yearWeek', date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek
 	FROM shift
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
 		AND UPPER(lunchDinner) LIKE v_lunchDinner
 		AND (UPPER(dayOfWeek) IN (v_mon, v_tue, v_wed, v_thu, v_fri, v_sat, v_sun) 
 			OR dayOfWeek LIKE v_anyDay)
+		AND user_id = p_user_id
 	ORDER BY date, startTime ASC;
 END //
 DELIMITER ;
@@ -132,6 +140,7 @@ DROP PROCEDURE IF EXISTS saveShift;
 DELIMITER //
 CREATE PROCEDURE saveShift (
 	# p_id: # to update, NULL to insert with id return, 0 to insert without return
+	p_user_id		INT,
 	p_id			INT,
 	p_wage 			DECIMAL(5,2),
 	p_date			DATE,
@@ -203,12 +212,12 @@ BEGIN
 	SET v_dayOfWeek := LEFT(DAYNAME(p_date),3);
 
 	IF (p_id IS NULL)
-		THEN INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek) 
-				VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, v_dueCheck, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
+		THEN INSERT INTO shift (user_id, wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek) 
+				VALUES (p_user_id, p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, v_dueCheck, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
 			SELECT LAST_INSERT_ID() as id;
 		ELSEIF (p_id = 0)
-			THEN INSERT INTO shift (wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek) 
-					VALUES (p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, v_dueCheck, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
+			THEN INSERT INTO shift (user_id, wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek) 
+					VALUES (p_user_id, p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, v_dueCheck, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
 		ELSE UPDATE shift SET
 			wage = p_wage,
 			date = p_date,
@@ -239,34 +248,47 @@ BEGIN
 			noCampHourly = v_noCampHourly,
 			lunchDinner = v_lunchDinner,
 			dayOfWeek = v_dayOfWeek
-			WHERE id = p_id LIMIT 1;
+			WHERE id = p_id 
+				AND user_id = p_user_id 
+				LIMIT 1;
 	END IF;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS deleteShift;
 DELIMITER //
-CREATE PROCEDURE deleteShift (p_id INT)
+CREATE PROCEDURE deleteShift (p_user_id INT, p_id INT)
 BEGIN
-	DELETE FROM shift WHERE id = p_id LIMIT 1;
+	DELETE FROM shift WHERE id = p_id AND user_id = p_user_id LIMIT 1;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS setDueCheck;
 DELIMITER //
-CREATE PROCEDURE setDueCheck (p_id INT, p_dueCheck CHAR(1))
+CREATE PROCEDURE setDueCheck (p_user_id INT, p_id INT, p_dueCheck CHAR(1))
 BEGIN
-	UPDATE shift SET dueCheck = p_dueCheck WHERE id = p_id LIMIT 1;
+	UPDATE shift SET dueCheck = p_dueCheck WHERE id = p_id AND user_id = p_user_id LIMIT 1;
 END //
 DELIMITER ;
 
+-- ############################################################################################
+-- SUMMARY
+-- ############################################################################################
+
 DROP PROCEDURE IF EXISTS getSummary;
 DELIMITER //
-CREATE PROCEDURE getSummary (p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+CREATE PROCEDURE getSummary (p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
 	DECLARE v_lunchDinner	CHAR(1);
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -314,13 +336,15 @@ BEGIN
 		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
 	FROM shift
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
-		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner);
+		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+		AND user_id LIKE v_user_id;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getSummaryFiltered;
 DELIMITER //
 CREATE PROCEDURE getSummaryFiltered (
+	p_user_id		INT,
 	p_dateFrom		DATE,
 	p_dateTo		DATE,
 	p_lunchDinner	CHAR(1),
@@ -333,6 +357,8 @@ CREATE PROCEDURE getSummaryFiltered (
 	p_sun			BIT
 )
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
 	DECLARE v_lunchDinner	CHAR(1);
@@ -344,6 +370,11 @@ BEGIN
 	DECLARE v_fri			CHAR(3);
 	DECLARE v_sat			CHAR(3);
 	DECLARE v_sun			CHAR(3);
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -433,16 +464,24 @@ BEGIN
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
 		AND UPPER(lunchDinner) LIKE v_lunchDinner
 		AND (UPPER(dayOfWeek) IN (v_mon, v_tue, v_wed, v_thu, v_fri, v_sat, v_sun) 
-			OR dayOfWeek LIKE v_anyDay);
+			OR dayOfWeek LIKE v_anyDay)
+		AND user_id LIKE v_user_id;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getSummaryByLunchDinner;
 DELIMITER //
-CREATE PROCEDURE getSummaryByLunchDinner (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE getSummaryByLunchDinner (p_user_id INT, p_dateFrom DATE, p_dateTo DATE)
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -483,14 +522,17 @@ BEGIN
 		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
 	FROM shift
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
+		AND user_id LIKE v_user_id
 	GROUP BY lunchDinner;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getSummaryByDayOfWeek;
 DELIMITER //
-CREATE PROCEDURE getSummaryByDayOfWeek (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE getSummaryByDayOfWeek (p_user_id INT, p_dateFrom DATE, p_dateTo DATE)
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
 
@@ -502,6 +544,11 @@ BEGIN
 	IF (p_dateTo IS NULL)
 		THEN SET v_dateTo := '9999-12-31';
 		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
 	END IF;
 
 	SELECT
@@ -535,6 +582,7 @@ BEGIN
 		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
 	FROM shift
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
+		AND user_id LIKE v_user_id
 	GROUP BY dayOfWeek, lunchDinner
 	ORDER BY WEEKDAY(date), lunchDinner DESC;
 END //
@@ -542,10 +590,17 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getSummaryBySection;
 DELIMITER //
-CREATE PROCEDURE getSummaryBySection (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE getSummaryBySection (p_user_id INT, p_dateFrom DATE, p_dateTo DATE)
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -587,16 +642,24 @@ BEGIN
 		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
 	FROM shift
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
+		AND user_id LIKE v_user_id
 	GROUP BY section, lunchDinner;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getSummaryByStartTime;
 DELIMITER //
-CREATE PROCEDURE getSummaryByStartTime (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE getSummaryByStartTime (p_user_id INT, p_dateFrom DATE, p_dateTo DATE)
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -638,16 +701,24 @@ BEGIN
 		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
 	FROM shift
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
+		AND user_id LIKE v_user_id
 	GROUP BY startTime, lunchDinner;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getSummaryByCut;
 DELIMITER //
-CREATE PROCEDURE getSummaryByCut (p_dateFrom DATE, p_dateTo DATE)
+CREATE PROCEDURE getSummaryByCut (p_user_id INT, p_dateFrom DATE, p_dateTo DATE)
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -689,15 +760,20 @@ BEGIN
 		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
 	FROM shift
 	WHERE date BETWEEN v_dateFrom AND v_dateTo
+		AND user_id LIKE v_user_id
 	GROUP BY cut, lunchDinner;
 END //
 DELIMITER ;
 
+-- ############################################################################################
+-- PERIOD
+-- ############################################################################################
+
 DROP PROCEDURE IF EXISTS getSummaryWeekly;
 DELIMITER //
-CREATE PROCEDURE getSummaryWeekly (p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+CREATE PROCEDURE getSummaryWeekly (p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
-	CALL calculateWeeks(p_dateFrom, p_dateTo, p_lunchDinner);
+	CALL calculateWeeks(p_user_id, p_dateFrom, p_dateTo, p_lunchDinner);
 	SELECT
 		COUNT(id) as count,
 		ROUND(AVG(shifts)		,1) as avgShifts,
@@ -732,9 +808,9 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getSummaryMonthly;
 DELIMITER //
-CREATE PROCEDURE getSummaryMonthly (p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+CREATE PROCEDURE getSummaryMonthly (p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
-	CALL calculateMonths(p_dateFrom, p_dateTo, p_lunchDinner);
+	CALL calculateMonths(p_user_id, p_dateFrom, p_dateTo, p_lunchDinner);
 	SELECT
 		COUNT(id) as count,
 		ROUND(AVG(shifts)		,1) as avgShifts,
@@ -769,11 +845,18 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS calculateWeeks;
 DELIMITER //
-CREATE PROCEDURE calculateWeeks(p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+CREATE PROCEDURE calculateWeeks(p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
 	DECLARE v_lunchDinner	CHAR(1);
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -821,17 +904,25 @@ BEGIN
 	FROM shift
 	WHERE YEARWEEK(date, 3) BETWEEN YEARWEEK(v_dateFrom, 3) AND YEARWEEK(v_dateTo, 3)
 		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+		AND user_id LIKE v_user_id
 	GROUP BY YEARWEEK(date, 3);
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getWeeks;
 DELIMITER //
-CREATE PROCEDURE getWeeks(p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+CREATE PROCEDURE getWeeks(p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
 	DECLARE v_lunchDinner	CHAR(1);
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -877,17 +968,25 @@ BEGIN
 	FROM shift
 	WHERE YEARWEEK(date, 3) BETWEEN YEARWEEK(v_dateFrom, 3) AND YEARWEEK(v_dateTo, 3)
 		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+		AND user_id LIKE v_user_id
 	GROUP BY YEARWEEK(date, 3);
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS calculateMonths;
 DELIMITER //
-CREATE PROCEDURE calculateMonths(p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+CREATE PROCEDURE calculateMonths(p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
 	DECLARE v_lunchDinner	CHAR(1);
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -936,17 +1035,25 @@ BEGIN
 	WHERE YEAR(date) BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
 		AND MONTH(date) BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+		AND user_id LIKE v_user_id
 	GROUP BY YEAR(date), MONTH(date);
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getMonths;
 DELIMITER //
-CREATE PROCEDURE getMonths(p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+CREATE PROCEDURE getMonths(p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
 	DECLARE v_dateFrom		DATE;
 	DECLARE v_dateTo		DATE;
 	DECLARE v_lunchDinner	CHAR(1);
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
 
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
@@ -993,6 +1100,26 @@ BEGIN
 	WHERE YEAR(date) BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
 		AND MONTH(date) BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
 		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+		AND user_id LIKE v_user_id
 	GROUP BY YEAR(date), MONTH(date);
+END //
+DELIMITER ;
+
+-- ############################################################################################
+-- USER
+-- ############################################################################################
+
+
+DROP PROCEDURE IF EXISTS createUser;
+DELIMITER //
+CREATE PROCEDURE createUser(p_name VARCHAR(35), p_email VARCHAR(254))
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM user WHERE email = p_email)
+		AND p_email LIKE '%@%.%'
+		THEN INSERT INTO user SET
+				name = p_name,
+				email = p_email;
+	END IF;
+
 END //
 DELIMITER ;

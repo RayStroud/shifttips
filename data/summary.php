@@ -31,40 +31,42 @@
 		$object->hourly 		= (float) 	$row->hourly;
 		return $object;
 	}
-	function getSummary($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
+	function getSummary($db, $p_user_id, $p_dateFrom, $p_dateTo, $p_lunchDinner)
 	{
 		$summary = new stdClass();
-		if($stmt = $db->prepare('CALL getSummary(?,?,?)'))
+		if($stmt = $db->prepare('CALL getSummary(?,?,?,?)'))
 		{
-			$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			$stmt->bind_param('isss', $p_user_id, $p_dateFrom, $p_dateTo, $p_lunchDinner);
 			$stmt->execute();
 			$row = $stmt->get_result()->fetch_object();
 			$summary = summaryRowToObject($row);
+			header('Content-Type: application/json');
 			echo json_encode($summary);
 			$stmt->close();
 		}
 		else {http_response_code(500);}
 	}
-	function getSummaryFiltered($db, $p_dateFrom, $p_dateTo, $p_lunchDinner, $p_mon, $p_tue, $p_wed, $p_thu, $p_fri, $p_sat, $p_sun) 
+	function getSummaryFiltered($db, $p_user_id, $p_dateFrom, $p_dateTo, $p_lunchDinner, $p_mon, $p_tue, $p_wed, $p_thu, $p_fri, $p_sat, $p_sun) 
 	{
 		$summary = new stdClass();
-		if($stmt = $db->prepare('CALL getSummaryFiltered(?,?,?,?,?,?,?,?,?,?)'))
+		if($stmt = $db->prepare('CALL getSummaryFiltered(?,?,?,?,?,?,?,?,?,?,?)'))
 		{
-			$stmt->bind_param('ssssssssss', $p_dateFrom, $p_dateTo, $p_lunchDinner, $p_mon, $p_tue, $p_wed, $p_thu, $p_fri, $p_sat, $p_sun);
+			$stmt->bind_param('issssssssss', $p_user_id, $p_dateFrom, $p_dateTo, $p_lunchDinner, $p_mon, $p_tue, $p_wed, $p_thu, $p_fri, $p_sat, $p_sun);
 			$stmt->execute();
 			$row = $stmt->get_result()->fetch_object();
 			$summary = summaryRowToObject($row);
+			header('Content-Type: application/json');
 			echo json_encode($summary);
 			$stmt->close();
 		}
 		else {http_response_code(500);}
 	}
-	function getSummaryByLunchDinner($db, $p_dateFrom, $p_dateTo)
+	function getSummaryByLunchDinner($db, $p_user_id, $p_dateFrom, $p_dateTo)
 	{
 		$summaries = [];
-		if($stmt = $db->prepare('CALL getSummaryByLunchDinner(?,?)'))
+		if($stmt = $db->prepare('CALL getSummaryByLunchDinner(?,?,?)'))
 		{
-			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->bind_param('iss', $p_user_id, $p_dateFrom, $p_dateTo);
 			$stmt->execute();
 			$result = $stmt->get_result();
 			while($row = $result->fetch_object())
@@ -76,14 +78,15 @@
 			$stmt->close();
 		}
 		else {http_response_code(500);}
+		header('Content-Type: application/json');
 		echo json_encode($summaries);
 	}
-	function getSummaryBySection($db, $p_dateFrom, $p_dateTo)
+	function getSummaryBySection($db, $p_user_id, $p_dateFrom, $p_dateTo)
 	{
 		$summaries = [];
-		if($stmt = $db->prepare('CALL getSummaryBySection(?,?)'))
+		if($stmt = $db->prepare('CALL getSummaryBySection(?,?,?)'))
 		{
-			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->bind_param('iss', $p_user_id, $p_dateFrom, $p_dateTo);
 			$stmt->execute();
 			$result = $stmt->get_result();
 			while($row = $result->fetch_object())
@@ -96,14 +99,15 @@
 			$stmt->close();
 		}
 		else {http_response_code(500);}
+		header('Content-Type: application/json');
 		echo json_encode($summaries);
 	}
-	function getSummaryByStartTime($db, $p_dateFrom, $p_dateTo)
+	function getSummaryByStartTime($db, $p_user_id, $p_dateFrom, $p_dateTo)
 	{
 		$summaries = [];
-		if($stmt = $db->prepare('CALL getSummaryByStartTime(?,?)'))
+		if($stmt = $db->prepare('CALL getSummaryByStartTime(?,?,?)'))
 		{
-			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->bind_param('iss', $p_user_id, $p_dateFrom, $p_dateTo);
 			$stmt->execute();
 			$result = $stmt->get_result();
 			while($row = $result->fetch_object())
@@ -116,14 +120,15 @@
 			$stmt->close();
 		}
 		else {http_response_code(500);}
+		header('Content-Type: application/json');
 		echo json_encode($summaries);
 	}
-	function getSummaryByCut($db, $p_dateFrom, $p_dateTo)
+	function getSummaryByCut($db, $p_user_id, $p_dateFrom, $p_dateTo)
 	{
 		$summaries = [];
-		if($stmt = $db->prepare('CALL getSummaryByCut(?,?)'))
+		if($stmt = $db->prepare('CALL getSummaryByCut(?,?,?)'))
 		{
-			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->bind_param('iss', $p_user_id, $p_dateFrom, $p_dateTo);
 			$stmt->execute();
 			$result = $stmt->get_result();
 			while($row = $result->fetch_object())
@@ -136,14 +141,15 @@
 			$stmt->close();
 		}
 		else {http_response_code(500);}
+		header('Content-Type: application/json');
 		echo json_encode($summaries);
 	}
-	function getSummaryByDayOfWeek($db, $p_dateFrom, $p_dateTo)
+	function getSummaryByDayOfWeek($db, $p_user_id, $p_dateFrom, $p_dateTo)
 	{
 		$summaries = [];
-		if($stmt = $db->prepare('CALL getSummaryByDayOfWeek(?,?)'))
+		if($stmt = $db->prepare('CALL getSummaryByDayOfWeek(?,?,?)'))
 		{
-			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->bind_param('iss', $p_user_id, $p_dateFrom, $p_dateTo);
 			$stmt->execute();
 			$result = $stmt->get_result();
 			while($row = $result->fetch_object())
@@ -157,17 +163,18 @@
 			$stmt->close();
 		}
 		else {http_response_code(500);}
+		header('Content-Type: application/json');
 		echo json_encode($summaries);
 	}
-	function getSummaryWeekly($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
+	function getSummaryWeekly($db, $p_user_id, $p_dateFrom, $p_dateTo, $p_lunchDinner)
 	{
 		$return = new stdClass();
 		$return->list = [];
 		$return->summary = new stdClass();
 
-		if($stmt = $db->prepare('CALL getWeeks(?,?,?);'))
+		if($stmt = $db->prepare('CALL getWeeks(?,?,?,?);'))
 		{
-			$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			$stmt->bind_param('isss', $p_user_id, $p_dateFrom, $p_dateTo, $p_lunchDinner);
 			$stmt->execute();
 			$result = $stmt->get_result();
 			while($row = $result->fetch_object())
@@ -201,9 +208,9 @@
 		}
 		else {http_response_code(500);}
 
-		if($stmt = $db->prepare('CALL getSummaryWeekly(?,?,?);'))
+		if($stmt = $db->prepare('CALL getSummaryWeekly(?,?,?,?);'))
 		{
-			$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			$stmt->bind_param('isss', $p_user_id, $p_dateFrom, $p_dateTo, $p_lunchDinner);
 			$stmt->execute();
 			$row = $stmt->get_result()->fetch_object();
 			$return->summary = summaryRowToObject($row);
@@ -212,17 +219,18 @@
 			$stmt->close();
 		}
 		else {http_response_code(500);}
+		header('Content-Type: application/json');
 		echo json_encode($return);
 	}
-	function getSummaryMonthly($db, $p_dateFrom, $p_dateTo, $p_lunchDinner)
+	function getSummaryMonthly($db, $p_user_id, $p_dateFrom, $p_dateTo, $p_lunchDinner)
 	{
 		$return = new stdClass();
 		$return->list = [];
 		$return->summary = new stdClass();
 
-		if($stmt = $db->prepare('CALL getMonths(?,?,?);'))
+		if($stmt = $db->prepare('CALL getMonths(?,?,?,?);'))
 		{
-			$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			$stmt->bind_param('isss', $p_user_id, $p_dateFrom, $p_dateTo, $p_lunchDinner);
 			$stmt->execute();
 			$result = $stmt->get_result();
 			while($row = $result->fetch_object())
@@ -256,9 +264,9 @@
 		}
 		else {http_response_code(500);}
 
-		if($stmt = $db->prepare('CALL getSummaryMonthly(?,?,?);'))
+		if($stmt = $db->prepare('CALL getSummaryMonthly(?,?,?,?);'))
 		{
-			$stmt->bind_param('sss', $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			$stmt->bind_param('isss', $p_user_id, $p_dateFrom, $p_dateTo, $p_lunchDinner);
 			$stmt->execute();
 			$row = $stmt->get_result()->fetch_object();
 			$return->summary = summaryRowToObject($row);
@@ -267,11 +275,21 @@
 			$stmt->close();
 		}
 		else {http_response_code(500);}
+		header('Content-Type: application/json');
 		echo json_encode($return);
 	}
 
 	try
 	{	
+		if(!empty($_GET['uid']))
+		{
+			$p_uid = $_GET['uid'];
+		}
+		else
+		{
+			$p_uid = null;
+		}
+
 		//extract dates if set, or use defaults
 		try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) 	: null; } catch(Exception $e) { $dateTimeFrom 	= null; }
 		try { $dateTimeTo 	= !empty($_GET['to']) 	? new DateTime($_GET['to']) 	: null; } catch(Exception $e) { $dateTimeTo 	= null; }
@@ -306,47 +324,47 @@
 
 		if($p_mon || $p_tue || $p_wed || $p_thu || $p_fri || $p_sat || $p_sun) 
 		{
-			getSummaryFiltered($db, $p_dateFrom, $p_dateTo, $p_lunchDinner, $p_mon, $p_tue, $p_wed, $p_thu, $p_fri, $p_sat, $p_sun);
+			getSummaryFiltered($db, $p_uid, $p_dateFrom, $p_dateTo, $p_lunchDinner, $p_mon, $p_tue, $p_wed, $p_thu, $p_fri, $p_sat, $p_sun);
 		}
 		else if(isset($_GET['lunchDinner']) 
 			|| isset($_GET['shift']))
 		{
-			getSummaryByLunchDinner($db, $p_dateFrom, $p_dateTo);
+			getSummaryByLunchDinner($db, $p_uid, $p_dateFrom, $p_dateTo);
 		}
 		else if(isset($_GET['day']) 
 			|| isset($_GET['dayOfWeek']) 
 			|| isset($_GET['days']) 
 			|| isset($_GET['daily']))
 		{
-			getSummaryByDayOfWeek($db, $p_dateFrom, $p_dateTo);
+			getSummaryByDayOfWeek($db, $p_uid, $p_dateFrom, $p_dateTo);
 		}
 		else if(isset($_GET['section']))
 		{
-			getSummaryBySection($db, $p_dateFrom, $p_dateTo);
+			getSummaryBySection($db, $p_uid, $p_dateFrom, $p_dateTo);
 		}
 		else if(isset($_GET['startTime']))
 		{
-			getSummaryByStartTime($db, $p_dateFrom, $p_dateTo);
+			getSummaryByStartTime($db, $p_uid, $p_dateFrom, $p_dateTo);
 		}
 		else if(isset($_GET['cut']))
 		{
-			getSummaryByCut($db, $p_dateFrom, $p_dateTo);
+			getSummaryByCut($db, $p_uid, $p_dateFrom, $p_dateTo);
 		}
 		else if(isset($_GET['week']) 
 			|| isset($_GET['weeks']) 
 			|| isset($_GET['weekly']))
 		{
-			getSummaryWeekly($db, $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			getSummaryWeekly($db, $p_uid, $p_dateFrom, $p_dateTo, $p_lunchDinner);
 		}
 		else if(isset($_GET['month']) 
 			|| isset($_GET['months']) 
 			|| isset($_GET['monthly']))
 		{
-			getSummaryMonthly($db, $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			getSummaryMonthly($db, $p_uid, $p_dateFrom, $p_dateTo, $p_lunchDinner);
 		}
 		else
 		{
-			getSummary($db, $p_dateFrom, $p_dateTo, $p_lunchDinner);
+			getSummary($db, $p_uid, $p_dateFrom, $p_dateTo, $p_lunchDinner);
 		}
 		$db->close();
 	}

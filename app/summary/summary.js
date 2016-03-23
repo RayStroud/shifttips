@@ -1,9 +1,9 @@
 angular.module('shiftTips')
 .service('summaryService', ['$http', function($http) {
-	this.getSummary = function(from, to, lunchDinner) {
-		return $http.get('./data/summary.php?from=' + from + '&to=' + to + '&ld=' + lunchDinner);
+	this.getSummary = function(uid, from, to, lunchDinner) {
+		return $http.get('./data/summary.php?uid=' + uid + '&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
-	this.getSummaryFiltered = function(from, to, lunchDinner, mon, tue, wed, thu, fri, sat, sun) {
+	this.getSummaryFiltered = function(uid, from, to, lunchDinner, mon, tue, wed, thu, fri, sat, sun) {
 		var dayString = mon ? '&mon' : '';
 		dayString += tue ? '&tue' : '';
 		dayString += wed ? '&wed' : '';
@@ -11,33 +11,34 @@ angular.module('shiftTips')
 		dayString += fri ? '&fri' : '';
 		dayString += sat ? '&sat' : '';
 		dayString += sun ? '&sun' : '';
-		return $http.get('./data/summary.php?from=' + from + '&to=' + to + '&ld=' + lunchDinner + dayString);
+		return $http.get('./data/summary.php?uid=' + uid + '&from=' + from + '&to=' + to + '&ld=' + lunchDinner + dayString);
 	};
-	this.getSummaryByLunchDinner = function(from, to) {
-		return $http.get('./data/summary.php?lunchDinner&from=' + from + '&to=' + to);
+	this.getSummaryByLunchDinner = function(uid, from, to) {
+		return $http.get('./data/summary.php?uid=' + uid + '&lunchDinner&from=' + from + '&to=' + to);
 	};
-	this.getSummaryByDayOfWeek = function(from, to) {
-		return $http.get('./data/summary.php?day&from=' + from + '&to=' + to);
+	this.getSummaryByDayOfWeek = function(uid, from, to) {
+		return $http.get('./data/summary.php?uid=' + uid + '&day&from=' + from + '&to=' + to);
 	};
-	this.getSummaryBySection = function(from, to) {
-		return $http.get('./data/summary.php?section&from=' + from + '&to=' + to);
+	this.getSummaryBySection = function(uid, from, to) {
+		return $http.get('./data/summary.php?uid=' + uid + '&section&from=' + from + '&to=' + to);
 	};
-	this.getSummaryByStartTime = function(from, to) {
-		return $http.get('./data/summary.php?startTime&from=' + from + '&to=' + to);
+	this.getSummaryByStartTime = function(uid, from, to) {
+		return $http.get('./data/summary.php?uid=' + uid + '&startTime&from=' + from + '&to=' + to);
 	};
-	this.getSummaryByCut = function(from, to) {
-		return $http.get('./data/summary.php?cut&from=' + from + '&to=' + to);
+	this.getSummaryByCut = function(uid, from, to) {
+		return $http.get('./data/summary.php?uid=' + uid + '&cut&from=' + from + '&to=' + to);
 	};
-	this.getSummaryWeekly = function(from, to, lunchDinner) {
-		return $http.get('./data/summary.php?week&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
+	this.getSummaryWeekly = function(uid, from, to, lunchDinner) {
+		return $http.get('./data/summary.php?uid=' + uid + '&week&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
-	this.getSummaryMonthly = function(from, to, lunchDinner) {
-		return $http.get('./data/summary.php?month&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
+	this.getSummaryMonthly = function(uid, from, to, lunchDinner) {
+		return $http.get('./data/summary.php?uid=' + uid + '&month&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
 }])
 
 .controller('SummaryController', [ 'summaryService', function(summaryService) {
 	var ctrl = this;
+	/* DEBUG */ var uid = 1;
 
 	ctrl.changeSummaryType = function(type, from, to, lunchDinner) {
 		ctrl.type = type;
@@ -48,27 +49,27 @@ angular.module('shiftTips')
 			case 'lunchDinner':
 				ctrl.typeName = 'Lunch/Dinner';
 				ctrl.changeSummaryTypeSort('-lunchDinner');
-				promise = summaryService.getSummaryByLunchDinner(p_dateFrom, p_dateTo);
+				promise = summaryService.getSummaryByLunchDinner(uid, p_dateFrom, p_dateTo);
 				break;
 			case 'dayOfWeek':
 				ctrl.typeName = 'Day of Week';
 				ctrl.changeSummaryTypeSort(['weekday','-lunchDinner']);
-				promise = summaryService.getSummaryByDayOfWeek(p_dateFrom, p_dateTo);
+				promise = summaryService.getSummaryByDayOfWeek(uid, p_dateFrom, p_dateTo);
 				break;
 			case 'section':
 				ctrl.typeName = 'Section';
 				ctrl.changeSummaryTypeSort(['-lunchDinner','section']);
-				promise = summaryService.getSummaryBySection(p_dateFrom, p_dateTo);
+				promise = summaryService.getSummaryBySection(uid, p_dateFrom, p_dateTo);
 				break;
 			case 'startTime':
 				ctrl.typeName = 'Start Time';
 				ctrl.changeSummaryTypeSort(['-lunchDinner','startTime']);
-				promise = summaryService.getSummaryByStartTime(p_dateFrom, p_dateTo);
+				promise = summaryService.getSummaryByStartTime(uid, p_dateFrom, p_dateTo);
 				break;
 			case 'cut':
 				ctrl.typeName = 'Cut Order';
 				ctrl.changeSummaryTypeSort(['-lunchDinner','cut']);
-				promise = summaryService.getSummaryByCut(p_dateFrom, p_dateTo);
+				promise = summaryService.getSummaryByCut(uid, p_dateFrom, p_dateTo);
 				break;
 		}
 		promise.success(function (data, status, headers, config) {
@@ -79,7 +80,7 @@ angular.module('shiftTips')
 			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot get summary.';
 		});
-		summaryService.getSummary(p_dateFrom, p_dateTo, lunchDinner)
+		summaryService.getSummary(uid, p_dateFrom, p_dateTo, lunchDinner)
 		.success(function (data, status, headers, config) {
 			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.summaryTotal = data;
@@ -118,6 +119,7 @@ angular.module('shiftTips')
 
 .controller('SummaryPeriodController', [ 'summaryService', function(summaryService) {
 	var ctrl = this;
+	/* DEBUG */ var uid = 1;
 
 	ctrl.changePeriodType = function(type, from, to, lunchDinner) {
 		ctrl.type = type;
@@ -128,12 +130,12 @@ angular.module('shiftTips')
 			case 'weekly':
 				ctrl.typeName = 'Weekly';
 				ctrl.changePeriodTypeSort('yearweek');
-				promise = summaryService.getSummaryWeekly(p_dateFrom, p_dateTo, lunchDinner);
+				promise = summaryService.getSummaryWeekly(uid, p_dateFrom, p_dateTo, lunchDinner);
 				break;
 			case 'monthly':
 				ctrl.typeName = 'Monthly';
 				ctrl.changePeriodTypeSort(['year','month']);
-				promise = summaryService.getSummaryMonthly(p_dateFrom, p_dateTo, lunchDinner);
+				promise = summaryService.getSummaryMonthly(uid, p_dateFrom, p_dateTo, lunchDinner);
 				break;
 		}
 		promise.success(function (data, status, headers, config) {

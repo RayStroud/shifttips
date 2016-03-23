@@ -1,30 +1,31 @@
 angular.module('shiftTips')
 .service('shiftsService', ['$http', function($http) {
-	this.getShifts = function() {
-		return $http.get('./data/shifts.php');
+	this.getShifts = function(uid) {
+		return $http.get('./data/shifts.php?uid=' + uid);
 	};
-	this.getShift = function(id) {
-		return $http.get('./data/shifts.php?id=' + id);
+	this.getShift = function(uid, id) {
+		return $http.get('./data/shifts.php?uid=' + uid + '&id=' + id);
 	};
 	this.addShift = function(shift) {
 		return $http.post('./data/shifts.php', shift);
 	};
 	this.editShift = function(shift) {
-		return $http.put('./data/shifts.php?id=' + shift.id, shift);
+		return $http.put('./data/shifts.php', shift);
 	};
-	this.removeShift = function(id) {
-		return $http.delete('./data/shifts.php?id=' + id);
+	this.removeShift = function(uid, id) {
+		return $http.delete('./data/shifts.php?uid=' + uid + '&id=' + id);
 	};
-	this.setDueCheck = function(id, dueCheck) {
-		return $http.get('./data/shifts.php?dueCheck=' + dueCheck + '&id=' + id);
+	this.setDueCheck = function(uid, id, dueCheck) {
+		return $http.get('./data/shifts.php?uid=' + uid + '&id=' + id + '&dueCheck=' + dueCheck);
 	};
 }])
 
 .controller('ShiftViewController', [ 'shiftsService', '$routeParams', function(shiftsService, $routeParams) {
 	var ctrl = this;
+	/* DEBUG */ var uid = 1;
 
 	ctrl.loadShift = function() {
-		shiftsService.getShift($routeParams.id)
+		shiftsService.getShift(uid, $routeParams.id)
 		.success(function (data, status, headers, config) {
 			ctrl.getResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shift = data;
@@ -36,7 +37,7 @@ angular.module('shiftTips')
 	};
 
 	this.deleteClick = function(shiftId) {
-		shiftsService.removeShift(shiftId)
+		shiftsService.removeShift(uid, shiftId)
 		.success(function (data, status, headers, config) {
 			ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Shift deleted.';
@@ -48,7 +49,7 @@ angular.module('shiftTips')
 	};
 
 	ctrl.setDueCheck = function(id, dueCheck) {
-		shiftsService.setDueCheck(id, dueCheck);
+		shiftsService.setDueCheck(uid, id, dueCheck);
 		ctrl.loadShift();
 	};
 
@@ -57,8 +58,9 @@ angular.module('shiftTips')
 
 .controller('ShiftGridController', ['shiftsService', function(shiftsService) {
 	var ctrl = this;
+	/* DEBUG */ var uid = 1;
 
-	shiftsService.getShifts()
+	shiftsService.getShifts(uid)
 	.success(function (data, status, headers, config) {
 		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 		ctrl.shifts = data;
@@ -71,8 +73,9 @@ angular.module('shiftTips')
 
 .controller('ShiftListController', ['$location', 'shiftsService', 'summaryService', function($location, shiftsService, summaryService) {
 	var ctrl = this;
+	/* DEBUG */ var uid = 1;
 
-	shiftsService.getShifts()
+	shiftsService.getShifts(uid)
 	.success(function (data, status, headers, config) {
 		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 		ctrl.shifts = data;
@@ -125,9 +128,10 @@ angular.module('shiftTips')
 
 .controller('ShiftDueController', ['shiftsService', function(shiftsService) {
 	var ctrl = this;
+	/* DEBUG */ var uid = 1;
 
 	ctrl.loadShifts = function() {
-		shiftsService.getShifts()
+		shiftsService.getShifts(uid)
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shifts = data;
@@ -171,7 +175,7 @@ angular.module('shiftTips')
 	};
 
 	ctrl.setDueCheck = function(id, dueCheck) {
-		shiftsService.setDueCheck(id, dueCheck);
+		shiftsService.setDueCheck(uid, id, dueCheck);
 		ctrl.loadShifts();
 	};
 
@@ -275,7 +279,8 @@ angular.module('shiftTips')
 
 .controller('ShiftAddController', ['shiftsService', function(shiftsService) {
 	var ctrl = this;
-	this.shift = {wage: 9.2};
+	/* DEBUG */ var uid = 1;
+	this.shift = {user_id: uid, wage: 9.2};
 
 	this.addShift = function() {
 		//remove the timezone information that angular adds during its validation
@@ -300,8 +305,9 @@ angular.module('shiftTips')
 
 .controller('ShiftEditController', [ 'shiftsService', '$routeParams', function(shiftsService, $routeParams) {
 	var ctrl = this;
+	/* DEBUG */ var uid = 1;
 
-	shiftsService.getShift($routeParams.id)
+	shiftsService.getShift(uid, $routeParams.id)
 	.success(function (data, status, headers, config) {
 		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 		var retrievedShift = data;
@@ -330,6 +336,7 @@ angular.module('shiftTips')
 	this.editShift = function() {
 		//remove the timezone information that angular adds during its validation
 		var postShift = JSON.parse(JSON.stringify(ctrl.shift));
+		/* DEBUG */ postShift.user_id = uid;
 		postShift.date = postShift.date ? moment(postShift.date).format('YYYY-MM-DD') : null;
 		postShift.startTime = postShift.startTime ? moment(postShift.startTime).format('HH:mm:ss') : null;
 		postShift.endTime = postShift.endTime ? moment(postShift.endTime).format('HH:mm:ss') : null;

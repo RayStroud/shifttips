@@ -35,17 +35,18 @@
 		$object->dayOfWeek 		= $row->dayOfWeek;
 
 		$object->id 		= $row->id;
+		$object->user_id 	= $row->user_id;
 
 		$object->yearweek 	= $row->yearweek;
 		$object->weekday 	= (int) $row->weekday;
 
 		return $object;
 	}
-	function selectAll($db, $p_dateFrom, $p_dateTo)
+	function selectAll($db, $p_user_id, $p_dateFrom, $p_dateTo)
 	{
-		if($stmt = $db->prepare('CALL getShifts(?,?)'))
+		if($stmt = $db->prepare('CALL getShifts(?,?,?)'))
 		{
-			$stmt->bind_param('ss', $p_dateFrom, $p_dateTo);
+			$stmt->bind_param('iss', $p_user_id, $p_dateFrom, $p_dateTo);
 			$stmt->execute(); 
 			$shifts = [];
 			$result = $stmt->get_result();
@@ -53,21 +54,23 @@
 			{
 				$shifts[] = shiftRowToObject($row);
 			}
+			header('Content-Type: application/json');
 			echo json_encode($shifts);
 			$stmt->free_result();
 			$stmt->close();
 		}
 		else {http_response_code(500);}
 	}
-	function selectById($db, $id)
+	function selectById($db, $p_user_id, $id)
 	{
 		$shift = new stdClass();
-		if($stmt = $db->prepare('CALL getShiftById(?)'))
+		if($stmt = $db->prepare('CALL getShiftById(?,?)'))
 		{
-			$stmt->bind_param('i', $id);
+			$stmt->bind_param('ii', $p_user_id, $id);
 			$stmt->execute();
 			$row = $stmt->get_result()->fetch_object();
 			$shift = shiftRowToObject($row);
+			header('Content-Type: application/json');
 			echo json_encode($shift);
 			$stmt->free_result();
 			$stmt->close();
@@ -76,9 +79,9 @@
 	}
 	function insert($db, $shift)
 	{
-		if($stmt = $db->prepare('CALL saveShift(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
+		if($stmt = $db->prepare('CALL saveShift(?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
 		{
-			$stmt->bind_param('dssssddiiiisisss', $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->dueCheck, $shift->covers, $shift->cut, $shift->section, $shift->notes);
+			$stmt->bind_param('idssssddiiiisisss', $shift->user_id, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->dueCheck, $shift->covers, $shift->cut, $shift->section, $shift->notes);
 			$stmt->execute();
 			$stmt->bind_result($id);
 			$stmt->fetch();
@@ -88,11 +91,11 @@
 		}
 		else {http_response_code(500);}
 	}
-	function update($db, $id, $shift)
+	function update($db, $shift)
 	{
-		if($stmt = $db->prepare('CALL saveShift(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
+		if($stmt = $db->prepare('CALL saveShift(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
 		{
-			$stmt->bind_param('idssssddiiiisisss', $id, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->dueCheck, $shift->covers, $shift->cut, $shift->section, $shift->notes);
+			$stmt->bind_param('iidssssddiiiisisss', $shift->user_id, $shift->id, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->dueCheck, $shift->covers, $shift->cut, $shift->section, $shift->notes);
 			$stmt->execute();
 			echo $stmt->affected_rows;
 			$stmt->free_result();
@@ -100,11 +103,11 @@
 		}
 		else {http_response_code(500);}
 	}
-	function delete($db, $id)
+	function delete($db, $p_user_id, $id)
 	{
-		if($stmt = $db->prepare('CALL deleteShift(?);'))
+		if($stmt = $db->prepare('CALL deleteShift(?,?);'))
 		{
-			$stmt->bind_param('i', $id);
+			$stmt->bind_param('ii', $p_user_id, $id);
 			$stmt->execute();
 			echo $stmt->affected_rows;
 			$stmt->free_result();
@@ -112,11 +115,11 @@
 		}
 		else {http_response_code(500);}
 	}
-	function setDueCheck($db, $id, $dueCheck)
+	function setDueCheck($db, $p_user_id, $id, $dueCheck)
 	{
-		if($stmt = $db->prepare('CALL setDueCheck(?,?);'))
+		if($stmt = $db->prepare('CALL setDueCheck(?, ?,?);'))
 		{
-			$stmt->bind_param('is', $id, $dueCheck);
+			$stmt->bind_param('iis', $p_user_id, $id, $dueCheck);
 			$stmt->execute();
 			echo $stmt->affected_rows;
 			$stmt->free_result();
@@ -130,18 +133,18 @@
 		switch($_SERVER['REQUEST_METHOD'])
 		{
 			case 'GET':
-				if(isset($_GET['id']))
+				if(isset($_GET['id']) && isset($_GET['uid']))
 				{
 					if(isset($_GET['dueCheck']))
 					{
-						setDueCheck($db, $_GET['id'], $_GET['dueCheck']);
+						setDueCheck($db, $_GET['uid'], $_GET['id'], $_GET['dueCheck']);
 					}
 					else
 					{
-						selectById($db, $_GET['id']);
+						selectById($db, $_GET['uid'], $_GET['id']);
 					}
 				}
-				else
+				else if (isset($_GET['uid']))
 				{
 					//extract dates if set, or use defaults
 					try { $dateTimeFrom = !empty($_GET['from']) ? new DateTime($_GET['from']) 	: null; } catch(Exception $e) { $dateTimeFrom 	= null; }
@@ -150,7 +153,12 @@
 					$p_dateTo 	= !empty($dateTimeTo) 	? $dateTimeTo->format("Y-m-d") 		: '9999-12-31'; 
 					//* DEBUG */ echo '<p>dateFrom: ' . $p_dateFrom . '</p><p>dateTo: ' . $p_dateTo . '</p>';
 
-					selectAll($db, $p_dateFrom, $p_dateTo);
+					selectAll($db, $_GET['uid'], $p_dateFrom, $p_dateTo);
+				}
+				else
+				{
+					http_response_code(401);
+					die();
 				}
 				break;
 			case 'POST':
@@ -158,16 +166,13 @@
 				insert($db, $data);
 				break;
 			case 'PUT':
-				if(isset($_GET['id']))
-				{
-					$data = json_decode(file_get_contents("php://input"));
-					update($db, $_GET['id'], $data);
-				}
+				$data = json_decode(file_get_contents("php://input"));
+				update($db, $data);
 				break;
 			case 'DELETE':
-				if(isset($_GET['id']))
+				if(isset($_GET['id']) && isset($_GET['uid']))
 				{
-					delete($db, $_GET['id']);
+					delete($db, $_GET['uid'], $_GET['id']);
 				}
 				break;
 		}
