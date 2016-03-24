@@ -1,7 +1,11 @@
 angular.module('shiftTips')
 .service('shiftsService', ['$http', function($http) {
+	var ctrl = this;
 	this.getShifts = function(uid) {
-		return $http.get('./data/shifts.php?uid=' + uid);
+		if (!ctrl.shifts) {
+			ctrl.shifts = $http.get('./data/shifts.php?uid=' + uid);
+		}
+		return ctrl.shifts;
 	};
 	this.getShift = function(uid, id) {
 		return $http.get('./data/shifts.php?uid=' + uid + '&id=' + id);
