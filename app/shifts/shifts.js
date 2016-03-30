@@ -1,35 +1,46 @@
 angular.module('shiftTips')
-.service('shiftsService', ['$http', function($http) {
+.service('shiftsService', ['$http', 'userService', function($http, userService) {
 	var ctrl = this;
-	this.getShifts = function(uid) {
-		if (!ctrl.shifts) {
+	ctrl.uid = -1;		//record uid to compare against current logged in user
+	ctrl.shiftId = -1;	//record shift id to compare against stored shift
+	ctrl.clear = function() {
+		ctrl.uid = -1;
+		ctrl.shiftId = -1;
+		ctrl.shifts = null;
+		ctrl.shift = null;
+	}
+	ctrl.getShifts = function(uid) {
+		if (!ctrl.shifts || ctrl.uid != uid) {	//if empty, or if uid changed
+			ctrl.uid = uid;
 			ctrl.shifts = $http.get('./data/shifts.php?uid=' + uid);
 		}
 		return ctrl.shifts;
 	};
-	this.getShift = function(uid, id) {
+	ctrl.getShift = function(uid, id) {
 		return $http.get('./data/shifts.php?uid=' + uid + '&id=' + id);
 	};
-	this.addShift = function(shift) {
+	ctrl.addShift = function(shift) {
+		ctrl.clear();
 		return $http.post('./data/shifts.php', shift);
 	};
-	this.editShift = function(shift) {
+	ctrl.editShift = function(shift) {
+		ctrl.clear();
 		return $http.put('./data/shifts.php', shift);
 	};
-	this.removeShift = function(uid, id) {
+	ctrl.removeShift = function(uid, id) {
 		return $http.delete('./data/shifts.php?uid=' + uid + '&id=' + id);
 	};
-	this.setDueCheck = function(uid, id, dueCheck) {
+	ctrl.setDueCheck = function(uid, id, dueCheck) {
+		ctrl.clear();
 		return $http.get('./data/shifts.php?uid=' + uid + '&id=' + id + '&dueCheck=' + dueCheck);
 	};
 }])
 
-.controller('ShiftViewController', [ 'shiftsService', '$routeParams', function(shiftsService, $routeParams) {
+.controller('ShiftViewController', [ 'shiftsService', 'userService', '$routeParams', function(shiftsService, userService, $routeParams) {
 	var ctrl = this;
-	/* DEBUG */ var uid = 1;
 
 	ctrl.loadShift = function() {
-		shiftsService.getShift(uid, $routeParams.id)
+		shiftsService.getShift(userService.getUser().uid, $routeParams.id)
 		.success(function (data, status, headers, config) {
 			ctrl.getResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shift = data;
@@ -41,7 +52,7 @@ angular.module('shiftTips')
 	};
 
 	this.deleteClick = function(shiftId) {
-		shiftsService.removeShift(uid, shiftId)
+		shiftsService.removeShift(userService.getUser().uid, shiftId)
 		.success(function (data, status, headers, config) {
 			ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Shift deleted.';
@@ -53,41 +64,44 @@ angular.module('shiftTips')
 	};
 
 	ctrl.setDueCheck = function(id, dueCheck) {
-		shiftsService.setDueCheck(uid, id, dueCheck);
+		shiftsService.setDueCheck(userService.getUser().uid, id, dueCheck);
 		ctrl.loadShift();
 	};
 
 	ctrl.loadShift();
 }])
 
-.controller('ShiftGridController', ['shiftsService', function(shiftsService) {
+.controller('ShiftGridController', ['shiftsService', 'userService', function(shiftsService, userService) {
 	var ctrl = this;
-	/* DEBUG */ var uid = 1;
 
-	shiftsService.getShifts(uid)
-	.success(function (data, status, headers, config) {
-		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
-		ctrl.shifts = data;
-	})
-	.error(function (data, status, headers, config) {
-		ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-		ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
-	});
+	ctrl.getShifts = function() {
+		shiftsService.getShifts(userService.getUser().uid)
+		.success(function (data, status, headers, config) {
+			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.shifts = data;
+		})
+		.error(function (data, status, headers, config) {
+			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
+		});
+	};
+	ctrl.getShifts();
 }])
 
-.controller('ShiftListController', ['$location', 'shiftsService', 'summaryService', function($location, shiftsService, summaryService) {
+.controller('ShiftListController', ['$location', 'shiftsService', 'summaryService', 'userService', function($location, shiftsService, summaryService, userService) {
 	var ctrl = this;
-	/* DEBUG */ var uid = 1;
 
-	shiftsService.getShifts(uid)
-	.success(function (data, status, headers, config) {
-		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
-		ctrl.shifts = data;
-	})
-	.error(function (data, status, headers, config) {
-		ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-		ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
-	});
+	ctrl.getShifts = function() {
+		shiftsService.getShifts(userService.getUser().uid)
+		.success(function (data, status, headers, config) {
+			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.shifts = data;
+		})
+		.error(function (data, status, headers, config) {
+			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
+		});
+	};
 
 	ctrl.updateSummary = function(from, to, lunchDinner, mon, tue, wed, thu, fri, sat, sun) {
 		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
@@ -127,6 +141,7 @@ angular.module('shiftTips')
 	ctrl.sortLunchDinner = ['-lunchDinner','date','startTime'];
 	ctrl.sortReverse = false;
 	ctrl.changeSortField(ctrl.sortDate);
+	ctrl.getShifts();
 	ctrl.updateSummary(null, null, null, null, null, null, null, null, null, null); // this is all null until I can keep the data constant in the Service
 }])
 
@@ -281,10 +296,9 @@ angular.module('shiftTips')
 	};
 })
 
-.controller('ShiftAddController', ['shiftsService', function(shiftsService) {
+.controller('ShiftAddController', ['shiftsService', 'userService', function(shiftsService, userService) {
 	var ctrl = this;
-	/* DEBUG */ var uid = 1;
-	this.shift = {user_id: uid, wage: 9.2};
+	this.shift = {user_id: userService.getUser().uid, wage: 9.2};
 
 	this.addShift = function() {
 		//remove the timezone information that angular adds during its validation
@@ -307,11 +321,10 @@ angular.module('shiftTips')
 	};
 }])
 
-.controller('ShiftEditController', [ 'shiftsService', '$routeParams', function(shiftsService, $routeParams) {
+.controller('ShiftEditController', [ 'shiftsService', 'userService', '$routeParams', function(shiftsService, userService, $routeParams) {
 	var ctrl = this;
-	/* DEBUG */ var uid = 1;
 
-	shiftsService.getShift(uid, $routeParams.id)
+	shiftsService.getShift(userService.getUser().uid, $routeParams.id)
 	.success(function (data, status, headers, config) {
 		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 		var retrievedShift = data;
@@ -340,7 +353,7 @@ angular.module('shiftTips')
 	this.editShift = function() {
 		//remove the timezone information that angular adds during its validation
 		var postShift = JSON.parse(JSON.stringify(ctrl.shift));
-		/* DEBUG */ postShift.user_id = uid;
+		//* DEBUG */ postShift.user_id = userService.getUser().uid;
 		postShift.date = postShift.date ? moment(postShift.date).format('YYYY-MM-DD') : null;
 		postShift.startTime = postShift.startTime ? moment(postShift.startTime).format('HH:mm:ss') : null;
 		postShift.endTime = postShift.endTime ? moment(postShift.endTime).format('HH:mm:ss') : null;

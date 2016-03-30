@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 	<link rel="stylesheet" href="assets/css/style.css">
-<body>
+<body ng-controller="UserController as userCtrl">
 	<div id="header">
 		<div class="name"><a href="#/">Shift Tips</a></div>
 		<ul class="menu">
@@ -14,11 +14,58 @@
 			<li><a class="link-button" href="#/summary">Summary</a></li>
 			<li><a class="link-button" href="#/summary/period">Period</a></li>
 			<li><a class="link-button" href="#/shifts/add">Add</a></li>
-		</ul>
+			<li ng-if="userCtrl.user.uid > 0"><a class="link-button" href="#/account">User: {{userCtrl.user.name}}</a></li>
+		</div>
 	</div>
 	<div id="content">
 		<div id="wrapper">
-			<div ng-view></div>
+			<div ng-view ng-if="userCtrl.isLoggedIn()"></div>
+			<div ng-if="!userCtrl.isLoggedIn()">
+				<h1>Login</h1>
+				<div class="form-wrap">
+					<form name="loginForm" class="login-form" novalidate
+							ng-class="{submitted:loginForm.$submitted}" 
+							ng-submit="loginForm.$valid && userCtrl.login()">
+						<div class="form-group full-width">
+							<h4>Existing Account</h4>
+							<div class="error message-box" ng-show="userCtrl.loginError">{{userCtrl.loginError}}</div>
+							<div class="error message-box" ng-show="loginForm.$submitted && !loginForm.$valid">Cannot login. Fill out "Name" and "Email" fields, and make sure fields are formatted correctly.</div>
+						</div>
+						<div class="form-group half-width">
+							<label for="name">Name</label>
+							<input ng-model="userCtrl.loginUser.name" required id="name" name="name" type="text"/>
+						</div>
+						<div class="form-group full-width">
+							<label for="email">Email</label>
+							<input ng-model="userCtrl.loginUser.email" required id="email" name="email" type="email"/>
+						</div>
+						<div class="form-group button-group full-width">
+							<button class="link-button button-narrow" type="submit" name="submit"><span class="fa fa-fw fa-sign-in"></span> Login</button>
+						</div>
+					</form>
+
+					<form name="userAddForm" class="user-form" novalidate
+							ng-class="{submitted:userAddForm.$submitted}" 
+							ng-submit="userAddForm.$valid && userCtrl.addUser()">
+						<div class="form-group full-width">
+							<h4>New Account</h4>
+							<div class="error message-box" ng-show="userCtrl.registerError">{{userCtrl.registerError}}</div>
+							<div class="error message-box" ng-show="userAddForm.$submitted && !userAddForm.$valid">Cannot create account. Fill out "Name" and "Email" fields, and make sure fields are formatted correctly.</div>
+						</div>
+						<div class="form-group half-width">
+							<label for="name">Name</label>
+							<input ng-model="userCtrl.newUser.name" required id="name" name="name" type="text"/>
+						</div>
+						<div class="form-group full-width">
+							<label for="email">Email</label>
+							<input ng-model="userCtrl.newUser.email" required id="email" name="email" type="email"/>
+						</div>
+						<div class="form-group button-group full-width">
+							<button class="link-button button-narrow" type="submit" name="submit"><span class="fa fa-fw fa-user-plus"></span> Sign Up</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div id="footer">

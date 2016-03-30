@@ -1,5 +1,7 @@
 angular.module('shiftTips')
-.service('usersService', ['$http', function($http) {
+.service('userService', ['$http', function($http) {
+	var ctrl = this;
+	ctrl.user = {"name":null,"uid":-1};
 	this.getUsers = function(uid) {
 		return $http.get('./data/users.php');
 	};
@@ -16,17 +18,39 @@ angular.module('shiftTips')
 		return $http.delete('./data/users.php?id=' + id);
 	};
 	this.login = function(name, email) {
-		return $http.get('./data/users.php?name=' + name + '&email=' + email);
+		var response = $http.get('./data/users.php?name=' + name + '&email=' + email)
+		.success(function (data, status, headers, config) {
+			ctrl.user.uid = data;
+			ctrl.user.name = name;
+		})
+		.error(function (data, status, headers, config) {
+			ctrl.user = {"name":null,"uid":-1};
+		});
+		return response;
+	};
+	this.logout = function() {
+		ctrl.user = {"name":null,"uid":-1};
+	};
+	this.getUser = function() {
+		return ctrl.user;
 	};
 }])
 
-.controller('LoginController', ['usersService', function(usersService) {
+.controller('UserController', ['userService', '$location', function(userService, $location) {
 	var ctrl = this;
+	ctrl.user = userService.getUser();
 
 	ctrl.login = function() {
-		usersService.login(ctrl.loginUser.name, ctrl.loginUser.email)
+		userService.login(ctrl.loginUser.name, ctrl.loginUser.email)
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			ctrl.user = userService.getUser();
+			if(ctrl.user.uid == 0) {
+				ctrl.loginError = "Sorry, that name and email is not registered. Confirm the information is correct and try again, or register a new account."
+			}
+			else {
+				ctrl.loginError = "";
+			}
 		})
 		.error(function (data, status, headers, config) {
 			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
@@ -35,9 +59,16 @@ angular.module('shiftTips')
 	};
 
 	ctrl.addUser = function() {
-		usersService.addUser(ctrl.newUser)
+		userService.addUser(ctrl.newUser)
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			if(data == 0) {
+				ctrl.registerError = "Sorry, that email is already registered."
+			}
+			else {
+				ctrl.registerError = "";
+				userService.login(ctrl.newUser.name, ctrl.newUser.email);
+			}
 		})
 		.error(function (data, status, headers, config) {
 			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
@@ -45,4 +76,13 @@ angular.module('shiftTips')
 		});
 	};
 
+	ctrl.logout = function() {
+		userService.logout();
+		ctrl.user = userService.getUser();
+		$location.path('/login');
+	};
+
+	ctrl.isLoggedIn = function() {
+		return ctrl.user.uid > 0;
+	};
 }]);

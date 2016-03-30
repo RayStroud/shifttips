@@ -12,7 +12,7 @@
 		.when('/shifts/due', 		{templateUrl: 'app/shifts/shift-due.html'})
 		.when('/summary', 			{templateUrl: 'app/summary/summary.html'})
 		.when('/summary/period', 	{templateUrl: 'app/summary/summary-period.html'})
-		.when('/login', 			{templateUrl: 'app/users/login.html'})
+		.when('/account', 			{templateUrl: 'app/users/account.html'})
 		.when('/', 					{templateUrl: 'app/home/home.html'})
 		.otherwise(					{redirectTo: '/'});
 	})
