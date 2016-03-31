@@ -104,16 +104,16 @@ angular.module('shiftTips')
 	};
 
 	ctrl.updateSummary = function(from, to, lunchDinner, mon, tue, wed, thu, fri, sat, sun) {
-		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
-		var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
+		var p_dateFrom = moment(from, 'YYYY-MM-DD').isValid() ? moment(from).format('YYYY-MM-DD') : null;
+		var p_dateTo = moment(to, 'YYYY-MM-DD').isValid() ? moment(to).format('YYYY-MM-DD') : null;
 
-		summaryService.getSummaryFiltered(p_dateFrom, p_dateTo, lunchDinner, mon, tue, wed, thu, fri, sat, sun)
+		summaryService.getSummaryFiltered(userService.getUser().uid, p_dateFrom, p_dateTo, lunchDinner, mon, tue, wed, thu, fri, sat, sun)
 		.success(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ctrl.summaryResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.summary = data;
 		})
 		.error(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ctrl.summaryResponse = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot get summary.';
 		});
 
@@ -145,12 +145,11 @@ angular.module('shiftTips')
 	ctrl.updateSummary(null, null, null, null, null, null, null, null, null, null); // this is all null until I can keep the data constant in the Service
 }])
 
-.controller('ShiftDueController', ['shiftsService', function(shiftsService) {
+.controller('ShiftDueController', ['shiftsService', 'userService', function(shiftsService, userService) {
 	var ctrl = this;
-	/* DEBUG */ var uid = 1;
 
 	ctrl.loadShifts = function() {
-		shiftsService.getShifts(uid)
+		shiftsService.getShifts(userService.getUser().uid)
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shifts = data;
@@ -194,7 +193,7 @@ angular.module('shiftTips')
 	};
 
 	ctrl.setDueCheck = function(id, dueCheck) {
-		shiftsService.setDueCheck(uid, id, dueCheck);
+		shiftsService.setDueCheck(userService.getUser().uid, id, dueCheck);
 		ctrl.loadShifts();
 	};
 

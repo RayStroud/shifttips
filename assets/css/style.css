@@ -366,7 +366,7 @@ a.link-button {
     background-color: #63a0d4; }
 
 .link-button.tiny-button {
-  padding: 0; }
+  padding: 0 0.1em; }
 
 /* ############################################
 	ADD/EDIT FORMS

@@ -382,7 +382,7 @@ a.link-button {
 	border: 1px solid $border-color;
 	&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 15%);}
 }
-.link-button.tiny-button {padding: 0;}
+.link-button.tiny-button {padding: 0 0.1em;}
 
 /* ############################################
 	ADD/EDIT FORMS
