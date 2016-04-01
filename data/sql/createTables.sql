@@ -1,4 +1,21 @@
+DROP TABLE IF EXISTS month;
+DROP TABLE IF EXISTS week;
+DROP TABLE IF EXISTS summary;
 DROP TABLE IF EXISTS shift;
+DROP TABLE IF EXISTS device;
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user
+(
+	name			VARCHAR(35),
+	email			VARCHAR(254),
+
+	UNIQUE(email),
+
+	id INT NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id)	
+);
+
 CREATE TABLE shift
 (
 	wage 			DECIMAL(5,2),
@@ -32,11 +49,14 @@ CREATE TABLE shift
 	lunchDinner		CHAR(1),
 	dayOfWeek		CHAR(3),
 
+	user_id	INT NOT NULL,
+	INDEX shift_user_ix (user_id),
+	FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS summary;
 CREATE TABLE summary
 (
 	count	 		INT,
@@ -70,7 +90,6 @@ CREATE TABLE summary
 	PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS week;
 CREATE TABLE week
 (
 	yearweek		CHAR(6),
@@ -99,7 +118,6 @@ CREATE TABLE week
 	PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS month;
 CREATE TABLE month
 (
 	year			CHAR(4),

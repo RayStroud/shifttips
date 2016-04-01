@@ -1,5 +1,5 @@
 (function() {
-	angular.module('shiftTips', ['ngRoute', 'angular.filter'])
+	angular.module('shiftTips', ['ngRoute', 'angular.filter', 'LocalStorageModule'])
 
 	.config(function ($routeProvider) {
 		$routeProvider
@@ -12,6 +12,7 @@
 		.when('/shifts/due', 		{templateUrl: 'app/shifts/shift-due.html'})
 		.when('/summary', 			{templateUrl: 'app/summary/summary.html'})
 		.when('/summary/period', 	{templateUrl: 'app/summary/summary-period.html'})
+		.when('/account', 			{templateUrl: 'app/users/account.html'})
 		.when('/', 					{templateUrl: 'app/home/home.html'})
 		.otherwise(					{redirectTo: '/'});
 	})

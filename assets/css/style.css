@@ -47,7 +47,7 @@ a, a:link, a:visited, a:hover, a:active {
 ############################################ */
 body {
   background-color: #337ab7;
-  font-family: sans-serif; }
+  font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif; }
 
 h1 {
   text-align: center;
@@ -57,15 +57,23 @@ h1 {
   margin: 2% 1%; }
 
 h2 {
-  font-family: Cambria, Caladea, CaladeaBold, Georgia, serif;
+  font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
+  text-align: center;
   font-size: 1.5em;
   font-weight: bold;
   margin: 1em 0; }
 
 h3 {
+  font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
   text-align: center;
   font-size: 1.2em;
   margin: 1em 0; }
+
+h4 {
+  font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold; }
 
 #header {
   color: white;
@@ -83,10 +91,10 @@ h3 {
       text-decoration: none; }
   #header ul.menu {
     display: inline-block;
-    margin: 0.3em 0.5em; }
+    margin-left: 0.5em;
+    margin-right: 0.5em; }
     #header ul.menu li {
-      display: inline-block;
-      margin: 0.5em 0; }
+      display: inline-block; }
       #header ul.menu li a.active {
         background-color: #285f8f;
         pointer-events: none;
@@ -153,11 +161,11 @@ h3 {
 /* ############################################
 	HOME
 ############################################ */
-.old-links {
+table.links {
   margin: 0 auto; }
-  .old-links td {
+  table.links td {
     padding: 0.3em 0; }
-  .old-links .link-button {
+  table.links .link-button {
     width: 100%; }
 
 /* ############################################
@@ -358,20 +366,35 @@ a.link-button {
     background-color: #63a0d4; }
 
 .link-button.tiny-button {
-  padding: 0; }
+  padding: 0 0.1em; }
 
 /* ############################################
 	ADD/EDIT FORMS
 ############################################ */
-form.add-form, form.edit-form {
+form.add-form, form.edit-form, form.login-form, form.user-form {
   display: flex;
   display: -webkit-flex;
   flex-flow: row wrap;
   -webkit-flex-flow: row wrap;
   margin: 2% auto 1%;
   max-width: 600px; }
-  form.add-form input, form.add-form textarea, form.edit-form input, form.edit-form textarea {
+  form.add-form input, form.add-form textarea, form.edit-form input, form.edit-form textarea, form.login-form input, form.login-form textarea, form.user-form input, form.user-form textarea {
     width: 100%; }
+
+.form-wrap {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+  justify-content: center; }
+  .form-wrap form {
+    flex: 1 1 250px;
+    min-width: 250px;
+    max-width: 400px;
+    margin: 0.8em;
+    padding: 2%;
+    border: 1px solid lightgray;
+    border-radius: 5px; }
 
 .form-group {
   margin: 1%; }
@@ -465,6 +488,9 @@ input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid, form.submitted input.ng-val
   -moz-box-shadow: inset 0px 0px 6px -2px green;
   box-shadow: inset 0px 0px 6px -2px green; }
 
+@media screen and (max-width: 400px) {
+  .form-wrap form {
+    width: 100%; } }
 /* ############################################
 	FILTER FORM
 ############################################ */
