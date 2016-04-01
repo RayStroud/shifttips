@@ -1,12 +1,9 @@
 angular.module('shiftTips')
-.service('userService', ['$http', function($http) {
+.service('userService', ['$http', 'localStorageService', function($http, localStorageService) {
 	var ctrl = this;
-	ctrl.user = {"name":null,"uid":-1};
-	this.getUsers = function(uid) {
-		return $http.get('./data/users.php');
-	};
-	this.getUser = function(id) {
-		return $http.get('./data/users.php?id=' + id);
+	ctrl.user = localStorageService.get('user') || {"name":null,"uid":-1};
+	this.getUser = function() {
+		return ctrl.user;
 	};
 	this.addUser = function(user) {
 		return $http.post('./data/users.php', user);
@@ -20,8 +17,9 @@ angular.module('shiftTips')
 	this.login = function(name, email) {
 		var response = $http.get('./data/users.php?name=' + name + '&email=' + email)
 		.success(function (data, status, headers, config) {
-			ctrl.user.uid = data;
-			ctrl.user.name = name;
+			var loggedUser = {"name":name,"uid":data};
+			ctrl.user = loggedUser;
+			localStorageService.set('user', loggedUser);
 		})
 		.error(function (data, status, headers, config) {
 			ctrl.user = {"name":null,"uid":-1};
@@ -29,10 +27,9 @@ angular.module('shiftTips')
 		return response;
 	};
 	this.logout = function() {
-		ctrl.user = {"name":null,"uid":-1};
-	};
-	this.getUser = function() {
-		return ctrl.user;
+		var nullUser = {"name":null,"uid":-1};
+		localStorageService.set('user', nullUser);
+		ctrl.user = nullUser;
 	};
 }])
 
