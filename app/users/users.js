@@ -37,8 +37,8 @@ angular.module('shiftTips')
 	var ctrl = this;
 	ctrl.user = userService.getUser();
 
-	ctrl.login = function() {
-		userService.login(ctrl.loginUser.name, ctrl.loginUser.email)
+	ctrl.login = function(name, email) {
+		userService.login(name, email)
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.user = userService.getUser();
@@ -51,7 +51,7 @@ angular.module('shiftTips')
 		})
 		.error(function (data, status, headers, config) {
 			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. The account cannot be created.';
+			ctrl.error = 'Oops! Something bad happened. Login failed.';
 		});
 	};
 
@@ -60,16 +60,16 @@ angular.module('shiftTips')
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			if(data == 0) {
-				ctrl.registerError = "Sorry, that email is already registered."
+				ctrl.registerError = "Sorry, that email is already registered, or it cannot be registered at this time."
 			}
 			else {
 				ctrl.registerError = "";
-				userService.login(ctrl.newUser.name, ctrl.newUser.email);
+				ctrl.login(ctrl.newUser.name, ctrl.newUser.email);
 			}
 		})
 		.error(function (data, status, headers, config) {
 			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. The account cannot be created.';
+			ctrl.error = 'Oops! Something bad happened. The email cannot be registered.';
 		});
 	};
 

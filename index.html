@@ -25,7 +25,7 @@
 				<div class="form-wrap">
 					<form name="loginForm" class="login-form" novalidate
 							ng-class="{submitted:loginForm.$submitted}" 
-							ng-submit="loginForm.$valid && userCtrl.login()">
+							ng-submit="loginForm.$valid && userCtrl.login(userCtrl.loginUser.name, userCtrl.loginUser.email)">
 						<div class="form-group full-width">
 							<h4>Existing Account</h4>
 							<div class="error message-box" ng-show="userCtrl.loginError">{{userCtrl.loginError}}</div>
