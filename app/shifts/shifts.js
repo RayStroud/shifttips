@@ -139,8 +139,8 @@ angular.module('shiftTips')
 	ctrl.sortDate = ['date','startTime'];
 	ctrl.sortDayOfWeek = ['weekday','date','startTime'];
 	ctrl.sortLunchDinner = ['-lunchDinner','date','startTime'];
-	ctrl.sortReverse = false;
 	ctrl.changeSortField(ctrl.sortDate);
+	ctrl.sortReverse = true;
 	ctrl.getShifts();
 	ctrl.updateSummary(null, null, null, null, null, null, null, null, null, null); // this is all null until I can keep the data constant in the Service
 }])
@@ -295,11 +295,12 @@ angular.module('shiftTips')
 	};
 })
 
-.controller('ShiftAddController', ['shiftsService', 'userService', function(shiftsService, userService) {
+.controller('ShiftAddController', ['shiftsService', 'userService', 'filterService', function(shiftsService, userService, filterService) {
 	var ctrl = this;
-	this.shift = {user_id: userService.getUser().uid, wage: 9.2};
+	ctrl.shift = {user_id: userService.getUser().uid, wage: 9.2};
+	ctrl.prefs = filterService.prefs.add;
 
-	this.addShift = function() {
+	ctrl.addShift = function() {
 		//remove the timezone information that angular adds during its validation
 		var postShift = JSON.parse(JSON.stringify(ctrl.shift));
 		postShift.date = postShift.date ? moment(postShift.date).format('YYYY-MM-DD') : null;
