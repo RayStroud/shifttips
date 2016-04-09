@@ -31,34 +31,34 @@ angular.module('shiftTips')
 		}
 	};
 
-	ctrl.defaultFilters = function() {
+	ctrl.getDefaultFilters = function() {
 		return {
 			"visible" 		: false	,
 			
 			"from" 			: ""	,
 			"to"			: ""	,
 
-			"lunCheck"		: false	,
-			"dinCheck"		: false	,
 			"lunchDinner" 	: ""	,
+			"lun" 			: false	,
+			"din" 			: false	,
 
-			"monCheck"		: false	,
-			"tueCheck"		: false	,
-			"wedCheck"		: false	,
-			"thuCheck"		: false	,
-			"friCheck"		: false	,
-			"satCheck"		: false	,
-			"sunCheck"		: false	,
-			"aDays"			: [null,null,null,null,null,null,null] ,
+			"days"			: false	,
+			"mon" 			: false	,
+			"tue" 			: false	,
+			"wed" 			: false	,
+			"thu" 			: false	,
+			"fri" 			: false	,
+			"sat" 			: false	,
+			"sun" 			: false	,
 
-			"listSort"		: ctrl.listSortDate	,
+			"listSort"		: ctrl.listSortValues.date	,
 			"listReverse"	: true	,
 			"gridReverse"	: true	,
 			"summaryType" 	: ctrl.summaryTypeValues.lunchDinner	,
 			"periodType" 	: null
 		};
 	};
-	ctrl.defaultPrefs = function() {
+	ctrl.getDefaultPrefs = function() {
 		return {
 			"list" : {
 				"lunchDinner"	: true	,
@@ -154,6 +154,7 @@ angular.module('shiftTips')
 			},
 			"add" : {
 				"wage"			: true	,
+				"wageValue"		: null	,
 				"startTime"		: true	,
 				"endTime"		: true	,
 				"firstTable"	: true	,
@@ -171,6 +172,99 @@ angular.module('shiftTips')
 		}
 	};
 
-	ctrl.filters = localStorageService.get('filters') || ctrl.defaultFilters();
-	ctrl.prefs = localStorageService.get('prefs') || ctrl.defaultPrefs();
+	ctrl.getFilters = function() {
+		return ctrl.filters;
+	};
+	ctrl.getPrefs = function() {
+		return ctrl.prefs;
+	};
+
+	ctrl.updateFilters = function(filters) {
+		ctrl.filters = filters;
+		localStorageService.set('filters', filters);
+	};
+	ctrl.updatePrefs = function(prefs) {
+		ctrl.prefs = prefs;
+		localStorageService.set('prefs', prefs);		
+	};
+
+	ctrl.clearFilters = function() {
+		ctrl.filters = ctrl.getDefaultFilters();
+		localStorageService.set('filters', ctrl.filters);
+	};
+
+	ctrl.filters = localStorageService.get('filters') || ctrl.getDefaultFilters();
+	ctrl.filters.from = ctrl.filters.from ? new Date(ctrl.filters.from) : null;
+	ctrl.filters.to = ctrl.filters.to ? new Date(ctrl.filters.to) : null;
+	ctrl.prefs = localStorageService.get('prefs') || ctrl.getDefaultPrefs();
+}])
+
+.controller('PrefsController', ['filterService', function(filterService){
+	var ctrl = this;
+	ctrl.prefs = filterService.getPrefs();
+
+	ctrl.setPref = function(page, field, value) {
+		ctrl.prefs[page][field] = value;
+		filterService.updatePrefs(ctrl.prefs);
+	};
+}])
+
+.controller('FiltersController', ['filterService', function(filterService){
+	var ctrl = this;
+	ctrl.prefs = filterService.getPrefs();
+	ctrl.filters = filterService.getFilters();
+	ctrl.listSortValues = { 
+		"date" : ['date','startTime'],
+		"dayOfWeek" : ['weekday','date','startTime'],
+		"lunchDinner" : ['-lunchDinner','date','startTime']
+	};
+
+	ctrl.clear = function() {
+		filterService.clearFilters();
+		ctrl.filters = filterService.getFilters();
+	};
+
+	ctrl.updateFilters = function() {
+		filterService.updateFilters(ctrl.filters);
+	};
+
+	ctrl.setFilter = function(name, value) {
+		ctrl.filters[name] = value;
+		ctrl.updateFilters();
+	};
+
+	ctrl.toggleLD = function(ld) {
+		ctrl.filters[ld] = !ctrl.filters[ld];	//toggle
+		var dl = (ld == "lun") ? "din" : "lun";	//determine opposite
+		ctrl.filters[dl] = ctrl.filters[ld] ? false : ctrl.filters[dl];	//if was set to true, set opposite to false, otherwise value remains
+		ctrl.filters.lunchDinner = ctrl.filters.lun
+			? (ctrl.filters.din ? "" : "L")
+			: (ctrl.filters.din ? "D" : "");
+		ctrl.updateFilters();
+	};
+
+	ctrl.toggleDay = function(day) {
+		ctrl.filters[day] = !ctrl.filters[day];
+		ctrl.filters.days = (ctrl.filters.mon || ctrl.filters.tue || ctrl.filters.wed || ctrl.filters.thu || ctrl.filters.fri || ctrl.filters.sat || ctrl.filters.sun)	//if any days
+			? (ctrl.filters.mon && ctrl.filters.tue && ctrl.filters.wed && ctrl.filters.thu && ctrl.filters.fri && ctrl.filters.sat && ctrl.filters.sun) //if all days
+				? false //if all days, then false
+				: true	//if only some days, then true
+			: false; 	//if no days, then false
+		ctrl.updateFilters();
+	};
+
+	ctrl.changeListSort = function(name) {
+		// if field is already selected, toggle the sort direction
+		if(ctrl.filters.listSort == name) {
+			ctrl.filters.listReverse = !ctrl.filters.listReverse;
+		} else {
+			ctrl.filters.listSort = name;
+			ctrl.filters.listReverse = false;
+		}
+		ctrl.updateFilters();
+	};
+	ctrl.isListSort = function(name) {
+		//return ctrl.filters.listSort == name;
+		return JSON.stringify(ctrl.filters.listSort) == JSON.stringify(name);
+	};
 }]);

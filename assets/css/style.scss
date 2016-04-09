@@ -421,6 +421,7 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
 }
 .button-group {
 	border-color: transparent;
+	margin-top: 0.5em;
 	padding-top: 0;
 	padding-bottom: 0;
 }
@@ -463,6 +464,7 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
 	margin: 0 10%;
 	width: 80%;
 }
+.wage-input {max-width: 80px;}
 .message-box {
 	display: table;
 	background-color: white;
@@ -558,10 +560,10 @@ span.filter-bold {
 	border-radius: 5px;
 	background-color: grey;
 	color: white;
-	padding: 0.1em 0.3em;
+	padding: 0.1em 0.3em 0.2em;
 }
 .filter-message {
-	line-height: 1.6em;
+	line-height: 2em;
 }
 
 #mon-check + label {background-color: white; color: rgba($mon-color, 0.6);}

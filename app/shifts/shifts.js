@@ -88,7 +88,7 @@ angular.module('shiftTips')
 	ctrl.getShifts();
 }])
 
-.controller('ShiftListController', ['$location', 'shiftsService', 'summaryService', 'userService', function($location, shiftsService, summaryService, userService) {
+.controller('ShiftListController', ['$location', 'shiftsService', 'summaryService', 'userService', 'filterService', function($location, shiftsService, summaryService, userService, filterService) {
 	var ctrl = this;
 
 	ctrl.getShifts = function() {
@@ -103,11 +103,14 @@ angular.module('shiftTips')
 		});
 	};
 
-	ctrl.updateSummary = function(from, to, lunchDinner, mon, tue, wed, thu, fri, sat, sun) {
-		var p_dateFrom = moment(from, 'YYYY-MM-DD').isValid() ? moment(from).format('YYYY-MM-DD') : null;
-		var p_dateTo = moment(to, 'YYYY-MM-DD').isValid() ? moment(to).format('YYYY-MM-DD') : null;
+	ctrl.updateSummary = function() {
+		var filters = filterService.filters;
+		var p_dateFrom = moment(filters.from).isValid() ? moment(filters.from).format('YYYY-MM-DD') : null;
+		var p_dateTo = moment(filters.to).isValid() ? moment(filters.to).format('YYYY-MM-DD') : null;
 
-		summaryService.getSummaryFiltered(userService.getUser().uid, p_dateFrom, p_dateTo, lunchDinner, mon, tue, wed, thu, fri, sat, sun)
+		//* DEBUG */ console.log("getSummaryFiltered(" + userService.getUser().uid + ", " + p_dateFrom + ", " + p_dateTo + ", " + filters.lunchDinner + ", " + filters.mon + ", " + filters.tue + ", " + filters.wed + ", " + filters.thu + ", " + filters.fri + ", " + filters.sat + ", " + filters.sun + ")");
+
+		summaryService.getSummaryFiltered(userService.getUser().uid, p_dateFrom, p_dateTo, filters.lunchDinner, filters.mon, filters.tue, filters.wed, filters.thu, filters.fri, filters.sat, filters.sun)
 		.success(function (data, status, headers, config) {
 			/* DEBUG */ctrl.summaryResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.summary = data;
@@ -119,30 +122,12 @@ angular.module('shiftTips')
 
 	};
 
-	ctrl.changeSortField = function(field) {
-		// if field is already selected, toggle the sort direction
-		if(ctrl.sortField == field) {
-			ctrl.sortReverse = !ctrl.sortReverse;
-		} else {
-			ctrl.sortField = field;
-			ctrl.sortReverse = false;
-		}
-	};
-	ctrl.isSortField = function(field) {
-		return ctrl.sortField == field;
-	};
-
 	ctrl.viewShift = function(id) {
 		$location.path('/shift/' + id);
 	};
 
-	ctrl.sortDate = ['date','startTime'];
-	ctrl.sortDayOfWeek = ['weekday','date','startTime'];
-	ctrl.sortLunchDinner = ['-lunchDinner','date','startTime'];
-	ctrl.changeSortField(ctrl.sortDate);
-	ctrl.sortReverse = true;
 	ctrl.getShifts();
-	ctrl.updateSummary(null, null, null, null, null, null, null, null, null, null); // this is all null until I can keep the data constant in the Service
+	ctrl.updateSummary();
 }])
 
 .controller('ShiftDueController', ['shiftsService', 'userService', function(shiftsService, userService) {
@@ -297,8 +282,8 @@ angular.module('shiftTips')
 
 .controller('ShiftAddController', ['shiftsService', 'userService', 'filterService', function(shiftsService, userService, filterService) {
 	var ctrl = this;
-	ctrl.shift = {user_id: userService.getUser().uid, wage: 9.2};
 	ctrl.prefs = filterService.prefs.add;
+	ctrl.shift = {user_id: userService.getUser().uid, wage: ctrl.prefs.wageValue};
 
 	ctrl.addShift = function() {
 		//remove the timezone information that angular adds during its validation
@@ -383,37 +368,53 @@ angular.module('shiftTips')
 	return function(shifts, filters) {
 		var filteredShifts = [];
 		angular.forEach(shifts, function(shift) {
-			//check dates, if filters are empty, set it to true
-			var isAfterFromDate = filters.fromDate 
-				? moment(shift.date).isAfter(filters.fromDate) || moment(shift.date).isSame(filters.fromDate) 
+			//check dates, if filters are empty, set it to true aka pass it
+			var isAfterFromDate = filters.from 
+				? moment(shift.date).isAfter(filters.from) || moment(shift.date).isSame(filters.from) 
 				: true;
-			var isBeforeToDate = filters.toDate 
-				? moment(shift.date).isBefore(filters.toDate) || moment(shift.date).isSame(filters.toDate) 
+			var isBeforeToDate = filters.to 
+				? moment(shift.date).isBefore(filters.to) || moment(shift.date).isSame(filters.to) 
 				: true;
 
 			//check lunch/dinner
-			var isLunchDinner = filters.lunchDinner ? shift.lunchDinner == filters.lunchDinner : true;
+			var isLunchDinner = filters.lunchDinner ? shift.lunchDinner == filters.lunchDinner : true;	//if lunchDinner is defined, check if it's the right one, otherwise pass it
 
-			//check dayOfWeek
 			var isDayOfWeek = false;
-			var isNullArray = true;
-			for(i = 0; i < 7; i++) {
-				if (filters.aDays[i]) {
-					isNullArray = false;
-					if (shift.dayOfWeek == filters.aDays[i]) {
-						isDayOfWeek = true;
-					}
-				}
+			if(filters.days) {		//if there is a day selected
+									//check all days
+				isDayOfWeek = filters.mon
+					? shift.dayOfWeek == "Mon" ? true : isDayOfWeek		//if monday is selected, check if dayOfWeek is 'mon', if so true, if not keep going
+					: isDayOfWeek;										//if monday is not selected, keep going	
+				isDayOfWeek = filters.tue
+					? shift.dayOfWeek == "Tue" ? true : isDayOfWeek
+					: isDayOfWeek;
+				isDayOfWeek = filters.wed
+					? shift.dayOfWeek == "Wed" ? true : isDayOfWeek
+					: isDayOfWeek;
+				isDayOfWeek = filters.thu
+					? shift.dayOfWeek == "Thu" ? true : isDayOfWeek
+					: isDayOfWeek;
+				isDayOfWeek = filters.fri
+					? shift.dayOfWeek == "Fri" ? true : isDayOfWeek
+					: isDayOfWeek;
+				isDayOfWeek = filters.sat
+					? shift.dayOfWeek == "Sat" ? true : isDayOfWeek
+					: isDayOfWeek;
+				isDayOfWeek = filters.sun
+					? shift.dayOfWeek == "Sun" ? true : isDayOfWeek
+					: isDayOfWeek;
+			} else {				//if there is no day selected
+				isDayOfWeek = true	//pass the day of week test
 			}
-			if (isNullArray) {isDayOfWeek = true;}	//if array is all null, then should match all dayOfWeeks
+
+			// /* DEBUG */ console.log(shift)
+			// /* DEBUG */ console.log(filters)
+			// /* DEBUG */ console.log(new moment(shift.date)) 
+			// /* DEBUG */ console.log(new moment(filters.from))
+			// /* DEBUG */ console.log(new moment(filters.to))
+			// /* DEBUG */ console.log(isAfterFromDate, isBeforeToDate, isLunchDinner, isDayOfWeek, isNullArray);
 
 			//check if all conditions match
-			// console.log(shift)
-			// console.log(filters)
-			// console.log(new moment(shift.date)) 
-			// console.log(new moment(filters.fromDate))
-			// console.log(new moment(filters.toDate))
-			// console.log(isAfterFromDate, isBeforeToDate, isLunchDinner, isDayOfWeek, isNullArray);
 			if (isAfterFromDate && isBeforeToDate && isLunchDinner && isDayOfWeek) {
 				filteredShifts.push(shift);
 			}				
