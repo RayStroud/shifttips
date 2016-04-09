@@ -3,7 +3,7 @@ angular.module('shiftTips')
 	var ctrl = this;
 	ctrl.uid = -1;		//record uid to compare against current logged in user
 	ctrl.shiftId = -1;	//record shift id to compare against stored shift
-	ctrl.clear = function() {
+	ctrl.resetIds = function() {
 		ctrl.uid = -1;
 		ctrl.shiftId = -1;
 		ctrl.shifts = null;
@@ -20,18 +20,18 @@ angular.module('shiftTips')
 		return $http.get('./data/shifts.php?uid=' + uid + '&id=' + id);
 	};
 	ctrl.addShift = function(shift) {
-		ctrl.clear();
+		ctrl.resetIds();
 		return $http.post('./data/shifts.php', shift);
 	};
 	ctrl.editShift = function(shift) {
-		ctrl.clear();
+		ctrl.resetIds();
 		return $http.put('./data/shifts.php', shift);
 	};
 	ctrl.removeShift = function(uid, id) {
 		return $http.delete('./data/shifts.php?uid=' + uid + '&id=' + id);
 	};
 	ctrl.setDueCheck = function(uid, id, dueCheck) {
-		ctrl.clear();
+		ctrl.resetIds();
 		return $http.get('./data/shifts.php?uid=' + uid + '&id=' + id + '&dueCheck=' + dueCheck);
 	};
 }])
@@ -90,6 +90,7 @@ angular.module('shiftTips')
 
 .controller('ShiftListController', ['$location', 'shiftsService', 'summaryService', 'userService', 'filterService', function($location, shiftsService, summaryService, userService, filterService) {
 	var ctrl = this;
+	ctrl.prefs = filterService.prefs.list;
 
 	ctrl.getShifts = function() {
 		shiftsService.getShifts(userService.getUser().uid)
@@ -306,8 +307,9 @@ angular.module('shiftTips')
 	};
 }])
 
-.controller('ShiftEditController', [ 'shiftsService', 'userService', '$routeParams', function(shiftsService, userService, $routeParams) {
+.controller('ShiftEditController', [ 'shiftsService', 'userService', 'filterService', '$routeParams', function(shiftsService, userService, filterService, $routeParams) {
 	var ctrl = this;
+	ctrl.prefs = filterService.prefs.edit;
 
 	shiftsService.getShift(userService.getUser().uid, $routeParams.id)
 	.success(function (data, status, headers, config) {

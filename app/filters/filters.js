@@ -129,7 +129,6 @@ angular.module('shiftTips')
 
 				"transfers"		: false	,
 				"noCampHourly"	: false	
-
 			},
 			"period" : {
 				"count"			: true	,
@@ -150,7 +149,6 @@ angular.module('shiftTips')
 
 				"transfers"		: false	,
 				"noCampHourly"	: false
-
 			},
 			"add" : {
 				"wage"			: true	,
@@ -167,6 +165,149 @@ angular.module('shiftTips')
 				"due"			: true	,
 				"section"		: true	,
 				"cut"			: true	,
+				"notes"			: true		
+			},
+			"edit" : {
+				"wage"			: true	,
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"firstTable"	: true	,
+				"campHours"		: true	,
+				"sales"			: true	,
+				"covers"		: true	,
+				"tipout"		: true	,
+				"transfers"		: true	,
+				"cash"			: true	,
+				"due"			: true	,
+				"section"		: true	,
+				"cut"			: true	,
+				"notes"			: true		
+			}
+		}
+	};
+	ctrl.getMinimalPrefs = function() {
+		return {
+			"list" : {
+				"lunchDinner"	: true	,
+				"dayOfWeek"		: true	,
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"hours"			: true	,
+				"earnedWage"	: false	,
+				"earnedTips"	: true	,
+				"earnedTotal"	: false	,
+				"firstTable"	: false	,
+				"sales"			: true	,
+				"tipout"		: false	,
+				"transfers"		: false	,
+				"covers"		: false	,
+				"campHours"		: false	,
+				"salesPerHour"	: false	,
+				"salesPerCover"	: false	,
+				"tipsPercent"	: true	,
+				"tipoutPercent"	: false	,
+				"tipsVsWage"	: false	,
+				"hourly"		: true	,
+
+				"cash"			: false	,
+				"due"			: false	,
+				"dueCheck"		: false	,
+				"cut"			: false	,
+				"section"		: false	,
+				"notes"			: false	,
+				"noCampHourly"	: false	
+			},
+			"grid" : {
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"sales"			: true	,
+				"earnedTips"	: true	,
+				"tipsPercent"	: true	,
+				"hourly"		: true	,
+
+				"hours"			: false	,
+				"earnedWage"	: false	,
+				"earnedTotal"	: false	,
+				"tipout"		: false	,
+				"transfers"		: false	,
+				"covers"		: false	,
+				"campHours"		: false	,
+				"salesPerHour"	: false	,
+				"salesPerCover"	: false	,
+				"tipoutPercent"	: false	,
+				"tipsVsWage"	: false	,
+				"noCampHourly"	: false	
+			},
+			"summary" : {
+				"hours"			: true	,
+				"earnedWage"	: true	,
+				"earnedTips"	: true	,
+				"earnedTotal"	: true	,
+				"sales"			: true	,
+				"tipout"		: false	,
+				"covers"		: false	,
+				"campHours"		: false	,
+				"salesPerHour"	: false	,
+				"salesPerCover"	: false	,
+				"tipsPercent"	: true	,
+				"tipoutPercent"	: false	,
+				"tipsVsWage"	: false	,
+				"hourly"		: true	,
+
+				"transfers"		: false	,
+				"noCampHourly"	: false	
+			},
+			"period" : {
+				"count"			: true	,
+				"hours"			: true	,
+				"earnedWage"	: true	,
+				"earnedTips"	: true	,
+				"earnedTotal"	: true	,
+				"sales"			: true	,
+				"tipout"		: false	,
+				"covers"		: false	,
+				"campHours"		: false	,
+				"salesPerHour"	: false	,
+				"salesPerCover"	: false	,
+				"tipsPercent"	: true	,
+				"tipoutPercent"	: false	,
+				"tipsVsWage"	: false	,
+				"hourly"		: true	,
+
+				"transfers"		: false	,
+				"noCampHourly"	: false
+			},
+			"add" : {
+				"wage"			: false	,
+				"wageValue"		: null	,
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"firstTable"	: false	,
+				"campHours"		: false	,
+				"sales"			: true	,
+				"covers"		: false	,
+				"tipout"		: false	,
+				"transfers"		: false	,
+				"cash"			: true	,
+				"due"			: true	,
+				"section"		: false	,
+				"cut"			: false	,
+				"notes"			: true		
+			},
+			"edit" : {
+				"wage"			: false	,
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"firstTable"	: false	,
+				"campHours"		: false	,
+				"sales"			: true	,
+				"covers"		: false	,
+				"tipout"		: false	,
+				"transfers"		: false	,
+				"cash"			: true	,
+				"due"			: true	,
+				"section"		: false	,
+				"cut"			: false	,
 				"notes"			: true		
 			}
 		}
@@ -188,9 +329,21 @@ angular.module('shiftTips')
 		localStorageService.set('prefs', prefs);		
 	};
 
-	ctrl.clearFilters = function() {
+	ctrl.resetFilters = function() {
 		ctrl.filters = ctrl.getDefaultFilters();
 		localStorageService.set('filters', ctrl.filters);
+	};
+	ctrl.resetPrefs = function(type) {
+		switch(type) {
+			case "minimal":
+				ctrl.prefs = ctrl.getMinimalPrefs();
+				break;
+			case "default":
+			default:
+				ctrl.prefs = ctrl.getDefaultPrefs();
+				break;
+		}
+		localStorageService.set('prefs', ctrl.prefs);
 	};
 
 	ctrl.filters = localStorageService.get('filters') || ctrl.getDefaultFilters();
@@ -207,11 +360,15 @@ angular.module('shiftTips')
 		ctrl.prefs[page][field] = value;
 		filterService.updatePrefs(ctrl.prefs);
 	};
+
+	ctrl.resetPrefs = function(type) {
+		filterService.resetPrefs(type);
+		ctrl.prefs = filterService.getPrefs();
+	};
 }])
 
 .controller('FiltersController', ['filterService', function(filterService){
 	var ctrl = this;
-	ctrl.prefs = filterService.getPrefs();
 	ctrl.filters = filterService.getFilters();
 	ctrl.listSortValues = { 
 		"date" : ['date','startTime'],
@@ -219,8 +376,8 @@ angular.module('shiftTips')
 		"lunchDinner" : ['-lunchDinner','date','startTime']
 	};
 
-	ctrl.clear = function() {
-		filterService.clearFilters();
+	ctrl.resetFilters = function() {
+		filterService.resetFilters();
 		ctrl.filters = filterService.getFilters();
 	};
 

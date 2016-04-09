@@ -19,7 +19,7 @@
 						<div class="filter-group-body">
 							<div ng-hide="filtersCtrl.filters.visible" class="link-button button-inverse" ng-click="filtersCtrl.setFilter('visible',true)"><span class="fa fa-fw fa-eye"></span></div>
 							<div ng-show="filtersCtrl.filters.visible" class="link-button" ng-click="filtersCtrl.setFilter('visible',false)"><span class="fa fa-fw fa-eye-slash"></span></div>
-							<div class="link-button button-inverse" ng-click="filtersCtrl.clear()"><span class="fa fa-fw fa-eraser"></span></div>
+							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-eraser"></span></div>
 						</div>
 					</div>
 				</div>
@@ -76,113 +76,113 @@
 					<table class="summary-table">
 						<thead ng-class="{'sort-reverse':filtersCtrl.filters.listReverse}">
 							<tr class="header">
-								<th ng-if="filtersCtrl.prefs.list.lunchDinner" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort(filtersCtrl.listSortValues.lunchDinner)}" 
+								<th ng-if="ctrl.prefs.lunchDinner" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort(filtersCtrl.listSortValues.lunchDinner)}" 
 									ng-click="filtersCtrl.changeListSort(filtersCtrl.listSortValues.lunchDinner)">L/D</th>
-								<th ng-if="filtersCtrl.prefs.list.dayOfWeek" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort(filtersCtrl.listSortValues.dayOfWeek)}" 
+								<th ng-if="ctrl.prefs.dayOfWeek" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort(filtersCtrl.listSortValues.dayOfWeek)}" 
 									ng-click="filtersCtrl.changeListSort(filtersCtrl.listSortValues.dayOfWeek)">Day</th>
 								<th class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort(filtersCtrl.listSortValues.date)}" 
 									ng-click="filtersCtrl.changeListSort(filtersCtrl.listSortValues.date)">Date</th>
-								<th ng-if="filtersCtrl.prefs.list.startTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('startTime')}" 
+								<th ng-if="ctrl.prefs.startTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('startTime')}" 
 									ng-click="filtersCtrl.changeListSort('startTime')">Start</th>
-								<th ng-if="filtersCtrl.prefs.list.endTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('endTime')}" 
+								<th ng-if="ctrl.prefs.endTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('endTime')}" 
 									ng-click="filtersCtrl.changeListSort('endTime')">End</th>
-								<th ng-if="filtersCtrl.prefs.list.hours" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('hours')}" 
+								<th ng-if="ctrl.prefs.hours" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('hours')}" 
 									ng-click="filtersCtrl.changeListSort('hours')">Hours</th>
-								<th ng-if="filtersCtrl.prefs.list.earnedWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('earnedWage')}" 
+								<th ng-if="ctrl.prefs.earnedWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('earnedWage')}" 
 									ng-click="filtersCtrl.changeListSort('earnedWage')">Wage</th>
-								<th ng-if="filtersCtrl.prefs.list.earnedTips" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('earnedTips')}" 
+								<th ng-if="ctrl.prefs.earnedTips" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('earnedTips')}" 
 									ng-click="filtersCtrl.changeListSort('earnedTips')">Tips</th>
-								<th ng-if="filtersCtrl.prefs.list.earnedTotal" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('earnedTotal')}" 
+								<th ng-if="ctrl.prefs.earnedTotal" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('earnedTotal')}" 
 									ng-click="filtersCtrl.changeListSort('earnedTotal')">Earned</th>
-								<th ng-if="filtersCtrl.prefs.list.sales" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('sales')}" 
+								<th ng-if="ctrl.prefs.sales" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('sales')}" 
 									ng-click="filtersCtrl.changeListSort('sales')">Sales</th>
-								<th ng-if="filtersCtrl.prefs.list.tipout" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipout')}" 
+								<th ng-if="ctrl.prefs.tipout" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipout')}" 
 									ng-click="filtersCtrl.changeListSort('tipout')">T/O</th>
-								<th ng-if="filtersCtrl.prefs.list.transfers" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('transfers')}" 
+								<th ng-if="ctrl.prefs.transfers" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('transfers')}" 
 									ng-click="filtersCtrl.changeListSort('transfers')">Tsfr</th>
-								<th ng-if="filtersCtrl.prefs.list.covers" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('covers')}" 
+								<th ng-if="ctrl.prefs.covers" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('covers')}" 
 									ng-click="filtersCtrl.changeListSort('covers')">Cov</th>
-								<th ng-if="filtersCtrl.prefs.list.campHours" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('campHours')}" 
+								<th ng-if="ctrl.prefs.campHours" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('campHours')}" 
 									ng-click="filtersCtrl.changeListSort('campHours')">Camp</th>
-								<th ng-if="filtersCtrl.prefs.list.salesPerHour" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('salesPerHour')}" 
+								<th ng-if="ctrl.prefs.salesPerHour" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('salesPerHour')}" 
 									ng-click="filtersCtrl.changeListSort('salesPerHour')">Sales/h</th>
-								<th ng-if="filtersCtrl.prefs.list.salesPerCover" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('salesPerCover')}" 
+								<th ng-if="ctrl.prefs.salesPerCover" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('salesPerCover')}" 
 									ng-click="filtersCtrl.changeListSort('salesPerCover')">Sales/cov</th>
-								<th ng-if="filtersCtrl.prefs.list.tipsPercent" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipsPercent')}" 
+								<th ng-if="ctrl.prefs.tipsPercent" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipsPercent')}" 
 									ng-click="filtersCtrl.changeListSort('tipsPercent')">%Tips</th>
-								<th ng-if="filtersCtrl.prefs.list.tipoutPercent" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipoutPercent')}" 
+								<th ng-if="ctrl.prefs.tipoutPercent" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipoutPercent')}" 
 									ng-click="filtersCtrl.changeListSort('tipoutPercent')">%T/O</th>
-								<th ng-if="filtersCtrl.prefs.list.tipsVsWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipsVsWage')}" 
+								<th ng-if="ctrl.prefs.tipsVsWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipsVsWage')}" 
 									ng-click="filtersCtrl.changeListSort('tipsVsWage')">%TvsW</th>
-								<th ng-if="filtersCtrl.prefs.list.hourly" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('hourly')}" 
+								<th ng-if="ctrl.prefs.hourly" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('hourly')}" 
 									ng-click="filtersCtrl.changeListSort('hourly')">Earn/h</th>
 							</tr>
 						</thead>
 						<tr class="clickable-row {{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:filtersCtrl.filters | orderBy:filtersCtrl.filters.listSort:filtersCtrl.filters.listReverse ) track by $index" ng-class-even="'alt'" ng-click="ctrl.viewShift(shift.id)">
-							<td ng-if="filtersCtrl.prefs.list.lunchDinner" class="ld-cell">{{shift.lunchDinner | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.dayOfWeek" class="day-cell">{{shift.dayOfWeek | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.lunchDinner" class="ld-cell">{{shift.lunchDinner | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.dayOfWeek" class="day-cell">{{shift.dayOfWeek | placeholder:'-'}}</td>
 							<td>{{shift.date | date:'MMM dd, yyyy' | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.startTime">{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.endTime">{{shift.endTime | timeToDate | date:'h:mma' | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.hours">{{shift.hours | number:2 | placeholder:'-':undefined:'h'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.earnedWage">{{shift.earnedWage | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.earnedTips">{{shift.earnedTips | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.earnedTotal">{{shift.earnedTotal | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.sales">{{shift.sales | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.tipout">{{shift.tipout | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.transfers">{{shift.transfers | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.covers">{{shift.covers | number:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.campHours">{{shift.campHours | number:2 | placeholder:'-':undefined:'h'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.salesPerHour">{{shift.salesPerHour | currency:undefined:0 | placeholder:'-':undefined:'/h'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.salesPerCover">{{shift.salesPerCover | currency:undefined:0 | placeholder:'-':undefined:'/cov'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.tipsPercent">{{shift.tipsPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.tipoutPercent">{{shift.tipoutPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.tipsVsWage">{{shift.tipsVsWage | number:0 | placeholder:'-':undefined:'%'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.hourly">{{shift.hourly | currency | placeholder:'-':undefined:'/h'}}</td>
+							<td ng-if="ctrl.prefs.startTime">{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.endTime">{{shift.endTime | timeToDate | date:'h:mma' | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.hours">{{shift.hours | number:2 | placeholder:'-':undefined:'h'}}</td>
+							<td ng-if="ctrl.prefs.earnedWage">{{shift.earnedWage | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.earnedTips">{{shift.earnedTips | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.earnedTotal">{{shift.earnedTotal | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.sales">{{shift.sales | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.tipout">{{shift.tipout | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.transfers">{{shift.transfers | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.covers">{{shift.covers | number:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.campHours">{{shift.campHours | number:2 | placeholder:'-':undefined:'h'}}</td>
+							<td ng-if="ctrl.prefs.salesPerHour">{{shift.salesPerHour | currency:undefined:0 | placeholder:'-':undefined:'/h'}}</td>
+							<td ng-if="ctrl.prefs.salesPerCover">{{shift.salesPerCover | currency:undefined:0 | placeholder:'-':undefined:'/cov'}}</td>
+							<td ng-if="ctrl.prefs.tipsPercent">{{shift.tipsPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
+							<td ng-if="ctrl.prefs.tipoutPercent">{{shift.tipoutPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
+							<td ng-if="ctrl.prefs.tipsVsWage">{{shift.tipsVsWage | number:0 | placeholder:'-':undefined:'%'}}</td>
+							<td ng-if="ctrl.prefs.hourly">{{shift.hourly | currency | placeholder:'-':undefined:'/h'}}</td>
 						</tr>
 						<tr class="summary">
-							<td ng-if="filtersCtrl.prefs.list.lunchDinner"></td>
-							<td ng-if="filtersCtrl.prefs.list.dayOfWeek"></td>
+							<td ng-if="ctrl.prefs.lunchDinner"></td>
+							<td ng-if="ctrl.prefs.dayOfWeek"></td>
 							<td><i>average</i></td>
-							<td ng-if="filtersCtrl.prefs.list.startTime"></td>
-							<td ng-if="filtersCtrl.prefs.list.endTime"></td>
-							<td ng-if="filtersCtrl.prefs.list.hours">{{ctrl.summary.avgHours | number:2 | placeholder:'-':undefined:'h'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.earnedWage">{{ctrl.summary.avgWage | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.earnedTips">{{ctrl.summary.avgTips | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.earnedTotal">{{ctrl.summary.avgEarned | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.sales">{{ctrl.summary.avgSales | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.tipout">{{ctrl.summary.avgTipout | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.transfers">{{ctrl.summary.avgTransfers | currency:undefined:0 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.covers">{{ctrl.summary.avgCovers | number:1 | placeholder:'-'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.campHours">{{ctrl.summary.avgCampHours | number:2 | placeholder:'-':undefined:'h'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.salesPerHour">{{ctrl.summary.salesPerHour | currency:undefined:0 | placeholder:'-':undefined:'/h'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.salesPerCover">{{ctrl.summary.salesPerCover | currency:undefined:0 | placeholder:'-':undefined:'/cov'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.tipsPercent">{{ctrl.summary.tipsPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.tipoutPercent">{{ctrl.summary.tipoutPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.tipsVsWage">{{ctrl.summary.tipsVsWage | number:0 | placeholder:'-':undefined:'%'}}</td>
-							<td ng-if="filtersCtrl.prefs.list.hourly">{{ctrl.summary.hourly | currency | placeholder:'-':undefined:'/h'}}</td>
+							<td ng-if="ctrl.prefs.startTime"></td>
+							<td ng-if="ctrl.prefs.endTime"></td>
+							<td ng-if="ctrl.prefs.hours">{{ctrl.summary.avgHours | number:2 | placeholder:'-':undefined:'h'}}</td>
+							<td ng-if="ctrl.prefs.earnedWage">{{ctrl.summary.avgWage | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.earnedTips">{{ctrl.summary.avgTips | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.earnedTotal">{{ctrl.summary.avgEarned | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.sales">{{ctrl.summary.avgSales | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.tipout">{{ctrl.summary.avgTipout | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.transfers">{{ctrl.summary.avgTransfers | currency:undefined:0 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.covers">{{ctrl.summary.avgCovers | number:1 | placeholder:'-'}}</td>
+							<td ng-if="ctrl.prefs.campHours">{{ctrl.summary.avgCampHours | number:2 | placeholder:'-':undefined:'h'}}</td>
+							<td ng-if="ctrl.prefs.salesPerHour">{{ctrl.summary.salesPerHour | currency:undefined:0 | placeholder:'-':undefined:'/h'}}</td>
+							<td ng-if="ctrl.prefs.salesPerCover">{{ctrl.summary.salesPerCover | currency:undefined:0 | placeholder:'-':undefined:'/cov'}}</td>
+							<td ng-if="ctrl.prefs.tipsPercent">{{ctrl.summary.tipsPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
+							<td ng-if="ctrl.prefs.tipoutPercent">{{ctrl.summary.tipoutPercent | number:1 | placeholder:'-':undefined:'%'}}</td>
+							<td ng-if="ctrl.prefs.tipsVsWage">{{ctrl.summary.tipsVsWage | number:0 | placeholder:'-':undefined:'%'}}</td>
+							<td ng-if="ctrl.prefs.hourly">{{ctrl.summary.hourly | currency | placeholder:'-':undefined:'/h'}}</td>
 						</tr>
 						<tr class="summary">
-							<td ng-if="filtersCtrl.prefs.list.lunchDinner" class="tot-cell"></td>
-							<td ng-if="filtersCtrl.prefs.list.dayOfWeek" class="tot-cell"></td>
+							<td ng-if="ctrl.prefs.lunchDinner" class="tot-cell"></td>
+							<td ng-if="ctrl.prefs.dayOfWeek" class="tot-cell"></td>
 							<td class="tot-cell"><i>{{ctrl.summary.count}} total</i></td>
-							<td ng-if="filtersCtrl.prefs.list.startTime" class="tot-cell"></td>
-							<td ng-if="filtersCtrl.prefs.list.endTime" class="tot-cell"></td>
-							<td ng-if="filtersCtrl.prefs.list.hours" class="tot-cell">{{ctrl.summary.totHours | number:0}}h</td>
-							<td ng-if="filtersCtrl.prefs.list.earnedWage" class="tot-cell">{{ctrl.summary.totWage | currency:undefined:0}}</td>
-							<td ng-if="filtersCtrl.prefs.list.earnedTips" class="tot-cell">{{ctrl.summary.totTips | currency:undefined:0}}</td>
-							<td ng-if="filtersCtrl.prefs.list.earnedTotal" class="tot-cell">{{ctrl.summary.totEarned | currency:undefined:0}}</td>
-							<td ng-if="filtersCtrl.prefs.list.sales" class="tot-cell">{{ctrl.summary.totSales | currency:undefined:0}}</td>
-							<td ng-if="filtersCtrl.prefs.list.tipout" class="tot-cell">{{ctrl.summary.totTipout | currency:undefined:0}}</td>
-							<td ng-if="filtersCtrl.prefs.list.transfers" class="tot-cell">{{ctrl.summary.totTransfers | currency:undefined:0}}</td>
-							<td ng-if="filtersCtrl.prefs.list.covers" class="tot-cell">{{ctrl.summary.totCovers | number:0}}</td>
-							<td ng-if="filtersCtrl.prefs.list.campHours" class="tot-cell">{{ctrl.summary.totCampHours | number:2}}h</td>
-							<td ng-if="filtersCtrl.prefs.list.salesPerHour" class="tot-cell"></td>
-							<td ng-if="filtersCtrl.prefs.list.salesPerCover" class="tot-cell"></td>
-							<td ng-if="filtersCtrl.prefs.list.tipsPercent" class="tot-cell"></td>
-							<td ng-if="filtersCtrl.prefs.list.tipoutPercent" class="tot-cell"></td>
-							<td ng-if="filtersCtrl.prefs.list.tipsVsWage" class="tot-cell"></td>
-							<td ng-if="filtersCtrl.prefs.list.hourly" class="tot-cell"></td>
+							<td ng-if="ctrl.prefs.startTime" class="tot-cell"></td>
+							<td ng-if="ctrl.prefs.endTime" class="tot-cell"></td>
+							<td ng-if="ctrl.prefs.hours" class="tot-cell">{{ctrl.summary.totHours | number:0}}h</td>
+							<td ng-if="ctrl.prefs.earnedWage" class="tot-cell">{{ctrl.summary.totWage | currency:undefined:0}}</td>
+							<td ng-if="ctrl.prefs.earnedTips" class="tot-cell">{{ctrl.summary.totTips | currency:undefined:0}}</td>
+							<td ng-if="ctrl.prefs.earnedTotal" class="tot-cell">{{ctrl.summary.totEarned | currency:undefined:0}}</td>
+							<td ng-if="ctrl.prefs.sales" class="tot-cell">{{ctrl.summary.totSales | currency:undefined:0}}</td>
+							<td ng-if="ctrl.prefs.tipout" class="tot-cell">{{ctrl.summary.totTipout | currency:undefined:0}}</td>
+							<td ng-if="ctrl.prefs.transfers" class="tot-cell">{{ctrl.summary.totTransfers | currency:undefined:0}}</td>
+							<td ng-if="ctrl.prefs.covers" class="tot-cell">{{ctrl.summary.totCovers | number:0}}</td>
+							<td ng-if="ctrl.prefs.campHours" class="tot-cell">{{ctrl.summary.totCampHours | number:2}}h</td>
+							<td ng-if="ctrl.prefs.salesPerHour" class="tot-cell"></td>
+							<td ng-if="ctrl.prefs.salesPerCover" class="tot-cell"></td>
+							<td ng-if="ctrl.prefs.tipsPercent" class="tot-cell"></td>
+							<td ng-if="ctrl.prefs.tipoutPercent" class="tot-cell"></td>
+							<td ng-if="ctrl.prefs.tipsVsWage" class="tot-cell"></td>
+							<td ng-if="ctrl.prefs.hourly" class="tot-cell"></td>
 						</tr>
 					</table>
 						
