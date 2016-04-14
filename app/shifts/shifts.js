@@ -52,15 +52,19 @@ angular.module('shiftTips')
 	};
 
 	this.deleteClick = function(shiftId) {
-		shiftsService.removeShift(userService.getUser().uid, shiftId)
-		.success(function (data, status, headers, config) {
-			ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Shift deleted.';
-		})
-		.error(function (data, status, headers, config) {
-			ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. Cannot delete shift.';
-		});
+		if(confirm('Delete shift?')) {
+			if(confirm('Are you sure? It cannot be undone.')) {
+				shiftsService.removeShift(userService.getUser().uid, shiftId)
+				.success(function (data, status, headers, config) {
+					ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
+					ctrl.error = 'Shift deleted.';
+				})
+				.error(function (data, status, headers, config) {
+					ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
+					ctrl.error = 'Oops! Something bad happened. Cannot delete shift.';
+				});
+			}
+		}
 	};
 
 	ctrl.setDueCheck = function(id, dueCheck) {
