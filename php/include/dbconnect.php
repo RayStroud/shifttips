@@ -5,7 +5,7 @@
 	$mysql_database = 'shifttips';
 	$mysql_user = 'root';
 	$mysql_password = '';		//WAMP
-	$mysql_password = 'root';	//MAMP
+	//$mysql_password = 'root';	//MAMP
 
 	//connect to db
 	//* DEBUG */ echo '<p>Attempting to connect...</p>';

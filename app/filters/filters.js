@@ -152,7 +152,6 @@ angular.module('shiftTips')
 			},
 			"add" : {
 				"wage"			: true	,
-				"wageValue"		: null	,
 				"startTime"		: true	,
 				"endTime"		: true	,
 				"firstTable"	: true	,
@@ -279,7 +278,6 @@ angular.module('shiftTips')
 			},
 			"add" : {
 				"wage"			: false	,
-				"wageValue"		: null	,
 				"startTime"		: true	,
 				"endTime"		: true	,
 				"firstTable"	: false	,
@@ -313,63 +311,100 @@ angular.module('shiftTips')
 		}
 	};
 
-	ctrl.getFilters = function() {
-		return ctrl.filters;
+	ctrl.getUserFilters = function(uid) {
+		return (ctrl.filters !== undefined && ctrl.filters.hasOwnProperty(uid) ) ? ctrl.filters[uid] : ctrl.getDefaultFilters();
 	};
-	ctrl.getPrefs = function() {
-		return ctrl.prefs;
+	ctrl.getUserPrefs = function(uid) {
+		return (ctrl.prefs !== undefined && ctrl.prefs.hasOwnProperty(uid) ) ? ctrl.prefs[uid] : ctrl.getDefaultPrefs();
 	};
-
-	ctrl.updateFilters = function(filters) {
-		ctrl.filters = filters;
-		localStorageService.set('filters', filters);
-	};
-	ctrl.updatePrefs = function(prefs) {
-		ctrl.prefs = prefs;
-		localStorageService.set('prefs', prefs);		
+	ctrl.getUserWage = function(uid) {
+		return (ctrl.wages !== undefined && ctrl.wages.hasOwnProperty(uid) ) ? ctrl.wages[uid] : null;
 	};
 
-	ctrl.resetFilters = function() {
-		ctrl.filters = ctrl.getDefaultFilters();
+	ctrl.updateUserFilters = function(uid, userFilters) {
+		ctrl.filters[uid] = userFilters;
 		localStorageService.set('filters', ctrl.filters);
 	};
-	ctrl.resetPrefs = function(type) {
+	ctrl.updateUserPrefs = function(uid, userPrefs) {
+		ctrl.prefs[uid] = userPrefs;
+		localStorageService.set('prefs', ctrl.prefs);
+	};
+	ctrl.updateUserWage = function(uid, userWage) {
+		ctrl.wages[uid] = userWage;
+		localStorageService.set('wages', ctrl.wages);
+	};
+
+	ctrl.resetUserFilters = function(uid) {
+		ctrl.filters[uid] = ctrl.getDefaultFilters();
+		localStorageService.set('filters', ctrl.filters);
+	};
+	ctrl.resetUserPrefs = function(uid, type) {
 		switch(type) {
 			case "minimal":
-				ctrl.prefs = ctrl.getMinimalPrefs();
+				ctrl.prefs[uid] = ctrl.getMinimalPrefs();
 				break;
 			case "default":
 			default:
-				ctrl.prefs = ctrl.getDefaultPrefs();
+				ctrl.prefs[uid] = ctrl.getDefaultPrefs();
 				break;
 		}
 		localStorageService.set('prefs', ctrl.prefs);
 	};
+	ctrl.resetUserWage = function(uid) {
+		ctrl.wages[uid] = null;
+		localStorageService.set('wages', ctrl.wages);
+	};
 
+	ctrl.clearAllData = function() {
+		ctrl.filters = null;
+		ctrl.prefs = null;
+		ctrl.wages = null;
+		localStorageService.set('filters', null);
+		localStorageService.set('prefs', null);
+		localStorageService.set('wages', null);
+	};
+
+	//retrieve filters, prefs, wages from local storage
+	//* DEBUG */ ctrl.clearAllData();
 	ctrl.filters = localStorageService.get('filters') || ctrl.getDefaultFilters();
-	ctrl.filters.from = ctrl.filters.from ? new Date(ctrl.filters.from) : null;
-	ctrl.filters.to = ctrl.filters.to ? new Date(ctrl.filters.to) : null;
 	ctrl.prefs = localStorageService.get('prefs') || ctrl.getDefaultPrefs();
+	ctrl.wages = localStorageService.get('wages') || {};
 }])
 
-.controller('PrefsController', ['filterService', function(filterService){
+.controller('PrefsController', ['filterService', 'userService', function(filterService, userService){
 	var ctrl = this;
-	ctrl.prefs = filterService.getPrefs();
+	ctrl.uid = userService.getUser().uid;
+	ctrl.prefs = filterService.getUserPrefs(ctrl.uid);
+	ctrl.wage = filterService.getUserWage(ctrl.uid);
 
 	ctrl.setPref = function(page, field, value) {
 		ctrl.prefs[page][field] = value;
-		filterService.updatePrefs(ctrl.prefs);
+		filterService.updateUserPrefs(ctrl.uid, ctrl.prefs);
+	};
+	ctrl.setWage = function(value) {
+		ctrl.wage = value;
+		filterService.updateUserWage(ctrl.uid, ctrl.wage);
 	};
 
 	ctrl.resetPrefs = function(type) {
-		filterService.resetPrefs(type);
-		ctrl.prefs = filterService.getPrefs();
+		filterService.resetUserPrefs(ctrl.uid, type);
+		ctrl.prefs = filterService.getUserPrefs(ctrl.uid);
+	};
+	ctrl.resetWage = function() {
+		filterService.resetUserWage(ctrl.uid);
+		ctrl.wage = filterService.getUseWage(ctrl.uid);
 	};
 }])
 
-.controller('FiltersController', ['filterService', function(filterService){
+.controller('FiltersController', ['filterService', 'userService', function(filterService, userService){
 	var ctrl = this;
-	ctrl.filters = filterService.getFilters();
+	ctrl.uid = userService.getUser().uid;
+	ctrl.filters = filterService.getUserFilters(ctrl.uid);
+
+	//convert dates to JS format
+	ctrl.filters.from = ctrl.filters.from ? new Date(ctrl.filters.from) : null;		
+	ctrl.filters.to = ctrl.filters.to ? new Date(ctrl.filters.to) : null;
+
 	ctrl.listSortValues = { 
 		"date" : ['date','startTime'],
 		"dayOfWeek" : ['weekday','date','startTime'],
@@ -377,12 +412,12 @@ angular.module('shiftTips')
 	};
 
 	ctrl.resetFilters = function() {
-		filterService.resetFilters();
-		ctrl.filters = filterService.getFilters();
+		filterService.resetUserFilters(ctrl.uid);
+		ctrl.filters = filterService.getUserFilters(ctrl.uid);
 	};
 
 	ctrl.updateFilters = function() {
-		filterService.updateFilters(ctrl.filters);
+		filterService.updateUserFilters(ctrl.uid, ctrl.filters);
 	};
 
 	ctrl.setFilter = function(name, value) {

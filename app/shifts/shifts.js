@@ -90,7 +90,8 @@ angular.module('shiftTips')
 
 .controller('ShiftListController', ['$location', 'shiftsService', 'summaryService', 'userService', 'filterService', function($location, shiftsService, summaryService, userService, filterService) {
 	var ctrl = this;
-	ctrl.prefs = filterService.prefs.list;
+	ctrl.uid = userService.getUser().uid;
+	ctrl.prefs = filterService.getUserPrefs(ctrl.uid).list;
 
 	ctrl.getShifts = function() {
 		shiftsService.getShifts(userService.getUser().uid)
@@ -105,13 +106,13 @@ angular.module('shiftTips')
 	};
 
 	ctrl.updateSummary = function() {
-		var filters = filterService.filters;
+		var filters = filterService.getUserFilters(ctrl.uid);
 		var p_dateFrom = moment(filters.from).isValid() ? moment(filters.from).format('YYYY-MM-DD') : null;
 		var p_dateTo = moment(filters.to).isValid() ? moment(filters.to).format('YYYY-MM-DD') : null;
 
-		//* DEBUG */ console.log("getSummaryFiltered(" + userService.getUser().uid + ", " + p_dateFrom + ", " + p_dateTo + ", " + filters.lunchDinner + ", " + filters.mon + ", " + filters.tue + ", " + filters.wed + ", " + filters.thu + ", " + filters.fri + ", " + filters.sat + ", " + filters.sun + ")");
+		//* DEBUG */ console.log("getSummaryFiltered(" + ctrl.uid + ", " + p_dateFrom + ", " + p_dateTo + ", " + filters.lunchDinner + ", " + filters.mon + ", " + filters.tue + ", " + filters.wed + ", " + filters.thu + ", " + filters.fri + ", " + filters.sat + ", " + filters.sun + ")");
 
-		summaryService.getSummaryFiltered(userService.getUser().uid, p_dateFrom, p_dateTo, filters.lunchDinner, filters.mon, filters.tue, filters.wed, filters.thu, filters.fri, filters.sat, filters.sun)
+		summaryService.getSummaryFiltered(ctrl.uid, p_dateFrom, p_dateTo, filters.lunchDinner, filters.mon, filters.tue, filters.wed, filters.thu, filters.fri, filters.sat, filters.sun)
 		.success(function (data, status, headers, config) {
 			/* DEBUG */ctrl.summaryResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.summary = data;
@@ -283,8 +284,9 @@ angular.module('shiftTips')
 
 .controller('ShiftAddController', ['shiftsService', 'userService', 'filterService', function(shiftsService, userService, filterService) {
 	var ctrl = this;
-	ctrl.prefs = filterService.prefs.add;
-	ctrl.shift = {user_id: userService.getUser().uid, wage: ctrl.prefs.wageValue};
+	ctrl.uid = userService.getUser().uid;
+	ctrl.prefs = filterService.getUserPrefs(ctrl.uid).add;
+	ctrl.shift = {user_id: ctrl.uid, wage: filterService.getUserWage(ctrl.uid)};
 
 	ctrl.addShift = function() {
 		//remove the timezone information that angular adds during its validation
@@ -309,9 +311,10 @@ angular.module('shiftTips')
 
 .controller('ShiftEditController', [ 'shiftsService', 'userService', 'filterService', '$routeParams', function(shiftsService, userService, filterService, $routeParams) {
 	var ctrl = this;
-	ctrl.prefs = filterService.prefs.edit;
+	ctrl.uid = userService.getUser().uid;
+	ctrl.prefs = filterService.getUserPrefs(ctrl.uid).edit;
 
-	shiftsService.getShift(userService.getUser().uid, $routeParams.id)
+	shiftsService.getShift(ctrl.uid, $routeParams.id)
 	.success(function (data, status, headers, config) {
 		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 		var retrievedShift = data;
@@ -340,7 +343,7 @@ angular.module('shiftTips')
 	this.editShift = function() {
 		//remove the timezone information that angular adds during its validation
 		var postShift = JSON.parse(JSON.stringify(ctrl.shift));
-		//* DEBUG */ postShift.user_id = userService.getUser().uid;
+		//* DEBUG */ postShift.user_id = ctrl.uid;
 		postShift.date = postShift.date ? moment(postShift.date).format('YYYY-MM-DD') : null;
 		postShift.startTime = postShift.startTime ? moment(postShift.startTime).format('HH:mm:ss') : null;
 		postShift.endTime = postShift.endTime ? moment(postShift.endTime).format('HH:mm:ss') : null;

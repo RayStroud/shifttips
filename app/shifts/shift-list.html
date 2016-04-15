@@ -121,7 +121,7 @@
 						<tr class="clickable-row {{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:filtersCtrl.filters | orderBy:filtersCtrl.filters.listSort:filtersCtrl.filters.listReverse ) track by $index" ng-class-even="'alt'" ng-click="ctrl.viewShift(shift.id)">
 							<td ng-if="ctrl.prefs.lunchDinner" class="ld-cell">{{shift.lunchDinner | placeholder:'-'}}</td>
 							<td ng-if="ctrl.prefs.dayOfWeek" class="day-cell">{{shift.dayOfWeek | placeholder:'-'}}</td>
-							<td>{{shift.date | date:'MMM dd, yyyy' | placeholder:'-'}}</td>
+							<td><a href="#/shift/{{shift.id}}">{{shift.date | date:'MMM dd, yyyy' | placeholder:'-'}}</a></td>
 							<td ng-if="ctrl.prefs.startTime">{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'-'}}</td>
 							<td ng-if="ctrl.prefs.endTime">{{shift.endTime | timeToDate | date:'h:mma' | placeholder:'-'}}</td>
 							<td ng-if="ctrl.prefs.hours">{{shift.hours | number:2 | placeholder:'-':undefined:'h'}}</td>

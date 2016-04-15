@@ -21,12 +21,12 @@
 			</tr>
 			<tr>
 				<td>Wage</td>
-				<td>{{ctrl.prefs.add.wageValue | currency:undefined:2 | placeholder:'Not Set'}}</td>
+				<td>{{ctrl.wage | currency:undefined:2 | placeholder:'Not Set'}}</td>
 			</tr>
 			<tr>
 				<td><input class="wage-input" ng-model="ctrl.newWage" type="number" name="wage" min="0" step="0.01" placeholder="$"/></td>
 				<td>
-					<button class="link-button" ng-click="ctrl.setPref('add', 'wageValue', ctrl.newWage); ctrl.newWage = null;"><span class="fa fa-fw fa-upload"></span></button>
+					<button class="link-button" ng-click="ctrl.setWage(ctrl.newWage); ctrl.newWage = null;"><span class="fa fa-fw fa-upload"></span></button>
 				</td>
 			</tr>
 			<tr>
