@@ -687,6 +687,12 @@ span.filter-bold {
 /* ############################################
 	TABLES
 ############################################ */
+div.mobile-table-wrap {
+  display: flex;
+  flex-wrap: wrap; }
+  div.mobile-table-wrap div.mobile-table {
+    flex: 1 1 200px; }
+
 div.mobile-table {
   width: 100%;
   overflow-x: auto; }
@@ -707,6 +713,10 @@ div.mobile-table {
     white-space: nowrap;
     text-align: right;
     vertical-align: middle; }
+  .summary-table tr.large-header th {
+    background-color: #eaeaea;
+    color: black;
+    padding: 0; }
   .summary-table th.sortable:hover {
     cursor: pointer;
     background-color: #777; }

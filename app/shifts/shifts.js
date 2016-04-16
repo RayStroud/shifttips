@@ -71,11 +71,13 @@ angular.module('shiftTips')
 	ctrl.loadShift();
 }])
 
-.controller('ShiftGridController', ['shiftsService', 'userService', function(shiftsService, userService) {
+.controller('ShiftGridController', ['shiftsService', 'userService', 'filterService', function(shiftsService, userService, filterService) {
 	var ctrl = this;
+	ctrl.uid = userService.getUser().uid;
+	ctrl.prefs = filterService.getUserPrefs(ctrl.uid).grid;
 
 	ctrl.getShifts = function() {
-		shiftsService.getShifts(userService.getUser().uid)
+		shiftsService.getShifts(ctrl.uid)
 		.success(function (data, status, headers, config) {
 			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shifts = data;

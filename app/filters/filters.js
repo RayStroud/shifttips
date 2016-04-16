@@ -109,6 +109,11 @@ angular.module('shiftTips')
 				"salesPerCover"	: false	,
 				"tipoutPercent"	: false	,
 				"tipsVsWage"	: false	,
+				"cash"			: false	,
+				"due"			: false	,
+				"dueCheck"		: false	,
+				"cut"			: false	,
+				"section"		: false	,
 				"noCampHourly"	: false	
 			},
 			"summary" : {
@@ -235,6 +240,11 @@ angular.module('shiftTips')
 				"salesPerCover"	: false	,
 				"tipoutPercent"	: false	,
 				"tipsVsWage"	: false	,
+				"cash"			: false	,
+				"due"			: false	,
+				"dueCheck"		: false	,
+				"cut"			: false	,
+				"section"		: false	,
 				"noCampHourly"	: false	
 			},
 			"summary" : {
