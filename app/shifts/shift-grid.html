@@ -20,6 +20,8 @@
 							<div ng-hide="filtersCtrl.filters.visible" class="link-button button-inverse" ng-click="filtersCtrl.setFilter('visible',true)"><span class="fa fa-fw fa-eye"></span></div>
 							<div ng-show="filtersCtrl.filters.visible" class="link-button" ng-click="filtersCtrl.setFilter('visible',false)"><span class="fa fa-fw fa-eye-slash"></span></div>
 							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-eraser"></span></div>
+							<a class="link-button button-inverse" ng-hide="filtersCtrl.filters.gridReverse" ng-click="filtersCtrl.setFilter('gridReverse',true)"><span class="fa fa-fw fa-sort-amount-asc"></span></a>
+							<a class="link-button button-inverse" ng-show="filtersCtrl.filters.gridReverse" ng-click="filtersCtrl.setFilter('gridReverse',false)"><span class="fa fa-fw fa-sort-amount-desc"></span></a>
 						</div>
 					</div>
 				</div>
@@ -72,12 +74,15 @@
 				No shifts found
 			</div>
 			<div id="shifts" ng-hide="filteredShifts.length < 1 || ctrl.error">
-				<div class="filter-group week-group" ng-repeat="(key,value) in filteredShifts = (ctrl.shifts | isValidShift:filtersCtrl.filters | orderBy:filtersCtrl.filters.gridSort) | groupBy: 'yearweek'">
+				<div class="filter-group week-group" ng-repeat="group in filteredShifts = (ctrl.shifts | isValidShift:filtersCtrl.filters)
+					| groupBy: 'yearweek'
+					| toArray: true
+					| orderBy:['$key','date','startTime']:filtersCtrl.filters.gridReverse">
 					<div class="filter-group-wrap">
-						<div class="filter-group-header">{{key | yearweek}}</div>
+						<div class="filter-group-header">{{group.$key | yearweek}}</div>
 						<div class="filter-group-body">
 							<div class="clickable shift-summary {{shift.dayOfWeek | lowercase}}-shift {{shift.lunchDinner | lowercase}}-shift"
-								 ng-repeat="shift in value">
+								 ng-repeat="shift in group">
 
 								<div class="shift-datetime">
 									<div class="shift-date">{{shift.date | date:'EEE, MMM d, yyyy' | placeholder:'Unknown Date'}}</div>
