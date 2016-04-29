@@ -87,19 +87,73 @@
 								<div class="shift-datetime">
 									<div class="shift-date">{{shift.date | date:'EEE, MMM d, yyyy' | placeholder:'Unknown Date'}}</div>
 									<div class="shift-time" ng-if="ctrl.prefs.startTime || ctrl.prefs.endTime"><span ng-if="ctrl.prefs.startTime">{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</span> <span ng-if="ctrl.prefs.endTime">&rarr; {{shift.endTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</span></div>
+									<div class="shift-hours-wage" ng-if="ctrl.prefs.hours || ctrl.prefs.wage"><span ng-if="ctrl.prefs.hours">{{shift.hours | placeholder:'(?h)':'(':'h)'}}</span> <span ng-if="ctrl.prefs.wage">{{shift.wage | currency | placeholder:'(?h)':'@ ':'/h'}}</span></div>
 								</div>
 								<div class="shift-details">
 									<div class="shift-info" ng-if="ctrl.prefs.sales">
 										<div class="label">Sales</div>
 										<div class="value">{{shift.sales | currency | placeholder:'-'}}</div>
 									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.covers">
+										<div class="label">Covers</div>
+										<div class="value">{{shift.covers | placeholder:'-':undefined:' covers'}}</div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.salesPerHour">
+										<div class="label">Sales/h</div>
+										<div class="value">{{shift.salesPerHour | currency | placeholder:'-':undefined:'/h'}}</div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.salesPerCover">
+										<div class="label">Sales/cov</div>
+										<div class="value">{{shift.salesPerCover | currency | placeholder:'-':undefined:'/cov'}}</div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.tipout || ctrl.prefs.tipoutPercent">
+										<div class="label">Tipout</div>
+										<div class="value"><span ng-if="ctrl.prefs.tipout">{{shift.tipout | currency:undefined:0 | placeholder:'-'}}</span> <span class="tiny-value" ng-if="ctrl.prefs.tipoutPercent">({{shift.tipoutPercent | number:1 | placeholder:'-':undefined:'%'}})</span></div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.transfers">
+										<div class="label">Transfers</div>
+										<div class="value">{{shift.transfers | currency:undefined:0 | placeholder:'-'}}</div>
+									</div>
 									<div class="shift-info" ng-if="ctrl.prefs.earnedTips || ctrl.prefs.tipsPercent">
 										<div class="label">Tips</div>
-										<div class="value"><span ng-if="ctrl.prefs.earnedTips">{{shift.earnedTips | currency:undefined:0 | placeholder:'-'}}</span> <span ng-if="ctrl.prefs.tipsPercent">({{shift.tipsPercent | number:1 | placeholder:'-':undefined:'%'}})</span></div>
+										<div class="value"><span ng-if="ctrl.prefs.earnedTips">{{shift.earnedTips | currency:undefined:0 | placeholder:'-'}}</span> <span class="tiny-value" ng-if="ctrl.prefs.tipsPercent">({{shift.tipsPercent | number:1 | placeholder:'-':undefined:'%'}})</span></div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.due">
+										<div class="label">Due</div>
+										<div class="value">{{shift.due | currency:undefined:0 | placeholder:'-'}}
+											<button ng-if="shift.dueCheck == 'Y'" class="link-button micro-button button-green"><span class="fa fa-fw fa-check"></span></button>
+											<button ng-if="shift.dueCheck == 'N'" class="link-button micro-button button-red"><span class="fa fa-fw fa-times"></span></button>
+											<button ng-if="shift.dueCheck == '?'" class="link-button micro-button button-blue"><span class="fa fa-fw fa-question"></span></button>
+											<button ng-if="shift.dueCheck == '!'" class="link-button micro-button button-black"><span class="fa fa-fw fa-exclamation"></span></button>
+										</div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.earnedWage">
+										<div class="label">Wage</div>
+										<div class="value">{{shift.earnedWage | currency:undefined:0 | placeholder:'-'}}</div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.earnedTotal">
+										<div class="label">Earned</div>
+										<div class="value">{{shift.earnedTotal | currency:undefined:0 | placeholder:'-'}}</div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.tipsVsWage">
+										<div class="label">TvW</div>
+										<div class="value">{{shift.tipsVsWage | placeholder:'-':undefined:'%'}}</div>
 									</div>
 									<div class="shift-info" ng-if="ctrl.prefs.hourly">
-										<div class="label">$/h</div>
+										<div class="label">Hourly</div>
 										<div class="value">{{shift.hourly | currency | placeholder:'-':undefined:'/h'}}</div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.cut">
+										<div class="label">Cut</div>
+										<div class="value">{{shift.cut | placeholder:'-'}}</div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.campHours">
+										<div class="label">Camp</div>
+										<div class="value">{{shift.campHours | placeholder:'-':undefined:'h'}}</div>
+									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.section">
+										<div class="label">Section</div>
+										<div class="value">{{shift.section | placeholder:'-'}}</div>
 									</div>
 									<a href="#/shift/{{shift.id}}"><span class="link-spanner"></span></a>
 								</div>

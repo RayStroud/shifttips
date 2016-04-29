@@ -99,6 +99,7 @@ angular.module('shiftTips')
 				"hourly"		: true	,
 
 				"hours"			: false	,
+				"wage"			: false	,
 				"earnedWage"	: false	,
 				"earnedTotal"	: false	,
 				"tipout"		: false	,
@@ -230,6 +231,7 @@ angular.module('shiftTips')
 				"hourly"		: true	,
 
 				"hours"			: false	,
+				"wage"			: false	,
 				"earnedWage"	: false	,
 				"earnedTotal"	: false	,
 				"tipout"		: false	,

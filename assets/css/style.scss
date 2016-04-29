@@ -235,6 +235,7 @@ hr {border-color: $border-color;}
 		width: 55%;
 		word-wrap: break-word;
 	}
+	.tiny-value {font-size: 85%}
 }
 .mon-shift .shift-datetime {background-color: rgba($mon-color,0.1);	border-color: rgba($mon-color,0.3);}
 .tue-shift .shift-datetime {background-color: rgba($tue-color,0.1);	border-color: rgba(darken($tue-color,15%),0.3);}
@@ -263,6 +264,7 @@ hr {border-color: $border-color;}
 	margin: 0.5em;
 	background-color: white;
 	border: 1px solid $border-color;
+	.shift-time, .shift-hours-wage {display: block;}
 }
 .filler {
 	flex: 1 1 175px;
@@ -384,6 +386,7 @@ a.link-button {
 	&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 15%);}
 }
 .link-button.tiny-button {padding: 0 0.1em;}
+.link-button.micro-button {padding: 0 1px; font-size: 50%; line-height: 12px;}
 
 /* ############################################
 	ADD/EDIT FORMS

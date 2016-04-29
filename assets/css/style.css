@@ -205,6 +205,8 @@ hr {
   text-align: left;
   width: 55%;
   word-wrap: break-word; }
+.shift-info .tiny-value {
+  font-size: 85%; }
 
 .mon-shift .shift-datetime {
   background-color: rgba(204, 0, 0, 0.1);
@@ -256,6 +258,8 @@ hr {
   margin: 0.5em;
   background-color: white;
   border: 1px solid lightgray; }
+  .shift-summary .shift-time, .shift-summary .shift-hours-wage {
+    display: block; }
 
 .filler {
   flex: 1 1 175px;
@@ -368,6 +372,11 @@ a.link-button {
 
 .link-button.tiny-button {
   padding: 0 0.1em; }
+
+.link-button.micro-button {
+  padding: 0 1px;
+  font-size: 50%;
+  line-height: 12px; }
 
 /* ############################################
 	ADD/EDIT FORMS
