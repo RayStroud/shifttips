@@ -36,35 +36,37 @@ angular.module('shiftTips')
 	};
 }])
 
-.controller('ShiftViewController', [ 'shiftsService', 'userService', '$routeParams', function(shiftsService, userService, $routeParams) {
+.controller('ShiftViewController', ['shiftsService', 'userService', 'filterService', '$routeParams', function(shiftsService, userService, filterService, $routeParams) {
 	var ctrl = this;
+	ctrl.uid = userService.getUser().uid;
+	ctrl.prefs = filterService.getUserPrefs(ctrl.uid).view;
 
 	ctrl.loadShift = function() {
-		shiftsService.getShift(userService.getUser().uid, $routeParams.id)
+		shiftsService.getShift(ctrl.uid, $routeParams.id)
 		.success(function (data, status, headers, config) {
-			ctrl.getResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.getResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shift = data;
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.getResponse = {result: 'error', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.getResponse = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
 		});
 	};
 
 	this.deleteClick = function(shiftId) {
-		shiftsService.removeShift(userService.getUser().uid, shiftId)
+		shiftsService.removeShift(ctrl.uid, shiftId)
 		.success(function (data, status, headers, config) {
-			ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Shift deleted.';
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.deleteResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot delete shift.';
 		});
 	};
 
 	ctrl.setDueCheck = function(id, dueCheck) {
-		shiftsService.setDueCheck(userService.getUser().uid, id, dueCheck);
+		shiftsService.setDueCheck(ctrl.uid, id, dueCheck);
 		ctrl.loadShift();
 	};
 
@@ -79,11 +81,11 @@ angular.module('shiftTips')
 	ctrl.getShifts = function() {
 		shiftsService.getShifts(ctrl.uid)
 		.success(function (data, status, headers, config) {
-			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shifts = data;
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
 		});
 	};
@@ -98,11 +100,11 @@ angular.module('shiftTips')
 	ctrl.getShifts = function() {
 		shiftsService.getShifts(userService.getUser().uid)
 		.success(function (data, status, headers, config) {
-			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shifts = data;
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
 		});
 	};
@@ -140,11 +142,11 @@ angular.module('shiftTips')
 	ctrl.loadShifts = function() {
 		shiftsService.getShifts(userService.getUser().uid)
 		.success(function (data, status, headers, config) {
-			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.shifts = data;
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot find shifts.';
 		});
 	};
@@ -301,11 +303,11 @@ angular.module('shiftTips')
 		//insert shift
 		shiftsService.addShift(postShift)
 		.success(function (data, status, headers, config) {
-			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			window.location.replace('#/shift/' + data);
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. The shift cannot be added.';
 		});
 	};
@@ -318,7 +320,7 @@ angular.module('shiftTips')
 
 	shiftsService.getShift(ctrl.uid, $routeParams.id)
 	.success(function (data, status, headers, config) {
-		ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+		/* DEBUG */ ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 		var retrievedShift = data;
 		//convert date fields
 		retrievedShift.date = retrievedShift.date ? moment(retrievedShift.date, 'YYYY-MM-DD').toDate() : null;
@@ -338,7 +340,7 @@ angular.module('shiftTips')
 		ctrl.shift = retrievedShift;
 	})
 	.error(function (data, status, headers, config) {
-		ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+		/* DEBUG */ ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 		ctrl.error = 'Oops! Something bad happened. Cannot find shift.';
 	});
 
@@ -354,11 +356,11 @@ angular.module('shiftTips')
 		//update shift
 		shiftsService.editShift(postShift)
 		.success(function (data, status, headers, config) {
-			ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			window.location.replace('#/shift/' + postShift.id);
 		})
 		.error(function (data, status, headers, config) {
-			ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			/* DEBUG */ ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. The shift cannot be edited.';
 		});
 	};

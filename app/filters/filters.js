@@ -187,6 +187,196 @@ angular.module('shiftTips')
 				"section"		: true	,
 				"cut"			: true	,
 				"notes"			: true		
+			},
+			"view" : {
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"hours"			: true	,
+				"wage"			: true	,
+				"sales"			: true	,
+				"covers"		: true	,
+				"salesPerHour"	: true	,
+				"salesPerCover"	: true	,
+				"tipout"		: true	,
+				"tipoutPercent"	: true	,
+				"transfers"		: true	,
+				"cash"			: true	,
+				"due"			: true	,
+				"earnedWage"	: true	,
+				"earnedTips"	: true	,
+				"tipsPercent"	: true	,
+				"earnedTotal"	: true	,
+				"tipsVsWage"	: true	,
+				"hourly"		: true	,
+
+				"firstTable"	: true	,
+				"campHours"		: true	,
+				"section"		: true	,
+				"cut"			: true	,
+				"notes"			: true	,
+
+				"noCampHourly"	: false
+			}
+		}
+	};
+	ctrl.getFullPrefs = function() {
+		return {
+			"list" : {
+				"lunchDinner"	: true	,
+				"dayOfWeek"		: true	,
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"hours"			: true	,
+				"earnedWage"	: true	,
+				"earnedTips"	: true	,
+				"earnedTotal"	: true	,
+				"firstTable"	: true	,
+				"sales"			: true	,
+				"tipout"		: true	,
+				"transfers"		: true	,
+				"covers"		: true	,
+				"campHours"		: true	,
+				"salesPerHour"	: true	,
+				"salesPerCover"	: true	,
+				"tipsPercent"	: true	,
+				"tipoutPercent"	: true	,
+				"tipsVsWage"	: true	,
+				"hourly"		: true	,
+
+				"cash"			: true	,
+				"due"			: true	,
+				"dueCheck"		: true	,
+				"cut"			: true	,
+				"section"		: true	,
+				"notes"			: true	,
+				"noCampHourly"	: true	
+			},
+			"grid" : {
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"sales"			: true	,
+				"earnedTips"	: true	,
+				"tipsPercent"	: true	,
+				"hourly"		: true	,
+
+				"hours"			: true	,
+				"wage"			: true	,
+				"earnedWage"	: true	,
+				"earnedTotal"	: true	,
+				"tipout"		: true	,
+				"transfers"		: true	,
+				"covers"		: true	,
+				"campHours"		: true	,
+				"salesPerHour"	: true	,
+				"salesPerCover"	: true	,
+				"tipoutPercent"	: true	,
+				"tipsVsWage"	: true	,
+				"cash"			: true	,
+				"due"			: true	,
+				"dueCheck"		: true	,
+				"cut"			: true	,
+				"section"		: true	,
+				"noCampHourly"	: true	
+			},
+			"summary" : {
+				"hours"			: true	,
+				"earnedWage"	: true	,
+				"earnedTips"	: true	,
+				"earnedTotal"	: true	,
+				"sales"			: true	,
+				"tipout"		: true	,
+				"covers"		: true	,
+				"campHours"		: true	,
+				"salesPerHour"	: true	,
+				"salesPerCover"	: true	,
+				"tipsPercent"	: true	,
+				"tipoutPercent"	: true	,
+				"tipsVsWage"	: true	,
+				"hourly"		: true	,
+
+				"transfers"		: true	,
+				"noCampHourly"	: true	
+			},
+			"period" : {
+				"count"			: true	,
+				"hours"			: true	,
+				"earnedWage"	: true	,
+				"earnedTips"	: true	,
+				"earnedTotal"	: true	,
+				"sales"			: true	,
+				"tipout"		: true	,
+				"covers"		: true	,
+				"campHours"		: true	,
+				"salesPerHour"	: true	,
+				"salesPerCover"	: true	,
+				"tipsPercent"	: true	,
+				"tipoutPercent"	: true	,
+				"tipsVsWage"	: true	,
+				"hourly"		: true	,
+
+				"transfers"		: true	,
+				"noCampHourly"	: true
+			},
+			"add" : {
+				"wage"			: true	,
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"firstTable"	: true	,
+				"campHours"		: true	,
+				"sales"			: true	,
+				"covers"		: true	,
+				"tipout"		: true	,
+				"transfers"		: true	,
+				"cash"			: true	,
+				"due"			: true	,
+				"section"		: true	,
+				"cut"			: true	,
+				"notes"			: true		
+			},
+			"edit" : {
+				"wage"			: true	,
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"firstTable"	: true	,
+				"campHours"		: true	,
+				"sales"			: true	,
+				"covers"		: true	,
+				"tipout"		: true	,
+				"transfers"		: true	,
+				"cash"			: true	,
+				"due"			: true	,
+				"section"		: true	,
+				"cut"			: true	,
+				"notes"			: true		
+			},
+			"view" : {
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"hours"			: true	,
+				"wage"			: true	,
+				"sales"			: true	,
+				"covers"		: true	,
+				"salesPerHour"	: true	,
+				"salesPerCover"	: true	,
+				"tipout"		: true	,
+				"tipoutPercent"	: true	,
+				"transfers"		: true	,
+				"cash"			: true	,
+				"due"			: true	,
+				"earnedWage"	: true	,
+				"earnedTips"	: true	,
+				"tipsPercent"	: true	,
+				"earnedTotal"	: true	,
+				"tipsVsWage"	: true	,
+				"hourly"		: true	,
+
+				"firstTable"	: true	,
+				"campHours"		: true	,
+				"section"		: true	,
+				"cut"			: true	,
+				"notes"			: true	,
+
+				"noCampHourly"	: true
 			}
 		}
 	};
@@ -319,6 +509,35 @@ angular.module('shiftTips')
 				"section"		: false	,
 				"cut"			: false	,
 				"notes"			: true		
+			},
+			"view" : {
+				"startTime"		: true	,
+				"endTime"		: true	,
+				"hours"			: true	,
+				"wage"			: false	,
+				"sales"			: true	,
+				"covers"		: false	,
+				"salesPerHour"	: false	,
+				"salesPerCover"	: false	,
+				"tipout"		: false	,
+				"tipoutPercent"	: false	,
+				"transfers"		: false	,
+				"cash"			: true	,
+				"due"			: true	,
+				"earnedWage"	: true	,
+				"earnedTips"	: true	,
+				"tipsPercent"	: true	,
+				"earnedTotal"	: true	,
+				"tipsVsWage"	: false	,
+				"hourly"		: true	,
+
+				"firstTable"	: false	,
+				"campHours"		: false	,
+				"section"		: false	,
+				"cut"			: false	,
+				"notes"			: true	,
+
+				"noCampHourly"	: false
 			}
 		}
 	};
@@ -352,6 +571,9 @@ angular.module('shiftTips')
 	};
 	ctrl.resetUserPrefs = function(uid, type) {
 		switch(type) {
+			case "full":
+				ctrl.prefs[uid] = ctrl.getFullPrefs();
+				break;
 			case "minimal":
 				ctrl.prefs[uid] = ctrl.getMinimalPrefs();
 				break;
