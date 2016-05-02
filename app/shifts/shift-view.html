@@ -5,7 +5,7 @@
 	<div class="shift-detailed {{ctrl.shift.dayOfWeek | lowercase}}-shift {{ctrl.shift.lunchDinner | lowercase}}-shift">
 		<div class="shift-datetime">
 			<div class="shift-date">{{ctrl.shift.date | date:'EEE, MMM d, yyyy' | placeholder:'Unknown Date'}}</div>
-			<div class="shift-time"><span ng-if="ctrl.prefs.startTime">{{ctrl.shift.startTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</span> <span ng-if="ctrl.prefs.endTime">to {{ctrl.shift.endTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</span>
+			<div class="shift-time"><span ng-if="ctrl.prefs.startTime">{{ctrl.shift.startTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</span> <span ng-if="ctrl.prefs.endTime">&rarr; {{ctrl.shift.endTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</span>
 			<div class="shift-hours-wage"><span ng-if="ctrl.prefs.hours">{{ctrl.shift.hours | placeholder:'':'(':' hours)'}}</span> <span ng-if="ctrl.prefs.wage">{{ctrl.shift.wage | currency | placeholder:'':'@ ':'/h'}}</span></div></div>
 		</div>
 		<div class="shift-details">
