@@ -30,6 +30,22 @@ angular.module('shiftTips')
 			"sort": ["-lunchDinner", "cut"]
 		}
 	};
+	ctrl.getPeriodTypeValues = function(name) {
+		switch(name) {
+			case "weekly": 
+				return {
+					"name": "Weekly",
+					"sort": "yearweek"
+				};
+				break;				
+			case "monthly": 
+				return {
+					"name": "Monthly",
+					"sort": ["year", "month"]
+				}
+				break;
+		}
+	};
 
 	ctrl.getDefaultFilters = function() {
 		return {
@@ -51,11 +67,24 @@ angular.module('shiftTips')
 			"sat" 			: false	,
 			"sun" 			: false	,
 
+			"sort" : {
+				"list" 		: ctrl.listSortValues.date 	,
+				"summary" 	: ctrl.summaryTypeValues.lunchDinner.sort 	,
+				"period" 	: ctrl.getPeriodTypeValues('weekly').sort
+			},
+			"reverse" : {
+				"list" 		: true	,
+				"grid"		: true	,
+				"summary" 	: false	,
+				"period" 	: false
+			},
+			"summaryType" 	: ctrl.summaryTypeValues.lunchDinner	,
+			"periodType" 	: ctrl.getPeriodTypeValues('weekly')	,
+
+			//deprecated values
 			"listSort"		: ctrl.listSortValues.date	,
 			"listReverse"	: true	,
-			"gridReverse"	: true	,
-			"summaryType" 	: ctrl.summaryTypeValues.lunchDinner	,
-			"periodType" 	: null
+			"gridReverse"	: true
 		};
 	};
 	ctrl.getDefaultPrefs = function() {
@@ -692,5 +721,36 @@ angular.module('shiftTips')
 	ctrl.isListSort = function(name) {
 		//return ctrl.filters.listSort == name;
 		return JSON.stringify(ctrl.filters.listSort) == JSON.stringify(name);
+	};
+
+	ctrl.changeSort = function(type, value) {
+		// if field is already selected, toggle the sort direction
+		if(ctrl.filters.sort[type] == value) {
+			ctrl.filters.reverse[type] = !ctrl.filters.reverse[type];
+		} else {
+			ctrl.filters.sort[type] = value;
+			ctrl.filters.reverse[type] = false;
+		}
+		ctrl.updateFilters();
+	};
+	ctrl.isSort = function(type, value) {
+		//return ctrl.filters.sort[type] == value;
+		return JSON.stringify(ctrl.filters.sort[type]) == JSON.stringify(value);
+	};
+
+	ctrl.changePeriodType = function(type) {
+		//check to see if the sort is by period
+		var isSortByPeriod = ctrl.isSort('period', ctrl.filters.periodType.sort);
+
+		//change period type
+		ctrl.filters.periodType = filterService.getPeriodTypeValues(type);;
+
+		//adjust sort.period if necessary
+		if(isSortByPeriod) {
+			ctrl.filters.sort.period = ctrl.filters.periodType.sort;
+		}
+
+		//update filters
+		ctrl.updateFilters();
 	};
 }]);

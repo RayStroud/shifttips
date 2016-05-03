@@ -72,20 +72,20 @@ angular.module('shiftTips')
 				break;
 		}
 		promise.success(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			//* DEBUG */ ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.summaries = data;
 		})
 		.error(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			//* DEBUG */ ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot get summary.';
 		});
 		summaryService.getSummary(userService.getUser().uid, p_dateFrom, p_dateTo, lunchDinner)
 		.success(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			//* DEBUG */ ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.summaryTotal = data;
 		})
 		.error(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			//* DEBUG */ ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot get summary.';
 		});
 	};
@@ -116,94 +116,35 @@ angular.module('shiftTips')
 	ctrl.changeSummaryType('lunchDinner', null, null, null);
 }])
 
-.controller('SummaryPeriodController', [ 'summaryService', 'userService', function(summaryService, userService) {
+.controller('SummaryPeriodController', [ 'summaryService', 'userService', 'filterService', function(summaryService, userService, filterService) {
 	var ctrl = this;
+	ctrl.uid = userService.getUser().uid;
+	ctrl.prefs = filterService.getUserPrefs(ctrl.uid).view;
 
-	ctrl.changePeriodType = function(type, from, to, lunchDinner) {
-		ctrl.type = type;
-		var p_dateFrom = moment(from).format('YYYY-MM-DD') || null;
-		var p_dateTo = moment(to).format('YYYY-MM-DD') || null;
+	ctrl.updatePeriodData = function() {
+		var filters = filterService.getUserFilters(ctrl.uid);
+		var p_dateFrom = moment(filters.from).isValid() ? moment(filters.from).format('YYYY-MM-DD') : null;
+		var p_dateTo = moment(filters.to).isValid() ? moment(filters.to).format('YYYY-MM-DD') : null;
+
 		var promise = null;
-		switch(type) {
-			case 'weekly':
-				ctrl.typeName = 'Weekly';
-				ctrl.changePeriodTypeSort('yearweek');
-				promise = summaryService.getSummaryWeekly(userService.getUser().uid, p_dateFrom, p_dateTo, lunchDinner);
+		switch(filters.periodType.name) {
+			case 'Weekly':
+				promise = summaryService.getSummaryWeekly(ctrl.uid, p_dateFrom, p_dateTo, filters.lunchDinner);
 				break;
-			case 'monthly':
-				ctrl.typeName = 'Monthly';
-				ctrl.changePeriodTypeSort(['year','month']);
-				promise = summaryService.getSummaryMonthly(userService.getUser().uid, p_dateFrom, p_dateTo, lunchDinner);
+			case 'Monthly':
+				promise = summaryService.getSummaryMonthly(ctrl.uid, p_dateFrom, p_dateTo, filters.lunchDinner);
 				break;
 		}
 		promise.success(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
+			//* DEBUG */ ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.list = data.list;
 			ctrl.summary = data.summary;
 		})
 		.error(function (data, status, headers, config) {
-			//* DEBUG */ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
+			//* DEBUG */ ctrl.response = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.error = 'Oops! Something bad happened. Cannot get summary.';
 		});
-	};
-	ctrl.changePeriodTypeSort = function(typeSort) {
-		//if sort field was set to previous typeSort, change it
-		if(ctrl.sortField == ctrl.typeSort) {
-			ctrl.sortField = typeSort;
-		}
-		ctrl.typeSort = typeSort;
-	}
-	ctrl.changeSortField = function(field) {
-		// if field is already selected, toggle the sort direction
-		if(ctrl.sortField == field) {
-			ctrl.sortReverse = !ctrl.sortReverse;
-		} else {
-			ctrl.sortField = field;
-			ctrl.sortReverse = false;
-		}
-	};
-	ctrl.isSortField = function(field) {
-		return ctrl.sortField == field;
-	};
 
-	ctrl.typeSort = 'yearweek';
-	ctrl.sortField = ctrl.typeSort;
-	ctrl.sortReverse = false;
-	ctrl.changePeriodType('weekly', null, null, null);
-}])
-
-.controller('SummaryFilterController', function() {
-	this.visible = false;
-	
-	this.from = '';
-	this.to = '';
-
-	this.lunCheck = false;
-	this.dinCheck = false;
-	this.lunchDinner = '';	//value to filter by lunchDinner
-
-	this.show = function() {this.visible = true;};
-	this.hide = function() {this.visible = false;};
-
-	this.toggleLun = function() {
-		if (this.lunCheck) {
-			this.lunCheck = false;
-			this.lunchDinner = '';
-		} else {
-			this.lunCheck = true;
-			this.dinCheck = false;
-			this.lunchDinner = 'L';
-		}
 	};
-	this.toggleDin = function() {
-		if (this.dinCheck) {
-			this.dinCheck = false;
-			this.lunchDinner = '';
-		} else {
-			this.dinCheck = true;
-			this.lunCheck = false;
-			this.lunchDinner = 'D';
-		}
-	};
-})
-;
+	ctrl.updatePeriodData();
+}]);
