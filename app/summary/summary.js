@@ -119,7 +119,7 @@ angular.module('shiftTips')
 .controller('SummaryPeriodController', [ 'summaryService', 'userService', 'filterService', function(summaryService, userService, filterService) {
 	var ctrl = this;
 	ctrl.uid = userService.getUser().uid;
-	ctrl.prefs = filterService.getUserPrefs(ctrl.uid).view;
+	ctrl.prefs = filterService.getUserPrefs(ctrl.uid).period;
 
 	ctrl.updatePeriodData = function() {
 		var filters = filterService.getUserFilters(ctrl.uid);

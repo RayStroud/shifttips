@@ -166,7 +166,7 @@ angular.module('shiftTips')
 				"noCampHourly"	: false	
 			},
 			"period" : {
-				"count"			: true	,
+				"shifts"		: true	,
 				"hours"			: true	,
 				"earnedWage"	: true	,
 				"earnedTips"	: true	,
@@ -327,7 +327,7 @@ angular.module('shiftTips')
 				"noCampHourly"	: true	
 			},
 			"period" : {
-				"count"			: true	,
+				"shifts"		: true	,
 				"hours"			: true	,
 				"earnedWage"	: true	,
 				"earnedTips"	: true	,
@@ -488,7 +488,7 @@ angular.module('shiftTips')
 				"noCampHourly"	: false	
 			},
 			"period" : {
-				"count"			: true	,
+				"shifts"		: true	,
 				"hours"			: true	,
 				"earnedWage"	: true	,
 				"earnedTips"	: true	,
