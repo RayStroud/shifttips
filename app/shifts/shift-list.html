@@ -74,51 +74,51 @@
 			<div ng-hide="filteredShifts.length < 1 || ctrl.error">
 				<div class="mobile-table">
 					<table class="summary-table">
-						<thead ng-class="{'sort-reverse':filtersCtrl.filters.listReverse}">
+						<thead ng-class="{'sort-reverse':filtersCtrl.filters.reverse.list}">
 							<tr class="header">
-								<th ng-if="ctrl.prefs.lunchDinner" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort(filtersCtrl.listSortValues.lunchDinner)}" 
-									ng-click="filtersCtrl.changeListSort(filtersCtrl.listSortValues.lunchDinner)">L/D</th>
-								<th ng-if="ctrl.prefs.dayOfWeek" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort(filtersCtrl.listSortValues.dayOfWeek)}" 
-									ng-click="filtersCtrl.changeListSort(filtersCtrl.listSortValues.dayOfWeek)">Day</th>
-								<th class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort(filtersCtrl.listSortValues.date)}" 
-									ng-click="filtersCtrl.changeListSort(filtersCtrl.listSortValues.date)">Date</th>
-								<th ng-if="ctrl.prefs.startTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('startTime')}" 
-									ng-click="filtersCtrl.changeListSort('startTime')">Start</th>
-								<th ng-if="ctrl.prefs.endTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('endTime')}" 
-									ng-click="filtersCtrl.changeListSort('endTime')">End</th>
-								<th ng-if="ctrl.prefs.hours" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('hours')}" 
-									ng-click="filtersCtrl.changeListSort('hours')">Hours</th>
-								<th ng-if="ctrl.prefs.earnedWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('earnedWage')}" 
-									ng-click="filtersCtrl.changeListSort('earnedWage')">Wage</th>
-								<th ng-if="ctrl.prefs.earnedTips" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('earnedTips')}" 
-									ng-click="filtersCtrl.changeListSort('earnedTips')">Tips</th>
-								<th ng-if="ctrl.prefs.earnedTotal" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('earnedTotal')}" 
-									ng-click="filtersCtrl.changeListSort('earnedTotal')">Earned</th>
-								<th ng-if="ctrl.prefs.sales" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('sales')}" 
-									ng-click="filtersCtrl.changeListSort('sales')">Sales</th>
-								<th ng-if="ctrl.prefs.tipout" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipout')}" 
-									ng-click="filtersCtrl.changeListSort('tipout')">T/O</th>
-								<th ng-if="ctrl.prefs.transfers" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('transfers')}" 
-									ng-click="filtersCtrl.changeListSort('transfers')">Tsfr</th>
-								<th ng-if="ctrl.prefs.covers" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('covers')}" 
-									ng-click="filtersCtrl.changeListSort('covers')">Cov</th>
-								<th ng-if="ctrl.prefs.campHours" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('campHours')}" 
-									ng-click="filtersCtrl.changeListSort('campHours')">Camp</th>
-								<th ng-if="ctrl.prefs.salesPerHour" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('salesPerHour')}" 
-									ng-click="filtersCtrl.changeListSort('salesPerHour')">Sales/h</th>
-								<th ng-if="ctrl.prefs.salesPerCover" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('salesPerCover')}" 
-									ng-click="filtersCtrl.changeListSort('salesPerCover')">Sales/cov</th>
-								<th ng-if="ctrl.prefs.tipsPercent" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipsPercent')}" 
-									ng-click="filtersCtrl.changeListSort('tipsPercent')">%Tips</th>
-								<th ng-if="ctrl.prefs.tipoutPercent" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipoutPercent')}" 
-									ng-click="filtersCtrl.changeListSort('tipoutPercent')">%T/O</th>
-								<th ng-if="ctrl.prefs.tipsVsWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('tipsVsWage')}" 
-									ng-click="filtersCtrl.changeListSort('tipsVsWage')">%TvsW</th>
-								<th ng-if="ctrl.prefs.hourly" class="sortable" ng-class="{'sort-field':filtersCtrl.isListSort('hourly')}" 
-									ng-click="filtersCtrl.changeListSort('hourly')">Earn/h</th>
+								<th ng-if="ctrl.prefs.lunchDinner" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list',filtersCtrl.listSortValues.lunchDinner)}" 
+									ng-click="filtersCtrl.changeSort('list',filtersCtrl.listSortValues.lunchDinner)">L/D</th>
+								<th ng-if="ctrl.prefs.dayOfWeek" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list',filtersCtrl.listSortValues.dayOfWeek)}" 
+									ng-click="filtersCtrl.changeSort('list',filtersCtrl.listSortValues.dayOfWeek)">Day</th>
+								<th class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list',filtersCtrl.listSortValues.date)}" 
+									ng-click="filtersCtrl.changeSort('list',filtersCtrl.listSortValues.date)">Date</th>
+								<th ng-if="ctrl.prefs.startTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','startTime')}" 
+									ng-click="filtersCtrl.changeSort('list','startTime')">Start</th>
+								<th ng-if="ctrl.prefs.endTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','endTime')}" 
+									ng-click="filtersCtrl.changeSort('list','endTime')">End</th>
+								<th ng-if="ctrl.prefs.hours" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','hours')}" 
+									ng-click="filtersCtrl.changeSort('list','hours')">Hours</th>
+								<th ng-if="ctrl.prefs.earnedWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','earnedWage')}" 
+									ng-click="filtersCtrl.changeSort('list','earnedWage')">Wage</th>
+								<th ng-if="ctrl.prefs.earnedTips" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','earnedTips')}" 
+									ng-click="filtersCtrl.changeSort('list','earnedTips')">Tips</th>
+								<th ng-if="ctrl.prefs.earnedTotal" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','earnedTotal')}" 
+									ng-click="filtersCtrl.changeSort('list','earnedTotal')">Earned</th>
+								<th ng-if="ctrl.prefs.sales" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','sales')}" 
+									ng-click="filtersCtrl.changeSort('list','sales')">Sales</th>
+								<th ng-if="ctrl.prefs.tipout" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','tipout')}" 
+									ng-click="filtersCtrl.changeSort('list','tipout')">T/O</th>
+								<th ng-if="ctrl.prefs.transfers" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','transfers')}" 
+									ng-click="filtersCtrl.changeSort('list','transfers')">Tsfr</th>
+								<th ng-if="ctrl.prefs.covers" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','covers')}" 
+									ng-click="filtersCtrl.changeSort('list','covers')">Cov</th>
+								<th ng-if="ctrl.prefs.campHours" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','campHours')}" 
+									ng-click="filtersCtrl.changeSort('list','campHours')">Camp</th>
+								<th ng-if="ctrl.prefs.salesPerHour" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','salesPerHour')}" 
+									ng-click="filtersCtrl.changeSort('list','salesPerHour')">Sales/h</th>
+								<th ng-if="ctrl.prefs.salesPerCover" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','salesPerCover')}" 
+									ng-click="filtersCtrl.changeSort('list','salesPerCover')">Sales/cov</th>
+								<th ng-if="ctrl.prefs.tipsPercent" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','tipsPercent')}" 
+									ng-click="filtersCtrl.changeSort('list','tipsPercent')">%Tips</th>
+								<th ng-if="ctrl.prefs.tipoutPercent" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','tipoutPercent')}" 
+									ng-click="filtersCtrl.changeSort('list','tipoutPercent')">%T/O</th>
+								<th ng-if="ctrl.prefs.tipsVsWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','tipsVsWage')}" 
+									ng-click="filtersCtrl.changeSort('list','tipsVsWage')">%TvsW</th>
+								<th ng-if="ctrl.prefs.hourly" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','hourly')}" 
+									ng-click="filtersCtrl.changeSort('list','hourly')">Earn/h</th>
 							</tr>
 						</thead>
-						<tr class="clickable-row {{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:filtersCtrl.filters | orderBy:filtersCtrl.filters.listSort:filtersCtrl.filters.listReverse ) track by $index" ng-class-even="'alt'" ng-click="ctrl.viewShift(shift.id)">
+						<tr class="clickable-row {{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:filtersCtrl.filters | orderBy:filtersCtrl.filters.sort.list:filtersCtrl.filters.reverse.list ) track by $index" ng-class-even="'alt'" ng-click="ctrl.viewShift(shift.id)">
 							<td ng-if="ctrl.prefs.lunchDinner" class="ld-cell">{{shift.lunchDinner | placeholder:'-'}}</td>
 							<td ng-if="ctrl.prefs.dayOfWeek" class="day-cell">{{shift.dayOfWeek | placeholder:'-'}}</td>
 							<td><a href="#/shift/{{shift.id}}">{{shift.date | date:'MMM dd, yyyy' | placeholder:'-'}}</a></td>

@@ -81,21 +81,16 @@ angular.module('shiftTips')
 
 			"sort" : {
 				"list" 		: ctrl.listSortValues.date 	,
-				"summary" 	: ctrl.summaryTypeValues.lunchDinner.sort 	,
+				"summary" 	: ctrl.getSummaryTypeValues('lunchDinner').sort 	,
 				"period" 	: ctrl.getPeriodTypeValues('weekly').sort
 			},
 			"reverse" : {
 				"list" 		: true	,
-				"grid"		: true	,
 				"summary" 	: false	,
 				"period" 	: false
 			},
-			"summaryType" 	: ctrl.summaryTypeValues.lunchDinner	,
+			"summaryType" 	: ctrl.getSummaryTypeValues('lunchDinner')	,
 			"periodType" 	: ctrl.getPeriodTypeValues('weekly')	,
-
-			//deprecated values
-			"listSort"		: ctrl.listSortValues.date	,
-			"listReverse"	: true	,
 			"gridReverse"	: true
 		};
 	};
@@ -718,21 +713,6 @@ angular.module('shiftTips')
 				: true	//if only some days, then true
 			: false; 	//if no days, then false
 		ctrl.updateFilters();
-	};
-
-	ctrl.changeListSort = function(name) {
-		// if field is already selected, toggle the sort direction
-		if(ctrl.filters.listSort == name) {
-			ctrl.filters.listReverse = !ctrl.filters.listReverse;
-		} else {
-			ctrl.filters.listSort = name;
-			ctrl.filters.listReverse = false;
-		}
-		ctrl.updateFilters();
-	};
-	ctrl.isListSort = function(name) {
-		//return ctrl.filters.listSort == name;
-		return JSON.stringify(ctrl.filters.listSort) == JSON.stringify(name);
 	};
 
 	ctrl.changeSort = function(type, value) {
