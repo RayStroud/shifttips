@@ -988,14 +988,16 @@ BEGIN
 		ELSE SET v_user_id := p_user_id;
 	END IF;
 
+	-- get first day of the month
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
-		ELSE SET v_dateFrom := p_dateFrom;
+		ELSE SET v_dateFrom := SUBDATE(p_dateFrom, (DAY(p_dateFrom)-1));
 	END IF;
 
+	-- get last day of the month
 	IF (p_dateTo IS NULL)
 		THEN SET v_dateTo := '9999-12-31';
-		ELSE SET v_dateTo := p_dateTo;
+		ELSE SET v_dateTo := LAST_DAY(p_dateTo);
 	END IF;
 
 	IF (p_lunchDinner = 'L') 
@@ -1032,8 +1034,7 @@ BEGIN
 		SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
 		SUM(earnedTotal) / SUM(hours) AS hourly
 	FROM shift
-	WHERE YEAR(date) BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
-		AND MONTH(date) BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
+	WHERE date BETWEEN v_dateFrom AND v_dateTo
 		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
 		AND user_id LIKE v_user_id
 	GROUP BY YEAR(date), MONTH(date);
@@ -1055,14 +1056,16 @@ BEGIN
 		ELSE SET v_user_id := p_user_id;
 	END IF;
 
+	-- get first day of the month
 	IF (p_dateFrom IS NULL)
 		THEN SET v_dateFrom := '1000-01-01';
-		ELSE SET v_dateFrom := p_dateFrom;
+		ELSE SET v_dateFrom := SUBDATE(p_dateFrom, (DAY(p_dateFrom)-1));
 	END IF;
 
+	-- get last day of the month
 	IF (p_dateTo IS NULL)
 		THEN SET v_dateTo := '9999-12-31';
-		ELSE SET v_dateTo := p_dateTo;
+		ELSE SET v_dateTo := LAST_DAY(p_dateTo);
 	END IF;
 
 	IF (p_lunchDinner = 'L') 
@@ -1097,8 +1100,7 @@ BEGIN
 		SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
 		SUM(earnedTotal) / SUM(hours) AS hourly
 	FROM shift
-	WHERE YEAR(date) BETWEEN YEAR(v_dateFrom) AND YEAR(v_dateTo)
-		AND MONTH(date) BETWEEN MONTH(v_dateFrom) AND MONTH(v_dateTo)
+	WHERE date BETWEEN v_dateFrom AND v_dateTo
 		AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
 		AND user_id LIKE v_user_id
 	GROUP BY YEAR(date), MONTH(date);

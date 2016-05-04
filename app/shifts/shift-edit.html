@@ -1,75 +1,75 @@
-<div ng-controller="ShiftEditController as shiftEditCtrl">
+<div ng-controller="ShiftEditController as ctrl">
 	<h1>Edit Shift</h1>
-	<div class="error message-box" ng-show="shiftEditCtrl.error">{{shiftEditCtrl.error}}</div>
+	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
 	<div class="error message-box" ng-show="editForm.$submitted && !editForm.$valid">Cannot submit. Fill out "Wage", "Date", and "Start" fields, and make sure all fields are formatted correctly.</div>
 	<form name="editForm" class="edit-form" novalidate
 			ng-class="{submitted:editForm.$submitted}" 
-			ng-submit="editForm.$valid && shiftEditCtrl.editShift()">
-		<div class="form-group half-width">
+			ng-submit="editForm.$valid && ctrl.editShift()">
+		<div class="form-group half-width" ng-if="ctrl.prefs.wage">
 			<label for="wage">Wage</label>
-			<input ng-model="shiftEditCtrl.shift.wage" required type="number" id="wage" name="wage" min="0" step="0.01"/>
+			<input ng-model="ctrl.shift.wage" type="number" id="wage" name="wage" min="0" step="0.01"/>
 		</div>
 		<div class="form-group half-width">
 			<label for="date">Date</label>
-			<input ng-model="shiftEditCtrl.shift.date" required type="date" id="date" name="date" placeholder="yyyy-mm-dd" />
+			<input ng-model="ctrl.shift.date" required type="date" id="date" name="date" placeholder="yyyy-mm-dd" />
 		</div>
-		<div class="form-group half-width">
-			<label for="startTime">Start</label>
-			<input ng-model="shiftEditCtrl.shift.startTime" required type="time" id="startTime" name="startTime" placeholder="hh:mm (24h)" />
+		<div class="form-group half-width" ng-if="ctrl.prefs.startTime">
+			<label for="startTime">Start Time</label>
+			<input ng-model="ctrl.shift.startTime" type="time" id="startTime" name="startTime" placeholder="hh:mm (24h)" />
 		</div>
-		<div class="form-group half-width">
-			<label for="endTime">End</label>
-			<input ng-model="shiftEditCtrl.shift.endTime" type="time" id="endTime" name="endTime" placeholder="hh:mm (24h)" />
+		<div class="form-group half-width" ng-if="ctrl.prefs.endTime">
+			<label for="endTime">End Time</label>
+			<input ng-model="ctrl.shift.endTime" type="time" id="endTime" name="endTime" placeholder="hh:mm (24h)" />
 		</div>
-		<div class="form-group half-width">
+		<div class="form-group half-width" ng-if="ctrl.prefs.firstTable">
 			<label for="firstTable">First Table</label>
-			<input ng-model="shiftEditCtrl.shift.firstTable" type="time" id="firstTable" name="firstTable" placeholder="hh:mm (24h)" />
+			<input ng-model="ctrl.shift.firstTable" type="time" id="firstTable" name="firstTable" placeholder="hh:mm (24h)" />
 		</div>
-		<div class="form-group half-width">
+		<div class="form-group half-width" ng-if="ctrl.prefs.campHours">
 			<label for="campHours">Camp Hours</label>
-			<input ng-model="shiftEditCtrl.shift.campHours" type="number" min="0" step="0.5" id="campHours" name="campHours" placeholder="#" />
+			<input ng-model="ctrl.shift.campHours" type="number" min="0" step="0.5" id="campHours" name="campHours" placeholder="#" />
 		</div>
-		<div class="form-group half-width">
+		<div class="form-group half-width" ng-if="ctrl.prefs.sales">
 			<label for="sales">Sales</label>
-			<input ng-model="shiftEditCtrl.shift.sales" type="number" min="0" step="any" id="sales" name="sales" placeholder="$" />
+			<input ng-model="ctrl.shift.sales" type="number" min="0" step="any" id="sales" name="sales" placeholder="$" />
 		</div>
-		<div class="form-group half-width">
+		<div class="form-group half-width" ng-if="ctrl.prefs.covers">
 			<label for="covers">Covers</label>
-			<input ng-model="shiftEditCtrl.shift.covers" type="number" min="0" step="1" id="covers" name="covers" placeholder="#" />
+			<input ng-model="ctrl.shift.covers" type="number" min="0" step="1" id="covers" name="covers" placeholder="#" />
 		</div>
-		<div class="form-group half-width">
+		<div class="form-group half-width" ng-if="ctrl.prefs.tipout">
 			<label for="tipout">Tipout</label>
-			<input ng-model="shiftEditCtrl.shift.tipout" type="number" min="0" step="1" id="tipout" name="tipout" placeholder="$" />
+			<input ng-model="ctrl.shift.tipout" type="number" min="0" step="1" id="tipout" name="tipout" placeholder="$" />
 		</div>
-		<div class="form-group half-width">
+		<div class="form-group half-width" ng-if="ctrl.prefs.transfers">
 			<label for="transfers">Transfers</label>
-			<input ng-model="shiftEditCtrl.shift.transfers" type="number" min="0" step="1" id="transfers" name="transfers" placeholder="#" />
+			<input ng-model="ctrl.shift.transfers" type="number" min="0" step="1" id="transfers" name="transfers" placeholder="#" />
 		</div>
-		<div class="form-group half-width">
+		<div class="form-group half-width" ng-if="ctrl.prefs.cash">
 			<label for="cash">Cash</label>
-			<input ng-model="shiftEditCtrl.shift.cash" type="number" min="0" step="1" id="cash" name="cash" placeholder="$" />
+			<input ng-model="ctrl.shift.cash" type="number" min="0" step="1" id="cash" name="cash" placeholder="$" />
 		</div>
-		<div class="form-group half-width">
+		<div class="form-group half-width" ng-if="ctrl.prefs.due">
 			<label for="due">Due</label>
-			<input ng-model="shiftEditCtrl.shift.due" type="number" min="0" step="1" id="due" name="due" placeholder="$" />
+			<input ng-model="ctrl.shift.due" type="number" min="0" step="1" id="due" name="due" placeholder="$" />
 		</div>
-		<div class="form-group half-width">
+		<div class="form-group half-width" ng-if="ctrl.prefs.section">
 			<label for="section">Section</label>
-			<input ng-model="shiftEditCtrl.shift.section" type="text" maxlength="25" id="section" name="section" placeholder="#,#,#" />
+			<input ng-model="ctrl.shift.section" type="text" maxlength="25" id="section" name="section" placeholder="#,#,#" />
 		</div>
-		<div class="form-group half-width">
+		<div class="form-group half-width" ng-if="ctrl.prefs.cut">
 			<label for="cut">Cut</label>
-			<input ng-model="shiftEditCtrl.shift.cut" type="text" maxlength="1" id="cut" name="cut" placeholder="[S]tay, [G]o, etc" />
+			<input ng-model="ctrl.shift.cut" type="text" maxlength="1" id="cut" name="cut" placeholder="[S]tay, [G]o, etc" />
 		</div>
-		<div class="form-group full-width">
+		<div class="form-group full-width" ng-if="ctrl.prefs.notes">
 			<label for="notes">Notes</label>
-			<textarea ng-model="shiftEditCtrl.shift.notes" maxlength="250" name="notes" rows="3"></textarea>
+			<textarea ng-model="ctrl.shift.notes" maxlength="1000" name="notes" rows="3"></textarea>
 		</div>
 		<div class="form-group button-group half-width">
 			<button class="link-button button-wide" type="submit" name="submit"><span class="fa fa-fw fa-upload"></span> Save</button>
 		</div>
 		<div class="form-group button-group half-width">
-			<a class="link-button button-inverse button-wide" type="button" href="#/shift/{{shiftEditCtrl.shift.id}}"><span class="fa fa-fw fa-times"></span> Cancel</a>
+			<a class="link-button button-inverse button-wide" type="button" href="#/shift/{{ctrl.shift.id}}"><span class="fa fa-fw fa-times"></span> Cancel</a>
 		</div>
 </form>
 </div>

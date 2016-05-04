@@ -1,12 +1,12 @@
 <?php
 	//* DEBUG */ error_reporting(E_ALL);
 	//* DEBUG */ ini_set('display_errors', 1);
-	error_reporting(0);	//to suppress errors
+	/* NON-DEBUG */ error_reporting(0);	//to suppress errors
 	$dbhost = 'localhost';
 	$dbname = 'shifttips';
 	$dbuser = 'root';
 	$dbpass = '';			//WAMP
-	$dbpass = 'root'; 	//MAMP
+	//$dbpass = 'root'; 	//MAMP
 	try 
 	{
 		$db = new mysqli($dbhost, $dbuser, $dbpass, $dbname);

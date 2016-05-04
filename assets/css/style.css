@@ -65,6 +65,7 @@ h2 {
 
 h3 {
   font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
+  font-weight: bold;
   text-align: center;
   font-size: 1.2em;
   margin: 1em 0; }
@@ -132,6 +133,9 @@ h4 {
   color: transparent !important;
   background-color: transparent !important;
   border-color: transparent !important; }
+
+.centered {
+  text-align: center; }
 
 .reset-spacing {
   padding: 0 !important;
@@ -204,6 +208,8 @@ hr {
   text-align: left;
   width: 55%;
   word-wrap: break-word; }
+.shift-info .tiny-value {
+  font-size: 85%; }
 
 .mon-shift .shift-datetime {
   background-color: rgba(204, 0, 0, 0.1);
@@ -255,6 +261,8 @@ hr {
   margin: 0.5em;
   background-color: white;
   border: 1px solid lightgray; }
+  .shift-summary .shift-time, .shift-summary .shift-hours-wage {
+    display: block; }
 
 .filler {
   flex: 1 1 175px;
@@ -368,6 +376,11 @@ a.link-button {
 .link-button.tiny-button {
   padding: 0 0.1em; }
 
+.link-button.micro-button {
+  padding: 0 1px;
+  font-size: 50%;
+  line-height: 12px; }
+
 /* ############################################
 	ADD/EDIT FORMS
 ############################################ */
@@ -407,6 +420,7 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
 
 .button-group {
   border-color: transparent;
+  margin-top: 0.5em;
   padding-top: 0;
   padding-bottom: 0; }
 
@@ -460,6 +474,9 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
 .button-wide {
   margin: 0 10%;
   width: 80%; }
+
+.wage-input {
+  max-width: 80px; }
 
 .message-box {
   display: table;
@@ -551,10 +568,10 @@ span.filter-bold {
   border-radius: 5px;
   background-color: grey;
   color: white;
-  padding: 0.1em 0.3em; }
+  padding: 0.1em 0.3em 0.2em; }
 
 .filter-message {
-  line-height: 1.6em; }
+  line-height: 2em; }
 
 #mon-check + label {
   background-color: white;
@@ -682,6 +699,12 @@ span.filter-bold {
 /* ############################################
 	TABLES
 ############################################ */
+div.mobile-table-wrap {
+  display: flex;
+  flex-wrap: wrap; }
+  div.mobile-table-wrap div.mobile-table {
+    flex: 1 1 200px; }
+
 div.mobile-table {
   width: 100%;
   overflow-x: auto; }
@@ -702,6 +725,10 @@ div.mobile-table {
     white-space: nowrap;
     text-align: right;
     vertical-align: middle; }
+  .summary-table tr.large-header th {
+    background-color: #eaeaea;
+    color: black;
+    padding: 0; }
   .summary-table th.sortable:hover {
     cursor: pointer;
     background-color: #777; }

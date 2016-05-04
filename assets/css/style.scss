@@ -112,6 +112,7 @@ h2 {
 }
 h3 {
 	font-family: $sans-font;
+	font-weight: bold;
 	text-align: center;
 	font-size: 1.2em;
 	margin: 1em 0;
@@ -180,6 +181,7 @@ h4 {
 	background-color: transparent !important;
 	border-color: transparent !important;
 }
+.centered {text-align: center;}
 .reset-spacing { padding: 0 !important; margin: 0 !important;}
 .full-width {width: 100%;}
 .icon-green {color: desaturate(lime,50%);}
@@ -234,6 +236,7 @@ hr {border-color: $border-color;}
 		width: 55%;
 		word-wrap: break-word;
 	}
+	.tiny-value {font-size: 85%}
 }
 .mon-shift .shift-datetime {background-color: rgba($mon-color,0.1);	border-color: rgba($mon-color,0.3);}
 .tue-shift .shift-datetime {background-color: rgba($tue-color,0.1);	border-color: rgba(darken($tue-color,15%),0.3);}
@@ -262,6 +265,7 @@ hr {border-color: $border-color;}
 	margin: 0.5em;
 	background-color: white;
 	border: 1px solid $border-color;
+	.shift-time, .shift-hours-wage {display: block;}
 }
 .filler {
 	flex: 1 1 175px;
@@ -383,6 +387,7 @@ a.link-button {
 	&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 15%);}
 }
 .link-button.tiny-button {padding: 0 0.1em;}
+.link-button.micro-button {padding: 0 1px; font-size: 50%; line-height: 12px;}
 
 /* ############################################
 	ADD/EDIT FORMS
@@ -421,6 +426,7 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
 }
 .button-group {
 	border-color: transparent;
+	margin-top: 0.5em;
 	padding-top: 0;
 	padding-bottom: 0;
 }
@@ -463,6 +469,7 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
 	margin: 0 10%;
 	width: 80%;
 }
+.wage-input {max-width: 80px;}
 .message-box {
 	display: table;
 	background-color: white;
@@ -558,10 +565,10 @@ span.filter-bold {
 	border-radius: 5px;
 	background-color: grey;
 	color: white;
-	padding: 0.1em 0.3em;
+	padding: 0.1em 0.3em 0.2em;
 }
 .filter-message {
-	line-height: 1.6em;
+	line-height: 2em;
 }
 
 #mon-check + label {background-color: white; color: rgba($mon-color, 0.6);}
@@ -613,6 +620,13 @@ span.filter-bold {
 /* ############################################
 	TABLES
 ############################################ */
+div.mobile-table-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	div.mobile-table {
+		flex: 1 1 200px;
+	}
+}
 div.mobile-table {
 	width: 100%;
 	overflow-x: auto;
@@ -635,6 +649,11 @@ div.mobile-table {
 		white-space: nowrap;
 		text-align: right;
 		vertical-align: middle;
+	}
+	tr.large-header th {
+		background-color: $content-bgcolor;
+		color: black;
+		padding: 0;
 	}
 	th.sortable:hover {cursor: pointer; background-color: #777;}
 	th.sort-field {
