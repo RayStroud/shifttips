@@ -8,26 +8,38 @@ angular.module('shiftTips')
 		"dayOfWeek" : ['weekday','date','startTime'],
 		"lunchDinner" : ['-lunchDinner','date','startTime']
 	};
-	ctrl.summaryTypeValues = {
-		"lunchDinner": {
-			"name": "Lunch/Dinner",
-			"sort": "-lunchDinner"
-		},
-		"dayOfWeek": {
-			"name": "Day of Week",
-			"sort": ["weekday", "-lunchDinner"]
-		},
-		"section": {
-			"name": "Section",
-			"sort": ["-lunchDinner", "section"]
-		},
-		"startTime": {
-			"name": "Start Time",
-			"sort": ["-lunchDinner", "startTime"]
-		},
-		"cut": {
-			"name": "Cut Order",
-			"sort": ["-lunchDinner", "cut"]
+	ctrl.getSummaryTypeValues = function(name) {
+		switch(name) {
+			case "lunchDinner": 
+				return {
+					"name": "Lunch/Dinner",
+					"sort": "-lunchDinner"
+				}
+				break;
+			case "dayOfWeek": 
+				return {
+					"name": "Day of Week",
+					"sort": ["weekday", "-lunchDinner"]
+				}
+				break;
+			case "section": 
+				return {
+					"name": "Section",
+					"sort": ["-lunchDinner", "section"]
+				}
+				break;
+			case "startTime": 
+				return {
+					"name": "Start Time",
+					"sort": ["-lunchDinner", "startTime"]
+				}
+				break;
+			case "cut": 
+				return {
+					"name": "Cut Order",
+					"sort": ["-lunchDinner", "cut"]
+				}
+				break;
 		}
 	};
 	ctrl.getPeriodTypeValues = function(name) {
@@ -738,12 +750,28 @@ angular.module('shiftTips')
 		return JSON.stringify(ctrl.filters.sort[type]) == JSON.stringify(value);
 	};
 
+	ctrl.changeSummaryType = function(type) {
+		//check to see if the sort is by summary type
+		var isSortBySummary = ctrl.isSort('summary', ctrl.filters.summaryType.sort);
+
+		//change summary type
+		ctrl.filters.summaryType = filterService.getSummaryTypeValues(type);
+
+		//adjust sort.summary if necessary
+		if(isSortBySummary) {
+			ctrl.filters.sort.summary = ctrl.filters.summaryType.sort;
+		}
+
+		//update filters
+		ctrl.updateFilters();
+	};
+
 	ctrl.changePeriodType = function(type) {
 		//check to see if the sort is by period
 		var isSortByPeriod = ctrl.isSort('period', ctrl.filters.periodType.sort);
 
 		//change period type
-		ctrl.filters.periodType = filterService.getPeriodTypeValues(type);;
+		ctrl.filters.periodType = filterService.getPeriodTypeValues(type);
 
 		//adjust sort.period if necessary
 		if(isSortByPeriod) {
