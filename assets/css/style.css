@@ -134,6 +134,9 @@ h4 {
   background-color: transparent !important;
   border-color: transparent !important; }
 
+.centered {
+  text-align: center; }
+
 .reset-spacing {
   padding: 0 !important;
   margin: 0 !important; }
