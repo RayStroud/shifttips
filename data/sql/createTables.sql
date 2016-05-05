@@ -7,10 +7,10 @@ DROP TABLE IF EXISTS user;
 
 CREATE TABLE user
 (
-	name			VARCHAR(35),
-	email			VARCHAR(254),
+	name			VARCHAR(35)		NOT NULL,
+	email			VARCHAR(254)	NOT NULL,
 
-	UNIQUE(email),
+	-- UNIQUE(email),
 
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)	
@@ -19,7 +19,7 @@ CREATE TABLE user
 CREATE TABLE shift
 (
 	wage 			DECIMAL(5,2),
-	date			DATE,
+	date			DATE 			NOT NULL,
 	startTime		TIME,
 	endTime			TIME,
 	firstTable 		TIME,

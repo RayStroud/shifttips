@@ -8,11 +8,12 @@
 	<link rel="stylesheet" href="assets/css/style.css">
 <body ng-controller="UserController as userCtrl" ng-cloak>
 	<div id="header">
-		<div class="name"><a href="#/">Shift Tips</a></div>
 		<ul class="menu">
+			<li><a class="name" href="#/">S<span class="hide-mobile">hift </span>T<span class="hide-mobile">ips</span></a></li>
 			<li><a class="link-button" href="#/shifts">Shifts</a></li>
 			<li><a class="link-button" href="#/summary">Summary</a></li>
 			<li><a class="link-button" href="#/summary/period">Period</a></li>
+			<li><a class="link-button" href="#/shifts/due">Due</a></li>
 			<li><a class="link-button" href="#/shifts/add">Add</a></li>
 			<li ng-if="userCtrl.user.uid > 0"><a class="link-button" href="#/account">User: {{userCtrl.user.name}}</a></li>
 		</div>
@@ -69,7 +70,11 @@
 		</div>
 	</div>
 	<div id="footer">
-		<a class="debug" href="#" target="popup" onClick="wopen('#', 'popup', 320, 480); return false;">debug mobile popup</a>
+		<div><a href="mailto:ray.stroud@gmail.com?subject=ShiftTips%20Problem" target="_top">Report Problem</a></div>
+		<div>Shift Tips &copy; 2016 by <a href="http://raystroud.ca" target="_blank">Ray Stroud</a></div>
+<!-- DEBUG
+		<div><a class="debug" href="#" target="popup" onClick="wopen('#', 'popup', 320, 480); return false;">debug mobile popup</a></div>
+-->
 	</div>
 	
 	<!-- libraries -->

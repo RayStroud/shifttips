@@ -85,7 +85,7 @@ h4 {
     font-size: 3em;
     font-weight: bold;
     font-variant: small-caps; }
-    #header .name a:hover {
+    #header .name:hover {
       cursor: pointer;
       color: white;
       text-shadow: 0px 0px 16px rgba(255, 255, 255, 0.7);
@@ -113,7 +113,17 @@ h4 {
   margin: 2% auto; }
 
 #footer {
-  padding: 1.5em; }
+  padding: 0.5em;
+  text-align: center; }
+  #footer div {
+    display: inline-block;
+    color: #8bb8df;
+    margin: 0.5em; }
+  #footer a {
+    border-bottom: 1px solid #8bb8df; }
+  #footer a:hover {
+    color: white;
+    border-color: white; }
 
 .clickable {
   position: relative; }
@@ -156,12 +166,24 @@ h4 {
 .icon-black {
   color: #4d4d4d; }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 600px) {
   h1 {
     margin: 1em 0 0.5em; }
 
   #wrapper {
-    margin-bottom: 1em; } }
+    margin-bottom: 1em; }
+
+  #header .name {
+    font-size: 2em;
+    padding: 0.1em 0.15em 0.15em; }
+  #header ul.menu li {
+    padding: 0.2em; }
+  #header ul.menu a.link-button, #header ul.menu a.name {
+    border: 1px solid white;
+    border-radius: 8px; }
+
+  .hide-mobile {
+    display: none; } }
 /* ############################################
 	HOME
 ############################################ */
