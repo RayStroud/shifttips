@@ -205,7 +205,7 @@ BEGIN
 	SET v_tipoutPercent := p_tipout * 100 / p_sales;
 	SET v_hourly := v_earnedTotal / v_hours;
 	SET v_noCampHourly := v_earnedTotal / (v_hours - p_campHours);
-	IF (p_startTime BETWEEN '10:00' AND '13:00')
+	IF (p_startTime BETWEEN '10:00' AND '14:00')
 		THEN SET v_lunchDinner := 'L';
 		ELSE SET v_lunchDinner := 'D';
 	END IF;
