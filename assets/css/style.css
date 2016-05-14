@@ -84,7 +84,8 @@ h4 {
     font-family: Cambria, Caladea, CaladeaBold, Georgia, serif;
     font-size: 3em;
     font-weight: bold;
-    font-variant: small-caps; }
+    font-variant: small-caps;
+    margin-right: 0.1em; }
     #header .name:hover {
       cursor: pointer;
       color: white;
@@ -146,6 +147,8 @@ h4 {
 
 .centered {
   text-align: center; }
+  .centered .link-button {
+    margin: 0.2em 0.1em; }
 
 .reset-spacing {
   padding: 0 !important;
@@ -175,7 +178,8 @@ h4 {
 
   #header .name {
     font-size: 2em;
-    padding: 0.1em 0.15em 0.15em; }
+    padding: 0.1em 0.15em 0.15em;
+    margin-right: 0em; }
   #header ul.menu li {
     padding: 0.2em; }
   #header ul.menu a.link-button, #header ul.menu a.name {

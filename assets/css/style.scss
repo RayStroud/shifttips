@@ -132,6 +132,7 @@ h4 {
 		font-size: 3em;
 		font-weight: bold;
 		font-variant: small-caps;
+		margin-right: 0.1em;
 		&:hover {
 			cursor: pointer;
 			color: $header-text-color; 
@@ -189,7 +190,7 @@ h4 {
 	background-color: transparent !important;
 	border-color: transparent !important;
 }
-.centered {text-align: center;}
+.centered {text-align: center; .link-button {margin: 0.2em 0.1em;} }
 .reset-spacing { padding: 0 !important; margin: 0 !important;}
 .full-width {width: 100%;}
 .icon-green {color: desaturate(lime,50%);}
@@ -204,7 +205,7 @@ h4 {
 		.name {
 			font-size: 2em; 
 			padding: 0.1em 0.15em 0.15em; 
-			//margin: 0.1em;
+			margin-right: 0em;
 		}
 		ul.menu {
 			li {padding: 0.2em;}

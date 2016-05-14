@@ -5,13 +5,13 @@
 		<tr><td><button class="link-button" ng-click="userCtrl.logout()">Logout</button></td></tr>
 	</table>
 
-	<h2>Device Settings</h2>
+	<h2>Device View Settings</h2>
 	<h5>This affects what you see on <b>this device</b> only. If you change devices, or your device's memory is cleared, it will return to the default settings.</h5>
 	
 	<div class="centered button-group">
-		<button class="link-button" ng-click="ctrl.resetPrefs()">Default Settings</button>
-		<button class="link-button" ng-click="ctrl.resetPrefs('full')">Full Settings</button>
-		<button class="link-button" ng-click="ctrl.resetPrefs('minimal')">Minimal Settings</button>
+		<button class="link-button" ng-click="ctrl.resetPrefs()">Default</button>
+		<button class="link-button" ng-click="ctrl.resetPrefs('full')">Detailed</button>
+		<button class="link-button" ng-click="ctrl.resetPrefs('minimal')">Minimal</button>
 	</div>
 
 	<div class="mobile-table-wrap">
