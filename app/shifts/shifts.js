@@ -1,5 +1,5 @@
 angular.module('shiftTips')
-.service('shiftsService', ['$http', 'userService', function($http, userService) {
+.service('shiftsService', ['$http', 'backend', 'userService', function($http, backend, userService) {
 	var ctrl = this;
 	ctrl.uid = -1;		//record uid to compare against current logged in user
 	ctrl.shiftId = -1;	//record shift id to compare against stored shift
@@ -12,27 +12,27 @@ angular.module('shiftTips')
 	ctrl.getShifts = function(uid) {
 		if (!ctrl.shifts || ctrl.uid != uid) {	//if empty, or if uid changed
 			ctrl.uid = uid;
-			ctrl.shifts = $http.get('./data/shifts.php?uid=' + uid);
+			ctrl.shifts = $http.get(backend.domain + 'shifts.php?uid=' + uid);
 		}
 		return ctrl.shifts;
 	};
 	ctrl.getShift = function(uid, id) {
-		return $http.get('./data/shifts.php?uid=' + uid + '&id=' + id);
+		return $http.get(backend.domain + 'shifts.php?uid=' + uid + '&id=' + id);
 	};
 	ctrl.addShift = function(shift) {
 		ctrl.resetIds();
-		return $http.post('./data/shifts.php', shift);
+		return $http.post(backend.domain + 'shifts.php', shift);
 	};
 	ctrl.editShift = function(shift) {
 		ctrl.resetIds();
-		return $http.put('./data/shifts.php', shift);
+		return $http.put(backend.domain + 'shifts.php', shift);
 	};
 	ctrl.removeShift = function(uid, id) {
-		return $http.delete('./data/shifts.php?uid=' + uid + '&id=' + id);
+		return $http.delete(backend.domain + 'shifts.php?uid=' + uid + '&id=' + id);
 	};
 	ctrl.setDueCheck = function(uid, id, dueCheck) {
 		ctrl.resetIds();
-		return $http.get('./data/shifts.php?uid=' + uid + '&id=' + id + '&dueCheck=' + dueCheck);
+		return $http.get(backend.domain + 'shifts.php?uid=' + uid + '&id=' + id + '&dueCheck=' + dueCheck);
 	};
 }])
 
