@@ -1,21 +1,21 @@
 angular.module('shiftTips')
-.service('userService', ['$http', 'localStorageService', function($http, localStorageService) {
+.service('userService', ['$http', 'backend', 'localStorageService', function($http, backend, localStorageService) {
 	var ctrl = this;
 	ctrl.user = localStorageService.get('user') || {"name":null,"uid":-1};
 	this.getUser = function() {
 		return ctrl.user;
 	};
 	this.addUser = function(user) {
-		return $http.post('./data/users.php', user);
+		return $http.post(backend.domain + 'users.php', user);
 	};
 	this.editUser = function(user) {
-		return $http.put('./data/users.php', user);
+		return $http.put(backend.domain + 'users.php', user);
 	};
 	this.removeUser = function(uid, id) {
-		return $http.delete('./data/users.php?id=' + id);
+		return $http.delete(backend.domain + 'users.php?id=' + id);
 	};
 	this.login = function(name, email) {
-		var response = $http.get('./data/users.php?name=' + name + '&email=' + email)
+		var response = $http.get(backend.domain + 'users.php?name=' + name + '&email=' + email)
 		.success(function (data, status, headers, config) {
 			var loggedUser = {"name":name,"uid":data};
 			ctrl.user = loggedUser;

@@ -1,7 +1,7 @@
 angular.module('shiftTips')
-.service('summaryService', ['$http', 'userService', function($http, userService) {
+.service('summaryService', ['$http', 'backend', 'userService', function($http, backend, userService) {
 	this.getSummary = function(uid, from, to, lunchDinner) {
-		return $http.get('./data/summary.php?uid=' + uid + '&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
+		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
 	this.getSummaryFiltered = function(uid, from, to, lunchDinner, mon, tue, wed, thu, fri, sat, sun) {
 		var dayString = mon ? '&mon' : '';
@@ -11,28 +11,28 @@ angular.module('shiftTips')
 		dayString += fri ? '&fri' : '';
 		dayString += sat ? '&sat' : '';
 		dayString += sun ? '&sun' : '';
-		return $http.get('./data/summary.php?uid=' + uid + '&from=' + from + '&to=' + to + '&ld=' + lunchDinner + dayString);
+		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&from=' + from + '&to=' + to + '&ld=' + lunchDinner + dayString);
 	};
 	this.getSummaryByLunchDinner = function(uid, from, to) {
-		return $http.get('./data/summary.php?uid=' + uid + '&lunchDinner&from=' + from + '&to=' + to);
+		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&lunchDinner&from=' + from + '&to=' + to);
 	};
 	this.getSummaryByDayOfWeek = function(uid, from, to) {
-		return $http.get('./data/summary.php?uid=' + uid + '&day&from=' + from + '&to=' + to);
+		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&day&from=' + from + '&to=' + to);
 	};
 	this.getSummaryBySection = function(uid, from, to) {
-		return $http.get('./data/summary.php?uid=' + uid + '&section&from=' + from + '&to=' + to);
+		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&section&from=' + from + '&to=' + to);
 	};
 	this.getSummaryByStartTime = function(uid, from, to) {
-		return $http.get('./data/summary.php?uid=' + uid + '&startTime&from=' + from + '&to=' + to);
+		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&startTime&from=' + from + '&to=' + to);
 	};
 	this.getSummaryByCut = function(uid, from, to) {
-		return $http.get('./data/summary.php?uid=' + uid + '&cut&from=' + from + '&to=' + to);
+		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&cut&from=' + from + '&to=' + to);
 	};
 	this.getSummaryWeekly = function(uid, from, to, lunchDinner) {
-		return $http.get('./data/summary.php?uid=' + uid + '&week&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
+		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&week&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
 	this.getSummaryMonthly = function(uid, from, to, lunchDinner) {
-		return $http.get('./data/summary.php?uid=' + uid + '&month&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
+		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&month&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
 }])
 
