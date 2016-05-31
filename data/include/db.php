@@ -16,6 +16,15 @@
 			die('Connect Error (' . $db->connect_errno . ') '. $db->connect_error);
 		}
 		//* DEBUG */ else {echo 'php version: ' . phpversion() . '<br/>mysql version: ' . $db->get_server_info() . '<hr>';}
+
+		//allow access from domain
+		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+		header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+		header('Access-Control-Allow-Origin: http://raystroud.ca');
+		header('Access-Control-Allow-Origin: https://raystroud.ca');
+		header('Access-Control-Allow-Origin: http://www.raystroud.ca');
+		header('Access-Control-Allow-Origin: https://www.raystroud.ca');
+		//* DEBUG */ header('Access-Control-Allow-Origin: *');
 	} 
 	catch (Exception $e) 
 	{
