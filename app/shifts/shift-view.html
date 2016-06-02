@@ -19,11 +19,11 @@
 			</div>
 
 			<div ng-if="ctrl.prefs.salesPerHour" class="shift-info">
-				<div class="label">Sale/h</div>
+				<div class="label">Sales/h</div>
 				<div class="value">{{ctrl.shift.salesPerHour | currency | placeholder:'-':undefined:'/h'}}</div>
 			</div>
 			<div ng-if="ctrl.prefs.salesPerCover" class="shift-info">
-				<div class="label">Sale/cov</div>
+				<div class="label">Sales/cov</div>
 				<div class="value">{{ctrl.shift.salesPerCover | currency | placeholder:'-':undefined:'/cov'}}</div>
 			</div>
 
@@ -43,10 +43,10 @@
 			<div ng-if="ctrl.prefs.due" class="shift-info">
 				<div class="label">Due</div>
 				<div class="value">{{ctrl.shift.due | currency:undefined:0 | placeholder:'-'}} 
+					<button ng-if="ctrl.shift.dueCheck == '!'" class="link-button tiny-button button-amber" 	ng-click="ctrl.setDueCheck(ctrl.shift.id,'Y')"><span class="fa fa-fw fa-exclamation"></span></button>
 					<button ng-if="ctrl.shift.dueCheck == 'Y'" class="link-button tiny-button button-green" 	ng-click="ctrl.setDueCheck(ctrl.shift.id,'?')"><span class="fa fa-fw fa-check"></span></button>
-					<button ng-if="ctrl.shift.dueCheck == 'N'" class="link-button tiny-button button-red" 		ng-click="ctrl.setDueCheck(ctrl.shift.id,'Y')"><span class="fa fa-fw fa-times"></span></button>
-					<button ng-if="ctrl.shift.dueCheck == '?'" class="link-button tiny-button button-blue" 	ng-click="ctrl.setDueCheck(ctrl.shift.id,'!')"><span class="fa fa-fw fa-question"></span></button>
-					<button ng-if="ctrl.shift.dueCheck == '!'" class="link-button tiny-button button-black" 	ng-click="ctrl.setDueCheck(ctrl.shift.id,'N')"><span class="fa fa-fw fa-exclamation"></span></button>
+					<button ng-if="ctrl.shift.dueCheck == '?'" class="link-button tiny-button button-blue" 	ng-click="ctrl.setDueCheck(ctrl.shift.id,'N')"><span class="fa fa-fw fa-question"></span></button>
+					<button ng-if="ctrl.shift.dueCheck == 'N'" class="link-button tiny-button button-red" 		ng-click="ctrl.setDueCheck(ctrl.shift.id,'!')"><span class="fa fa-fw fa-times"></span></button>
 				</div>
 			</div>
 
@@ -60,7 +60,7 @@
 			</div>
 
 			<div ng-if="ctrl.prefs.earnedTotal" class="shift-info">
-				<div class="label">Total</div>
+				<div class="label">Earned</div>
 				<div class="value">{{ctrl.shift.earnedTotal | currency:undefined:0 | placeholder:'-'}}</div>
 			</div>
 			<div ng-if="ctrl.prefs.tipsVsWage" class="shift-info">
@@ -69,7 +69,7 @@
 			</div>
 
 			<div ng-if="ctrl.prefs.hourly" class="shift-info">
-				<div class="label">Hourly</div>
+				<div class="label">$/h</div>
 				<div class="value">{{ctrl.shift.hourly | currency | placeholder:'-':undefined:'/h'}}</div>
 			</div>
 

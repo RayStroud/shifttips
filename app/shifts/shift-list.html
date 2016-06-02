@@ -34,7 +34,7 @@
 				</div>
 				<div ng-show="filtersCtrl.filters.visible" class="filter-group" id="filter-lunch-dinner">
 					<div class="filter-group-wrap">
-						<div class="filter-group-header">Lunch / Dinner</div>
+						<div class="filter-group-header">Lun/Din</div>
 						<div class="filter-group-body">
 							<input type="checkbox" id="lun-check" name="lun" ng-checked="filtersCtrl.filters.lun">
 							<label ng-click="filtersCtrl.toggleLD('lun'); ctrl.updateSummary();">L</label>
@@ -115,7 +115,7 @@
 								<th ng-if="ctrl.prefs.tipsVsWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','tipsVsWage')}" 
 									ng-click="filtersCtrl.changeSort('list','tipsVsWage')">%TvsW</th>
 								<th ng-if="ctrl.prefs.hourly" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','hourly')}" 
-									ng-click="filtersCtrl.changeSort('list','hourly')">Earn/h</th>
+									ng-click="filtersCtrl.changeSort('list','hourly')">$/h</th>
 							</tr>
 						</thead>
 						<tr class="clickable-row {{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidShift:filtersCtrl.filters | orderBy:filtersCtrl.filters.sort.list:filtersCtrl.filters.reverse.list ) track by $index" ng-class-even="'alt'" ng-click="ctrl.viewShift(shift.id)">

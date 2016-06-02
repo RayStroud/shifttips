@@ -185,7 +185,7 @@ BEGIN
 	IF p_due < 1
 		THEN SET v_dueCheck = NULL;
 		ELSEIF p_dueCheck IS NULL AND p_due > 0
-			THEN SET v_dueCheck := 'N';
+			THEN SET v_dueCheck := '!';
 		ELSE SET v_dueCheck := p_dueCheck; 
 	END IF;
 	SET v_hours := HOUR(TIMEDIFF(v_endTime, p_startTime)) + (MINUTE(TIMEDIFF(v_endTime, p_startTime))/60);

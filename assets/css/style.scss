@@ -88,6 +88,8 @@ body {line-height: 1;}
 ol, ul {list-style: none;}
 table {border-collapse: collapse; border-spacing: 0;}
 a, a:link, a:visited, a:hover, a:active {text-decoration: none;	color: inherit;}
+b {font-weight: bold;}
+i {font-style: italic;}
 
 /* ############################################
 	LAYOUT
@@ -123,6 +125,22 @@ h4 {
 	font-size: 1.2em;
 	font-weight: bold;
 }
+h5 {
+	font-family: $sans-font;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 1em 0;
+}
+a.link {
+	color: $body-bgcolor;
+	border-bottom: 1px solid $body-bgcolor;
+	&:hover {
+		cursor: pointer;
+		color: lighten($body-bgcolor, 15%);
+		border-color: lighten($body-bgcolor, 15%);
+	}
+}
+
 #header {
 	color: $header-text-color;
 	padding: 2% 1% 1.5% 5%;
@@ -173,8 +191,13 @@ h4 {
 		color: lighten($body-bgcolor, 25%);
 		margin: 0.5em;
 	}
-	a {border-bottom: 1px solid lighten($body-bgcolor, 25%);}
-	a:hover {color: white; border-color: white;}
+	a {border-bottom: 1px solid lighten($body-bgcolor, 25%);
+		&:hover {color: white; border-color: white;}
+	}
+}
+.content-wrapper {
+	max-width: 800px;
+	margin: 0 auto;
 }
 .clickable { position: relative; &:hover { cursor: pointer; border-color: $border-hover-color;} }
 .link-spanner {
@@ -193,9 +216,10 @@ h4 {
 .centered {text-align: center; .link-button {margin: 0.2em 0.1em;} }
 .reset-spacing { padding: 0 !important; margin: 0 !important;}
 .full-width {width: 100%;}
-.icon-green {color: desaturate(lime,50%);}
 .icon-red {color: desaturate(red,50%);}
 .icon-blue {color: darken(desaturate(cyan,50%),10%);}
+.icon-green {color: desaturate(lime,50%);}
+.icon-amber {color: desaturate(orange,50%);}
 .icon-black {color: lighten(black,30%);}
 
 @media screen and (max-width: 600px) {
@@ -225,6 +249,26 @@ table.links {
 	margin: 0 auto;
 	td {padding: 0.3em 0;}
 	.link-button {width: 100%;}
+}
+
+/* ############################################
+	ABOUT / HELP / FAQ
+############################################ */
+#about {
+	p {border-left: 2px solid #bbb; padding: 5px 0 5px 8px;}
+	.filter-group-header {font-size: 100%;}
+	i {font-size: 80%; font-weight: normal;}
+}
+table.glossary {
+	margin: 1em 0;
+	tr {background-color: #ddd;}
+	tr.alt {background-color: #bbb;}
+	th {background-color: #666; color: white;}
+	td, th {padding: 0.5em;}
+	td.term {
+		min-width: 100px;
+		font-weight: bold;
+	}
 }
 
 /* ############################################
@@ -436,7 +480,8 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
 		min-width: 250px;
 		max-width: 400px;
 		margin: 0.8em;
-		padding: 2%;
+		//padding: 2%;	Mozilla doesn't like flex and % padding
+		padding: 0.8em;
 		border: 1px solid $border-color;
 		border-radius: 5px;	
 	}
@@ -457,7 +502,7 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
 .link-button.button-inverse {
 	background-color: $header-text-color;
 	color: $body-bgcolor;
-	&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 40%);}
+	&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 45%);}
 }
 .link-button.button-blue {
 	background-color: desaturate(cyan, 50%);
@@ -469,15 +514,20 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
 	color: white;
 	&:hover {cursor: pointer; background-color: lighten(desaturate(red, 50%), 10%);}
 }
-.link-button.button-black {
-	background-color: desaturate(black, 50%);
-	color: white;
-	&:hover {cursor: pointer; background-color: lighten(desaturate(black, 50%), 10%);}
-}
 .link-button.button-green {
 	background-color: desaturate(lime, 60%);
 	color: white;
 	&:hover {cursor: pointer; background-color: lighten(desaturate(lime, 60%), 10%);}
+}
+.link-button.button-amber {
+	background-color: desaturate(orange, 30%);
+	color: white;
+	&:hover {cursor: pointer; background-color: lighten(desaturate(orange, 30%), 10%);}
+}
+.link-button.button-black {
+	background-color: desaturate(black, 50%);
+	color: white;
+	&:hover {cursor: pointer; background-color: lighten(desaturate(black, 50%), 10%);}
 }
 .link-button.button-invisible {
 	background-color: transparent;
@@ -698,7 +748,7 @@ div.mobile-table {
 		td {background-color: #888;}
 		.tot-cell {color: #444;}
 	}
-	i {font-style: italic; font-size: 80%; font-variant: small-caps;}
+	i {font-size: 80%; font-variant: small-caps;}
 }
 thead.sort-reverse th.sort-field {
 	box-shadow: inset 0 4px 0 0 black;	
@@ -754,5 +804,6 @@ tr.sun-row .day-cell {color: lighten($sun-color, 25%);}
 body {
 	//transform: scale(0.5);
 }
-a.debug {color: lime; font-weight: bolder; font-family: $mono-font; padding: 0.5em;}
-a.debug:hover {cursor: pointer; background-color: black;}
+a.debug {color: lime; font-weight: bolder; font-family: $mono-font; padding: 0.5em;
+	&:hover {cursor: pointer; background-color: black;}
+}

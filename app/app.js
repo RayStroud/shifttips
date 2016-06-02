@@ -15,6 +15,7 @@
 		.when('/summary', 			{templateUrl: 'app/summary/summary.html'})
 		.when('/summary/period', 	{templateUrl: 'app/summary/summary-period.html'})
 		.when('/account', 			{templateUrl: 'app/users/account.html'})
+		.when('/about', 			{templateUrl: 'app/home/about.html'})
 		.when('/', 					{templateUrl: 'app/home/home.html'})
 		.otherwise(					{redirectTo: '/'});
 	})

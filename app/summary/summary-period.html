@@ -33,7 +33,7 @@
 				</div>
 				<div ng-show="filtersCtrl.filters.visible" class="filter-group" id="filter-lunch-dinner">
 					<div class="filter-group-wrap">
-						<div class="filter-group-header">Lunch / Dinner</div>
+						<div class="filter-group-header">Lun/Din</div>
 						<div class="filter-group-body">
 							<input type="checkbox" id="lun-check" name="lun" ng-checked="filtersCtrl.filters.lun">
 							<label ng-click="filtersCtrl.toggleLD('lun'); ctrl.updatePeriodData();">L</label>
@@ -81,7 +81,7 @@
 							<th ng-if="ctrl.prefs.tipsVsWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('period','tipsVsWage')}" 
 								ng-click="filtersCtrl.changeSort('period','tipsVsWage')">%TvsW</th>
 							<th ng-if="ctrl.prefs.hourly" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('period','hourly')}" 
-								ng-click="filtersCtrl.changeSort('period','hourly')">Earn/h</th>
+								ng-click="filtersCtrl.changeSort('period','hourly')">$/h</th>
 						</tr>
 					</thead>
 					<tr ng-repeat="list in ctrl.list | orderBy:filtersCtrl.filters.sort.period:filtersCtrl.filters.reverse.period" ng-class-even="'alt'">

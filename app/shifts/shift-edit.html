@@ -1,7 +1,7 @@
 <div ng-controller="ShiftEditController as ctrl">
 	<h1>Edit Shift</h1>
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
-	<div class="error message-box" ng-show="editForm.$submitted && !editForm.$valid">Cannot submit. Fill out "Wage", "Date", and "Start" fields, and make sure all fields are formatted correctly.</div>
+	<div class="error message-box" ng-show="editForm.$submitted && !editForm.$valid">Cannot submit. Fill out "Date" field, and make sure all fields are formatted correctly. Visit <a class="link" href="#/about">About/Help/FAQ</a> section for more details.</div>
 	<form name="editForm" class="edit-form" novalidate
 			ng-class="{submitted:editForm.$submitted}" 
 			ng-submit="editForm.$valid && ctrl.editShift()">

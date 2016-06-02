@@ -42,6 +42,12 @@ a, a:link, a:visited, a:hover, a:active {
   text-decoration: none;
   color: inherit; }
 
+b {
+  font-weight: bold; }
+
+i {
+  font-style: italic; }
+
 /* ############################################
 	LAYOUT
 ############################################ */
@@ -75,6 +81,20 @@ h4 {
   text-align: center;
   font-size: 1.2em;
   font-weight: bold; }
+
+h5 {
+  font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 1em 0; }
+
+a.link {
+  color: #337ab7;
+  border-bottom: 1px solid #337ab7; }
+  a.link:hover {
+    cursor: pointer;
+    color: #63a0d4;
+    border-color: #63a0d4; }
 
 #header {
   color: white;
@@ -122,9 +142,13 @@ h4 {
     margin: 0.5em; }
   #footer a {
     border-bottom: 1px solid #8bb8df; }
-  #footer a:hover {
-    color: white;
-    border-color: white; }
+    #footer a:hover {
+      color: white;
+      border-color: white; }
+
+.content-wrapper {
+  max-width: 800px;
+  margin: 0 auto; }
 
 .clickable {
   position: relative; }
@@ -157,14 +181,17 @@ h4 {
 .full-width {
   width: 100%; }
 
-.icon-green {
-  color: #40bf40; }
-
 .icon-red {
   color: #bf4040; }
 
 .icon-blue {
   color: #339999; }
+
+.icon-green {
+  color: #40bf40; }
+
+.icon-amber {
+  color: #bf9240; }
 
 .icon-black {
   color: #4d4d4d; }
@@ -197,6 +224,33 @@ table.links {
     padding: 0.3em 0; }
   table.links .link-button {
     width: 100%; }
+
+/* ############################################
+	ABOUT / HELP / FAQ
+############################################ */
+#about p {
+  border-left: 2px solid #bbb;
+  padding: 5px 0 5px 8px; }
+#about .filter-group-header {
+  font-size: 100%; }
+#about i {
+  font-size: 80%;
+  font-weight: normal; }
+
+table.glossary {
+  margin: 1em 0; }
+  table.glossary tr {
+    background-color: #ddd; }
+  table.glossary tr.alt {
+    background-color: #bbb; }
+  table.glossary th {
+    background-color: #666;
+    color: white; }
+  table.glossary td, table.glossary th {
+    padding: 0.5em; }
+  table.glossary td.term {
+    min-width: 100px;
+    font-weight: bold; }
 
 /* ############################################
 	SHIFT BOX
@@ -431,7 +485,7 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
     min-width: 250px;
     max-width: 400px;
     margin: 0.8em;
-    padding: 2%;
+    padding: 0.8em;
     border: 1px solid lightgray;
     border-radius: 5px; }
 
@@ -455,7 +509,7 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
   color: #337ab7; }
   .link-button.button-inverse:hover {
     cursor: pointer;
-    background-color: #c7ddef; }
+    background-color: #dbe9f5; }
 
 .link-button.button-blue {
   background-color: #40bfbf;
@@ -471,19 +525,26 @@ form.add-form, form.edit-form, form.login-form, form.user-form {
     cursor: pointer;
     background-color: #cc6666; }
 
-.link-button.button-black {
-  background-color: black;
-  color: white; }
-  .link-button.button-black:hover {
-    cursor: pointer;
-    background-color: #1a1a1a; }
-
 .link-button.button-green {
   background-color: #4db34d;
   color: white; }
   .link-button.button-green:hover {
     cursor: pointer;
     background-color: #70c270; }
+
+.link-button.button-amber {
+  background-color: #d99a26;
+  color: white; }
+  .link-button.button-amber:hover {
+    cursor: pointer;
+    background-color: #e0ae52; }
+
+.link-button.button-black {
+  background-color: black;
+  color: white; }
+  .link-button.button-black:hover {
+    cursor: pointer;
+    background-color: #1a1a1a; }
 
 .link-button.button-invisible {
   background-color: transparent;
@@ -781,7 +842,6 @@ div.mobile-table {
   .summary-table tr.summary .tot-cell {
     color: #444; }
   .summary-table i {
-    font-style: italic;
     font-size: 80%;
     font-variant: small-caps; }
 
@@ -917,9 +977,8 @@ a.debug {
   font-weight: bolder;
   font-family: Consolas, Inconsolata, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
   padding: 0.5em; }
-
-a.debug:hover {
-  cursor: pointer;
-  background-color: black; }
+  a.debug:hover {
+    cursor: pointer;
+    background-color: black; }
 
 /*# sourceMappingURL=style.css.map */

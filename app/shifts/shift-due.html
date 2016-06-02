@@ -10,7 +10,7 @@
 							<div class="filter-group-body">
 								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('all')}" ng-click="ctrl.changeFilterType('all')">All Shifts</button>
 								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('defined')}" ng-click="ctrl.changeFilterType('defined')">All Duebacks</button>
-								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('unreceived')}" ng-click="ctrl.changeFilterType('unreceived')">Unreceived</button>
+								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('unretrieved')}" ng-click="ctrl.changeFilterType('unretrieved')">Unretrieved</button>
 							</div>
 						</div>
 					</div>
@@ -40,10 +40,10 @@
 							<td>{{shift.date | date:'MMM dd, yyyy' | placeholder:'-'}}</td>
 							<td>{{shift.due | currency:undefined:0 | placeholder:'-'}}</td>
 							<td>
-								<button ng-if="shift.dueCheck == 'Y'" class="link-button button-green" ng-click="ctrl.setDueCheck(shift.id,'N')"><span class="fa fa-fw fa-check"></span></button>
-								<button ng-if="shift.dueCheck == 'N'" class="link-button button-red"  ng-click="ctrl.setDueCheck(shift.id,'Y')"><span class="fa fa-fw fa-times"></span></button>
+								<button ng-if="shift.dueCheck == 'Y'" class="link-button button-green" ng-click="ctrl.setDueCheck(shift.id,'!')"><span class="fa fa-fw fa-check"></span></button>
+								<button ng-if="shift.dueCheck == '!'" class="link-button button-amber"  ng-click="ctrl.setDueCheck(shift.id,'Y')"><span class="fa fa-fw fa-exclamation"></span></button>
 								<div ng-if="shift.dueCheck == '?'" class="link-button button-invisible"><span class="fa fa-fw fa-question icon-blue"></span></div>
-								<div ng-if="shift.dueCheck == '!'" class="link-button button-invisible"><span class="fa fa-fw fa-exclamation icon-black"></span></div>
+								<div ng-if="shift.dueCheck == 'N'" class="link-button button-invisible"><span class="fa fa-fw fa-times icon-red"></span></div>
 							</td>
 						</tr>
 					</table>

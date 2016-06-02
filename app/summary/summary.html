@@ -36,7 +36,7 @@
 				</div>
 				<div ng-show="filtersCtrl.filters.visible" class="filter-group" id="filter-lunch-dinner">
 					<div class="filter-group-wrap">
-						<div class="filter-group-header">Lunch / Dinner</div>
+						<div class="filter-group-header">Lun/Din</div>
 						<div class="filter-group-body">
 							<input type="checkbox" id="lun-check" name="lun" ng-checked="filtersCtrl.filters.lun">
 							<label ng-click="filtersCtrl.toggleLD('lun'); ctrl.updateSummaryData();">L</label>
@@ -83,7 +83,7 @@
 							<th ng-if="ctrl.prefs.tipsVsWage" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('summary','tipsVsWage')}" 
 								ng-click="filtersCtrl.changeSort('summary','tipsVsWage')">%TvsW</th>
 							<th ng-if="ctrl.prefs.hourly" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('summary','hourly')}" 
-								ng-click="filtersCtrl.changeSort('summary','hourly')">Earn/h</th>
+								ng-click="filtersCtrl.changeSort('summary','hourly')">$/h</th>
 						</tr>
 						<tr>
 							<th colspan="2" class="sortable tot-cell" ng-class="{'sort-field':filtersCtrl.isSort('summary','count')}" 

@@ -36,7 +36,7 @@
 				</div>
 				<div ng-show="filtersCtrl.filters.visible" class="filter-group" id="filter-lunch-dinner">
 					<div class="filter-group-wrap">
-						<div class="filter-group-header">Lunch / Dinner</div>
+						<div class="filter-group-header">Lun/Din</div>
 						<div class="filter-group-body">
 							<input type="checkbox" id="lun-check" name="lun" ng-checked="filtersCtrl.filters.lun">
 							<label ng-click="filtersCtrl.toggleLD('lun'); ctrl.updateSummary();">L</label>
@@ -121,10 +121,10 @@
 									<div class="shift-info" ng-if="ctrl.prefs.due">
 										<div class="label">Due</div>
 										<div class="value">{{shift.due | currency:undefined:0 | placeholder:'-'}}
+											<button ng-if="shift.dueCheck == '!'" class="link-button micro-button button-amber"><span class="fa fa-fw fa-exclamation"></span></button>
 											<button ng-if="shift.dueCheck == 'Y'" class="link-button micro-button button-green"><span class="fa fa-fw fa-check"></span></button>
-											<button ng-if="shift.dueCheck == 'N'" class="link-button micro-button button-red"><span class="fa fa-fw fa-times"></span></button>
 											<button ng-if="shift.dueCheck == '?'" class="link-button micro-button button-blue"><span class="fa fa-fw fa-question"></span></button>
-											<button ng-if="shift.dueCheck == '!'" class="link-button micro-button button-black"><span class="fa fa-fw fa-exclamation"></span></button>
+											<button ng-if="shift.dueCheck == 'N'" class="link-button micro-button button-red"><span class="fa fa-fw fa-times"></span></button>
 										</div>
 									</div>
 									<div class="shift-info" ng-if="ctrl.prefs.earnedWage">
@@ -140,7 +140,7 @@
 										<div class="value">{{shift.tipsVsWage | placeholder:'-':undefined:'%'}}</div>
 									</div>
 									<div class="shift-info" ng-if="ctrl.prefs.hourly">
-										<div class="label">Hourly</div>
+										<div class="label">$/h</div>
 										<div class="value">{{shift.hourly | currency | placeholder:'-':undefined:'/h'}}</div>
 									</div>
 									<div class="shift-info" ng-if="ctrl.prefs.cut">

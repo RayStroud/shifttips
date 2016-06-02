@@ -174,17 +174,6 @@ angular.module('shiftTips')
 
 	ctrl.changeFilterType = function(filterType) {
 		ctrl.filterType = filterType;
-		switch (filterType) {
-			case 'all':
-				ctrl.dueCheckFilter = undefined;
-				break;
-			case 'dueback':
-				ctrl.dueCheckFilter = '';
-				break;
-			default:
-				ctrl.dueCheckFilter = 'N';
-				break;
-		}
 	};
 
 	ctrl.setDueCheck = function(id, dueCheck) {
@@ -193,8 +182,7 @@ angular.module('shiftTips')
 	};
 
 	ctrl.loadShifts();
-	ctrl.filterType = 'unreceived';
-	ctrl.dueCheckFilter = 'N';
+	ctrl.filterType = 'unretrieved';
 	ctrl.sortDate = ['date','startTime'];
 	ctrl.sortReverse = true;
 	ctrl.changeSortField(ctrl.sortDate);
@@ -445,12 +433,12 @@ angular.module('shiftTips')
 					filteredShifts.push(shift);
 					break;	
 				case 'defined':
-					if (shift.dueCheck != null) {
+					if (shift.dueCheck) {
 						filteredShifts.push(shift);
 					}
 					break;	
-				case 'unreceived':
-					if (shift.dueCheck == 'N') {
+				case 'unretrieved':
+					if (shift.dueCheck == '!') {
 						filteredShifts.push(shift);
 					}
 					break;	
