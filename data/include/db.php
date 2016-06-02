@@ -18,12 +18,14 @@
 		//* DEBUG */ else {echo 'php version: ' . phpversion() . '<br/>mysql version: ' . $db->get_server_info() . '<hr>';}
 
 		//allow access from domain
-		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-		header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
-		header('Access-Control-Allow-Origin: http://raystroud.ca');
-		header('Access-Control-Allow-Origin: https://raystroud.ca');
-		header('Access-Control-Allow-Origin: http://www.raystroud.ca');
-		header('Access-Control-Allow-Origin: https://www.raystroud.ca');
+		$safeDomains = array('http://raystroud.ca', 'https://raystroud.ca', 'http://www.raystroud.ca', 'https://www.raystroud.ca', 'http://raystroud.com', 'https://raystroud.com', 'http://www.raystroud.com', 'https://www.raystroud.com');
+		$domain = $_SERVER['HTTP_ORIGIN'];
+		if (in_array($domain, $safeDomains, true))
+		{
+			header('Access-Control-Allow-Origin: ' . $domain);
+			header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+			header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
+		}
 		//* DEBUG */ header('Access-Control-Allow-Origin: *');
 	} 
 	catch (Exception $e) 
