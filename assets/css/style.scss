@@ -258,6 +258,9 @@ table.links {
 	p {border-left: 2px solid #bbb; padding: 5px 0 5px 8px;}
 	.filter-group-header {font-size: 100%;}
 	i {font-size: 80%; font-weight: normal;}
+	h5 {
+		&:hover {cursor: pointer; color: #666;}
+	}
 }
 table.glossary {
 	margin: 1em 0;
