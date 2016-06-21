@@ -259,7 +259,7 @@ table.links {
 	.filter-group-header {font-size: 100%;}
 	i {font-size: 80%; font-weight: normal;}
 	h5 {
-		&:hover {cursor: pointer; color: #666;}
+		&:hover {cursor: pointer; color: $body-bgcolor;}
 	}
 }
 table.glossary {
