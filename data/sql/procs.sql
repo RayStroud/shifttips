@@ -212,12 +212,12 @@ BEGIN
 	SET v_dayOfWeek := LEFT(DAYNAME(p_date),3);
 
 	IF (p_id IS NULL)
-		THEN INSERT INTO shift (user_id, wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek) 
-				VALUES (p_user_id, p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, v_dueCheck, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
+		THEN INSERT INTO shift (user_id, wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, created, updated) 
+				VALUES (p_user_id, p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, v_dueCheck, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 			SELECT LAST_INSERT_ID() as id;
 		ELSEIF (p_id = 0)
-			THEN INSERT INTO shift (user_id, wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek) 
-					VALUES (p_user_id, p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, v_dueCheck, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek);
+			THEN INSERT INTO shift (user_id, wage, date, startTime, endTime, firstTable, campHours, sales, tipout, transfers, cash, due, dueCheck, covers, cut, section, notes, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly, noCampHourly, lunchDinner, dayOfWeek, created, updated) 
+					VALUES (p_user_id, p_wage, p_date, p_startTime, p_endTime, p_firstTable, p_campHours, p_sales, p_tipout, p_transfers, p_cash, p_due, v_dueCheck, p_covers, p_cut, p_section, p_notes, v_hours, v_earnedWage, v_earnedTips, v_earnedTotal, v_tipsVsWage, v_salesPerHour, v_salesPerCover, v_tipsPercent, v_tipoutPercent, v_hourly, v_noCampHourly, v_lunchDinner, v_dayOfWeek, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 		ELSE UPDATE shift SET
 			wage = p_wage,
 			date = p_date,
@@ -247,7 +247,8 @@ BEGIN
 			hourly = v_hourly,
 			noCampHourly = v_noCampHourly,
 			lunchDinner = v_lunchDinner,
-			dayOfWeek = v_dayOfWeek
+			dayOfWeek = v_dayOfWeek,
+			updated = CURRENT_TIMESTAMP
 			WHERE id = p_id 
 				AND user_id = p_user_id 
 				LIMIT 1;
@@ -1120,7 +1121,8 @@ BEGIN
 		AND p_email LIKE '%@%.%'
 		THEN INSERT INTO user SET
 				name = p_name,
-				email = p_email;
+				email = p_email,
+				created = CURRENT_TIMESTAMP;
 			SELECT LAST_INSERT_ID() as id;
 		ELSE SELECT 0 as id;
 	END IF;
@@ -1136,8 +1138,19 @@ BEGIN
 	SELECT id FROM user WHERE email = p_email AND name = p_name INTO v_user_id;
 
 	IF v_user_id > 0
-		THEN SELECT v_user_id AS id;
+		THEN SELECT v_user_id AS id; UPDATE user SET active = CURRENT_TIMESTAMP WHERE id = v_user_id;
 		ELSE SELECT 0 as id;
 	END IF;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS checkUsers;
+DELIMITER //
+CREATE PROCEDURE checkUsers()
+BEGIN
+	SELECT user.id, user.name, user.email, user.created, user.active, COUNT(shift.id) as 'shifts', MAX(shift.updated) as 'lastUpdate'
+	FROM shift
+		JOIN user ON shift.user_id = user.id
+	GROUP BY user.id;
 END //
 DELIMITER ;
