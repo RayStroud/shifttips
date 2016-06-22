@@ -36,6 +36,7 @@ angular.module('shiftTips')
 .controller('UserController', ['userService', '$location', function(userService, $location) {
 	var ctrl = this;
 	ctrl.user = userService.getUser();
+	ctrl.showAbout = false;
 
 	ctrl.login = function(name, email) {
 		userService.login(name, email)
