@@ -1,8 +1,8 @@
 (function() {
 	angular.module('shiftTips', ['ngRoute', 'angular.filter', 'LocalStorageModule'])
 
-	/* LIVE */ .constant('backend', {domain:'http://207.6.77.17:7290/shifttips/data/'})
-	//* DEBUG */ .constant('backend', {domain:'/shifttips/data/'})
+	/* ONLINE */ .constant('backend', {domain:'http://207.6.77.17:7290/shifttips/data/'})
+	//* LOCAL */ .constant('backend', {domain:'./data/'})
 
 	.config(function ($routeProvider) {
 		$routeProvider
