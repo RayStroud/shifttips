@@ -706,6 +706,9 @@ div.mobile-table-wrap {
 div.mobile-table {
 	width: 100%;
 	overflow-x: auto;
+	&.size0 {font-size: 5px; td {padding: 0 2px; line-height: 10px;}}
+	&.size1 {font-size: 75%; td {padding: 0.05em 0.35em;}}
+	&.size3 {font-size: 150%; td {}}
 }
 .summary-table {
 	margin: 0 auto;

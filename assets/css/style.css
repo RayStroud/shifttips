@@ -798,6 +798,17 @@ div.mobile-table-wrap {
 div.mobile-table {
   width: 100%;
   overflow-x: auto; }
+  div.mobile-table.size0 {
+    font-size: 5px; }
+    div.mobile-table.size0 td {
+      padding: 0 2px;
+      line-height: 10px; }
+  div.mobile-table.size1 {
+    font-size: 75%; }
+    div.mobile-table.size1 td {
+      padding: 0.05em 0.35em; }
+  div.mobile-table.size3 {
+    font-size: 150%; }
 
 .summary-table {
   margin: 0 auto; }

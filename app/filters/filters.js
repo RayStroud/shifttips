@@ -91,7 +91,8 @@ angular.module('shiftTips')
 			},
 			"summaryType" 	: ctrl.getSummaryTypeValues('lunchDinner')	,
 			"periodType" 	: ctrl.getPeriodTypeValues('weekly')	,
-			"gridReverse"	: true
+			"gridReverse"	: true	,
+			"fontSize"		: 2
 		};
 	};
 	ctrl.getDefaultPrefs = function() {
@@ -759,6 +760,11 @@ angular.module('shiftTips')
 		}
 
 		//update filters
+		ctrl.updateFilters();
+	};
+
+	ctrl.switchFontSize = function() {
+		ctrl.filters.fontSize = (ctrl.filters.fontSize + 1 ) % 4;
 		ctrl.updateFilters();
 	};
 }]);
