@@ -1,6 +1,7 @@
 angular.module('shiftTips')
 .service('userService', ['$http', 'backend', 'localStorageService', function($http, backend, localStorageService) {
 	var ctrl = this;
+	ctrl.isSilentLoggedIn = false;	//flag for knowing when it's okay to start showing user the app
 	ctrl.getNullUser = function() {
 		return {"name":null,"email":null,"uid":-1};
 	};
@@ -39,14 +40,17 @@ angular.module('shiftTips')
 			if(data > 0) {	//if the uid is VALID
 				ctrl.user = {"name":storedUser.name,"email":storedUser.email,"uid":data};
 				localStorageService.set('user', ctrl.user);
+				ctrl.isSilentLoggedIn = true;
 			} else {		//if the uid is INVALID
 				ctrl.user = ctrl.getNullUser();
 				localStorageService.set('user', ctrl.getNullUser());
+				ctrl.isSilentLoggedIn = true;
 			}
 		})
 		.error(function (data, status, headers, config) {
 			ctrl.user = ctrl.getNullUser();
 			localStorageService.set('user', ctrl.getNullUser());
+			ctrl.isSilentLoggedIn = true;
 		});
 		return response;
 	};
@@ -120,6 +124,9 @@ angular.module('shiftTips')
 
 	ctrl.isLoggedIn = function() {
 		return ctrl.user.uid > 0;
+	};
+	ctrl.isSilentLoggedIn = function() {
+		return userService.isSilentLoggedIn;
 	};
 	ctrl.silentLogin();	//try logging in stored user on first load
 }]);
