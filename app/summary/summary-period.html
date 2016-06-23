@@ -19,6 +19,15 @@
 						<div class="filter-group-body">
 							<div ng-hide="filtersCtrl.filters.visible" class="link-button button-inverse" ng-click="filtersCtrl.setFilter('visible',true)"><span class="fa fa-fw fa-eye"></span></div>
 							<div ng-show="filtersCtrl.filters.visible" class="link-button" ng-click="filtersCtrl.setFilter('visible',false)"><span class="fa fa-fw fa-eye-slash"></span></div>
+							<div class="link-button button-inverse" ng-click="filtersCtrl.switchFontSize()">
+								<span class="fa-stack fa-sm">
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 3}" class="fa fa-fw fa-stack-2x fa-font"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 2}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 1.5em"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 1}" class="fa fa-fw fa-stack-1x fa-font"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 0}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 5px"></span>
+								</span>
+							</div>
+							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-undo"></span></div>
 						</div>
 					</div>
 				</div>
@@ -46,12 +55,12 @@
 			<h3 class="filter-message">
 				Viewing <span class="filter-bold" ng-if="filtersCtrl.filters.periodType">{{filtersCtrl.filters.periodType.name}}</span> summary for <span class="{{filtersCtrl.filters.lunchDinner ? 'filter-bold' : ''}}">{{filtersCtrl.filters.lunchDinner == 'L' ? 'Lunch' : ''}}{{filtersCtrl.filters.lunchDinner == 'D' ? 'Dinner' : ''}}</span> shifts from <span class="{{filtersCtrl.filters.from ? 'filter-bold' : ''}}">{{filtersCtrl.filters.from ? (filtersCtrl.filters.from | date) : 'any date'}}</span> to <span class="{{filtersCtrl.filters.to ? 'filter-bold' : ''}}">{{filtersCtrl.filters.to ? (filtersCtrl.filters.to | date) : 'any date'}}</span>
 			</h3>
-			<div class="mobile-table">
+			<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 				<table class="summary-table">
 					<thead ng-class="{'sort-reverse':filtersCtrl.filters.reverse.period}">
 						<tr>
 							<th class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('period',filtersCtrl.filters.periodType.sort)}" 
-								ng-click="filtersCtrl.changeSort('period',filtersCtrl.filters.periodType.sort)">Period</th>
+								ng-click="filtersCtrl.changeSort('period',filtersCtrl.filters.periodType.sort)"><span class="header-spacer"></span>Period</th>
 							<th ng-if="ctrl.prefs.shifts" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('period','shifts')}" 
 								ng-click="filtersCtrl.changeSort('period','shifts')">#</th>
 							<th ng-if="ctrl.prefs.hours" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('period','hours')}" 

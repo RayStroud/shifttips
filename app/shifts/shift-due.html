@@ -2,16 +2,31 @@
 	<h1>Duebacks</h1>
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
 	<div ng-hide="ctrl.error">
-		<div ng-controller="ShiftFilterController as filterCtrl">
+		<div ng-controller="FiltersController as filtersCtrl">
 			<form class="filter-form">
 				<div class="filter-group" id="filter-view-style">
 					<div class="filter-group-wrap">
+						<div class="filter-group-header">Dueback Status</div>
+						<div class="filter-group-body">
+							<div class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.sort.due != 'all'}" ng-click="filtersCtrl.setFilter('dueType', 'all')">All Shifts</div>
+							<div class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.sort.due != 'defined'}" ng-click="filtersCtrl.setFilter('dueType', 'defined')">All Duebacks</div>
+							<div class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.sort.due != 'unretrieved'}" ng-click="filtersCtrl.setFilter('dueType', 'unretrieved')">Unretrieved</div>
+						</div>
+					</div>
+				</div>
+				<div class="filter-group" id="filter-view-style">
+					<div class="filter-group-wrap">
 						<div class="filter-group-header">Filters</div>
-							<div class="filter-group-body">
-								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('all')}" ng-click="ctrl.changeFilterType('all')">All Shifts</button>
-								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('defined')}" ng-click="ctrl.changeFilterType('defined')">All Duebacks</button>
-								<button class="link-button" ng-class="{'button-inverse': !ctrl.isFilterType('unretrieved')}" ng-click="ctrl.changeFilterType('unretrieved')">Unretrieved</button>
+						<div class="filter-group-body">
+							<div class="link-button button-inverse" ng-click="filtersCtrl.switchFontSize()">
+								<span class="fa-stack fa-sm">
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 3}" class="fa fa-fw fa-stack-2x fa-font"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 2}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 1.5em"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 1}" class="fa fa-fw fa-stack-1x fa-font"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 0}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 5px"></span>
+								</span>
 							</div>
+							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-undo"></span></div>
 						</div>
 					</div>
 				</div>
@@ -23,17 +38,17 @@
 				No shifts found
 			</div>
 			<div ng-hide="filteredShifts.length < 1 || ctrl.error">
-				<div class="mobile-table">
+				<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 					<table class="summary-table">
-						<thead ng-class="{'sort-reverse':ctrl.sortReverse}">
+						<thead ng-class="{'sort-reverse':filtersCtrl.filters.reverse.due}">
 							<tr class="header">
-								<th colspan="5" class="sortable" ng-class="{'sort-field':ctrl.isSortField(ctrl.sortDate)}" 
-									ng-click="ctrl.changeSortField(ctrl.sortDate)">Shift</th>
-								<th class="sortable" ng-class="{'sort-field':ctrl.isSortField('dueCheck')}" 
-									ng-click="ctrl.changeSortField('dueCheck')"></th>
+								<th colspan="5" class="sortable" 	ng-class="{'sort-field':filtersCtrl.isSort('due',filtersCtrl.dueSortValues.date)}" 
+									ng-click="filtersCtrl.changeSort('due',filtersCtrl.dueSortValues.date)"><span class="header-spacer"></span>Shift</th>
+								<th colspan="5" class="sortable" 	ng-class="{'sort-field':filtersCtrl.isSort('due',filtersCtrl.dueSortValues.dueCheck)}" 
+									ng-click="filtersCtrl.changeSort('due',filtersCtrl.dueSortValues.dueCheck)">Due</th>
 							</tr>
 						</thead>
-						<tr class="semi-clickable-row {{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidDueCheck:ctrl.filterType | orderBy:ctrl.sortField:ctrl.sortReverse ) track by $index" ng-class-even="'alt'">
+						<tr class="{{shift.dayOfWeek | lowercase}}-row {{shift.lunchDinner | lowercase}}-row" ng-repeat="shift in filteredShifts = (ctrl.shifts | isValidDueCheck:filtersCtrl.filters | orderBy:filtersCtrl.filters.sort.due:filtersCtrl.filters.reverse.due ) track by $index" ng-class-even="'alt'">
 							<td><a class="link-button" href="#/shift/{{shift.id}}"><span class="fa fa-fw fa-eye"></a></td>
 							<td class="ld-cell">{{shift.lunchDinner | placeholder:'-'}}</td>
 							<td class="day-cell">{{shift.dayOfWeek | placeholder:'-'}}</td>

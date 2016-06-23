@@ -19,6 +19,14 @@
 						<div class="filter-group-body">
 							<div ng-hide="filtersCtrl.filters.visible" class="link-button button-inverse" ng-click="filtersCtrl.setFilter('visible',true)"><span class="fa fa-fw fa-eye"></span></div>
 							<div ng-show="filtersCtrl.filters.visible" class="link-button" ng-click="filtersCtrl.setFilter('visible',false)"><span class="fa fa-fw fa-eye-slash"></span></div>
+							<div class="link-button button-inverse" ng-click="filtersCtrl.switchFontSize()">
+								<span class="fa-stack fa-sm">
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 3}" class="fa fa-fw fa-stack-2x fa-font"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 2}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 1.5em"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 1}" class="fa fa-fw fa-stack-1x fa-font"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 0}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 5px"></span>
+								</span>
+							</div>
 							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-undo"></span></div>
 						</div>
 					</div>
@@ -72,7 +80,7 @@
 				No shifts found
 			</div>
 			<div ng-hide="filteredShifts.length < 1 || ctrl.error">
-				<div class="mobile-table">
+				<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 					<table class="summary-table">
 						<thead ng-class="{'sort-reverse':filtersCtrl.filters.reverse.list}">
 							<tr class="header">
@@ -81,7 +89,7 @@
 								<th ng-if="ctrl.prefs.dayOfWeek" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list',filtersCtrl.listSortValues.dayOfWeek)}" 
 									ng-click="filtersCtrl.changeSort('list',filtersCtrl.listSortValues.dayOfWeek)">Day</th>
 								<th class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list',filtersCtrl.listSortValues.date)}" 
-									ng-click="filtersCtrl.changeSort('list',filtersCtrl.listSortValues.date)">Date</th>
+									ng-click="filtersCtrl.changeSort('list',filtersCtrl.listSortValues.date)"><span class="header-spacer"></span>Date</th>
 								<th ng-if="ctrl.prefs.startTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','startTime')}" 
 									ng-click="filtersCtrl.changeSort('list','startTime')">Start</th>
 								<th ng-if="ctrl.prefs.endTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','endTime')}" 

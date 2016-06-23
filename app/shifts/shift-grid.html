@@ -19,9 +19,17 @@
 						<div class="filter-group-body">
 							<div ng-hide="filtersCtrl.filters.visible" class="link-button button-inverse" ng-click="filtersCtrl.setFilter('visible',true)"><span class="fa fa-fw fa-eye"></span></div>
 							<div ng-show="filtersCtrl.filters.visible" class="link-button" ng-click="filtersCtrl.setFilter('visible',false)"><span class="fa fa-fw fa-eye-slash"></span></div>
-							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-undo"></span></div>
+							<div class="link-button button-inverse" ng-click="filtersCtrl.switchFontSize()">
+								<span class="fa-stack fa-sm">
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 3}" class="fa fa-fw fa-stack-2x fa-font"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 2}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 1.5em"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 1}" class="fa fa-fw fa-stack-1x fa-font"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 0}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 5px"></span>
+								</span>
+							</div>
 							<a class="link-button button-inverse" ng-hide="filtersCtrl.filters.gridReverse" ng-click="filtersCtrl.setFilter('gridReverse',true)"><span class="fa fa-fw fa-sort-amount-asc"></span></a>
 							<a class="link-button button-inverse" ng-show="filtersCtrl.filters.gridReverse" ng-click="filtersCtrl.setFilter('gridReverse',false)"><span class="fa fa-fw fa-sort-amount-desc"></span></a>
+							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-undo"></span></div>
 						</div>
 					</div>
 				</div>
@@ -73,7 +81,7 @@
 			<div ng-show="filteredShifts.length < 1">
 				No shifts found
 			</div>
-			<div id="shifts" ng-hide="filteredShifts.length < 1 || ctrl.error">
+			<div id="shifts" ng-hide="filteredShifts.length < 1 || ctrl.error" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 				<div class="filter-group week-group" ng-repeat="group in filteredShifts = (ctrl.shifts | isValidShift:filtersCtrl.filters)
 					| groupBy: 'yearweek'
 					| toArray: true
@@ -121,10 +129,10 @@
 									<div class="shift-info" ng-if="ctrl.prefs.due">
 										<div class="label">Due</div>
 										<div class="value">{{shift.due | currency:undefined:0 | placeholder:'-'}}
-											<button ng-if="shift.dueCheck == '!'" class="link-button micro-button button-amber"><span class="fa fa-fw fa-exclamation"></span></button>
-											<button ng-if="shift.dueCheck == 'Y'" class="link-button micro-button button-green"><span class="fa fa-fw fa-check"></span></button>
-											<button ng-if="shift.dueCheck == '?'" class="link-button micro-button button-blue"><span class="fa fa-fw fa-question"></span></button>
-											<button ng-if="shift.dueCheck == 'N'" class="link-button micro-button button-red"><span class="fa fa-fw fa-times"></span></button>
+											<span ng-if="shift.dueCheck == '!'" class="fa fa-fw fa-exclamation icon-amber"></span></span>
+											<span ng-if="shift.dueCheck == 'Y'" class="fa fa-fw fa-check icon-green"></span></span>
+											<span ng-if="shift.dueCheck == '?'" class="fa fa-fw fa-question icon-blue"></span></span>
+											<span ng-if="shift.dueCheck == 'N'" class="fa fa-fw fa-times icon-red"></span></span>
 										</div>
 									</div>
 									<div class="shift-info" ng-if="ctrl.prefs.earnedWage">
@@ -153,7 +161,7 @@
 									</div>
 									<div class="shift-info" ng-if="ctrl.prefs.section">
 										<div class="label">Section</div>
-										<div class="value">{{shift.section | placeholder:'-'}}</div>
+										<div class="value tiny-value">{{shift.section | placeholder:'-'}}</div>
 									</div>
 									<a href="#/shift/{{shift.id}}"><span class="link-spanner"></span></a>
 								</div>
