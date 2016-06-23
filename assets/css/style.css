@@ -1,3 +1,6 @@
+/* ############################################
+	VARS
+############################################ */
 @font-face {
   font-family: 'caladeabold';
   src: url("../fonts/caladea-bold-webfont.eot");
@@ -329,7 +332,7 @@ hr {
   color: rgba(10, 106, 198, 0.8); }
 
 /* ############################################
-	ALL SHIFTS
+	SHIFT GRID
 ############################################ */
 #shifts {
   display: flex;
@@ -337,21 +340,27 @@ hr {
   flex-flow: row wrap;
   -webkit-flex-flow: row wrap;
   margin: -0.5em; }
-
-.shift-summary {
-  flex: 1 1 175px;
-  -webkit-flex: 1 1 175px;
-  margin: 0.5em;
-  background-color: white;
-  border: 1px solid lightgray; }
-  .shift-summary .shift-time, .shift-summary .shift-hours-wage {
-    display: block; }
-
-.filler {
-  flex: 1 1 175px;
-  -webkit-flex: 1 1 175px;
-  height: 0;
-  margin: 0 0.5em; }
+  #shifts .shift-summary {
+    flex: 1 1 175px;
+    -webkit-flex: 1 1 175px;
+    margin: 0.5em;
+    background-color: white;
+    border: 1px solid lightgray; }
+    #shifts .shift-summary .shift-time, #shifts .shift-summary .shift-hours-wage {
+      display: block; }
+  #shifts .filler {
+    flex: 1 1 175px;
+    -webkit-flex: 1 1 175px;
+    height: 0;
+    margin: 0 0.5em; }
+  #shifts .week-group {
+    width: 100%;
+    text-align: left;
+    border: 3px solid #888; }
+    #shifts .week-group .shift-summary {
+      width: auto;
+      min-width: 175px;
+      flex: 0 0 auto; }
 
 /* ############################################
 	SHIFT DETAILS
@@ -391,7 +400,7 @@ hr {
   .shift-detailed .full-width .value {
     width: 78%; } }
 /* ############################################
-	FORMS
+	GENERAL FORMS
 ############################################ */
 label {
   color: #888; }
@@ -774,18 +783,6 @@ span.filter-bold {
 @media screen and (max-width: 600px) {
   form.filter-form {
     display: block; } }
-/* ############################################
-	WEEKLY SHIFT SUMMARY
-############################################ */
-.week-group {
-  width: 100%;
-  text-align: left;
-  border: 3px solid #888; }
-  .week-group .shift-summary {
-    width: auto;
-    min-width: 175px;
-    flex: 0 0 auto; }
-
 /* ############################################
 	TABLES
 ############################################ */

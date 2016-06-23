@@ -1,815 +1,814 @@
-//colors
-$blue: #449;
-$blue: #337ab7;
-$lightgrey: #eaeaea;
-$darkgrey: #888;
+/* ############################################
+	VARS
+############################################ */
+	//colors
+	$blue: #449;
+	$blue: #337ab7;
+	$lightgrey: #eaeaea;
+	$darkgrey: #888;
 
-//palette
-$body-bgcolor: $blue;
-$content-bgcolor: $lightgrey;
-$header-text-color: white;
-$border-color: lightgray;
-$border-hover-color: black;
-$label-color: $darkgrey;
+	//palette
+	$body-bgcolor: $blue;
+	$content-bgcolor: $lightgrey;
+	$header-text-color: white;
+	$border-color: lightgray;
+	$border-hover-color: black;
+	$label-color: $darkgrey;
 
-$lun-color: darken(orange,10%);
-$din-color: darken(dodgerblue,10%);
-$bth-color: darken(blueviolet,10%);
-$spl-color: darken(sienna,10%);
-$wkl-color: darken(silver,10%);
-$mth-color: darken(silver,20%);
+	$lun-color: darken(orange,10%);
+	$din-color: darken(dodgerblue,10%);
+	$bth-color: darken(blueviolet,10%);
+	$spl-color: darken(sienna,10%);
+	$wkl-color: darken(silver,10%);
+	$mth-color: darken(silver,20%);
 
-$mon-color: darken(red,10%);
-$tue-color: darken(yellow,10%);
-$wed-color: darken(lime,10%);
-$thu-color: darken(cyan,10%);
-$fri-color: darken(blue,10%);
-$sat-color: darken(magenta,10%);
-$sun-color: lighten(black,10%);
+	$mon-color: darken(red,10%);
+	$tue-color: darken(yellow,10%);
+	$wed-color: darken(lime,10%);
+	$thu-color: darken(cyan,10%);
+	$fri-color: darken(blue,10%);
+	$sat-color: darken(magenta,10%);
+	$sun-color: lighten(black,10%);
 
-$valid-color: green;
-$invalid-color: red;
+	$valid-color: green;
+	$invalid-color: red;
 
-//fonts
-@font-face {
-	font-family: 'caladeabold';
-	src: url('../fonts/caladea-bold-webfont.eot');
-	src: url('../fonts/caladea-bold-webfont.eot?#iefix') format('embedded-opentype'),
-		 url('../fonts/caladea-bold-webfont.woff2') format('woff2'),
-		 url('../fonts/caladea-bold-webfont.woff') format('woff'),
-		 url('../fonts/caladea-bold-webfont.ttf') format('truetype'),
-		 url('../fonts/caladea-bold-webfont.svg#caladeabold') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-@font-face {
-	font-family: 'carlitoregular';
-	src: url('../fonts/carlito-regular-webfont.eot');
-	src: url('../fonts/carlito-regular-webfont.eot?#iefix') format('embedded-opentype'),
-		 url('../fonts/carlito-regular-webfont.woff2') format('woff2'),
-		 url('../fonts/carlito-regular-webfont.woff') format('woff'),
-		 url('../fonts/carlito-regular-webfont.ttf') format('truetype'),
-		 url('../fonts/carlito-regular-webfont.svg#carlitoregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-@font-face {
-	font-family:'FontAwesome';
-	src:url('../fonts/fontawesome-webfont.eot?v=4.1.0');
-	src:url('../fonts/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'),
-		url('../fonts/fontawesome-webfont.woff?v=4.1.0') format('woff'),
-		url('../fonts/fontawesome-webfont.ttf?v=4.1.0') format('truetype'),
-		url('../fonts/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular') format('svg');
-}
-$sans-font: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
-$mono-font: Consolas, Inconsolata, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
-$serif-font: Cambria, Caladea, CaladeaBold, Georgia, serif;
+	//fonts
+	@font-face {
+		font-family: 'caladeabold';
+		src: url('../fonts/caladea-bold-webfont.eot');
+		src: url('../fonts/caladea-bold-webfont.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/caladea-bold-webfont.woff2') format('woff2'),
+			 url('../fonts/caladea-bold-webfont.woff') format('woff'),
+			 url('../fonts/caladea-bold-webfont.ttf') format('truetype'),
+			 url('../fonts/caladea-bold-webfont.svg#caladeabold') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+	@font-face {
+		font-family: 'carlitoregular';
+		src: url('../fonts/carlito-regular-webfont.eot');
+		src: url('../fonts/carlito-regular-webfont.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/carlito-regular-webfont.woff2') format('woff2'),
+			 url('../fonts/carlito-regular-webfont.woff') format('woff'),
+			 url('../fonts/carlito-regular-webfont.ttf') format('truetype'),
+			 url('../fonts/carlito-regular-webfont.svg#carlitoregular') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+	@font-face {
+		font-family:'FontAwesome';
+		src:url('../fonts/fontawesome-webfont.eot?v=4.1.0');
+		src:url('../fonts/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'),
+			url('../fonts/fontawesome-webfont.woff?v=4.1.0') format('woff'),
+			url('../fonts/fontawesome-webfont.ttf?v=4.1.0') format('truetype'),
+			url('../fonts/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular') format('svg');
+	}
+	$sans-font: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
+	$mono-font: Consolas, Inconsolata, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
+	$serif-font: Cambria, Caladea, CaladeaBold, Georgia, serif;
 
-//effects
-$shadow: 2px 4px 3px rgba(0,0,0,0.3);
-$glow: 0px 0px 8px rgba(255,255,255,0.7);
-$glow-big: 0px 0px 16px rgba(255,255,255,0.7);
+	//effects
+	$shadow: 2px 4px 3px rgba(0,0,0,0.3);
+	$glow: 0px 0px 8px rgba(255,255,255,0.7);
+	$glow-big: 0px 0px 16px rgba(255,255,255,0.7);
 
 /* ############################################
 	CLEANUP
 ############################################ */
-html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, code, img, small, strike, var, b, u, i, center, ol, ul, li, fieldset, form, input, button, textarea, label, legend, table, tbody, tfoot, thead, tr, th, td, footer, header, hgroup {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-}
-body {line-height: 1;}
-ol, ul {list-style: none;}
-table {border-collapse: collapse; border-spacing: 0;}
-a, a:link, a:visited, a:hover, a:active {text-decoration: none;	color: inherit;}
-b {font-weight: bold;}
-i {font-style: italic;}
+	html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, code, img, small, strike, var, b, u, i, center, ol, ul, li, fieldset, form, input, button, textarea, label, legend, table, tbody, tfoot, thead, tr, th, td, footer, header, hgroup {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+	}
+	body {line-height: 1;}
+	ol, ul {list-style: none;}
+	table {border-collapse: collapse; border-spacing: 0;}
+	a, a:link, a:visited, a:hover, a:active {text-decoration: none;	color: inherit;}
+	b {font-weight: bold;}
+	i {font-style: italic;}
 
 /* ############################################
 	LAYOUT
 ############################################ */
-body {
-	background-color: $body-bgcolor;
-	font-family: $sans-font;
-}
-h1 {
-	text-align: center;
-	font-family: $serif-font;
-	font-weight: bold;
-	font-size: 1.8em;
-	margin: 2% 1%;
-}
-h2 {
-	font-family: $sans-font;
-	text-align: center;
-	font-size: 1.5em;
-	font-weight: bold;
-	margin: 1em 0;
-}
-h3 {
-	font-family: $sans-font;
-	font-weight: bold;
-	text-align: center;
-	font-size: 1.2em;
-	margin: 1em 0;
-}
-h4 {
-	font-family: $sans-font;
-	text-align: center;
-	font-size: 1.2em;
-	font-weight: bold;
-}
-h5 {
-	font-family: $sans-font;
-	font-size: 1.2em;
-	font-weight: bold;
-	margin: 1em 0;
-}
-a.link {
-	color: $body-bgcolor;
-	border-bottom: 1px solid $body-bgcolor;
-	&:hover {
-		cursor: pointer;
-		color: lighten($body-bgcolor, 15%);
-		border-color: lighten($body-bgcolor, 15%);
+	body {
+		background-color: $body-bgcolor;
+		font-family: $sans-font;
 	}
-}
-
-#header {
-	color: $header-text-color;
-	padding: 2% 1% 1.5% 5%;
-	.name {
-		display: inline-block;
+	h1 {
+		text-align: center;
 		font-family: $serif-font;
-		font-size: 3em;
 		font-weight: bold;
-		font-variant: small-caps;
-		margin-right: 0.1em;
+		font-size: 1.8em;
+		margin: 2% 1%;
+	}
+	h2 {
+		font-family: $sans-font;
+		text-align: center;
+		font-size: 1.5em;
+		font-weight: bold;
+		margin: 1em 0;
+	}
+	h3 {
+		font-family: $sans-font;
+		font-weight: bold;
+		text-align: center;
+		font-size: 1.2em;
+		margin: 1em 0;
+	}
+	h4 {
+		font-family: $sans-font;
+		text-align: center;
+		font-size: 1.2em;
+		font-weight: bold;
+	}
+	h5 {
+		font-family: $sans-font;
+		font-size: 1.2em;
+		font-weight: bold;
+		margin: 1em 0;
+	}
+	a.link {
+		color: $body-bgcolor;
+		border-bottom: 1px solid $body-bgcolor;
 		&:hover {
 			cursor: pointer;
-			color: $header-text-color; 
-			text-shadow: $glow-big;
-			text-decoration: none;
+			color: lighten($body-bgcolor, 15%);
+			border-color: lighten($body-bgcolor, 15%);
 		}
 	}
-	ul.menu {
-		display: inline-block;
-		margin-left: 0.5em;
-		margin-right: 0.5em;
-		li {
-			display: inline-block;
-			a.active {
-				background-color: darken($body-bgcolor, 10%);
-				pointer-events: none;
-				cursor: default;
-			}
-		}
-		.link-button {border-color: transparent;}
-	}
-}
-#content {
-	background-color: $content-bgcolor;
-	line-height: 22px;
-	padding: 0 3%;
-	overflow: hidden;
-}
-#wrapper {
-	//max-width: 1300px;
-	margin: 2% auto;
-}
-#footer {
-	padding: 0.5em;
-	text-align: center;
-	div {
-		display:inline-block;
-		color: lighten($body-bgcolor, 25%);
-		margin: 0.5em;
-	}
-	a {border-bottom: 1px solid lighten($body-bgcolor, 25%);
-		&:hover {color: white; border-color: white;}
-	}
-}
-.content-wrapper {
-	max-width: 800px;
-	margin: 0 auto;
-}
-.clickable { position: relative; &:hover { cursor: pointer; border-color: $border-hover-color;} }
-.link-spanner {
-	position: absolute; 
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	z-index: 1;
-}
-.invisible {
-	color: transparent !important;
-	background-color: transparent !important;
-	border-color: transparent !important;
-}
-.centered {text-align: center; .link-button {margin: 0.2em 0.1em;} }
-.reset-spacing { padding: 0 !important; margin: 0 !important;}
-.full-width {width: 100%;}
-.icon-red {color: desaturate(red,50%);}
-.icon-blue {color: darken(desaturate(cyan,50%),10%);}
-.icon-green {color: desaturate(lime,50%);}
-.icon-amber {color: desaturate(orange,50%);}
-.icon-black {color: lighten(black,30%);}
 
-@media screen and (max-width: 600px) {
-	h1 {margin: 1em 0 0.5em;}
-	#wrapper {margin-bottom: 1em;}
 	#header {
+		color: $header-text-color;
+		padding: 2% 1% 1.5% 5%;
 		.name {
-			font-size: 2em; 
-			padding: 0.1em 0.15em 0.15em; 
-			margin-right: 0em;
+			display: inline-block;
+			font-family: $serif-font;
+			font-size: 3em;
+			font-weight: bold;
+			font-variant: small-caps;
+			margin-right: 0.1em;
+			&:hover {
+				cursor: pointer;
+				color: $header-text-color; 
+				text-shadow: $glow-big;
+				text-decoration: none;
+			}
 		}
 		ul.menu {
-			li {padding: 0.2em;}
-			a.link-button, a.name {
-				border: 1px solid white;
-				border-radius: 8px;			
+			display: inline-block;
+			margin-left: 0.5em;
+			margin-right: 0.5em;
+			li {
+				display: inline-block;
+				a.active {
+					background-color: darken($body-bgcolor, 10%);
+					pointer-events: none;
+					cursor: default;
+				}
 			}
+			.link-button {border-color: transparent;}
 		}
 	}
-	.hide-mobile {display: none;}
-}
+	#content {
+		background-color: $content-bgcolor;
+		line-height: 22px;
+		padding: 0 3%;
+		overflow: hidden;
+	}
+	#wrapper {
+		//max-width: 1300px;
+		margin: 2% auto;
+	}
+	#footer {
+		padding: 0.5em;
+		text-align: center;
+		div {
+			display:inline-block;
+			color: lighten($body-bgcolor, 25%);
+			margin: 0.5em;
+		}
+		a {border-bottom: 1px solid lighten($body-bgcolor, 25%);
+			&:hover {color: white; border-color: white;}
+		}
+	}
+	.content-wrapper {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+	.clickable { position: relative; &:hover { cursor: pointer; border-color: $border-hover-color;} }
+	.link-spanner {
+		position: absolute; 
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: 1;
+	}
+	.invisible {
+		color: transparent !important;
+		background-color: transparent !important;
+		border-color: transparent !important;
+	}
+	.centered {text-align: center; .link-button {margin: 0.2em 0.1em;} }
+	.reset-spacing { padding: 0 !important; margin: 0 !important;}
+	.full-width {width: 100%;}
+	.icon-red {color: desaturate(red,50%);}
+	.icon-blue {color: darken(desaturate(cyan,50%),10%);}
+	.icon-green {color: desaturate(lime,50%);}
+	.icon-amber {color: desaturate(orange,50%);}
+	.icon-black {color: lighten(black,30%);}
+
+	@media screen and (max-width: 600px) {
+		h1 {margin: 1em 0 0.5em;}
+		#wrapper {margin-bottom: 1em;}
+		#header {
+			.name {
+				font-size: 2em; 
+				padding: 0.1em 0.15em 0.15em; 
+				margin-right: 0em;
+			}
+			ul.menu {
+				li {padding: 0.2em;}
+				a.link-button, a.name {
+					border: 1px solid white;
+					border-radius: 8px;			
+				}
+			}
+		}
+		.hide-mobile {display: none;}
+	}
 
 /* ############################################
 	HOME
 ############################################ */
-table.links {
-	margin: 0 auto;
-	td {padding: 0.3em 0;}
-	.link-button {width: 100%;}
-}
+	table.links {
+		margin: 0 auto;
+		td {padding: 0.3em 0;}
+		.link-button {width: 100%;}
+	}
 
 /* ############################################
 	ABOUT / HELP / FAQ
 ############################################ */
-#about {
-	p {border-left: 2px solid #bbb; padding: 5px 0 5px 8px;}
-	.filter-group-header {font-size: 100%;}
-	i {font-size: 80%; font-weight: normal;}
-	h5 {
-		&:hover {cursor: pointer; color: $body-bgcolor;}
+	#about {
+		p {border-left: 2px solid #bbb; padding: 5px 0 5px 8px;}
+		.filter-group-header {font-size: 100%;}
+		i {font-size: 80%; font-weight: normal;}
+		h5 {
+			&:hover {cursor: pointer; color: $body-bgcolor;}
+		}
 	}
-}
-table.glossary {
-	margin: 1em 0;
-	tr {background-color: #ddd;}
-	tr.alt {background-color: #bbb;}
-	th {background-color: #666; color: white;}
-	td, th {padding: 0.5em;}
-	td.term {
-		min-width: 100px;
-		font-weight: bold;
+	table.glossary {
+		margin: 1em 0;
+		tr {background-color: #ddd;}
+		tr.alt {background-color: #bbb;}
+		th {background-color: #666; color: white;}
+		td, th {padding: 0.5em;}
+		td.term {
+			min-width: 100px;
+			font-weight: bold;
+		}
 	}
-}
 
 /* ############################################
 	SHIFT BOX
 ############################################ */
-.shift-datetime {
-	padding: 5% 5% 2%;
-	border-bottom: 1px solid $border-color;
-	text-align: center;
-}
-.shift-details {padding: 2% 5% 5%;}
-.shift-date {
-	font-weight: bold;
-	font-variant: small-caps;
-	text-align: center;
-} 
-.shift-time, .shift-hours-wage {display: inline-block;}
-hr {border-color: $border-color;}
-.shift-info {
-	.label {
-		display: inline-block;
-		width: 35%;
-		margin-right: 5%;
-		margin-bottom: 0;
-		font-size: 80%;
-		color: $label-color;
-		text-align: right;
-		vertical-align: top;
+	.shift-datetime {
+		padding: 5% 5% 2%;
+		border-bottom: 1px solid $border-color;
+		text-align: center;
 	}
-	.value {
-		display: inline-block;
-		text-align: left;
-		width: 55%;
-		word-wrap: break-word;
+	.shift-details {padding: 2% 5% 5%;}
+	.shift-date {
+		font-weight: bold;
+		font-variant: small-caps;
+		text-align: center;
+	} 
+	.shift-time, .shift-hours-wage {display: inline-block;}
+	hr {border-color: $border-color;}
+	.shift-info {
+		.label {
+			display: inline-block;
+			width: 35%;
+			margin-right: 5%;
+			margin-bottom: 0;
+			font-size: 80%;
+			color: $label-color;
+			text-align: right;
+			vertical-align: top;
+		}
+		.value {
+			display: inline-block;
+			text-align: left;
+			width: 55%;
+			word-wrap: break-word;
+		}
+		.tiny-value {font-size: 85%}
 	}
-	.tiny-value {font-size: 85%}
-}
-.mon-shift .shift-datetime {background-color: rgba($mon-color,0.1);	border-color: rgba($mon-color,0.3);}
-.tue-shift .shift-datetime {background-color: rgba($tue-color,0.1);	border-color: rgba(darken($tue-color,15%),0.3);}
-.wed-shift .shift-datetime {background-color: rgba($wed-color,0.1);	border-color: rgba(darken($wed-color,10%),0.3);}
-.thu-shift .shift-datetime {background-color: rgba($thu-color,0.1);	border-color: rgba(darken($thu-color,10%),0.3);}
-.fri-shift .shift-datetime {background-color: rgba($fri-color,0.1);	border-color: rgba($fri-color,0.3);}
-.sat-shift .shift-datetime {background-color: rgba($sat-color,0.1);	border-color: rgba($sat-color,0.3);}
-.sun-shift .shift-datetime {background-color: rgba($sun-color,0.1);	border-color: rgba($sun-color,0.3);}
+	.mon-shift .shift-datetime {background-color: rgba($mon-color,0.1);	border-color: rgba($mon-color,0.3);}
+	.tue-shift .shift-datetime {background-color: rgba($tue-color,0.1);	border-color: rgba(darken($tue-color,15%),0.3);}
+	.wed-shift .shift-datetime {background-color: rgba($wed-color,0.1);	border-color: rgba(darken($wed-color,10%),0.3);}
+	.thu-shift .shift-datetime {background-color: rgba($thu-color,0.1);	border-color: rgba(darken($thu-color,10%),0.3);}
+	.fri-shift .shift-datetime {background-color: rgba($fri-color,0.1);	border-color: rgba($fri-color,0.3);}
+	.sat-shift .shift-datetime {background-color: rgba($sat-color,0.1);	border-color: rgba($sat-color,0.3);}
+	.sun-shift .shift-datetime {background-color: rgba($sun-color,0.1);	border-color: rgba($sun-color,0.3);}
 
-.l-shift .label {color: rgba(darken(desaturate($lun-color,10%),5%),0.8);}
-.d-shift .label {color: rgba(darken(desaturate($din-color,10%),5%),0.8);}
+	.l-shift .label {color: rgba(darken(desaturate($lun-color,10%),5%),0.8);}
+	.d-shift .label {color: rgba(darken(desaturate($din-color,10%),5%),0.8);}
 
 /* ############################################
-	ALL SHIFTS
+	SHIFT GRID
 ############################################ */
-#shifts {
-	display: flex;
-	display: -webkit-flex;
-	flex-flow: row wrap;
-	-webkit-flex-flow: row wrap;
-	margin: -0.5em;
-}
-.shift-summary {
-	flex: 1 1 175px;
-	-webkit-flex: 1 1 175px;
-	margin: 0.5em;
-	background-color: white;
-	border: 1px solid $border-color;
-	.shift-time, .shift-hours-wage {display: block;}
-}
-.filler {
-	flex: 1 1 175px;
-	-webkit-flex: 1 1 175px;
-	height: 0;
-	margin: 0 0.5em;
-}
+	#shifts {
+		display: flex;
+		display: -webkit-flex;
+		flex-flow: row wrap;
+		-webkit-flex-flow: row wrap;
+		margin: -0.5em;
+		.shift-summary {
+			flex: 1 1 175px;
+			-webkit-flex: 1 1 175px;
+			margin: 0.5em;
+			background-color: white;
+			border: 1px solid $border-color;
+			.shift-time, .shift-hours-wage {display: block;}
+		}
+		.filler {
+			flex: 1 1 175px;
+			-webkit-flex: 1 1 175px;
+			height: 0;
+			margin: 0 0.5em;
+		}
+		.week-group {
+			width: 100%;
+			text-align: left;
+			border: 3px solid $darkgrey;
+			.shift-summary {
+				width: auto;
+				min-width: 175px;
+				flex: 0 0 auto;
+			}
+		}
+	}
 
-@media screen and (max-width: 700px) {
+	@media screen and (max-width: 700px) {
 
-}
+	}
 
 /* ############################################
 	SHIFT DETAILS
 ############################################ */
-.shift-detailed {
-	max-width: 450px;
-	margin: 2% auto 1%;
-	background-color: white;
-	border: 1px solid $border-color;
-	.shift-date {
-		font-size: 1.2em;
-	}
-	.shift-info {
-		display: inline-block;
-		width: 49%;
-		.value {
-			width: 55%;
-		}
-	}
-	.full-width {
-		width: 98%;
-		margin-top: 0.5em;
-		.label {
-			width: 17.5%;
-			margin-right: 2.5%;
-		}
-		.value {width: 78%;}
-	}
-}
-.shift-buttons {
-	display: flex;
-	display: -webkit-flex;
-	max-width: 450px;
-	//text-align: right;
-	margin: 0 auto;
-	.link-button {
-		//min-width: 80px;
-	}
-}
-
-@media screen and (max-width: 500px) {
 	.shift-detailed {
-		.shift-info {
-			width: 98%;
-			.value {width: 55%;}
+		max-width: 450px;
+		margin: 2% auto 1%;
+		background-color: white;
+		border: 1px solid $border-color;
+		.shift-date {
+			font-size: 1.2em;
 		}
-		.full-width {.value {width: 78%;}}
+		.shift-info {
+			display: inline-block;
+			width: 49%;
+			.value {
+				width: 55%;
+			}
+		}
+		.full-width {
+			width: 98%;
+			margin-top: 0.5em;
+			.label {
+				width: 17.5%;
+				margin-right: 2.5%;
+			}
+			.value {width: 78%;}
+		}
 	}
-}
+	.shift-buttons {
+		display: flex;
+		display: -webkit-flex;
+		max-width: 450px;
+		//text-align: right;
+		margin: 0 auto;
+		.link-button {
+			//min-width: 80px;
+		}
+	}
+
+	@media screen and (max-width: 500px) {
+		.shift-detailed {
+			.shift-info {
+				width: 98%;
+				.value {width: 55%;}
+			}
+			.full-width {.value {width: 78%;}}
+		}
+	}
 
 /* ############################################
-	FORMS
+	GENERAL FORMS
 ############################################ */
-label {color: $label-color;}
-input, 
-textarea {
-	appearance: none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-}
-input[type=checkbox],
-input[type=radio] {
-	display: none;
-}
-input[type=date] {
-	min-width: 10px;
-}
-input[type=checkbox] + label, 
-input[type=date], 
-input[type=number],
-input[type=color],
-input[type=datetime],
-input[type=datetime-local],
-input[type=email],
-input[type=file],
-input[type=month],
-input[type=number],
-input[type=password],
-input[type=radio] + label,
-input[type=search],
-input[type=tel],
-input[type=text], 
-input[type=time], 
-input[type=url], 
-input[type=week], 
-textarea {
-	height: 2.4em;
-	padding: 0.4em 0.6em;
-	background-color: white;
-	border: 1px solid $border-color;
-	border-radius: 5px;
-}
-textarea {height: 5.4em;}
-input[type=checkbox]:checked + label,
-input[type=radio]:checked + label {
-	background-color: grey;
-	color: white;
-}
-.link-button, 
-a.link-button {
-	display: inline-block;
-	padding: 0.4em 0.6em;
-	border-radius: 5px;
-	text-align: center;
-	background-color: $body-bgcolor;
-	color: $header-text-color;
-	border: 1px solid $border-color;
-	&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 15%);}
-}
-.link-button.tiny-button {padding: 0 0.1em;}
-.link-button.micro-button {padding: 0 1px; font-size: 50%; line-height: 12px;}
+	label {color: $label-color;}
+	input, 
+	textarea {
+		appearance: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+	}
+	input[type=checkbox],
+	input[type=radio] {
+		display: none;
+	}
+	input[type=date] {
+		min-width: 10px;
+	}
+	input[type=checkbox] + label, 
+	input[type=date], 
+	input[type=number],
+	input[type=color],
+	input[type=datetime],
+	input[type=datetime-local],
+	input[type=email],
+	input[type=file],
+	input[type=month],
+	input[type=number],
+	input[type=password],
+	input[type=radio] + label,
+	input[type=search],
+	input[type=tel],
+	input[type=text], 
+	input[type=time], 
+	input[type=url], 
+	input[type=week], 
+	textarea {
+		height: 2.4em;
+		padding: 0.4em 0.6em;
+		background-color: white;
+		border: 1px solid $border-color;
+		border-radius: 5px;
+	}
+	textarea {height: 5.4em;}
+	input[type=checkbox]:checked + label,
+	input[type=radio]:checked + label {
+		background-color: grey;
+		color: white;
+	}
+	.link-button, 
+	a.link-button {
+		display: inline-block;
+		padding: 0.4em 0.6em;
+		border-radius: 5px;
+		text-align: center;
+		background-color: $body-bgcolor;
+		color: $header-text-color;
+		border: 1px solid $border-color;
+		&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 15%);}
+	}
+	.link-button.tiny-button {padding: 0 0.1em;}
+	.link-button.micro-button {padding: 0 1px; font-size: 50%; line-height: 12px;}
 
 /* ############################################
 	ADD/EDIT FORMS
 ############################################ */
-form.add-form, form.edit-form, form.login-form, form.user-form {
-	display: flex;
-	display: -webkit-flex;
-	flex-flow: row wrap;
-	-webkit-flex-flow: row wrap;
-	margin: 2% auto 1%;
-	max-width: 600px;
-	input, textarea {width: 100%;}
-}
-.form-wrap {
-	display: flex;
-	display: -webkit-flex;
-	flex-flow: row wrap;
-	-webkit-flex-flow: row wrap;
-	justify-content: center;
-	form {
-		flex: 1 1 250px;
-		min-width: 250px;
-		max-width: 400px;
-		margin: 0.8em;
-		//padding: 2%;	Mozilla doesn't like flex and % padding
-		padding: 0.8em;
+	form.add-form, form.edit-form, form.login-form, form.user-form {
+		display: flex;
+		display: -webkit-flex;
+		flex-flow: row wrap;
+		-webkit-flex-flow: row wrap;
+		margin: 2% auto 1%;
+		max-width: 600px;
+		input, textarea {width: 100%;}
+	}
+	.form-wrap {
+		display: flex;
+		display: -webkit-flex;
+		flex-flow: row wrap;
+		-webkit-flex-flow: row wrap;
+		justify-content: center;
+		form {
+			flex: 1 1 250px;
+			min-width: 250px;
+			max-width: 400px;
+			margin: 0.8em;
+			//padding: 2%;	Mozilla doesn't like flex and % padding
+			padding: 0.8em;
+			border: 1px solid $border-color;
+			border-radius: 5px;	
+		}
+	}
+	.form-group {margin: 1%;}
+	.form-group.half-width {
+		width: 48%;
+	}
+	.form-group.full-width {
+		width: 98%;
+	}
+	.button-group {
+		border-color: transparent;
+		margin-top: 0.5em;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	.link-button.button-inverse {
+		background-color: $header-text-color;
+		color: $body-bgcolor;
+		&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 45%);}
+	}
+	.link-button.button-blue {
+		background-color: desaturate(cyan, 50%);
+		color: white;
+		&:hover {cursor: pointer; background-color: lighten(desaturate(cyan, 50%), 10%);}
+	}
+	.link-button.button-red {
+		background-color: desaturate(red, 50%);
+		color: white;
+		&:hover {cursor: pointer; background-color: lighten(desaturate(red, 50%), 10%);}
+	}
+	.link-button.button-green {
+		background-color: desaturate(lime, 60%);
+		color: white;
+		&:hover {cursor: pointer; background-color: lighten(desaturate(lime, 60%), 10%);}
+	}
+	.link-button.button-amber {
+		background-color: desaturate(orange, 30%);
+		color: white;
+		&:hover {cursor: pointer; background-color: lighten(desaturate(orange, 30%), 10%);}
+	}
+	.link-button.button-black {
+		background-color: desaturate(black, 50%);
+		color: white;
+		&:hover {cursor: pointer; background-color: lighten(desaturate(black, 50%), 10%);}
+	}
+	.link-button.button-invisible {
+		background-color: transparent;
+		color: black;
+		border-color: transparent;
+		&:hover {cursor: default; background-color: transparent;}
+	}
+	.button-narrow {
+		margin: 0 25%;
+		width: 50%;
+	}
+	.button-wide {
+		margin: 0 10%;
+		width: 80%;
+	}
+	.wage-input {max-width: 80px;}
+	.message-box {
+		display: table;
+		background-color: white;
 		border: 1px solid $border-color;
-		border-radius: 5px;	
+		padding: 1em;
+		margin: 1em 0;
 	}
-}
-.form-group {margin: 1%;}
-.form-group.half-width {
-	width: 48%;
-}
-.form-group.full-width {
-	width: 98%;
-}
-.button-group {
-	border-color: transparent;
-	margin-top: 0.5em;
-	padding-top: 0;
-	padding-bottom: 0;
-}
-.link-button.button-inverse {
-	background-color: $header-text-color;
-	color: $body-bgcolor;
-	&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 45%);}
-}
-.link-button.button-blue {
-	background-color: desaturate(cyan, 50%);
-	color: white;
-	&:hover {cursor: pointer; background-color: lighten(desaturate(cyan, 50%), 10%);}
-}
-.link-button.button-red {
-	background-color: desaturate(red, 50%);
-	color: white;
-	&:hover {cursor: pointer; background-color: lighten(desaturate(red, 50%), 10%);}
-}
-.link-button.button-green {
-	background-color: desaturate(lime, 60%);
-	color: white;
-	&:hover {cursor: pointer; background-color: lighten(desaturate(lime, 60%), 10%);}
-}
-.link-button.button-amber {
-	background-color: desaturate(orange, 30%);
-	color: white;
-	&:hover {cursor: pointer; background-color: lighten(desaturate(orange, 30%), 10%);}
-}
-.link-button.button-black {
-	background-color: desaturate(black, 50%);
-	color: white;
-	&:hover {cursor: pointer; background-color: lighten(desaturate(black, 50%), 10%);}
-}
-.link-button.button-invisible {
-	background-color: transparent;
-	color: black;
-	border-color: transparent;
-	&:hover {cursor: default; background-color: transparent;}
-}
-.button-narrow {
-	margin: 0 25%;
-	width: 50%;
-}
-.button-wide {
-	margin: 0 10%;
-	width: 80%;
-}
-.wage-input {max-width: 80px;}
-.message-box {
-	display: table;
-	background-color: white;
-	border: 1px solid $border-color;
-	padding: 1em;
-	margin: 1em 0;
-}
-.success { 
-	background-color: lighten(green, 70%);
-	border-color: green;
-}
-.error { 
-	background-color: lighten(red, 45%);
-	border-color: red;
-}
-input.ng-dirty.ng-invalid, textarea.ng-dirty.ng-invalid, form.submitted input.ng-invalid-required {
-	border-color: rgba(desaturate($invalid-color,50%),0.3);
-	-webkit-box-shadow: inset 0px 0px 6px -2px $invalid-color;
-	-moz-box-shadow: inset 0px 0px 6px -2px $invalid-color;
-	box-shadow: inset 0px 0px 6px -2px $invalid-color;
-}
-input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid, form.submitted input.ng-valid-required {
-	border-color: rgba(desaturate($valid-color,50%),0.3);
-	-webkit-box-shadow: inset 0px 0px 6px -2px $valid-color;
-	-moz-box-shadow: inset 0px 0px 6px -2px $valid-color;
-	box-shadow: inset 0px 0px 6px -2px $valid-color;
-}
+	.success { 
+		background-color: lighten(green, 70%);
+		border-color: green;
+	}
+	.error { 
+		background-color: lighten(red, 45%);
+		border-color: red;
+	}
+	input.ng-dirty.ng-invalid, textarea.ng-dirty.ng-invalid, form.submitted input.ng-invalid-required {
+		border-color: rgba(desaturate($invalid-color,50%),0.3);
+		-webkit-box-shadow: inset 0px 0px 6px -2px $invalid-color;
+		-moz-box-shadow: inset 0px 0px 6px -2px $invalid-color;
+		box-shadow: inset 0px 0px 6px -2px $invalid-color;
+	}
+	input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid, form.submitted input.ng-valid-required {
+		border-color: rgba(desaturate($valid-color,50%),0.3);
+		-webkit-box-shadow: inset 0px 0px 6px -2px $valid-color;
+		-moz-box-shadow: inset 0px 0px 6px -2px $valid-color;
+		box-shadow: inset 0px 0px 6px -2px $valid-color;
+	}
 
-@media screen and (max-width: 400px) {
-	.form-wrap  {
-		form {width: 100%;}
+	@media screen and (max-width: 400px) {
+		.form-wrap  {
+			form {width: 100%;}
+		}
 	}
-}
 
 /* ############################################
 	FILTER FORM
 ############################################ */
-$padding-unit: 0.5em;
+	$padding-unit: 0.5em;
 
-form.filter-form {
-	margin: 2% -1*$padding-unit 1%;
-	input[type=date] {min-width: 165px;}
-	display: flex;
-	display: -webkit-flex;
-	justify-content: center;
-	-webkit-justify-content: center;
-}
-.filter-group {
-	//display: inline-block;
-	padding: 0.5*$padding-unit;
-	margin: $padding-unit;
-	border: 1px solid $border-color;
-	border-radius: 5px;	
-}
-.filter-group-wrap {text-align: center; margin: 0 auto;}
-.filter-group-header {
-	color: $label-color;
-	font-size: 80%;
-	font-variant: small-caps;
-	font-weight: bold;
-	//display: block;
-	width: 100%;
-	text-align: center;
-}
-.filter-group-body {
-	display: flex;
-	display: -webkit-flex;
-	flex-flow: row wrap;
-	-webkit-flex-flow: row wrap;
-	justify-content: center;
-	-webkit-justify-content: center;
-	input[type=date],
-	input[type=checkbox] + label,
-	.link-button {
-		//display: inline-block;
-		flex: 0 0 auto;
-		width: auto;
-		margin: 0.5*$padding-unit;
+	form.filter-form {
+		margin: 2% -1*$padding-unit 1%;
+		input[type=date] {min-width: 165px;}
+		display: flex;
+		display: -webkit-flex;
+		justify-content: center;
+		-webkit-justify-content: center;
 	}
-	input[type=checkbox] + label {
-		text-align: center;
-		font-family: $mono-font;
+	.filter-group {
+		//display: inline-block;
+		padding: 0.5*$padding-unit;
+		margin: $padding-unit;
+		border: 1px solid $border-color;
+		border-radius: 5px;	
+	}
+	.filter-group-wrap {text-align: center; margin: 0 auto;}
+	.filter-group-header {
+		color: $label-color;
+		font-size: 80%;
 		font-variant: small-caps;
 		font-weight: bold;
+		//display: block;
+		width: 100%;
+		text-align: center;
 	}
-}
-#filter-buttons .link-button {min-width: 60px;}
-#filter-lunch-dinner label {min-width: 38px;}
-span.filter-bold {
-	//font-weight: bold;
-	font-variant: small-caps;
-	border-radius: 5px;
-	background-color: grey;
-	color: white;
-	padding: 0.1em 0.3em 0.2em;
-}
-.filter-message {
-	line-height: 2em;
-}
-
-#mon-check + label {background-color: white; color: rgba($mon-color, 0.6);}
-#mon-check:checked + label {background-color: rgba($mon-color, 0.3); color: white;}
-#mon-check + label:hover {cursor: pointer; background-color: rgba($mon-color, 0.1);}
-#tue-check + label {background-color: white; color: rgba(darken($tue-color,15%), 0.6);}
-#tue-check:checked + label {background-color: rgba($tue-color, 0.3); color: white;}
-#tue-check + label:hover {cursor: pointer; background-color: rgba($tue-color, 0.1);}
-#wed-check + label {background-color: white; color: rgba(darken($wed-color,10%), 0.6);}
-#wed-check:checked + label {background-color: rgba($wed-color, 0.3); color: white;}
-#wed-check + label:hover {cursor: pointer; background-color: rgba($wed-color, 0.1);}
-#thu-check + label {background-color: white; color: rgba(darken($thu-color,10%), 0.6);}
-#thu-check:checked + label {background-color: rgba($thu-color, 0.3); color: white;}
-#thu-check + label:hover {cursor: pointer; background-color: rgba($thu-color, 0.1);}
-#fri-check + label {background-color: white; color: rgba($fri-color, 0.6);}
-#fri-check:checked + label {background-color: rgba($fri-color, 0.3); color: white;}
-#fri-check + label:hover {cursor: pointer; background-color: rgba($fri-color, 0.1);}
-#sat-check + label {background-color: white; color: rgba($sat-color, 0.6);}
-#sat-check:checked + label {background-color: rgba($sat-color, 0.3); color: white;}
-#sat-check + label:hover {cursor: pointer; background-color: rgba($sat-color, 0.1);}
-#sun-check + label {background-color: white; color: rgba($sun-color, 0.6);}
-#sun-check:checked + label {background-color: rgba($sun-color, 0.3); color: white;}
-#sun-check + label:hover {cursor: pointer; background-color: rgba($sun-color, 0.1);}
-#lun-check + label {background-color: white; color: rgba(darken($lun-color,10%), 0.6);}
-#lun-check:checked + label {background-color: rgba($lun-color, 0.3); color: white;}
-#lun-check + label:hover {cursor: pointer; background-color: rgba($lun-color, 0.1);}
-#din-check + label {background-color: white; color: rgba($din-color, 0.6);}
-#din-check:checked + label {background-color: rgba($din-color, 0.3); color: white;}
-#din-check + label:hover {cursor: pointer; background-color: rgba($din-color, 0.1);}
-
-@media screen and (max-width: 600px) {
-	form.filter-form {display: block;}
-}
-
-/* ############################################
-	WEEKLY SHIFT SUMMARY
-############################################ */
-.week-group {
-	width: 100%;
-	text-align: left;
-	border: 3px solid $darkgrey;
-	.shift-summary {
-		width: auto;
-		min-width: 175px;
-		flex: 0 0 auto;
+	.filter-group-body {
+		display: flex;
+		display: -webkit-flex;
+		flex-flow: row wrap;
+		-webkit-flex-flow: row wrap;
+		justify-content: center;
+		-webkit-justify-content: center;
+		input[type=date],
+		input[type=checkbox] + label,
+		.link-button {
+			//display: inline-block;
+			flex: 0 0 auto;
+			width: auto;
+			margin: 0.5*$padding-unit;
+		}
+		input[type=checkbox] + label {
+			text-align: center;
+			font-family: $mono-font;
+			font-variant: small-caps;
+			font-weight: bold;
+		}
 	}
-}
+	#filter-buttons .link-button {min-width: 60px;}
+	#filter-lunch-dinner label {min-width: 38px;}
+	span.filter-bold {
+		//font-weight: bold;
+		font-variant: small-caps;
+		border-radius: 5px;
+		background-color: grey;
+		color: white;
+		padding: 0.1em 0.3em 0.2em;
+	}
+	.filter-message {
+		line-height: 2em;
+	}
+
+	#mon-check + label {background-color: white; color: rgba($mon-color, 0.6);}
+	#mon-check:checked + label {background-color: rgba($mon-color, 0.3); color: white;}
+	#mon-check + label:hover {cursor: pointer; background-color: rgba($mon-color, 0.1);}
+	#tue-check + label {background-color: white; color: rgba(darken($tue-color,15%), 0.6);}
+	#tue-check:checked + label {background-color: rgba($tue-color, 0.3); color: white;}
+	#tue-check + label:hover {cursor: pointer; background-color: rgba($tue-color, 0.1);}
+	#wed-check + label {background-color: white; color: rgba(darken($wed-color,10%), 0.6);}
+	#wed-check:checked + label {background-color: rgba($wed-color, 0.3); color: white;}
+	#wed-check + label:hover {cursor: pointer; background-color: rgba($wed-color, 0.1);}
+	#thu-check + label {background-color: white; color: rgba(darken($thu-color,10%), 0.6);}
+	#thu-check:checked + label {background-color: rgba($thu-color, 0.3); color: white;}
+	#thu-check + label:hover {cursor: pointer; background-color: rgba($thu-color, 0.1);}
+	#fri-check + label {background-color: white; color: rgba($fri-color, 0.6);}
+	#fri-check:checked + label {background-color: rgba($fri-color, 0.3); color: white;}
+	#fri-check + label:hover {cursor: pointer; background-color: rgba($fri-color, 0.1);}
+	#sat-check + label {background-color: white; color: rgba($sat-color, 0.6);}
+	#sat-check:checked + label {background-color: rgba($sat-color, 0.3); color: white;}
+	#sat-check + label:hover {cursor: pointer; background-color: rgba($sat-color, 0.1);}
+	#sun-check + label {background-color: white; color: rgba($sun-color, 0.6);}
+	#sun-check:checked + label {background-color: rgba($sun-color, 0.3); color: white;}
+	#sun-check + label:hover {cursor: pointer; background-color: rgba($sun-color, 0.1);}
+	#lun-check + label {background-color: white; color: rgba(darken($lun-color,10%), 0.6);}
+	#lun-check:checked + label {background-color: rgba($lun-color, 0.3); color: white;}
+	#lun-check + label:hover {cursor: pointer; background-color: rgba($lun-color, 0.1);}
+	#din-check + label {background-color: white; color: rgba($din-color, 0.6);}
+	#din-check:checked + label {background-color: rgba($din-color, 0.3); color: white;}
+	#din-check + label:hover {cursor: pointer; background-color: rgba($din-color, 0.1);}
+
+	@media screen and (max-width: 600px) {
+		form.filter-form {display: block;}
+	}
 
 /* ############################################
 	TABLES
 ############################################ */
-div.mobile-table-wrap {
-	display: flex;
-	flex-wrap: wrap;
+	div.mobile-table-wrap {
+		display: flex;
+		flex-wrap: wrap;
+		div.mobile-table {
+			flex: 1 1 200px;
+		}
+	}
 	div.mobile-table {
-		flex: 1 1 200px;
+		width: 100%;
+		overflow-x: auto;
+		&.size0 {font-size: 6px; td {padding: 0 2px; line-height: 10px;}}
+		&.size1 {font-size: 75%; td {padding: 0.05em 0.35em;}}
+		&.size3 {font-size: 150%; td {}}
 	}
-}
-div.mobile-table {
-	width: 100%;
-	overflow-x: auto;
-	&.size0 {font-size: 6px; td {padding: 0 2px; line-height: 10px;}}
-	&.size1 {font-size: 75%; td {padding: 0.05em 0.35em;}}
-	&.size3 {font-size: 150%; td {}}
-}
-.summary-table {
-	margin: 0 auto;
-	tr {
-		background-color: #ddd;
-		color: black;
+	.summary-table {
+		margin: 0 auto;
+		tr {
+			background-color: #ddd;
+			color: black;
+		}
+		th {
+			background-color: #666;
+			color: white;
+			padding: 0.5em;
+			text-align: center;
+			vertical-align: middle;
+		}
+		td {
+			padding: 0.35em 0.5em;
+			white-space: nowrap;
+			text-align: right;
+			vertical-align: middle;
+		}
+		tr.large-header th {
+			background-color: $content-bgcolor;
+			color: black;
+			padding: 0;
+		}
+		th.sortable:hover {cursor: pointer; background-color: #777;}
+		th.sort-field {
+			background-color: $body-bgcolor; color: white;
+			box-shadow: inset 0 -4px 0 0 black;	
+			&:hover {background-color: lighten($body-bgcolor, 15%);}
+		}
+		th.tot-cell {color: #bbb;}
+		td.tot-cell {color: #777;}
+		th.left-align, td.left-align {text-align: left;}
+		th.right-align, td.right-align {text-align: right;}
+		tr.alt, tbody.alt tr {
+			background-color: #bbb;
+			.tot-cell {color: #666;}
+		}
+		//tr:hover {td {background-color: lighten($body-bgcolor, 40%);} }
+		//tr.alt:hover {td {background-color: lighten($body-bgcolor, 30%);} }
+		tr.summary {
+			td {background-color: #888;}
+			.tot-cell {color: #444;}
+		}
+		i {font-size: 80%; font-variant: small-caps;}
 	}
-	th {
-		background-color: #666;
-		color: white;
-		padding: 0.5em;
-		text-align: center;
-		vertical-align: middle;
+	thead.sort-reverse th.sort-field {
+		box-shadow: inset 0 4px 0 0 black;	
 	}
-	td {
-		padding: 0.35em 0.5em;
-		white-space: nowrap;
-		text-align: right;
-		vertical-align: middle;
-	}
-	tr.large-header th {
-		background-color: $content-bgcolor;
-		color: black;
-		padding: 0;
-	}
-	th.sortable:hover {cursor: pointer; background-color: #777;}
-	th.sort-field {
-		background-color: $body-bgcolor; color: white;
-		box-shadow: inset 0 -4px 0 0 black;	
-		&:hover {background-color: lighten($body-bgcolor, 15%);}
-	}
-	th.tot-cell {color: #bbb;}
-	td.tot-cell {color: #777;}
-	th.left-align, td.left-align {text-align: left;}
-	th.right-align, td.right-align {text-align: right;}
-	tr.alt, tbody.alt tr {
-		background-color: #bbb;
-		.tot-cell {color: #666;}
-	}
-	//tr:hover {td {background-color: lighten($body-bgcolor, 40%);} }
-	//tr.alt:hover {td {background-color: lighten($body-bgcolor, 30%);} }
-	tr.summary {
-		td {background-color: #888;}
-		.tot-cell {color: #444;}
-	}
-	i {font-size: 80%; font-variant: small-caps;}
-}
-thead.sort-reverse th.sort-field {
-	box-shadow: inset 0 4px 0 0 black;	
-}
 
-tr.clickable-row:hover {cursor: pointer; background-color: lighten($body-bgcolor, 40%);}
-tr.alt.clickable-row:hover {cursor: pointer; background-color: lighten($body-bgcolor, 30%);}
-td.clickable-cell:hover {cursor: pointer; background-color: lighten($body-bgcolor, 40%);}
-tr.alt td.clickable-cell:hover {cursor: pointer; background-color: lighten($body-bgcolor, 30%);}
+	tr.clickable-row:hover {cursor: pointer; background-color: lighten($body-bgcolor, 40%);}
+	tr.alt.clickable-row:hover {cursor: pointer; background-color: lighten($body-bgcolor, 30%);}
+	td.clickable-cell:hover {cursor: pointer; background-color: lighten($body-bgcolor, 40%);}
+	tr.alt td.clickable-cell:hover {cursor: pointer; background-color: lighten($body-bgcolor, 30%);}
 
-td.lun-avg-cell {background-color: rgba($lun-color,0.6);}
-td.lun-tot-cell {background-color: rgba($lun-color,0.4);}
-td.din-avg-cell {background-color: rgba($din-color,0.6);}
-td.din-tot-cell {background-color: rgba($din-color,0.4);}
-td.bth-avg-cell {background-color: rgba($bth-color,0.6);}
-td.bth-tot-cell {background-color: rgba($bth-color,0.4);}
-td.spl-avg-cell {background-color: rgba($spl-color,0.6);}
-td.spl-tot-cell {background-color: rgba($spl-color,0.4);}
-td.wkl-avg-cell {background-color: rgba($wkl-color,0.9);}
-td.wkl-tot-cell {background-color: rgba($wkl-color,0.6);}
-td.mth-avg-cell {background-color: rgba($mth-color,0.9);}
-td.mth-tot-cell {background-color: rgba($mth-color,0.6);}
+	td.lun-avg-cell {background-color: rgba($lun-color,0.6);}
+	td.lun-tot-cell {background-color: rgba($lun-color,0.4);}
+	td.din-avg-cell {background-color: rgba($din-color,0.6);}
+	td.din-tot-cell {background-color: rgba($din-color,0.4);}
+	td.bth-avg-cell {background-color: rgba($bth-color,0.6);}
+	td.bth-tot-cell {background-color: rgba($bth-color,0.4);}
+	td.spl-avg-cell {background-color: rgba($spl-color,0.6);}
+	td.spl-tot-cell {background-color: rgba($spl-color,0.4);}
+	td.wkl-avg-cell {background-color: rgba($wkl-color,0.9);}
+	td.wkl-tot-cell {background-color: rgba($wkl-color,0.6);}
+	td.mth-avg-cell {background-color: rgba($mth-color,0.9);}
+	td.mth-tot-cell {background-color: rgba($mth-color,0.6);}
 
-td.mon-avg-cell {background-color: rgba($mon-color,0.4);}
-td.mon-tot-cell {background-color: rgba($mon-color,0.25);}
-td.tue-avg-cell {background-color: rgba($tue-color,0.5);}
-td.tue-tot-cell {background-color: rgba($tue-color,0.3);}
-td.wed-avg-cell {background-color: rgba($wed-color,0.5);}
-td.wed-tot-cell {background-color: rgba($wed-color,0.3);}
-td.thu-avg-cell {background-color: rgba($thu-color,0.5);}
-td.thu-tot-cell {background-color: rgba($thu-color,0.3);}
-td.fri-avg-cell {background-color: rgba($fri-color,0.4);}
-td.fri-tot-cell {background-color: rgba($fri-color,0.25);}
-td.sat-avg-cell {background-color: rgba($sat-color,0.4);}
-td.sat-tot-cell {background-color: rgba($sat-color,0.25);}
-td.sun-avg-cell {background-color: rgba($sun-color,0.4);}
-td.sun-tot-cell {background-color: rgba($sun-color,0.25);}
+	td.mon-avg-cell {background-color: rgba($mon-color,0.4);}
+	td.mon-tot-cell {background-color: rgba($mon-color,0.25);}
+	td.tue-avg-cell {background-color: rgba($tue-color,0.5);}
+	td.tue-tot-cell {background-color: rgba($tue-color,0.3);}
+	td.wed-avg-cell {background-color: rgba($wed-color,0.5);}
+	td.wed-tot-cell {background-color: rgba($wed-color,0.3);}
+	td.thu-avg-cell {background-color: rgba($thu-color,0.5);}
+	td.thu-tot-cell {background-color: rgba($thu-color,0.3);}
+	td.fri-avg-cell {background-color: rgba($fri-color,0.4);}
+	td.fri-tot-cell {background-color: rgba($fri-color,0.25);}
+	td.sat-avg-cell {background-color: rgba($sat-color,0.4);}
+	td.sat-tot-cell {background-color: rgba($sat-color,0.25);}
+	td.sun-avg-cell {background-color: rgba($sun-color,0.4);}
+	td.sun-tot-cell {background-color: rgba($sun-color,0.25);}
 
-tr.l-row .ld-cell {color: desaturate(darken($lun-color, 10%),5%);}
-tr.d-row .ld-cell {color: desaturate(darken($din-color, 5%),5%);}
+	tr.l-row .ld-cell {color: desaturate(darken($lun-color, 10%),5%);}
+	tr.d-row .ld-cell {color: desaturate(darken($din-color, 5%),5%);}
 
-tr.mon-row .day-cell {color: desaturate(darken($mon-color, 5%),5%);}
-tr.tue-row .day-cell {color: desaturate(darken($tue-color, 15%),5%);}
-tr.wed-row .day-cell {color: desaturate(darken($wed-color, 10%),5%);}
-tr.thu-row .day-cell {color: desaturate(darken($thu-color, 10%),5%);}
-tr.fri-row .day-cell {color: desaturate(darken($fri-color, 5%),5%);}
-tr.sat-row .day-cell {color: desaturate(darken($sat-color, 5%),5%);}
-tr.sun-row .day-cell {color: lighten($sun-color, 25%);}
+	tr.mon-row .day-cell {color: desaturate(darken($mon-color, 5%),5%);}
+	tr.tue-row .day-cell {color: desaturate(darken($tue-color, 15%),5%);}
+	tr.wed-row .day-cell {color: desaturate(darken($wed-color, 10%),5%);}
+	tr.thu-row .day-cell {color: desaturate(darken($thu-color, 10%),5%);}
+	tr.fri-row .day-cell {color: desaturate(darken($fri-color, 5%),5%);}
+	tr.sat-row .day-cell {color: desaturate(darken($sat-color, 5%),5%);}
+	tr.sun-row .day-cell {color: lighten($sun-color, 25%);}
 
 /* ############################################
 	OTHER
 ############################################ */
-body {
-	//transform: scale(0.5);
-}
-a.debug {color: lime; font-weight: bolder; font-family: $mono-font; padding: 0.5em;
-	&:hover {cursor: pointer; background-color: black;}
-}
+	body {
+		//transform: scale(0.5);
+	}
+	a.debug {color: lime; font-weight: bolder; font-family: $mono-font; padding: 0.5em;
+		&:hover {cursor: pointer; background-color: black;}
+	}
