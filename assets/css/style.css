@@ -1,5 +1,5 @@
 /* ############################################
-	VARS
+#	VARS
 ############################################ */
 @font-face {
   font-family: 'caladeabold';
@@ -18,7 +18,7 @@
   src: url("../fonts/fontawesome-webfont.eot?v=4.1.0");
   src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.1.0") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff?v=4.1.0") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.1.0") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular") format("svg"); }
 /* ############################################
-	CLEANUP
+#	CLEANUP
 ############################################ */
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, code, img, small, strike, var, b, u, i, center, ol, ul, li, fieldset, form, input, button, textarea, label, legend, table, tbody, tfoot, thead, tr, th, td, footer, header, hgroup {
   margin: 0;
@@ -52,7 +52,7 @@ i {
   font-style: italic; }
 
 /* ############################################
-	LAYOUT
+#	LAYOUT
 ############################################ */
 body {
   background-color: #337ab7;
@@ -129,7 +129,7 @@ a.link {
 
 #content {
   background-color: #eaeaea;
-  line-height: 22px;
+  line-height: 1.25;
   padding: 0 3%;
   overflow: hidden; }
 
@@ -219,7 +219,7 @@ a.link {
   .hide-mobile {
     display: none; } }
 /* ############################################
-	HOME
+#	HOME
 ############################################ */
 table.links {
   margin: 0 auto; }
@@ -229,19 +229,19 @@ table.links {
     width: 100%; }
 
 /* ############################################
-	ABOUT / HELP / FAQ
+#	ABOUT / HELP / FAQ
 ############################################ */
 #about p {
   border-left: 2px solid #bbb;
   padding: 5px 0 5px 8px; }
-#about .filter-group-header {
-  font-size: 100%; }
 #about i {
   font-size: 80%;
   font-weight: normal; }
 #about h5:hover {
   cursor: pointer;
   color: #337ab7; }
+#about .filter-group-header {
+  font-size: 100%; }
 
 table.glossary {
   margin: 1em 0; }
@@ -259,19 +259,17 @@ table.glossary {
     font-weight: bold; }
 
 /* ############################################
-	SHIFT BOX
+#	SHIFT BOX
 ############################################ */
 .shift-datetime {
-  padding: 5% 5% 2%;
+  padding: 0.8em 0.8em 0.25em;
   border-bottom: 1px solid lightgray;
   text-align: center; }
 
 .shift-details {
-  padding: 2% 5% 5%; }
+  padding: 0.25em 0.8em 0.8em; }
 
 .shift-date {
-  font-weight: bold;
-  font-variant: small-caps;
   text-align: center; }
 
 .shift-time, .shift-hours-wage {
@@ -295,7 +293,7 @@ hr {
   width: 55%;
   word-wrap: break-word; }
 .shift-info .tiny-value {
-  font-size: 85%; }
+  font-size: 80%; }
 
 .mon-shift .shift-datetime {
   background-color: rgba(204, 0, 0, 0.1);
@@ -332,7 +330,7 @@ hr {
   color: rgba(10, 106, 198, 0.8); }
 
 /* ############################################
-	SHIFT GRID
+#	SHIFT GRID
 ############################################ */
 #shifts {
   display: flex;
@@ -341,29 +339,41 @@ hr {
   -webkit-flex-flow: row wrap;
   margin: -0.5em; }
   #shifts .shift-summary {
-    flex: 1 1 175px;
-    -webkit-flex: 1 1 175px;
+    flex: 1 1 10.85em;
+    -webkit-flex: 1 1 10.85em;
     margin: 0.5em;
     background-color: white;
     border: 1px solid lightgray; }
     #shifts .shift-summary .shift-time, #shifts .shift-summary .shift-hours-wage {
       display: block; }
   #shifts .filler {
-    flex: 1 1 175px;
-    -webkit-flex: 1 1 175px;
+    flex: 1 1 10.85em;
+    -webkit-flex: 1 1 10.85em;
     height: 0;
     margin: 0 0.5em; }
   #shifts .week-group {
     width: 100%;
     text-align: left;
-    border: 3px solid #888; }
+    border: 2px solid #888; }
     #shifts .week-group .shift-summary {
       width: auto;
-      min-width: 175px;
+      min-width: 10.85em;
       flex: 0 0 auto; }
+    #shifts .week-group .filter-group-header {
+      font-variant: normal; }
+  #shifts.size0 {
+    font-size: 6px; }
+    #shifts.size0 td {
+      padding: 0 2px; }
+  #shifts.size1 {
+    font-size: 75%; }
+    #shifts.size1 td {
+      padding: 0.05em 0.35em; }
+  #shifts.size3 {
+    font-size: 150%; }
 
 /* ############################################
-	SHIFT DETAILS
+#	SHIFT DETAILS
 ############################################ */
 .shift-detailed {
   max-width: 450px;
@@ -400,7 +410,7 @@ hr {
   .shift-detailed .full-width .value {
     width: 78%; } }
 /* ############################################
-	GENERAL FORMS
+#	GENERAL FORMS
 ############################################ */
 label {
   color: #888; }
@@ -468,13 +478,8 @@ a.link-button {
 .link-button.tiny-button {
   padding: 0 0.1em; }
 
-.link-button.micro-button {
-  padding: 0 1px;
-  font-size: 50%;
-  line-height: 12px; }
-
 /* ############################################
-	ADD/EDIT FORMS
+#	ADD/EDIT FORMS
 ############################################ */
 form.add-form, form.edit-form, form.login-form, form.user-form {
   display: flex;
@@ -608,7 +613,7 @@ input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid, form.submitted input.ng-val
   .form-wrap form {
     width: 100%; } }
 /* ############################################
-	FILTER FORM
+#	FILTER FORM
 ############################################ */
 form.filter-form {
   margin: 2% -0.5em 1%;
@@ -654,7 +659,8 @@ form.filter-form {
     text-align: center;
     font-family: Consolas, Inconsolata, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
     font-variant: small-caps;
-    font-weight: bold; }
+    font-weight: bold;
+    line-height: 1.7; }
 
 #filter-buttons .link-button {
   min-width: 60px; }
@@ -670,7 +676,7 @@ span.filter-bold {
   padding: 0.1em 0.3em 0.2em; }
 
 .filter-message {
-  line-height: 2em; }
+  line-height: 2; }
 
 #mon-check + label {
   background-color: white;
@@ -784,7 +790,7 @@ span.filter-bold {
   form.filter-form {
     display: block; } }
 /* ############################################
-	TABLES
+#	TABLES
 ############################################ */
 div.mobile-table-wrap {
   display: flex;
@@ -799,13 +805,17 @@ div.mobile-table {
     font-size: 6px; }
     div.mobile-table.size0 td {
       padding: 0 2px;
-      line-height: 10px; }
+      line-height: 1.6; }
   div.mobile-table.size1 {
     font-size: 75%; }
     div.mobile-table.size1 td {
-      padding: 0.05em 0.35em; }
+      padding: 0 0.35em;
+      line-height: 1.6; }
   div.mobile-table.size3 {
     font-size: 150%; }
+  div.mobile-table .header-spacer {
+    line-height: 18px;
+    color: transparent; }
 
 .summary-table {
   margin: 0 auto; }
@@ -981,7 +991,7 @@ tr.sun-row .day-cell {
   color: #595959; }
 
 /* ############################################
-	OTHER
+#	OTHER
 ############################################ */
 a.debug {
   color: lime;

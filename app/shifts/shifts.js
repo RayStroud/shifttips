@@ -140,10 +140,12 @@ angular.module('shiftTips')
 	ctrl.updateSummary();
 }])
 
-.controller('ShiftDueController', ['shiftsService', 'userService', function(shiftsService, userService) {
+.controller('ShiftDueController', ['shiftsService', 'userService', 'filterService', function(shiftsService, userService, filterService) {
 	var ctrl = this;
+	ctrl.uid = userService.getUser().uid;
+	ctrl.prefs = filterService.getUserPrefs(ctrl.uid).list;
 
-	ctrl.loadShifts = function() {
+	ctrl.getShifts = function() {
 		shiftsService.getShifts(userService.getUser().uid)
 		.success(function (data, status, headers, config) {
 			/* DEBUG */ ctrl.response = {result: 'success', data: data, status: status, headers: headers, config: config};
@@ -155,38 +157,12 @@ angular.module('shiftTips')
 		});
 	};
 
-	ctrl.changeSortField = function(field) {
-		// if field is already selected, toggle the sort direction
-		if(ctrl.sortField == field) {
-			ctrl.sortReverse = !ctrl.sortReverse;
-		} else {
-			ctrl.sortField = field;
-			ctrl.sortReverse = false;
-		}
-	};
-	ctrl.isSortField = function(field) {
-		return ctrl.sortField == field;
-	};
-
-	ctrl.isFilterType = function(filterType) {
-		return ctrl.filterType == filterType;
-	};
-
-	ctrl.changeFilterType = function(filterType) {
-		ctrl.filterType = filterType;
-	};
-
 	ctrl.setDueCheck = function(id, dueCheck) {
 		shiftsService.setDueCheck(userService.getUser().uid, id, dueCheck);
-		ctrl.loadShifts();
+		ctrl.getShifts();
 	};
 
-	ctrl.loadShifts();
-	ctrl.filterType = 'unretrieved';
-	ctrl.sortDate = ['date','startTime'];
-	ctrl.sortReverse = true;
-	ctrl.changeSortField(ctrl.sortDate);
-	ctrl.changeSortField(ctrl.sortDate);
+	ctrl.getShifts();
 }])
 
 .controller('ShiftFilterController', function() {
@@ -425,10 +401,10 @@ angular.module('shiftTips')
 })
 
 .filter('isValidDueCheck', function() {
-	return function(shifts, filterType) {
+	return function(shifts, filters) {
 		var filteredShifts = [];
 		angular.forEach(shifts, function(shift) {
-			switch(filterType) {
+			switch(filters.dueType) {
 				case 'all':
 					filteredShifts.push(shift);
 					break;	
@@ -466,6 +442,6 @@ angular.module('shiftTips')
 	return function(yearweek) {
 		var weekStart = moment().year(yearweek.substr(0,4)).isoWeek(yearweek.substr(4,2)).day("Monday").format('ddd MMM Do, YYYY');
 		var weekEnd = moment().year(yearweek.substr(0,4)).isoWeek(parseInt(yearweek.substr(4,2))+1).day("Sunday").format('ddd MMM Do, YYYY');
-		return weekStart + " to " + weekEnd;
+		return weekStart + " → " + weekEnd;
 	};
 });

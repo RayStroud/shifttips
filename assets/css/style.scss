@@ -1,5 +1,5 @@
 /* ############################################
-	VARS
+#	VARS
 ############################################ */
 	//colors
 	$blue: #449;
@@ -74,7 +74,7 @@
 	$glow-big: 0px 0px 16px rgba(255,255,255,0.7);
 
 /* ############################################
-	CLEANUP
+#	CLEANUP
 ############################################ */
 	html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, code, img, small, strike, var, b, u, i, center, ol, ul, li, fieldset, form, input, button, textarea, label, legend, table, tbody, tfoot, thead, tr, th, td, footer, header, hgroup {
 		margin: 0;
@@ -95,7 +95,7 @@
 	i {font-style: italic;}
 
 /* ############################################
-	LAYOUT
+#	LAYOUT
 ############################################ */
 	body {
 		background-color: $body-bgcolor;
@@ -178,7 +178,7 @@
 	}
 	#content {
 		background-color: $content-bgcolor;
-		line-height: 22px;
+		line-height: 1.25;
 		padding: 0 3%;
 		overflow: hidden;
 	}
@@ -246,7 +246,7 @@
 	}
 
 /* ############################################
-	HOME
+#	HOME
 ############################################ */
 	table.links {
 		margin: 0 auto;
@@ -255,15 +255,13 @@
 	}
 
 /* ############################################
-	ABOUT / HELP / FAQ
+#	ABOUT / HELP / FAQ
 ############################################ */
 	#about {
 		p {border-left: 2px solid #bbb; padding: 5px 0 5px 8px;}
-		.filter-group-header {font-size: 100%;}
 		i {font-size: 80%; font-weight: normal;}
-		h5 {
-			&:hover {cursor: pointer; color: $body-bgcolor;}
-		}
+		h5:hover {cursor: pointer; color: $body-bgcolor;}
+		.filter-group-header {font-size: 100%;}
 	}
 	table.glossary {
 		margin: 1em 0;
@@ -278,17 +276,17 @@
 	}
 
 /* ############################################
-	SHIFT BOX
+#	SHIFT BOX
 ############################################ */
 	.shift-datetime {
-		padding: 5% 5% 2%;
+		padding: 0.8em 0.8em 0.25em;
 		border-bottom: 1px solid $border-color;
 		text-align: center;
 	}
-	.shift-details {padding: 2% 5% 5%;}
+	.shift-details {padding: 0.25em 0.8em 0.8em;}
 	.shift-date {
-		font-weight: bold;
-		font-variant: small-caps;
+		//font-weight: bold;
+		//font-variant: small-caps;
 		text-align: center;
 	} 
 	.shift-time, .shift-hours-wage {display: inline-block;}
@@ -310,7 +308,7 @@
 			width: 55%;
 			word-wrap: break-word;
 		}
-		.tiny-value {font-size: 85%}
+		.tiny-value {font-size: 80%}
 	}
 	.mon-shift .shift-datetime {background-color: rgba($mon-color,0.1);	border-color: rgba($mon-color,0.3);}
 	.tue-shift .shift-datetime {background-color: rgba($tue-color,0.1);	border-color: rgba(darken($tue-color,15%),0.3);}
@@ -324,8 +322,11 @@
 	.d-shift .label {color: rgba(darken(desaturate($din-color,10%),5%),0.8);}
 
 /* ############################################
-	SHIFT GRID
+#	SHIFT GRID
 ############################################ */
+	//$minBoxWidth: 175px;
+	$minBoxWidth: 10.85em;
+
 	#shifts {
 		display: flex;
 		display: -webkit-flex;
@@ -333,29 +334,35 @@
 		-webkit-flex-flow: row wrap;
 		margin: -0.5em;
 		.shift-summary {
-			flex: 1 1 175px;
-			-webkit-flex: 1 1 175px;
+			flex: 1 1 $minBoxWidth;
+			-webkit-flex: 1 1 $minBoxWidth;
 			margin: 0.5em;
 			background-color: white;
 			border: 1px solid $border-color;
 			.shift-time, .shift-hours-wage {display: block;}
 		}
 		.filler {
-			flex: 1 1 175px;
-			-webkit-flex: 1 1 175px;
+			flex: 1 1 $minBoxWidth;
+			-webkit-flex: 1 1 $minBoxWidth;
 			height: 0;
 			margin: 0 0.5em;
 		}
 		.week-group {
 			width: 100%;
 			text-align: left;
-			border: 3px solid $darkgrey;
+			border: 2px solid $darkgrey;
 			.shift-summary {
 				width: auto;
-				min-width: 175px;
+				min-width: $minBoxWidth;
 				flex: 0 0 auto;
 			}
+			.filter-group-header {
+				font-variant: normal;
+			}
 		}
+		&.size0 {font-size: 6px; td {padding: 0 2px;}}
+		&.size1 {font-size: 75%; td {padding: 0.05em 0.35em;}}
+		&.size3 {font-size: 150%; td {}}
 	}
 
 	@media screen and (max-width: 700px) {
@@ -363,7 +370,7 @@
 	}
 
 /* ############################################
-	SHIFT DETAILS
+#	SHIFT DETAILS
 ############################################ */
 	.shift-detailed {
 		max-width: 450px;
@@ -412,7 +419,7 @@
 	}
 
 /* ############################################
-	GENERAL FORMS
+#	GENERAL FORMS
 ############################################ */
 	label {color: $label-color;}
 	input, 
@@ -471,10 +478,9 @@
 		&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 15%);}
 	}
 	.link-button.tiny-button {padding: 0 0.1em;}
-	.link-button.micro-button {padding: 0 1px; font-size: 50%; line-height: 12px;}
 
 /* ############################################
-	ADD/EDIT FORMS
+#	ADD/EDIT FORMS
 ############################################ */
 	form.add-form, form.edit-form, form.login-form, form.user-form {
 		display: flex;
@@ -595,7 +601,7 @@
 	}
 
 /* ############################################
-	FILTER FORM
+#	FILTER FORM
 ############################################ */
 	$padding-unit: 0.5em;
 
@@ -644,6 +650,7 @@
 			font-family: $mono-font;
 			font-variant: small-caps;
 			font-weight: bold;
+			line-height: 1.7;
 		}
 	}
 	#filter-buttons .link-button {min-width: 60px;}
@@ -657,7 +664,7 @@
 		padding: 0.1em 0.3em 0.2em;
 	}
 	.filter-message {
-		line-height: 2em;
+		line-height: 2;	//to keep the filter message boxes from overlapping
 	}
 
 	#mon-check + label {background-color: white; color: rgba($mon-color, 0.6);}
@@ -693,7 +700,7 @@
 	}
 
 /* ############################################
-	TABLES
+#	TABLES
 ############################################ */
 	div.mobile-table-wrap {
 		display: flex;
@@ -705,9 +712,10 @@
 	div.mobile-table {
 		width: 100%;
 		overflow-x: auto;
-		&.size0 {font-size: 6px; td {padding: 0 2px; line-height: 10px;}}
-		&.size1 {font-size: 75%; td {padding: 0.05em 0.35em;}}
-		&.size3 {font-size: 150%; td {}}
+		&.size0 {font-size: 6px; td {padding: 0 2px; line-height: 1.6;}}
+		&.size1 {font-size: 75%; td {padding: 0 0.35em; line-height: 1.6;}}
+		&.size3 {font-size: 150%;}
+		.header-spacer {line-height: 18px; color: transparent;}	//to make sure headers are at least 16px tall
 	}
 	.summary-table {
 		margin: 0 auto;
@@ -753,7 +761,10 @@
 			td {background-color: #888;}
 			.tot-cell {color: #444;}
 		}
-		i {font-size: 80%; font-variant: small-caps;}
+		i {
+			font-size: 80%; 
+			font-variant: small-caps;
+		}
 	}
 	thead.sort-reverse th.sort-field {
 		box-shadow: inset 0 4px 0 0 black;	
@@ -804,7 +815,7 @@
 	tr.sun-row .day-cell {color: lighten($sun-color, 25%);}
 
 /* ############################################
-	OTHER
+#	OTHER
 ############################################ */
 	body {
 		//transform: scale(0.5);

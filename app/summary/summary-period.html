@@ -60,7 +60,7 @@
 					<thead ng-class="{'sort-reverse':filtersCtrl.filters.reverse.period}">
 						<tr>
 							<th class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('period',filtersCtrl.filters.periodType.sort)}" 
-								ng-click="filtersCtrl.changeSort('period',filtersCtrl.filters.periodType.sort)">Period</th>
+								ng-click="filtersCtrl.changeSort('period',filtersCtrl.filters.periodType.sort)"><span class="header-spacer"></span>Period</th>
 							<th ng-if="ctrl.prefs.shifts" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('period','shifts')}" 
 								ng-click="filtersCtrl.changeSort('period','shifts')">#</th>
 							<th ng-if="ctrl.prefs.hours" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('period','hours')}" 

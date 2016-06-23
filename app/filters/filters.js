@@ -8,6 +8,10 @@ angular.module('shiftTips')
 		"dayOfWeek" : ['weekday','date','startTime'],
 		"lunchDinner" : ['-lunchDinner','date','startTime']
 	};
+	ctrl.dueSortValues = { 
+		"date" : ['date','startTime'],
+		"dueCheck" : ['dueCheck']
+	};
 	ctrl.getSummaryTypeValues = function(name) {
 		switch(name) {
 			case "lunchDinner": 
@@ -80,17 +84,20 @@ angular.module('shiftTips')
 			"sun" 			: false	,
 
 			"sort" : {
-				"list" 		: ctrl.listSortValues.date 	,
+				"list" 		: ctrl.listSortValues.date 							,
 				"summary" 	: ctrl.getSummaryTypeValues('lunchDinner').sort 	,
-				"period" 	: ctrl.getPeriodTypeValues('weekly').sort
+				"period" 	: ctrl.getPeriodTypeValues('weekly').sort 			,
+				"due"		: ctrl.dueSortValues.date
 			},
 			"reverse" : {
 				"list" 		: true	,
 				"summary" 	: false	,
-				"period" 	: false
+				"period" 	: true	,
+				"due"		: true
 			},
 			"summaryType" 	: ctrl.getSummaryTypeValues('lunchDinner')	,
 			"periodType" 	: ctrl.getPeriodTypeValues('weekly')	,
+			"dueType" 		: "unretrieved"	,
 			"gridReverse"	: true	,
 			"fontSize"		: 2
 		};
@@ -680,6 +687,10 @@ angular.module('shiftTips')
 		"date" : ['date','startTime'],
 		"dayOfWeek" : ['weekday','date','startTime'],
 		"lunchDinner" : ['-lunchDinner','date','startTime']
+	};
+	ctrl.dueSortValues = { 
+		"date" : ['date','startTime'],
+		"dueCheck" : 'dueCheck'
 	};
 
 	ctrl.resetFilters = function() {

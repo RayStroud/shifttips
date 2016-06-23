@@ -89,7 +89,7 @@
 								<th ng-if="ctrl.prefs.dayOfWeek" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list',filtersCtrl.listSortValues.dayOfWeek)}" 
 									ng-click="filtersCtrl.changeSort('list',filtersCtrl.listSortValues.dayOfWeek)">Day</th>
 								<th class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list',filtersCtrl.listSortValues.date)}" 
-									ng-click="filtersCtrl.changeSort('list',filtersCtrl.listSortValues.date)">Date</th>
+									ng-click="filtersCtrl.changeSort('list',filtersCtrl.listSortValues.date)"><span class="header-spacer"></span>Date</th>
 								<th ng-if="ctrl.prefs.startTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','startTime')}" 
 									ng-click="filtersCtrl.changeSort('list','startTime')">Start</th>
 								<th ng-if="ctrl.prefs.endTime" class="sortable" ng-class="{'sort-field':filtersCtrl.isSort('list','endTime')}" 
