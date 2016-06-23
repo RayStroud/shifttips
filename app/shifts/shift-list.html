@@ -19,7 +19,6 @@
 						<div class="filter-group-body">
 							<div ng-hide="filtersCtrl.filters.visible" class="link-button button-inverse" ng-click="filtersCtrl.setFilter('visible',true)"><span class="fa fa-fw fa-eye"></span></div>
 							<div ng-show="filtersCtrl.filters.visible" class="link-button" ng-click="filtersCtrl.setFilter('visible',false)"><span class="fa fa-fw fa-eye-slash"></span></div>
-							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-undo"></span></div>
 							<div class="link-button button-inverse" ng-click="filtersCtrl.switchFontSize()">
 								<span class="fa-stack fa-sm">
 									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 3}" class="fa fa-fw fa-stack-2x fa-font"></span>
@@ -28,6 +27,7 @@
 									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 0}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 5px"></span>
 								</span>
 							</div>
+							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-undo"></span></div>
 						</div>
 					</div>
 				</div>
