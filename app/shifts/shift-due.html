@@ -8,9 +8,9 @@
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Dueback Status</div>
 						<div class="filter-group-body">
-							<div class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.sort.due != 'all'}" ng-click="filtersCtrl.setFilter('dueType', 'all')">All Shifts</div>
-							<div class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.sort.due != 'defined'}" ng-click="filtersCtrl.setFilter('dueType', 'defined')">All Duebacks</div>
-							<div class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.sort.due != 'unretrieved'}" ng-click="filtersCtrl.setFilter('dueType', 'unretrieved')">Unretrieved</div>
+							<div class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.dueType != 'all'}" ng-click="filtersCtrl.setFilter('dueType', 'all')">All Shifts</div>
+							<div class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.dueType != 'defined'}" ng-click="filtersCtrl.setFilter('dueType', 'defined')">All Duebacks</div>
+							<div class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.dueType != 'unretrieved'}" ng-click="filtersCtrl.setFilter('dueType', 'unretrieved')">Unretrieved</div>
 						</div>
 					</div>
 				</div>
