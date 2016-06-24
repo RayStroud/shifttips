@@ -10,6 +10,9 @@ CREATE TABLE user
 	name			VARCHAR(35)		NOT NULL,
 	email			VARCHAR(254)	NOT NULL,
 
+	created			TIMESTAMP,
+	active			TIMESTAMP,
+
 	-- UNIQUE(email),
 
 	id INT NOT NULL AUTO_INCREMENT,
@@ -48,6 +51,9 @@ CREATE TABLE shift
 	noCampHourly	DECIMAL(5,2),
 	lunchDinner		CHAR(1),
 	dayOfWeek		CHAR(3),
+
+	created			TIMESTAMP,
+	updated			TIMESTAMP,
 
 	user_id	INT NOT NULL,
 	INDEX shift_user_ix (user_id),
