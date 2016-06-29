@@ -134,6 +134,12 @@
 		font-weight: bold;
 		margin: 1em 0;
 	}
+	h6 {
+		font-family: $sans-font;
+		font-size: 1.1em;
+		font-weight: bold;
+		margin: 0.5em 0;
+	}
 	a.link {
 		color: $body-bgcolor;
 		border-bottom: 1px solid $body-bgcolor;
@@ -249,9 +255,13 @@
 #	HOME
 ############################################ */
 	table.links {
-		margin: 0 auto;
+		margin: 0.8em auto;
 		td {padding: 0.3em 0;}
 		.link-button {width: 100%;}
+	}
+	div.update {
+		padding: 0.8em;
+		background-color: darken($lightgrey, 20%);
 	}
 
 /* ############################################

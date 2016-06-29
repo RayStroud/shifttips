@@ -91,6 +91,12 @@ h5 {
   font-weight: bold;
   margin: 1em 0; }
 
+h6 {
+  font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 0.5em 0; }
+
 a.link {
   color: #337ab7;
   border-bottom: 1px solid #337ab7; }
@@ -222,11 +228,15 @@ a.link {
 #	HOME
 ############################################ */
 table.links {
-  margin: 0 auto; }
+  margin: 0.8em auto; }
   table.links td {
     padding: 0.3em 0; }
   table.links .link-button {
     width: 100%; }
+
+div.update {
+  padding: 0.8em;
+  background-color: #b7b7b7; }
 
 /* ############################################
 #	ABOUT / HELP / FAQ
