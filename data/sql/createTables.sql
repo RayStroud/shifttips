@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS month;
 DROP TABLE IF EXISTS week;
 DROP TABLE IF EXISTS summary;
 DROP TABLE IF EXISTS shift;
-DROP TABLE IF EXISTS device;
+DROP TABLE IF EXISTS prefs;
 DROP TABLE IF EXISTS user;
 
 CREATE TABLE user
@@ -17,6 +17,177 @@ CREATE TABLE user
 
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)	
+);
+
+CREATE TABLE prefs
+(
+	-- -----------------------
+	-- list
+	-- -----------------------
+	list_lunchDinner 	BIT		,
+	list_dayOfWeek 		BIT		,
+	list_startTime 		BIT		,
+	list_endTime 		BIT		,
+	list_hours 			BIT		,
+	list_earnedWage 	BIT		,
+	list_earnedTips 	BIT		,
+	list_earnedTotal 	BIT		,
+	list_firstTable 	BIT		,
+	list_sales 			BIT		,
+	list_tipout 		BIT		,
+	list_transfers 		BIT		,
+	list_covers 		BIT		,
+	list_campHours 		BIT		,
+	list_salesPerHour 	BIT		,
+	list_salesPerCover 	BIT		,
+	list_tipsPercent 	BIT		,
+	list_tipoutPercent 	BIT		,
+	list_tipsVsWage 	BIT		,
+	list_hourly 		BIT		,
+
+	list_cash 			BIT		,
+	list_due 			BIT		,
+	list_dueCheck 		BIT		,
+	list_cut 			BIT		,
+	list_section 		BIT		,
+	list_notes 			BIT		,
+	list_noCampHourly 	BIT		,
+	-- -----------------------
+	-- grid" 
+	-- -----------------------
+	grid_startTime 		BIT		,
+	grid_endTime 		BIT		,
+	grid_sales 			BIT		,
+	grid_earnedTips 	BIT		,
+	grid_tipsPercent 	BIT		,
+	grid_hourly 		BIT		,
+
+	grid_hours 			BIT		,
+	grid_wage 			BIT		,
+	grid_earnedWage 	BIT		,
+	grid_earnedTotal 	BIT		,
+	grid_tipout 		BIT		,
+	grid_transfers 		BIT		,
+	grid_covers 		BIT		,
+	grid_campHours 		BIT		,
+	grid_salesPerHour 	BIT		,
+	grid_salesPerCover 	BIT		,
+	grid_tipoutPercent 	BIT		,
+	grid_tipsVsWage 	BIT		,
+	grid_cash 			BIT		,
+	grid_due 			BIT		,
+	grid_dueCheck 		BIT		,
+	grid_cut 			BIT		,
+	grid_section 		BIT		,
+	grid_noCampHourly 	BIT		,
+	-- -----------------------
+	-- summary 
+	-- -----------------------
+	summ_hours 			BIT		,
+	summ_earnedWage 	BIT		,
+	summ_earnedTips 	BIT		,
+	summ_earnedTotal 	BIT		,
+	summ_sales 			BIT		,
+	summ_tipout 		BIT		,
+	summ_covers 		BIT		,
+	summ_campHours 		BIT		,
+	summ_salesPerHour 	BIT		,
+	summ_salesPerCover 	BIT		,
+	summ_tipsPercent 	BIT		,
+	summ_tipoutPercent 	BIT		,
+	summ_tipsVsWage 	BIT		,
+	summ_hourly 		BIT		,
+
+	summ_transfers 		BIT		,
+	summ_noCampHourly 	BIT		,
+	-- -----------------------
+	-- period 
+	-- -----------------------
+	prod_shifts 		BIT		,
+	prod_hours 			BIT		,
+	prod_earnedWage 	BIT		,
+	prod_earnedTips 	BIT		,
+	prod_earnedTotal 	BIT		,
+	prod_sales 			BIT		,
+	prod_tipout 		BIT		,
+	prod_covers 		BIT		,
+	prod_campHours 		BIT		,
+	prod_salesPerHour 	BIT		,
+	prod_salesPerCover 	BIT		,
+	prod_tipsPercent 	BIT		,
+	prod_tipoutPercent 	BIT		,
+	prod_tipsVsWage 	BIT		,
+	prod_hourly 		BIT		,
+
+	prod_transfers 		BIT		,
+	prod_noCampHourly 	BIT		,
+	-- -----------------------
+	-- add
+	-- -----------------------
+	adds_wage 			BIT		,
+	adds_startTime 		BIT		,
+	adds_endTime 		BIT		,
+	adds_firstTable 	BIT		,
+	adds_campHours 		BIT		,
+	adds_sales 			BIT		,
+	adds_covers 		BIT		,
+	adds_tipout 		BIT		,
+	adds_transfers 		BIT		,
+	adds_cash 			BIT		,
+	adds_due 			BIT		,
+	adds_section 		BIT		,
+	adds_cut 			BIT		,
+	adds_notes 			BIT		,
+	-- -----------------------
+	-- edit
+	-- -----------------------
+	edit_wage 			BIT		,
+	edit_startTime 		BIT		,
+	edit_endTime 		BIT		,
+	edit_firstTable 	BIT		,
+	edit_campHours 		BIT		,
+	edit_sales 			BIT		,
+	edit_covers 		BIT		,
+	edit_tipout 		BIT		,
+	edit_transfers 		BIT		,
+	edit_cash 			BIT		,
+	edit_due 			BIT		,
+	edit_section 		BIT		,
+	edit_cut 			BIT		,
+	edit_notes 			BIT		,
+	-- -----------------------
+	-- view
+	-- -----------------------
+	view_startTime 		BIT		,
+	view_endTime 		BIT		,
+	view_hours 			BIT		,
+	view_wage 			BIT		,
+	view_sales 			BIT		,
+	view_covers 		BIT		,
+	view_salesPerHour 	BIT		,
+	view_salesPerCover 	BIT		,
+	view_tipout 		BIT		,
+	view_tipoutPercent 	BIT		,
+	view_transfers 		BIT		,
+	view_cash 			BIT		,
+	view_due 			BIT		,
+	view_earnedWage 	BIT		,
+	view_earnedTips 	BIT		,
+	view_tipsPercent 	BIT		,
+	view_earnedTotal 	BIT		,
+	view_tipsVsWage 	BIT		,
+	view_hourly 		BIT		,
+
+	view_firstTable 	BIT		,
+	view_campHours 		BIT		,
+	view_section 		BIT		,
+	view_cut 			BIT		,
+	view_notes 			BIT		,
+
+	view_noCampHourly 	BIT		,
+
+	id INT NOT NULL,
+	PRIMARY KEY (id) REFERENCES user(id)
 );
 
 CREATE TABLE shift
