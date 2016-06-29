@@ -1,6 +1,7 @@
 angular.module('shiftTips')
 .service('filterService', ['localStorageService', function(localStorageService) {
 	var ctrl = this;
+	ctrl.dataVersion = '2016-06-28';
 
 	//constants for list sort and summary type
 	ctrl.listSortValues = { 
@@ -587,66 +588,68 @@ angular.module('shiftTips')
 	};
 
 	ctrl.getUserFilters = function(uid) {
-		return (ctrl.filters !== undefined && ctrl.filters.hasOwnProperty(uid) ) ? ctrl.filters[uid] : ctrl.getDefaultFilters();
+		var storedFilters = localStorageService.get('filters');
+		return (storedFilters !== undefined && storedFilters.hasOwnProperty(uid) ) ? storedFilters[uid] : ctrl.getDefaultFilters();
 	};
 	ctrl.getUserPrefs = function(uid) {
-		return (ctrl.prefs !== undefined && ctrl.prefs.hasOwnProperty(uid) ) ? ctrl.prefs[uid] : ctrl.getDefaultPrefs();
+		var storedPrefs = localStorageService.get('prefs');
+		return (storedPrefs !== undefined && storedPrefs.hasOwnProperty(uid) ) ? storedPrefs[uid] : ctrl.getDefaultPrefs();
 	};
 	ctrl.getUserWage = function(uid) {
-		return (ctrl.wages !== undefined && ctrl.wages.hasOwnProperty(uid) ) ? ctrl.wages[uid] : null;
+		var storedWages = localStorageService.get('wages');
+		return (storedWages !== undefined && storedWages.hasOwnProperty(uid) ) ? storedWages[uid] : {};
 	};
 
 	ctrl.updateUserFilters = function(uid, userFilters) {
-		ctrl.filters[uid] = userFilters;
-		localStorageService.set('filters', ctrl.filters);
+		var storedFilters = localStorageService.get('filters');
+		storedFilters[uid] = userFilters;
+		localStorageService.set('filters', storedFilters);
 	};
 	ctrl.updateUserPrefs = function(uid, userPrefs) {
-		ctrl.prefs[uid] = userPrefs;
-		localStorageService.set('prefs', ctrl.prefs);
+		var storedPrefs = localStorageService.get('prefs');
+		storedPrefs[uid] = userPrefs;
+		localStorageService.set('prefs', storedPrefs);
 	};
 	ctrl.updateUserWage = function(uid, userWage) {
-		ctrl.wages[uid] = userWage;
-		localStorageService.set('wages', ctrl.wages);
+		var storedWages = localStorageService.get('wages');
+		storedWages[uid] = userWage;
+		localStorageService.set('wages', storedWages);
 	};
 
 	ctrl.resetUserFilters = function(uid) {
-		ctrl.filters[uid] = ctrl.getDefaultFilters();
-		localStorageService.set('filters', ctrl.filters);
+		ctrl.updateUserFilters(uid, ctrl.getDefaultFilters());
 	};
 	ctrl.resetUserPrefs = function(uid, type) {
 		switch(type) {
 			case "full":
-				ctrl.prefs[uid] = ctrl.getFullPrefs();
+				ctrl.updateUserPrefs(uid, ctrl.getFullPrefs());
 				break;
 			case "minimal":
-				ctrl.prefs[uid] = ctrl.getMinimalPrefs();
+				ctrl.updateUserPrefs(uid, ctrl.getMinimalPrefs());
 				break;
 			case "default":
 			default:
-				ctrl.prefs[uid] = ctrl.getDefaultPrefs();
+				ctrl.updateUserPrefs(uid, ctrl.getDefaultPrefs());
 				break;
 		}
-		localStorageService.set('prefs', ctrl.prefs);
 	};
 	ctrl.resetUserWage = function(uid) {
-		ctrl.wages[uid] = null;
-		localStorageService.set('wages', ctrl.wages);
+		ctrl.updateUserWage(uid, {});
+	};
+	
+	ctrl.checkStoredDataVersion = function() {
+		var storedFilters = localStorageService.get('filters');
+		var storedPrefs = localStorageService.get('prefs');
+		//check if data versions match, if not, reset
+		if ( !(storedFilters !== "undefined" && storedFilters.hasOwnProperty("version") && storedFilters.version == ctrl.dataVersion) ) {
+			localStorageService.set('filters', {"version":ctrl.dataVersion});
+		}
+		if ( !(storedPrefs !== "undefined" && storedPrefs.hasOwnProperty("version") && storedPrefs.version == ctrl.dataVersion) ) {
+			localStorageService.set('prefs', {"version":ctrl.dataVersion});
+		}
 	};
 
-	ctrl.clearAllData = function() {
-		ctrl.filters = null;
-		ctrl.prefs = null;
-		ctrl.wages = null;
-		localStorageService.set('filters', null);
-		localStorageService.set('prefs', null);
-		localStorageService.set('wages', null);
-	};
-
-	//retrieve filters, prefs, wages from local storage
-	//* DEBUG */ ctrl.clearAllData();
-	ctrl.filters = localStorageService.get('filters') || ctrl.getDefaultFilters();
-	ctrl.prefs = localStorageService.get('prefs') || ctrl.getDefaultPrefs();
-	ctrl.wages = localStorageService.get('wages') || {};
+	ctrl.checkStoredDataVersion();
 }])
 
 .controller('PrefsController', ['filterService', 'userService', function(filterService, userService){
