@@ -187,7 +187,7 @@ CREATE TABLE prefs
 	v_noCampHourly 	BIT		,
 
 	id INT NOT NULL,
-	PRIMARY KEY (id) REFERENCES user(id)
+	PRIMARY KEY (id)
 );
 
 CREATE TABLE shift

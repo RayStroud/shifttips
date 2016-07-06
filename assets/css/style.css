@@ -178,9 +178,11 @@ a.link {
   background-color: transparent !important;
   border-color: transparent !important; }
 
-.centered {
+div.centered {
+  margin-left: auto;
+  margin-right: auto;
   text-align: center; }
-  .centered .link-button {
+  div.centered .link-button {
     margin: 0.2em 0.1em; }
 
 .reset-spacing {
