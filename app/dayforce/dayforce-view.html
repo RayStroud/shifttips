@@ -1,0 +1,142 @@
+<div ng-controller="DayforceViewController as ctrl">
+	<h1>Dayforce Shifts</h1>
+
+	<div>
+		<input type="file" accept="text/calendar" text-file="ctrl.fileData" />
+		<button ng-show="ctrl.fileData" ng-click="ctrl.parseFile(fileData)">Parse File</button>
+	</div>
+
+	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
+	<div ng-hide="ctrl.error">
+		<div ng-controller="FiltersController as filtersCtrl">
+			<form class="filter-form" method="get" action="#">
+				<div class="filter-group" id="filter-view-style">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">View Style</div>
+						<div class="filter-group-body">
+							<a class="link-button button-inverse" href="#/shifts/list"><span class="fa fa-fw fa-table"></span></a>
+							<a class="link-button" href="#/shifts/grid"><span class="fa fa-fw fa-th-large"></span></a>
+						</div>
+					</div>
+				</div>
+				<div class="filter-group" id="filter-visible">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Filters</div>
+						<div class="filter-group-body">
+							<div ng-hide="filtersCtrl.filters.visible" class="link-button button-inverse" ng-click="filtersCtrl.setFilter('visible',true)"><span class="fa fa-fw fa-eye"></span></div>
+							<div ng-show="filtersCtrl.filters.visible" class="link-button" ng-click="filtersCtrl.setFilter('visible',false)"><span class="fa fa-fw fa-eye-slash"></span></div>
+							<div class="link-button button-inverse" ng-click="filtersCtrl.switchFontSize()">
+								<span class="fa-stack fa-sm">
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 3}" class="fa fa-fw fa-stack-2x fa-font"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 2}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 1.5em"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 1}" class="fa fa-fw fa-stack-1x fa-font"></span>
+									<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 0}" class="fa fa-fw fa-stack-1x fa-font" style="font-size: 5px"></span>
+								</span>
+							</div>
+							<a class="link-button button-inverse" ng-hide="filtersCtrl.filters.gridReverse" ng-click="filtersCtrl.setFilter('gridReverse',true)"><span class="fa fa-fw fa-sort-amount-asc"></span></a>
+							<a class="link-button button-inverse" ng-show="filtersCtrl.filters.gridReverse" ng-click="filtersCtrl.setFilter('gridReverse',false)"><span class="fa fa-fw fa-sort-amount-desc"></span></a>
+							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-undo"></span></div>
+						</div>
+					</div>
+				</div>
+				<div ng-show="filtersCtrl.filters.visible" class="filter-group" id="filter-date-range">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Date Range</div>
+						<div class="filter-group-body">
+							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filtersCtrl.filters.from" ng-change="filtersCtrl.updateFilters(); ctrl.updateSummary()"/>
+							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filtersCtrl.filters.to" ng-change="filtersCtrl.updateFilters(); ctrl.updateSummary()"/>
+						</div>
+					</div>
+				</div>
+				<div ng-show="filtersCtrl.filters.visible" class="filter-group" id="filter-lunch-dinner">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Lun/Din</div>
+						<div class="filter-group-body">
+							<input type="checkbox" id="lun-check" name="lun" ng-checked="filtersCtrl.filters.lun">
+							<label ng-click="filtersCtrl.toggleLD('lun'); ctrl.updateSummary();">L</label>
+							<input type="checkbox" id="din-check" name="din" ng-checked="filtersCtrl.filters.din">
+							<label ng-click="filtersCtrl.toggleLD('din'); ctrl.updateSummary();">D</label>
+						</div>
+					</div>
+				</div>
+				<div ng-show="filtersCtrl.filters.visible" class="filter-group" id="filter-day-of-week">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Day of Week</div>
+						<div class="filter-group-body">
+							<input type="checkbox" id="mon-check" name="mon" ng-checked="filtersCtrl.filters.mon">
+							<label ng-click="filtersCtrl.toggleDay('mon'); ctrl.updateSummary();">Mon</label>
+							<input type="checkbox" id="tue-check" name="tue" ng-checked="filtersCtrl.filters.tue">
+							<label ng-click="filtersCtrl.toggleDay('tue'); ctrl.updateSummary();">Tue</label>
+							<input type="checkbox" id="wed-check" name="wed" ng-checked="filtersCtrl.filters.wed">
+							<label ng-click="filtersCtrl.toggleDay('wed'); ctrl.updateSummary();">Wed</label>
+							<input type="checkbox" id="thu-check" name="thu" ng-checked="filtersCtrl.filters.thu">
+							<label ng-click="filtersCtrl.toggleDay('thu'); ctrl.updateSummary();">Thu</label>
+							<input type="checkbox" id="fri-check" name="fri" ng-checked="filtersCtrl.filters.fri">
+							<label ng-click="filtersCtrl.toggleDay('fri'); ctrl.updateSummary();">Fri</label>
+							<input type="checkbox" id="sat-check" name="sat" ng-checked="filtersCtrl.filters.sat">
+							<label ng-click="filtersCtrl.toggleDay('sat'); ctrl.updateSummary();">Sat</label>
+							<input type="checkbox" id="sun-check" name="sun" ng-checked="filtersCtrl.filters.sun">
+							<label ng-click="filtersCtrl.toggleDay('sun'); ctrl.updateSummary();">Sun</label>
+						</div>
+					</div>
+				</div>
+			</form>
+			<h3 class="filter-message">
+				Viewing {{filteredShifts.length}} <span class="{{filtersCtrl.filters.lunchDinner ? 'filter-bold' : ''}}">{{filtersCtrl.filters.lunchDinner == 'L' ? 'Lunch' : ''}}{{filtersCtrl.filters.lunchDinner == 'D' ? 'Dinner' : ''}}</span> shifts on <span ng-if="filtersCtrl.filters.days"><span class="filter-bold" ng-if="filtersCtrl.filters.mon">Mon</span> <span class="filter-bold" ng-if="filtersCtrl.filters.tue">Tue</span> <span class="filter-bold" ng-if="filtersCtrl.filters.wed">Wed</span> <span class="filter-bold" ng-if="filtersCtrl.filters.thu">Thu</span> <span class="filter-bold" ng-if="filtersCtrl.filters.fri">Fri</span> <span class="filter-bold" ng-if="filtersCtrl.filters.sat">Sat</span> <span class="filter-bold" ng-if="filtersCtrl.filters.sun">Sun</span></span><span ng-if="!filtersCtrl.filters.days">any day</span> from <span class="{{filtersCtrl.filters.from ? 'filter-bold' : ''}}">{{filtersCtrl.filters.from ? (filtersCtrl.filters.from | date) : 'any date'}}</span> to <span class="{{filtersCtrl.filters.to ? 'filter-bold' : ''}}">{{filtersCtrl.filters.to ? (filtersCtrl.filters.to | date) : 'any date'}}</span>
+			</h3>
+			<div ng-show="filteredShifts.length < 1">
+				No shifts found
+			</div>
+			<div id="shifts" ng-hide="filteredShifts.length < 1 || ctrl.error" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
+				<div class="filter-group week-group" ng-repeat="group in filteredShifts = (ctrl.shifts | isValidShift:filtersCtrl.filters)
+					| groupBy: 'yearweek'
+					| toArray: true
+					| orderBy:['$key','date','startTime']:filtersCtrl.filters.gridReverse">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">{{group.$key | yearweek}}</div>
+						<div class="filter-group-body">
+							<div class="clickable shift-summary {{shift.dayOfWeek | lowercase}}-shift {{shift.lunchDinner | lowercase}}-shift"
+								 ng-repeat="shift in group">
+
+								<div class="shift-datetime">
+									<div class="shift-date">{{shift.date | date:'EEE, MMM d, yyyy' | placeholder:'Unknown Date'}}</div>
+								</div>
+								<div class="shift-details">
+									<div class="shift-info" ng-if="ctrl.prefs.startTime">
+										<div class="label">{{shift.type | placeholder:'-'}}</div>
+										<div class="value">{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+			<div class="filler"></div>
+		</div>
+	</div>
+</div>
