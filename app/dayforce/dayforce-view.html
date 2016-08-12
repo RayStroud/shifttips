@@ -3,7 +3,7 @@
 
 	<div>
 		<input type="file" accept="text/calendar" text-file="ctrl.fileData" />
-		<button ng-show="ctrl.fileData" ng-click="ctrl.parseFile(fileData)">Parse File</button>
+		<button ng-show="ctrl.fileData" ng-click="ctrl.parseFile(ctrl.fileData)">Parse File</button>
 	</div>
 
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
