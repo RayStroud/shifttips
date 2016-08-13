@@ -5,7 +5,7 @@ angular.module('shiftTips')
 	// ctrl.prefs = filterService.getUserPrefs(ctrl.uid).dayforce;	//for future custom view
 
 	ctrl.parseFile = function(textData) {
-		ctrl.parsedData = ctrl.parseVCalendar(textData);
+		ctrl.shifts = ctrl.parseVCalendar(textData);
 	}
 
 	ctrl.parseVCalendar = function(text) {
@@ -29,9 +29,9 @@ angular.module('shiftTips')
 				var momentDate = moment(dtstart, 'YYYYMMDDTHHmmssZ');
 				event.date = momentDate.format("YYYY-MM-DD");
 				event.startTime = momentDate.format("HH:mm:ss");
-				event.yearweek = momentDate.isoWeek();
+				event.yearweek = momentDate.year() + '' + momentDate.isoWeek();
 				event.dayOfWeek = momentDate.format("ddd");
-				event.lunchDinner = momentDate.hour < 2 ? "L" : "D";
+				event.lunchDinner = momentDate.hour() < 14 ? "L" : "D";
 			}
 
 			//if line is DTEND

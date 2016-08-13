@@ -3,7 +3,7 @@
 
 	<div>
 		<input type="file" accept="text/calendar" text-file="ctrl.fileData" />
-		<button ng-show="ctrl.fileData" ng-click="ctrl.parseFile(ctrl.fileData)">Parse File</button>
+		<div class="link-button" ng-show="ctrl.fileData" ng-click="ctrl.parseFile(ctrl.fileData)">Parse File</div>
 	</div>
 
 	<div class="error message-box" ng-show="ctrl.error">{{ctrl.error}}</div>
@@ -100,11 +100,16 @@
 
 								<div class="shift-datetime">
 									<div class="shift-date">{{shift.date | date:'EEE, MMM d, yyyy' | placeholder:'Unknown Date'}}</div>
+									<div class="shift-time">{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'?:??'}} &rarr; {{shift.endTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</div>
 								</div>
 								<div class="shift-details">
-									<div class="shift-info" ng-if="ctrl.prefs.startTime">
-										<div class="label">{{shift.type | placeholder:'-'}}</div>
-										<div class="value">{{shift.startTime | timeToDate | date:'h:mma' | placeholder:'?:??'}}</div>
+									<div class="shift-info">
+										<div class="label">Summary</div>
+										<div class="value">{{shift.summary | placeholder:'-'}}</div>
+									</div>
+									<div class="shift-info">
+										<div class="label">Location</div>
+										<div class="value">{{shift.location | placeholder:'-'}}</div>
 									</div>
 								</div>
 							</div>
