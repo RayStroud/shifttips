@@ -28,6 +28,9 @@ angular.module('shiftTips')
 	this.getSummaryByCut = function(uid, from, to) {
 		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&cut&from=' + from + '&to=' + to);
 	};
+	this.getSummaryByHalfhours = function(uid, from, to) {
+		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&halfhours&from=' + from + '&to=' + to);
+	};
 	this.getSummaryWeekly = function(uid, from, to, lunchDinner) {
 		return $http.get(backend.domain + 'summary.php?uid=' + uid + '&week&from=' + from + '&to=' + to + '&ld=' + lunchDinner);
 	};
@@ -61,6 +64,9 @@ angular.module('shiftTips')
 				break;
 			case 'Cut Order':
 				promise = summaryService.getSummaryByCut(ctrl.uid, p_dateFrom, p_dateTo);
+				break;
+			case 'Shift Length':
+				promise = summaryService.getSummaryByHalfhours(ctrl.uid, p_dateFrom, p_dateTo);
 				break;
 		}
 		promise.success(function (data, status, headers, config) {

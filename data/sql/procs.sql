@@ -766,6 +766,65 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS getSummaryByHalfhours;
+DELIMITER //
+CREATE PROCEDURE getSummaryByHalfhours (p_user_id INT, p_dateFrom DATE, p_dateTo DATE)
+BEGIN
+	-- VARCHAR(11) is highest int value, which is what a user_id can be
+	DECLARE v_user_id		VARCHAR(11);
+	DECLARE v_dateFrom		DATE;
+	DECLARE v_dateTo		DATE;
+
+	IF (p_user_id IS NULL)
+		THEN SET v_user_id := '%';
+		ELSE SET v_user_id := p_user_id;
+	END IF;
+
+	IF (p_dateFrom IS NULL)
+		THEN SET v_dateFrom := '1000-01-01';
+		ELSE SET v_dateFrom := p_dateFrom;
+	END IF;
+
+	IF (p_dateTo IS NULL)
+		THEN SET v_dateTo := '9999-12-31';
+		ELSE SET v_dateTo := p_dateTo;
+	END IF;
+
+	SELECT
+		ROUND(CEIL(hours*2)/2,1) as halfhours,
+		lunchDinner,
+		COUNT(id) as count,
+		ROUND(AVG(hours)		,2) as avgHours,
+		ROUND(SUM(hours)		,0) as totHours,
+		ROUND(AVG(earnedWage)	,2) as avgWage,
+		ROUND(SUM(earnedWage)	,0) as totWage,
+		ROUND(AVG(earnedTips)	,2) as avgTips,
+		ROUND(SUM(earnedTips)	,0) as totTips,
+		ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
+		ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+		ROUND(AVG(tipout)		,2) as avgTipout,
+		ROUND(SUM(tipout)		,0) as totTipout,
+		ROUND(AVG(transfers)	,2) as avgTransfers,
+		ROUND(SUM(transfers)	,0) as totTransfers,
+		ROUND(AVG(sales)		,0) as avgSales,
+		ROUND(SUM(sales)		,0) as totSales,
+		ROUND(AVG(covers)		,1) as avgCovers,
+		ROUND(SUM(covers)		,0) as totCovers,
+		ROUND(AVG(campHours)	,2) as avgCampHours,
+		ROUND(SUM(campHours)	,2) as totCampHours,
+		ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+		ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+		ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+		ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+		ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+		ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+	FROM shift
+	WHERE date BETWEEN v_dateFrom AND v_dateTo
+		AND user_id LIKE v_user_id
+	GROUP BY halfhours, lunchDinner;
+END //
+DELIMITER ;
+
 -- ############################################################################################
 -- PERIOD
 -- ############################################################################################
