@@ -791,7 +791,7 @@ BEGIN
 	END IF;
 
 	SELECT
-		ROUND(CEIL(hours*2)/2,1) as halfhours,
+		ROUND(hours*2,0)/2 as halfhours,
 		lunchDinner,
 		COUNT(id) as count,
 		ROUND(AVG(hours)		,2) as avgHours,
