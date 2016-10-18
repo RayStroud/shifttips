@@ -70,7 +70,7 @@ h2 {
   text-align: center;
   font-size: 1.5em;
   font-weight: bold;
-  margin: 1em 0; }
+  margin: 0.5em 0; }
 
 h3 {
   font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
@@ -90,12 +90,15 @@ h5 {
   font-size: 1.2em;
   font-weight: bold;
   margin: 1em 0; }
+  h5:hover {
+    cursor: pointer;
+    color: #337ab7; }
 
 h6 {
   font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: bold;
-  margin: 0.5em 0; }
+  margin-bottom: 0.5em; }
 
 a.link {
   color: #337ab7;
@@ -158,6 +161,11 @@ a.link {
 .content-wrapper {
   max-width: 800px;
   margin: 0 auto; }
+
+ul.unordered-list {
+  margin: 0.5em; }
+  ul.unordered-list li {
+    margin: 0.25em 0; }
 
 .clickable {
   position: relative; }
@@ -227,16 +235,18 @@ a.link {
 /* ############################################
 #	HOME
 ############################################ */
-table.links {
-  margin: 0.8em auto; }
-  table.links td {
-    padding: 0.3em 0; }
-  table.links .link-button {
-    width: 100%; }
+div.updates {
+  border: 1px solid #eaeaea; }
+  div.updates div.update {
+    padding: 0.8em;
+    margin: 0.8em;
+    background-color: #b7b7b7; }
 
-div.update {
-  padding: 0.8em;
-  background-color: #b7b7b7; }
+div.centered.button-group {
+  padding: 0.5em 0;
+  margin: 0; }
+  div.centered.button-group .link-button {
+    min-width: 100px; }
 
 /* ############################################
 #	ABOUT / HELP / FAQ
@@ -247,9 +257,6 @@ div.update {
 #about i {
   font-size: 80%;
   font-weight: normal; }
-#about h5:hover {
-  cursor: pointer;
-  color: #337ab7; }
 #about .filter-group-header {
   font-size: 100%; }
 
