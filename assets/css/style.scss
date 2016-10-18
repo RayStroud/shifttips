@@ -222,7 +222,7 @@
 		background-color: transparent !important;
 		border-color: transparent !important;
 	}
-	.centered {text-align: center; .link-button {margin: 0.2em 0.1em;} }
+	div.centered {margin-left: auto; margin-right: auto; text-align: center; .link-button {margin: 0.2em 0.1em;} }
 	.reset-spacing { padding: 0 !important; margin: 0 !important;}
 	.full-width {width: 100%;}
 	.icon-red {color: desaturate(red,50%);}
