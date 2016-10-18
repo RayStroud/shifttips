@@ -1,7 +1,7 @@
 angular.module('shiftTips')
 .service('filterService', ['$http', 'backend', 'localStorageService', function($http, backend, localStorageService) {
 	var ctrl = this;
-	ctrl.dataVersion = '2016-06-28';
+	ctrl.dataVersion = '2016-10-18';
 
 	//constants for list sort and summary type
 	ctrl.listSortValues = { 
@@ -106,31 +106,42 @@ angular.module('shiftTips')
 			"periodType" 	: ctrl.getPeriodTypeValues('weekly')	,
 			"dueType" 		: "unretrieved"	,
 			"gridReverse"	: true	,
-			"fontSize"		: 2
+			"fontSize"		: 2		,
+			"collapsed" : {
+				"all"		: false	,
+				"add"		: false	,
+				"edit"		: false	,
+				"list"		: false	,
+				"grid"		: false	,
+				"details"	: false	,
+				"summary"	: false	,
+				"period"	: false
+			}
 		};
 	};
 	ctrl.getDefaultPrefs = function() {
 		return {
+			"type" 				: "default"	,
 			"list" : {
 				"lunchDinner"	: true	,
 				"dayOfWeek"		: true	,
 				"startTime"		: true	,
 				"endTime"		: true	,
 				"hours"			: true	,
-				"earnedWage"	: true	,
+				"earnedWage"	: false	,
 				"earnedTips"	: true	,
 				"earnedTotal"	: true	,
-				"firstTable"	: true	,
+				"firstTable"	: false	,
 				"sales"			: true	,
 				"tipout"		: true	,
-				"transfers"		: true	,
+				"transfers"		: false	,
 				"covers"		: true	,
-				"campHours"		: true	,
+				"campHours"		: false	,
 				"salesPerHour"	: true	,
 				"salesPerCover"	: true	,
 				"tipsPercent"	: true	,
-				"tipoutPercent"	: true	,
-				"tipsVsWage"	: true	,
+				"tipoutPercent"	: false	,
+				"tipsVsWage"	: false	,
 				"hourly"		: true	,
 
 				"cash"			: false	,
@@ -170,18 +181,18 @@ angular.module('shiftTips')
 			},
 			"summary" : {
 				"hours"			: true	,
-				"earnedWage"	: true	,
+				"earnedWage"	: false	,
 				"earnedTips"	: true	,
 				"earnedTotal"	: true	,
 				"sales"			: true	,
-				"tipout"		: true	,
+				"tipout"		: false	,
 				"covers"		: true	,
-				"campHours"		: true	,
+				"campHours"		: false	,
 				"salesPerHour"	: true	,
 				"salesPerCover"	: true	,
 				"tipsPercent"	: true	,
-				"tipoutPercent"	: true	,
-				"tipsVsWage"	: true	,
+				"tipoutPercent"	: false	,
+				"tipsVsWage"	: false	,
 				"hourly"		: true	,
 
 				"transfers"		: false	,
@@ -190,18 +201,18 @@ angular.module('shiftTips')
 			"period" : {
 				"shifts"		: true	,
 				"hours"			: true	,
-				"earnedWage"	: true	,
+				"earnedWage"	: false	,
 				"earnedTips"	: true	,
 				"earnedTotal"	: true	,
 				"sales"			: true	,
-				"tipout"		: true	,
+				"tipout"		: false	,
 				"covers"		: true	,
-				"campHours"		: true	,
+				"campHours"		: false	,
 				"salesPerHour"	: true	,
 				"salesPerCover"	: true	,
 				"tipsPercent"	: true	,
-				"tipoutPercent"	: true	,
-				"tipsVsWage"	: true	,
+				"tipoutPercent"	: false	,
+				"tipsVsWage"	: false	,
 				"hourly"		: true	,
 
 				"transfers"		: false	,
@@ -211,32 +222,32 @@ angular.module('shiftTips')
 				"wage"			: true	,
 				"startTime"		: true	,
 				"endTime"		: true	,
-				"firstTable"	: true	,
-				"campHours"		: true	,
+				"firstTable"	: false	,
+				"campHours"		: false	,
 				"sales"			: true	,
 				"covers"		: true	,
 				"tipout"		: true	,
-				"transfers"		: true	,
+				"transfers"		: false	,
 				"cash"			: true	,
 				"due"			: true	,
 				"section"		: true	,
-				"cut"			: true	,
+				"cut"			: false	,
 				"notes"			: true		
 			},
 			"edit" : {
 				"wage"			: true	,
 				"startTime"		: true	,
 				"endTime"		: true	,
-				"firstTable"	: true	,
-				"campHours"		: true	,
+				"firstTable"	: false	,
+				"campHours"		: false	,
 				"sales"			: true	,
 				"covers"		: true	,
 				"tipout"		: true	,
-				"transfers"		: true	,
+				"transfers"		: false	,
 				"cash"			: true	,
 				"due"			: true	,
 				"section"		: true	,
-				"cut"			: true	,
+				"cut"			: false	,
 				"notes"			: true		
 			},
 			"view" : {
@@ -249,29 +260,30 @@ angular.module('shiftTips')
 				"salesPerHour"	: true	,
 				"salesPerCover"	: true	,
 				"tipout"		: true	,
-				"tipoutPercent"	: true	,
-				"transfers"		: true	,
+				"tipoutPercent"	: false	,
+				"transfers"		: false	,
 				"cash"			: true	,
 				"due"			: true	,
-				"earnedWage"	: true	,
+				"earnedWage"	: false	,
 				"earnedTips"	: true	,
 				"tipsPercent"	: true	,
 				"earnedTotal"	: true	,
-				"tipsVsWage"	: true	,
+				"tipsVsWage"	: false	,
 				"hourly"		: true	,
 
-				"firstTable"	: true	,
-				"campHours"		: true	,
+				"firstTable"	: false	,
+				"campHours"		: false	,
 				"section"		: true	,
-				"cut"			: true	,
+				"cut"			: false	,
 				"notes"			: true	,
 
 				"noCampHourly"	: false
 			}
 		}
 	};
-	ctrl.getFullPrefs = function() {
+	ctrl.getDetailedPrefs = function() {
 		return {
+			"type" 				: "detailed"	,
 			"list" : {
 				"lunchDinner"	: true	,
 				"dayOfWeek"		: true	,
@@ -433,6 +445,7 @@ angular.module('shiftTips')
 	};
 	ctrl.getMinimalPrefs = function() {
 		return {
+			"type" 				: "minimal"	,
 			"list" : {
 				"lunchDinner"	: true	,
 				"dayOfWeek"		: true	,
@@ -627,8 +640,8 @@ angular.module('shiftTips')
 	};
 	ctrl.resetUserPrefs = function(uid, type) {
 		switch(type) {
-			case "full":
-				ctrl.updateUserPrefs(uid, ctrl.getFullPrefs());
+			case "detailed":
+				ctrl.updateUserPrefs(uid, ctrl.getDetailedPrefs());
 				break;
 			case "minimal":
 				ctrl.updateUserPrefs(uid, ctrl.getMinimalPrefs());
@@ -810,6 +823,7 @@ angular.module('shiftTips')
 	ctrl.wage = filterService.getUserWage(ctrl.uid);
 
 	ctrl.setPref = function(page, field, value) {
+		ctrl.prefs.type = null;
 		ctrl.prefs[page][field] = value;
 		filterService.updateUserPrefs(ctrl.uid, ctrl.prefs);
 		ctrl.saveMessage = '';
@@ -837,6 +851,7 @@ angular.module('shiftTips')
 			/* DEBUG */ ctrl.getSavedResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			filterService.updateUserPrefs(ctrl.uid, data);
 			ctrl.prefs = filterService.getUserPrefs(ctrl.uid);
+			ctrl.prefs.type = 'saved';
 		})
 		.error(function (data, status, headers, config) {
 			/* DEBUG */ ctrl.getSavedResponse = {result: 'error', data: data, status: status, headers: headers, config: config};
@@ -848,11 +863,16 @@ angular.module('shiftTips')
 		.success(function (data, status, headers, config) {
 			/* DEBUG */ ctrl.saveResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.saveMessage = 'View Settings saved.'
+			ctrl.prefs.type = 'saved';
 		})
 		.error(function (data, status, headers, config) {
 			/* DEBUG */ ctrl.saveResponse = {result: 'error', data: data, status: status, headers: headers, config: config};
 			ctrl.saveError = 'Oops! Something bad happened. Cannot save current settings.';
 		});
+	};
+	ctrl.isPrefsType = function(value) {
+		//return ctrl.prefs.type == value;
+		return JSON.stringify(ctrl.prefs.type) == JSON.stringify(value);
 	};
 }])
 
@@ -958,6 +978,35 @@ angular.module('shiftTips')
 
 	ctrl.switchFontSize = function() {
 		ctrl.filters.fontSize = (ctrl.filters.fontSize + 1 ) % 4;
+		ctrl.updateFilters();
+	};
+
+	ctrl.toggleCollapsed = function(type) {
+		if (type == 'collapse') {
+			ctrl.filters.collapsed.all = true;
+			ctrl.filters.collapsed.add = true;
+			ctrl.filters.collapsed.edit = true;
+			ctrl.filters.collapsed.list = true;
+			ctrl.filters.collapsed.grid = true;
+			ctrl.filters.collapsed.details = true;
+			ctrl.filters.collapsed.summary = true;
+			ctrl.filters.collapsed.period = true;
+		}
+		else if (type == 'expand') {
+			ctrl.filters.collapsed.all = false;
+			ctrl.filters.collapsed.add = false;
+			ctrl.filters.collapsed.edit = false;
+			ctrl.filters.collapsed.list = false;
+			ctrl.filters.collapsed.grid = false;
+			ctrl.filters.collapsed.details = false;
+			ctrl.filters.collapsed.summary = false;
+			ctrl.filters.collapsed.period = false;
+		}
+		else {
+			//set the 'all' to null and toggle the specific type
+			ctrl.filters.collapsed.all = null;
+			ctrl.filters.collapsed[type] = !ctrl.filters.collapsed[type];
+		}
 		ctrl.updateFilters();
 	};
 }]);

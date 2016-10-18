@@ -227,7 +227,14 @@
 		background-color: transparent !important;
 		border-color: transparent !important;
 	}
-	.centered {text-align: center; .link-button {margin: 0.2em 0.1em;} }
+	div.centered {
+		text-align: center; 
+		margin-left: auto;
+		margin-right: auto;
+		.link-button {
+			margin: 0.2em 0.1em;
+		} 
+	}
 	.reset-spacing { padding: 0 !important; margin: 0 !important;}
 	.full-width {width: 100%;}
 	.icon-red {color: desaturate(red,50%);}
@@ -261,6 +268,7 @@
 ############################################ */
 	div.updates {
 		border: 1px solid $lightgrey;
+		background-color: #ddd;
 		div.update {
 			padding: 0.8em;
 			margin: 0.8em;
@@ -272,6 +280,7 @@
 		margin: 0;
 		.link-button {
 			min-width: 100px;
+			text-align: left;
 		}
 	}
 
@@ -727,6 +736,9 @@
 		flex-wrap: wrap;
 		div.mobile-table {
 			flex: 1 1 200px;
+			&.size0 {flex-basis: 75px; .wage-input{max-width: 40px;}}
+			&.size1 {flex-basis: 150px; .wage-input{max-width: 68px;}}
+			&.size3 {flex-basis: 250px; .wage-input{max-width: 110px;}}
 		}
 	}
 	div.mobile-table {

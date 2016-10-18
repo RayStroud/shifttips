@@ -186,9 +186,11 @@ ul.unordered-list {
   background-color: transparent !important;
   border-color: transparent !important; }
 
-.centered {
-  text-align: center; }
-  .centered .link-button {
+div.centered {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto; }
+  div.centered .link-button {
     margin: 0.2em 0.1em; }
 
 .reset-spacing {
@@ -236,7 +238,8 @@ ul.unordered-list {
 #	HOME
 ############################################ */
 div.updates {
-  border: 1px solid #eaeaea; }
+  border: 1px solid #eaeaea;
+  background-color: #ddd; }
   div.updates div.update {
     padding: 0.8em;
     margin: 0.8em;
@@ -246,7 +249,8 @@ div.centered.button-group {
   padding: 0.5em 0;
   margin: 0; }
   div.centered.button-group .link-button {
-    min-width: 100px; }
+    min-width: 100px;
+    text-align: left; }
 
 /* ############################################
 #	ABOUT / HELP / FAQ
@@ -814,6 +818,18 @@ div.mobile-table-wrap {
   flex-wrap: wrap; }
   div.mobile-table-wrap div.mobile-table {
     flex: 1 1 200px; }
+    div.mobile-table-wrap div.mobile-table.size0 {
+      flex-basis: 75px; }
+      div.mobile-table-wrap div.mobile-table.size0 .wage-input {
+        max-width: 40px; }
+    div.mobile-table-wrap div.mobile-table.size1 {
+      flex-basis: 150px; }
+      div.mobile-table-wrap div.mobile-table.size1 .wage-input {
+        max-width: 68px; }
+    div.mobile-table-wrap div.mobile-table.size3 {
+      flex-basis: 250px; }
+      div.mobile-table-wrap div.mobile-table.size3 .wage-input {
+        max-width: 110px; }
 
 div.mobile-table {
   width: 100%;
