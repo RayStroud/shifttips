@@ -594,30 +594,30 @@ angular.module('shiftTips')
 	};
 
 	ctrl.getUserFilters = function(uid) {
-		var storedFilters = localStorageService.get('filters');
-		return (storedFilters !== undefined && storedFilters.hasOwnProperty(uid) ) ? storedFilters[uid] : ctrl.getDefaultFilters();
+		var storedFilters = localStorageService.get('filters') || {"version":ctrl.dataVersion};
+		return storedFilters.hasOwnProperty(uid) ? storedFilters[uid] : ctrl.getDefaultFilters();
 	};
 	ctrl.getUserPrefs = function(uid) {
-		var storedPrefs = localStorageService.get('prefs');
-		return (storedPrefs !== undefined && storedPrefs.hasOwnProperty(uid) ) ? storedPrefs[uid] : ctrl.getDefaultPrefs();
+		var storedPrefs = localStorageService.get('prefs') || {"version":ctrl.dataVersion};
+		return storedPrefs.hasOwnProperty(uid) ? storedPrefs[uid] : ctrl.getDefaultPrefs();
 	};
 	ctrl.getUserWage = function(uid) {
-		var storedWages = localStorageService.get('wages');
-		return (storedWages !== undefined && storedWages.hasOwnProperty(uid) ) ? storedWages[uid] : {};
+		var storedWages = localStorageService.get('wages') || {};
+		return storedWages.hasOwnProperty(uid) ? storedWages[uid] : {};
 	};
 
 	ctrl.updateUserFilters = function(uid, userFilters) {
-		var storedFilters = localStorageService.get('filters');
+		var storedFilters = localStorageService.get('filters') || {"version":ctrl.dataVersion};
 		storedFilters[uid] = userFilters;
 		localStorageService.set('filters', storedFilters);
 	};
 	ctrl.updateUserPrefs = function(uid, userPrefs) {
-		var storedPrefs = localStorageService.get('prefs');
+		var storedPrefs = localStorageService.get('prefs') || {"version":ctrl.dataVersion};
 		storedPrefs[uid] = userPrefs;
 		localStorageService.set('prefs', storedPrefs);
 	};
 	ctrl.updateUserWage = function(uid, userWage) {
-		var storedWages = localStorageService.get('wages');
+		var storedWages = localStorageService.get('wages') || {};
 		storedWages[uid] = userWage;
 		localStorageService.set('wages', storedWages);
 	};
@@ -644,13 +644,13 @@ angular.module('shiftTips')
 	};
 	
 	ctrl.checkStoredDataVersion = function() {
-		var storedFilters = localStorageService.get('filters');
-		var storedPrefs = localStorageService.get('prefs');
+		var storedFilters = localStorageService.get('filters') || {"version":ctrl.dataVersion};
+		var storedPrefs = localStorageService.get('prefs') || {"version":ctrl.dataVersion};
 		//check if data versions match, if not, reset
-		if ( !(storedFilters !== "undefined" && storedFilters.hasOwnProperty("version") && storedFilters.version == ctrl.dataVersion) ) {
+		if ( !(storedFilters.hasOwnProperty("version") && storedFilters.version == ctrl.dataVersion) ) {
 			localStorageService.set('filters', {"version":ctrl.dataVersion});
 		}
-		if ( !(storedPrefs !== "undefined" && storedPrefs.hasOwnProperty("version") && storedPrefs.version == ctrl.dataVersion) ) {
+		if ( !(storedPrefs.hasOwnProperty("version") && storedPrefs.version == ctrl.dataVersion) ) {
 			localStorageService.set('prefs', {"version":ctrl.dataVersion});
 		}
 	};
