@@ -1209,7 +1209,7 @@ CREATE PROCEDURE checkUsers()
 BEGIN
 	SELECT user.id, user.name, user.email, user.created, user.active, COUNT(shift.id) as 'shifts', MAX(shift.updated) as 'lastUpdate'
 	FROM shift
-		JOIN user ON shift.user_id = user.id
+		RIGHT JOIN user ON shift.user_id = user.id
 	GROUP BY user.id;
 END //
 DELIMITER ;
