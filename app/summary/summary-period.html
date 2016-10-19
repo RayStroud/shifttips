@@ -35,8 +35,8 @@
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Date Range</div>
 						<div class="filter-group-body">
-							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filtersCtrl.filters.from" ng-change="ctrl.updatePeriodData();" />
-							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filtersCtrl.filters.to" ng-change="ctrl.updatePeriodData();" />
+							<input type="date" name="from" placeholder="yyyy-mm-dd" ng-model="filtersCtrl.filters.from" ng-change="filtersCtrl.updateFilters(); ctrl.updatePeriodData()"/>
+							<input type="date" name="to" placeholder="yyyy-mm-dd" ng-model="filtersCtrl.filters.to" ng-change="filtersCtrl.updateFilters(); ctrl.updatePeriodData()"/>
 						</div>
 					</div>
 				</div>

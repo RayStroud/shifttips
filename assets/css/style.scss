@@ -93,6 +93,7 @@
 	a, a:link, a:visited, a:hover, a:active {text-decoration: none;	color: inherit;}
 	b {font-weight: bold;}
 	i {font-style: italic;}
+	[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {display: none !important;}	//hide angular elements until loaded
 
 /* ############################################
 #	LAYOUT

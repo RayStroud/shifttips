@@ -38,20 +38,20 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:image" content="http://raystroud.ca/shifttips/favicon.png" />
 </head>
-<body ng-controller="UserController as userCtrl" ng-cloak>
-	<div id="header">
+<body ng-controller="UserController as userCtrl">
+	<div id="header" ng-show="userCtrl.isSilentLoggedIn()" ng-cloak>
 		<ul class="menu">
 			<li><a class="name" href="#/">S<span class="hide-mobile">hift </span>T<span class="hide-mobile">ips</span></a></li>
+			<li ng-if="userCtrl.isLoggedIn()"><a class="link-button" href="#/shifts/add">Add</a></li>
 			<li ng-if="userCtrl.isLoggedIn()"><a class="link-button" href="#/shifts">Shifts</a></li>
 			<li ng-if="userCtrl.isLoggedIn()"><a class="link-button" href="#/summary">Summary</a></li>
 			<li ng-if="userCtrl.isLoggedIn()"><a class="link-button" href="#/summary/period">Period</a></li>
-			<li ng-if="userCtrl.isLoggedIn()"><a class="link-button" href="#/shifts/add">Add</a></li>
 			<li ng-if="userCtrl.isLoggedIn()"><a class="link-button" href="#/account">User: {{userCtrl.user.name}}</a></li>
 			<li ng-if="!userCtrl.isLoggedIn()"><span class="link-button" ng-click="userCtrl.showAbout=true">About / Help / FAQ</span></li>
 			<li ng-if="!userCtrl.isLoggedIn()"><span class="link-button" ng-click="userCtrl.showAbout=false">Login</span></li>
 		</ul>
 	</div>
-	<div id="content">
+	<div id="content" ng-show="userCtrl.isSilentLoggedIn()" ng-cloak>
 		<div id="wrapper">
 			<div ng-view ng-if="userCtrl.isLoggedIn()"></div>
 			<div ng-if="!userCtrl.isLoggedIn()">
@@ -107,7 +107,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="footer">
+	<div id="footer" ng-show="userCtrl.isSilentLoggedIn()" ng-cloak>
 		<div><a href="mailto:ray.stroud@gmail.com?subject=ShiftTips" target="_blank">Contact</a></div>
 		<div>Shift Tips &copy; 2016 by <a href="http://raystroud.ca" target="_blank">Ray Stroud</a></div>
 		<!--div
