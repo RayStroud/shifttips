@@ -61,6 +61,7 @@ angular.module('shiftTips')
 	var ctrl = this;
 	ctrl.user = userService.getUser();
 	ctrl.showAbout = false;
+	ctrl.newAccount = false;
 
 	ctrl.silentLogin = function() {
 		userService.silentLogin()
@@ -68,7 +69,7 @@ angular.module('shiftTips')
 			ctrl.silentLoginResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.user = userService.getUser();
 			if(ctrl.user.uid == 0) {
-				ctrl.silentLoginError = "Sorry, that name and email is not registered. Confirm the information is correct and try again, or register a new account."
+				ctrl.silentLoginError = "Sorry, that name and email is not registered or cannot be validated at this time. Confirm the information is correct and try again, or register a new account."
 			}
 			else {
 				ctrl.silentLoginError = "";
@@ -86,7 +87,7 @@ angular.module('shiftTips')
 			ctrl.loginResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.user = userService.getUser();
 			if(ctrl.user.uid == 0) {
-				ctrl.loginError = "Sorry, that name and email is not registered. Confirm the information is correct and try again, or register a new account."
+				ctrl.loginError = "Sorry, that name and email is not registered or cannot be validated at this time. Confirm the information is correct and try again, or register a new account."
 			}
 			else {
 				ctrl.loginError = "";

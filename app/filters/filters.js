@@ -1,7 +1,7 @@
 angular.module('shiftTips')
 .service('filterService', ['$http', 'backend', 'localStorageService', function($http, backend, localStorageService) {
 	var ctrl = this;
-	ctrl.dataVersion = '2016-10-18';
+	ctrl.dataVersion = '2016-10-19';
 
 	//constants for list sort and summary type
 	ctrl.listSortValues = { 
@@ -108,14 +108,29 @@ angular.module('shiftTips')
 			"gridReverse"	: true	,
 			"fontSize"		: 2		,
 			"collapsed" : {
-				"all"		: false	,
-				"add"		: false	,
-				"edit"		: false	,
-				"list"		: false	,
-				"grid"		: false	,
-				"details"	: false	,
-				"summary"	: false	,
-				"period"	: false
+				"account" : {
+					"all"		: true	,
+					"add"		: true	,
+					"edit"		: true	,
+					"list"		: true	,
+					"grid"		: true	,
+					"details"	: true	,
+					"summary"	: true	,
+					"period"	: true
+				},
+				"about" : {
+					"all"		: true	,
+					"what"		: true	,
+					"use"		: true	,
+					"login"		: true	,
+					"crud"		: true	,
+					"glossary"	: true	,
+					"filters"	: true	,
+					"prefs"		: true	,
+					"duebacks"	: true	,
+					"tables"	: true	,
+					"other"		: true
+				}
 			}
 		};
 	};
@@ -981,31 +996,61 @@ angular.module('shiftTips')
 		ctrl.updateFilters();
 	};
 
-	ctrl.toggleCollapsed = function(type) {
+	ctrl.toggleCollapsed = function(page, type) {
 		if (type == 'collapse') {
-			ctrl.filters.collapsed.all = true;
-			ctrl.filters.collapsed.add = true;
-			ctrl.filters.collapsed.edit = true;
-			ctrl.filters.collapsed.list = true;
-			ctrl.filters.collapsed.grid = true;
-			ctrl.filters.collapsed.details = true;
-			ctrl.filters.collapsed.summary = true;
-			ctrl.filters.collapsed.period = true;
+			if (page == 'account') {
+				ctrl.filters.collapsed.account.all = true;
+				ctrl.filters.collapsed.account.add = true;
+				ctrl.filters.collapsed.account.edit = true;
+				ctrl.filters.collapsed.account.list = true;
+				ctrl.filters.collapsed.account.grid = true;
+				ctrl.filters.collapsed.account.details = true;
+				ctrl.filters.collapsed.account.summary = true;
+				ctrl.filters.collapsed.account.period = true;
+			}
+			else if (page == 'about') {
+				ctrl.filters.collapsed.about.all = true;
+				ctrl.filters.collapsed.about.what = true;
+				ctrl.filters.collapsed.about.use = true;
+				ctrl.filters.collapsed.about.login = true;
+				ctrl.filters.collapsed.about.crud = true;
+				ctrl.filters.collapsed.about.glossary = true;
+				ctrl.filters.collapsed.about.filters = true;
+				ctrl.filters.collapsed.about.prefs = true;
+				ctrl.filters.collapsed.about.duebacks = true;
+				ctrl.filters.collapsed.about.tables = true;
+				ctrl.filters.collapsed.about.other = true;
+			}
 		}
 		else if (type == 'expand') {
-			ctrl.filters.collapsed.all = false;
-			ctrl.filters.collapsed.add = false;
-			ctrl.filters.collapsed.edit = false;
-			ctrl.filters.collapsed.list = false;
-			ctrl.filters.collapsed.grid = false;
-			ctrl.filters.collapsed.details = false;
-			ctrl.filters.collapsed.summary = false;
-			ctrl.filters.collapsed.period = false;
+			if (page == 'account') {
+				ctrl.filters.collapsed.account.all = false;
+				ctrl.filters.collapsed.account.add = false;
+				ctrl.filters.collapsed.account.edit = false;
+				ctrl.filters.collapsed.account.list = false;
+				ctrl.filters.collapsed.account.grid = false;
+				ctrl.filters.collapsed.account.details = false;
+				ctrl.filters.collapsed.account.summary = false;
+				ctrl.filters.collapsed.account.period = false;
+			}
+			else if (page == 'about') {
+				ctrl.filters.collapsed.about.all = false;
+				ctrl.filters.collapsed.about.what = false;
+				ctrl.filters.collapsed.about.use = false;
+				ctrl.filters.collapsed.about.login = false;
+				ctrl.filters.collapsed.about.crud = false;
+				ctrl.filters.collapsed.about.glossary = false;
+				ctrl.filters.collapsed.about.filters = false;
+				ctrl.filters.collapsed.about.prefs = false;
+				ctrl.filters.collapsed.about.duebacks = false;
+				ctrl.filters.collapsed.about.tables = false;
+				ctrl.filters.collapsed.about.other = false;
+			}
 		}
 		else {
 			//set the 'all' to null and toggle the specific type
-			ctrl.filters.collapsed.all = null;
-			ctrl.filters.collapsed[type] = !ctrl.filters.collapsed[type];
+			ctrl.filters.collapsed[page].all = null;
+			ctrl.filters.collapsed[page][type] = !ctrl.filters.collapsed[page][type];
 		}
 		ctrl.updateFilters();
 	};

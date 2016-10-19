@@ -28,8 +28,8 @@
 				<div class="filter-group-wrap">
 					<div class="filter-group-header">Table Controls</div>
 					<div class="filter-group-body">
-						<button class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.collapsed.all != false}" ng-click="filtersCtrl.toggleCollapsed('expand')"><span class="fa fa-fw fa-caret-down"></span></button>
-						<button class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.collapsed.all != true}" ng-click="filtersCtrl.toggleCollapsed('collapse')"><span class="fa fa-fw fa-caret-right"></span></button>
+						<button class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.collapsed.account.all != false}" ng-click="filtersCtrl.toggleCollapsed('account','expand')"><span class="fa fa-fw fa-caret-down"></span></button>
+						<button class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.collapsed.account.all != true}" ng-click="filtersCtrl.toggleCollapsed('account','collapse')"><span class="fa fa-fw fa-caret-right"></span></button>
 						<div class="link-button button-inverse" ng-click="filtersCtrl.switchFontSize()">
 							<span class="fa-stack fa-sm">
 								<span ng-class="{'invisible':filtersCtrl.filters.fontSize != 3}" class="fa fa-fw fa-stack-2x fa-font"></span>
@@ -47,9 +47,9 @@
 			<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 				<table class="summary-table">
 					<thead>
-						<tr class="large-header"><th colspan="2"><h5 ng-model="add" ng-click="filtersCtrl.toggleCollapsed('add')"><span ng-show="filtersCtrl.filters.collapsed.add" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.add" class="fa fa-fw fa-caret-down"></span>Add Shift Page</h5></th></tr>
+						<tr class="large-header"><th colspan="2"><h5 ng-model="add" ng-click="filtersCtrl.toggleCollapsed('account','add')"><span ng-show="filtersCtrl.filters.collapsed.account.add" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.account.add" class="fa fa-fw fa-caret-down"></span>Add Shift Page</h5></th></tr>
 					</thead>
-					<tbody ng-hide="filtersCtrl.filters.collapsed.add">
+					<tbody ng-hide="filtersCtrl.filters.collapsed.account.add">
 						<tr>
 							<th colspan="2">Set Wage</th>
 						</tr>
@@ -172,9 +172,9 @@
 			<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 				<table class="summary-table">
 					<thead>
-						<tr class="large-header"><th colspan="2"><h5 ng-model="edit" ng-click="filtersCtrl.toggleCollapsed('edit')"><span ng-show="filtersCtrl.filters.collapsed.edit" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.edit" class="fa fa-fw fa-caret-down"></span>Edit Shift Page</h5></th></tr>
+						<tr class="large-header"><th colspan="2"><h5 ng-model="edit" ng-click="filtersCtrl.toggleCollapsed('account','edit')"><span ng-show="filtersCtrl.filters.collapsed.account.edit" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.account.edit" class="fa fa-fw fa-caret-down"></span>Edit Shift Page</h5></th></tr>
 					</thead>
-					<tbody ng-hide="filtersCtrl.filters.collapsed.edit">
+					<tbody ng-hide="filtersCtrl.filters.collapsed.account.edit">
 						<tr>
 							<th>Field</th>
 							<th>Visible</th>
@@ -284,9 +284,9 @@
 			<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 				<table class="summary-table">
 					<thead>
-						<tr class="large-header"><th colspan="2"><h5 ng-model="list" ng-click="filtersCtrl.toggleCollapsed('list')"><span ng-show="filtersCtrl.filters.collapsed.list" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.list" class="fa fa-fw fa-caret-down"></span>Shift List Page</h5></th></tr>
+						<tr class="large-header"><th colspan="2"><h5 ng-model="list" ng-click="filtersCtrl.toggleCollapsed('account','list')"><span ng-show="filtersCtrl.filters.collapsed.account.list" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.account.list" class="fa fa-fw fa-caret-down"></span>Shift List Page</h5></th></tr>
 					</thead>
-					<tbody ng-hide="filtersCtrl.filters.collapsed.list">
+					<tbody ng-hide="filtersCtrl.filters.collapsed.account.list">
 						<tr>
 							<th>Field</th>
 							<th>Visible</th>
@@ -468,9 +468,9 @@
 			<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 				<table class="summary-table">
 					<thead>
-						<tr class="large-header"><th colspan="2"><h5 ng-model="grid" ng-click="filtersCtrl.toggleCollapsed('grid')"><span ng-show="filtersCtrl.filters.collapsed.grid" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.grid" class="fa fa-fw fa-caret-down"></span>Shift Grid Page</h5></th></tr>
+						<tr class="large-header"><th colspan="2"><h5 ng-model="grid" ng-click="filtersCtrl.toggleCollapsed('account','grid')"><span ng-show="filtersCtrl.filters.collapsed.account.grid" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.account.grid" class="fa fa-fw fa-caret-down"></span>Shift Grid Page</h5></th></tr>
 					</thead>
-					<tbody ng-hide="filtersCtrl.filters.collapsed.grid">
+					<tbody ng-hide="filtersCtrl.filters.collapsed.account.grid">
 						<tr>
 							<th>Field</th>
 							<th>Visible</th>
@@ -645,9 +645,9 @@
 			<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 				<table class="summary-table">
 					<thead>
-						<tr class="large-header"><th colspan="2"><h5 ng-model="details" ng-click="filtersCtrl.toggleCollapsed('details')"><span ng-show="filtersCtrl.filters.collapsed.details" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.details" class="fa fa-fw fa-caret-down"></span>Shift Details Page</h5></th></tr>
+						<tr class="large-header"><th colspan="2"><h5 ng-model="details" ng-click="filtersCtrl.toggleCollapsed('account','details')"><span ng-show="filtersCtrl.filters.collapsed.account.details" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.account.details" class="fa fa-fw fa-caret-down"></span>Shift Details Page</h5></th></tr>
 					</thead>
-					<tbody ng-hide="filtersCtrl.filters.collapsed.details">
+					<tbody ng-hide="filtersCtrl.filters.collapsed.account.details">
 						<tr>
 							<th>Field</th>
 							<th>Visible</th>
@@ -836,9 +836,9 @@
 			<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 				<table class="summary-table">
 					<thead>
-						<tr class="large-header"><th colspan="2"><h5 ng-model="summary" ng-click="filtersCtrl.toggleCollapsed('summary')"><span ng-show="filtersCtrl.filters.collapsed.summary" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.summary" class="fa fa-fw fa-caret-down"></span>Summary Page</h5></th></tr>
+						<tr class="large-header"><th colspan="2"><h5 ng-model="summary" ng-click="filtersCtrl.toggleCollapsed('account','summary')"><span ng-show="filtersCtrl.filters.collapsed.account.summary" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.account.summary" class="fa fa-fw fa-caret-down"></span>Summary Page</h5></th></tr>
 					</thead>
-					<tbody ng-hide="filtersCtrl.filters.collapsed.summary">
+					<tbody ng-hide="filtersCtrl.filters.collapsed.account.summary">
 						<tr>
 							<th>Field</th>
 							<th>Visible</th>
@@ -992,9 +992,9 @@
 			<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
 				<table class="summary-table">
 					<thead>
-						<tr class="large-header"><th colspan="2"><h5 ng-model="period" ng-click="filtersCtrl.toggleCollapsed('period')"><span ng-show="filtersCtrl.filters.collapsed.period" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.period" class="fa fa-fw fa-caret-down"></span>Period Summary Page</h5></th></tr>
+						<tr class="large-header"><th colspan="2"><h5 ng-model="period" ng-click="filtersCtrl.toggleCollapsed('account','period')"><span ng-show="filtersCtrl.filters.collapsed.account.period" class="fa fa-fw fa-caret-right"></span><span ng-show="!filtersCtrl.filters.collapsed.account.period" class="fa fa-fw fa-caret-down"></span>Period Summary Page</h5></th></tr>
 					</thead>
-					<tbody ng-hide="filtersCtrl.filters.collapsed.period">
+					<tbody ng-hide="filtersCtrl.filters.collapsed.account.period">
 						<tr>
 							<th>Field</th>
 							<th>Visible</th>
