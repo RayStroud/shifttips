@@ -142,7 +142,7 @@
 		font-weight: bold;
 		margin-bottom: 0.5em;
 	}
-	a.link {
+	a.link, span.link {
 		color: $body-bgcolor;
 		border-bottom: 1px solid $body-bgcolor;
 		&:hover {
@@ -292,6 +292,9 @@
 		p {border-left: 2px solid #bbb; padding: 5px 0 5px 8px;}
 		i {font-size: 80%; font-weight: normal;}
 		.filter-group-header {font-size: 100%;}
+		div.size0 {font-size: 60%;}
+		div.size1 {font-size: 80%;}
+		div.size3 {font-size: 140%;}
 	}
 	table.glossary {
 		margin: 1em 0;
@@ -390,9 +393,9 @@
 				font-variant: normal;
 			}
 		}
-		&.size0 {font-size: 6px; td {padding: 0 2px;}}
-		&.size1 {font-size: 75%; td {padding: 0.05em 0.35em;}}
-		&.size3 {font-size: 150%; td {}}
+		&.size0 {font-size: 60%; td {padding: 0 2px;}}
+		&.size1 {font-size: 80%; td {padding: 0.05em 0.35em;}}
+		&.size3 {font-size: 140%; td {}}
 	}
 
 	@media screen and (max-width: 700px) {
@@ -512,31 +515,17 @@
 /* ############################################
 #	ADD/EDIT FORMS
 ############################################ */
-	form.add-form, form.edit-form, form.login-form, form.user-form {
+	form.add-form, form.edit-form, form.login-form {
 		display: flex;
 		display: -webkit-flex;
 		flex-flow: row wrap;
 		-webkit-flex-flow: row wrap;
-		margin: 2% auto 1%;
+		margin: 1em auto;
 		max-width: 600px;
 		input, textarea {width: 100%;}
 	}
-	.form-wrap {
-		display: flex;
-		display: -webkit-flex;
-		flex-flow: row wrap;
-		-webkit-flex-flow: row wrap;
-		justify-content: center;
-		form {
-			flex: 1 1 250px;
-			min-width: 250px;
-			max-width: 400px;
-			margin: 0.8em;
-			//padding: 2%;	Mozilla doesn't like flex and % padding
-			padding: 0.8em;
-			border: 1px solid $border-color;
-			border-radius: 5px;	
-		}
+	form.login-form {
+		max-width: 300px;
 	}
 	.form-group {margin: 1%;}
 	.form-group.half-width {
@@ -622,12 +611,6 @@
 		-webkit-box-shadow: inset 0px 0px 6px -2px $valid-color;
 		-moz-box-shadow: inset 0px 0px 6px -2px $valid-color;
 		box-shadow: inset 0px 0px 6px -2px $valid-color;
-	}
-
-	@media screen and (max-width: 400px) {
-		.form-wrap  {
-			form {width: 100%;}
-		}
 	}
 
 /* ############################################
@@ -745,9 +728,9 @@
 	div.mobile-table {
 		width: 100%;
 		overflow-x: auto;
-		&.size0 {font-size: 6px; td {padding: 0 2px; line-height: 1.6;}}
-		&.size1 {font-size: 75%; td {padding: 0 0.35em; line-height: 1.6;}}
-		&.size3 {font-size: 150%;}
+		&.size0 {font-size: 60%; td {padding: 0 2px; line-height: 1.6;}}
+		&.size1 {font-size: 80%; td {padding: 0 0.35em; line-height: 1.6;}}
+		&.size3 {font-size: 140%;}
 		.header-spacer {line-height: 18px; color: transparent;}	//to make sure headers are at least 16px tall
 	}
 	.summary-table {

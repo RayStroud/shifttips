@@ -103,10 +103,10 @@ h6 {
   font-weight: bold;
   margin-bottom: 0.5em; }
 
-a.link {
+a.link, span.link {
   color: #337ab7;
   border-bottom: 1px solid #337ab7; }
-  a.link:hover {
+  a.link:hover, span.link:hover {
     cursor: pointer;
     color: #63a0d4;
     border-color: #63a0d4; }
@@ -266,6 +266,12 @@ div.centered.button-group {
   font-weight: normal; }
 #about .filter-group-header {
   font-size: 100%; }
+#about div.size0 {
+  font-size: 60%; }
+#about div.size1 {
+  font-size: 80%; }
+#about div.size3 {
+  font-size: 140%; }
 
 table.glossary {
   margin: 1em 0; }
@@ -386,15 +392,15 @@ hr {
     #shifts .week-group .filter-group-header {
       font-variant: normal; }
   #shifts.size0 {
-    font-size: 6px; }
+    font-size: 60%; }
     #shifts.size0 td {
       padding: 0 2px; }
   #shifts.size1 {
-    font-size: 75%; }
+    font-size: 80%; }
     #shifts.size1 td {
       padding: 0.05em 0.35em; }
   #shifts.size3 {
-    font-size: 150%; }
+    font-size: 140%; }
 
 /* ############################################
 #	SHIFT DETAILS
@@ -505,30 +511,18 @@ a.link-button {
 /* ############################################
 #	ADD/EDIT FORMS
 ############################################ */
-form.add-form, form.edit-form, form.login-form, form.user-form {
+form.add-form, form.edit-form, form.login-form {
   display: flex;
   display: -webkit-flex;
   flex-flow: row wrap;
   -webkit-flex-flow: row wrap;
-  margin: 2% auto 1%;
+  margin: 1em auto;
   max-width: 600px; }
-  form.add-form input, form.add-form textarea, form.edit-form input, form.edit-form textarea, form.login-form input, form.login-form textarea, form.user-form input, form.user-form textarea {
+  form.add-form input, form.add-form textarea, form.edit-form input, form.edit-form textarea, form.login-form input, form.login-form textarea {
     width: 100%; }
 
-.form-wrap {
-  display: flex;
-  display: -webkit-flex;
-  flex-flow: row wrap;
-  -webkit-flex-flow: row wrap;
-  justify-content: center; }
-  .form-wrap form {
-    flex: 1 1 250px;
-    min-width: 250px;
-    max-width: 400px;
-    margin: 0.8em;
-    padding: 0.8em;
-    border: 1px solid lightgray;
-    border-radius: 5px; }
+form.login-form {
+  max-width: 300px; }
 
 .form-group {
   margin: 1%; }
@@ -633,9 +627,6 @@ input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid, form.submitted input.ng-val
   -moz-box-shadow: inset 0px 0px 6px -2px green;
   box-shadow: inset 0px 0px 6px -2px green; }
 
-@media screen and (max-width: 400px) {
-  .form-wrap form {
-    width: 100%; } }
 /* ############################################
 #	FILTER FORM
 ############################################ */
@@ -838,17 +829,17 @@ div.mobile-table {
   width: 100%;
   overflow-x: auto; }
   div.mobile-table.size0 {
-    font-size: 6px; }
+    font-size: 60%; }
     div.mobile-table.size0 td {
       padding: 0 2px;
       line-height: 1.6; }
   div.mobile-table.size1 {
-    font-size: 75%; }
+    font-size: 80%; }
     div.mobile-table.size1 td {
       padding: 0 0.35em;
       line-height: 1.6; }
   div.mobile-table.size3 {
-    font-size: 150%; }
+    font-size: 140%; }
   div.mobile-table .header-spacer {
     line-height: 18px;
     color: transparent; }
