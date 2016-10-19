@@ -290,6 +290,7 @@ CREATE TABLE week
 	tipsPercent		DECIMAL(4,1),
 	tipoutPercent	DECIMAL(4,1),
 	hourly			DECIMAL(5,2),
+	earnedPerShift	DECIMAL(5,2),
 
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
@@ -318,6 +319,7 @@ CREATE TABLE month
 	tipsPercent		DECIMAL(4,1),
 	tipoutPercent	DECIMAL(4,1),
 	hourly			DECIMAL(5,2),
+	earnedPerShift	DECIMAL(5,2),
 
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)
