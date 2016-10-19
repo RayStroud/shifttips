@@ -114,7 +114,7 @@
 		text-align: center;
 		font-size: 1.5em;
 		font-weight: bold;
-		margin: 1em 0;
+		margin: 0.5em 0;
 	}
 	h3 {
 		font-family: $sans-font;
@@ -134,6 +134,13 @@
 		font-size: 1.2em;
 		font-weight: bold;
 		margin: 1em 0;
+		&:hover {cursor: pointer; color: $body-bgcolor;}
+	}
+	h6 {
+		font-family: $sans-font;
+		font-size: 1em;
+		font-weight: bold;
+		margin-bottom: 0.5em;
 	}
 	a.link {
 		color: $body-bgcolor;
@@ -203,6 +210,10 @@
 		max-width: 800px;
 		margin: 0 auto;
 	}
+	ul.unordered-list {
+		margin: 0.5em;
+		li {margin: 0.25em 0}
+	}
 	.clickable { position: relative; &:hover { cursor: pointer; border-color: $border-hover-color;} }
 	.link-spanner {
 		position: absolute; 
@@ -217,7 +228,14 @@
 		background-color: transparent !important;
 		border-color: transparent !important;
 	}
-	.centered {text-align: center; .link-button {margin: 0.2em 0.1em;} }
+	div.centered {
+		text-align: center; 
+		margin-left: auto;
+		margin-right: auto;
+		.link-button {
+			margin: 0.2em 0.1em;
+		} 
+	}
 	.reset-spacing { padding: 0 !important; margin: 0 !important;}
 	.full-width {width: 100%;}
 	.icon-red {color: desaturate(red,50%);}
@@ -249,10 +267,22 @@
 /* ############################################
 #	HOME
 ############################################ */
-	table.links {
-		margin: 0 auto;
-		td {padding: 0.3em 0;}
-		.link-button {width: 100%;}
+	div.updates {
+		border: 1px solid $lightgrey;
+		background-color: #ddd;
+		div.update {
+			padding: 0.8em;
+			margin: 0.8em;
+			background-color: darken($lightgrey, 20%);
+		}
+	}
+	div.centered.button-group {
+		padding: 0.5em 0; 
+		margin: 0;
+		.link-button {
+			min-width: 100px;
+			text-align: left;
+		}
 	}
 
 /* ############################################
@@ -261,7 +291,6 @@
 	#about {
 		p {border-left: 2px solid #bbb; padding: 5px 0 5px 8px;}
 		i {font-size: 80%; font-weight: normal;}
-		h5:hover {cursor: pointer; color: $body-bgcolor;}
 		.filter-group-header {font-size: 100%;}
 	}
 	table.glossary {
@@ -708,6 +737,9 @@
 		flex-wrap: wrap;
 		div.mobile-table {
 			flex: 1 1 200px;
+			&.size0 {flex-basis: 75px; .wage-input{max-width: 40px;}}
+			&.size1 {flex-basis: 150px; .wage-input{max-width: 68px;}}
+			&.size3 {flex-basis: 250px; .wage-input{max-width: 110px;}}
 		}
 	}
 	div.mobile-table {

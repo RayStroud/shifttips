@@ -1,6 +1,6 @@
 <?php
 	include 'include/db.php';
-	function shiftRowToObject($row) {
+	function userRowToObject($row) {
 		$object = new stdClass();
 		$object->name 	= $row->name;
 		$object->email 	= $row->email;
@@ -16,7 +16,7 @@
 			$result = $stmt->get_result();
 			while($row = $result->fetch_object())
 			{
-				$objects[] = shiftRowToObject($row);
+				$objects[] = userRowToObject($row);
 			}
 			header('Content-Type: application/json');
 			echo json_encode($objects);
@@ -33,7 +33,7 @@
 			$stmt->bind_param('i', $id);
 			$stmt->execute();
 			$row = $stmt->get_result()->fetch_object();
-			$object = shiftRowToObject($row);
+			$object = userRowToObject($row);
 			header('Content-Type: application/json');
 			echo json_encode($object);
 			$stmt->free_result();

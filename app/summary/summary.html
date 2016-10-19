@@ -13,6 +13,7 @@
 							<button class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.summaryType.name != 'Section'}" ng-click="filtersCtrl.changeSummaryType('section'); ctrl.updateSummaryData();">Section</button>
 							<button class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.summaryType.name != 'Start Time'}" ng-click="filtersCtrl.changeSummaryType('startTime'); ctrl.updateSummaryData();">Start Time</button>
 							<button class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.summaryType.name != 'Cut Order'}" ng-click="filtersCtrl.changeSummaryType('cut'); ctrl.updateSummaryData();">Cut</button>
+							<button class="link-button" ng-class="{'button-inverse': filtersCtrl.filters.summaryType.name != 'Shift Length'}" ng-click="filtersCtrl.changeSummaryType('halfhours'); ctrl.updateSummaryData();">Shift Length</button>
 						</div>
 					</div>
 				</div>
@@ -117,7 +118,7 @@
 					<tbody ng-repeat="summary in ctrl.summaries | orderBy:filtersCtrl.filters.sort.summary:filtersCtrl.filters.reverse.summary | filter:{lunchDinner:filtersCtrl.filters.lunchDinner}" ng-class-even="'alt'">
 						<tr class="{{summary.dayOfWeek | lowercase}}-row {{summary.lunchDinner | lowercase}}-row">
 							<td><span class="ld-cell">{{summary.lunchDinner}}</span></td>
-							<td><span class="day-cell">{{summary.dayOfWeek}}</span>{{summary.section}}{{summary.startTime | timeToDate | date:'h:mma'}}{{summary.cut}} </td>
+							<td><span class="day-cell">{{summary.dayOfWeek}}</span>{{summary.section}}{{summary.startTime | timeToDate | date:'h:mma'}}{{summary.cut}}{{summary.halfhours}} </td>
 							<td><i>avg</i></td>
 							<td ng-if="ctrl.prefs.hours">{{summary.avgHours}}h</td>
 							<td ng-if="ctrl.prefs.earnedWage">{{summary.avgWage | currency:undefined:0}}</td>
