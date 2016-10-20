@@ -813,7 +813,7 @@ div.mobile-table-wrap {
   div.mobile-table-wrap div.mobile-table {
     flex: 1 1 200px; }
     div.mobile-table-wrap div.mobile-table.size0 {
-      flex-basis: 75px; }
+      flex-basis: 120px; }
       div.mobile-table-wrap div.mobile-table.size0 .wage-input {
         max-width: 40px; }
     div.mobile-table-wrap div.mobile-table.size1 {
