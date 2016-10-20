@@ -317,8 +317,8 @@ DROP PROCEDURE IF EXISTS getSummary;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -334,7 +334,7 @@ DROP PROCEDURE IF EXISTS getSummary;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal)) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
@@ -443,8 +443,8 @@ DROP PROCEDURE IF EXISTS getSummaryFiltered;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -460,7 +460,7 @@ DROP PROCEDURE IF EXISTS getSummaryFiltered;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal)) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND UPPER(lunchDinner) LIKE v_lunchDinner
@@ -503,8 +503,8 @@ DROP PROCEDURE IF EXISTS getSummaryByLunchDinner;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -520,7 +520,7 @@ DROP PROCEDURE IF EXISTS getSummaryByLunchDinner;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal)) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -563,8 +563,8 @@ DROP PROCEDURE IF EXISTS getSummaryByDayOfWeek;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -580,7 +580,7 @@ DROP PROCEDURE IF EXISTS getSummaryByDayOfWeek;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal)) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -623,8 +623,8 @@ DROP PROCEDURE IF EXISTS getSummaryBySection;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -640,7 +640,7 @@ DROP PROCEDURE IF EXISTS getSummaryBySection;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal)) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -682,8 +682,8 @@ DROP PROCEDURE IF EXISTS getSummaryByStartTime;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -699,7 +699,7 @@ DROP PROCEDURE IF EXISTS getSummaryByStartTime;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal)) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -741,8 +741,8 @@ DROP PROCEDURE IF EXISTS getSummaryByCut;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -758,7 +758,7 @@ DROP PROCEDURE IF EXISTS getSummaryByCut;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal)) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -800,8 +800,8 @@ DROP PROCEDURE IF EXISTS getSummaryByHalfhours;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -817,7 +817,7 @@ DROP PROCEDURE IF EXISTS getSummaryByHalfhours;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal)) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -844,8 +844,8 @@ DROP PROCEDURE IF EXISTS getSummaryWeekly;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -861,7 +861,7 @@ DROP PROCEDURE IF EXISTS getSummaryWeekly;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal)) / SUM(hours) 	,2)	as hourly
 		FROM week;
 	END //
 	DELIMITER ;
@@ -881,8 +881,8 @@ DROP PROCEDURE IF EXISTS getSummaryMonthly;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -898,7 +898,7 @@ DROP PROCEDURE IF EXISTS getSummaryMonthly;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal)) / SUM(hours) 	,2)	as hourly
 		FROM month;
 	END //
 	DELIMITER ;
