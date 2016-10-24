@@ -676,6 +676,12 @@ form.filter-form {
     font-variant: small-caps;
     font-weight: bold;
     line-height: 1.7; }
+  .filter-group-body .label {
+    font-size: 80%;
+    line-height: 2;
+    font-family: Consolas, Inconsolata, Monaco, "Lucida Console", "DejaVu Sans Mono", monospace;
+    font-variant: small-caps;
+    font-style: italic; }
 
 #filter-buttons .link-button {
   min-width: 60px; }

@@ -131,6 +131,10 @@ angular.module('shiftTips')
 					"tables"	: true	,
 					"other"		: true
 				}
+			},
+			"rowType": {
+				"summary"	: "avg",
+				"period"	: "tot"
 			}
 		};
 	};
@@ -1051,6 +1055,15 @@ angular.module('shiftTips')
 			//set the 'all' to null and toggle the specific type
 			ctrl.filters.collapsed[page].all = null;
 			ctrl.filters.collapsed[page][type] = !ctrl.filters.collapsed[page][type];
+		}
+		ctrl.updateFilters();
+	};
+
+	ctrl.toggleRowType = function(page, rowType) {
+		if (ctrl.filters.rowType[page] == rowType) {
+			ctrl.filters.rowType[page] = "all";
+		} else {
+			ctrl.filters.rowType[page] = rowType;
 		}
 		ctrl.updateFilters();
 	};

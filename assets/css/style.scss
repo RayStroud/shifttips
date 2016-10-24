@@ -665,6 +665,13 @@
 			font-weight: bold;
 			line-height: 1.7;
 		}
+		.label {
+			font-size: 80%;
+			line-height: 2;
+			font-family: $mono-font;
+			font-variant: small-caps;
+			font-style: italic;
+		}
 	}
 	#filter-buttons .link-button {min-width: 60px;}
 	#filter-lunch-dinner label {min-width: 38px;}
