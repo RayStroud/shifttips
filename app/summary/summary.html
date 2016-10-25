@@ -17,6 +17,15 @@
 						</div>
 					</div>
 				</div>
+				<div class="filter-group" id="filter-summary-rows">
+					<div class="filter-group-wrap">
+						<div class="filter-group-header">Row Type</div>
+						<div class="filter-group-body">
+							<div class="link-button label" ng-class="{'button-inverse': filtersCtrl.filters.rowType.summary != 'tot'}" ng-click="filtersCtrl.toggleRowType('summary','tot')">TOT</div>
+							<div class="link-button label" ng-class="{'button-inverse': filtersCtrl.filters.rowType.summary != 'avg'}" ng-click="filtersCtrl.toggleRowType('summary','avg')">AVG</div>
+						</div>
+					</div>
+				</div>
 				<div class="filter-group" id="filter-visible">
 					<div class="filter-group-wrap">
 						<div class="filter-group-header">Filters</div>
@@ -32,15 +41,6 @@
 								</span>
 							</div>
 							<div class="link-button button-inverse" ng-click="filtersCtrl.resetFilters()"><span class="fa fa-fw fa-undo"></span></div>
-						</div>
-					</div>
-				</div>
-				<div ng-show="filtersCtrl.filters.visible" class="filter-group" id="filter-summary-rows">
-					<div class="filter-group-wrap">
-						<div class="filter-group-header">Row Type</div>
-						<div class="filter-group-body">
-							<div class="link-button label" ng-class="{'button-inverse': filtersCtrl.filters.rowType.summary != 'tot'}" ng-click="filtersCtrl.toggleRowType('summary','tot')">TOT</div>
-							<div class="link-button label" ng-class="{'button-inverse': filtersCtrl.filters.rowType.summary != 'avg'}" ng-click="filtersCtrl.toggleRowType('summary','avg')">AVG</div>
 						</div>
 					</div>
 				</div>

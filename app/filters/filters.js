@@ -1,7 +1,7 @@
 angular.module('shiftTips')
 .service('filterService', ['$http', 'backend', 'localStorageService', function($http, backend, localStorageService) {
 	var ctrl = this;
-	ctrl.dataVersion = '2016-10-19';
+	ctrl.dataVersion = '2016-10-25';
 
 	//constants for list sort and summary type
 	ctrl.listSortValues = { 
@@ -125,10 +125,11 @@ angular.module('shiftTips')
 					"login"		: true	,
 					"crud"		: true	,
 					"glossary"	: true	,
+					"tables"	: true	,
 					"filters"	: true	,
 					"prefs"		: true	,
 					"duebacks"	: true	,
-					"tables"	: true	,
+					"summaries"	: true	,
 					"other"		: true
 				}
 			},
@@ -1019,10 +1020,11 @@ angular.module('shiftTips')
 				ctrl.filters.collapsed.about.login = true;
 				ctrl.filters.collapsed.about.crud = true;
 				ctrl.filters.collapsed.about.glossary = true;
+				ctrl.filters.collapsed.about.tables = true;
 				ctrl.filters.collapsed.about.filters = true;
 				ctrl.filters.collapsed.about.prefs = true;
 				ctrl.filters.collapsed.about.duebacks = true;
-				ctrl.filters.collapsed.about.tables = true;
+				ctrl.filters.collapsed.about.summaries = true;
 				ctrl.filters.collapsed.about.other = true;
 			}
 		}
@@ -1044,10 +1046,11 @@ angular.module('shiftTips')
 				ctrl.filters.collapsed.about.login = false;
 				ctrl.filters.collapsed.about.crud = false;
 				ctrl.filters.collapsed.about.glossary = false;
+				ctrl.filters.collapsed.about.tables = false;
 				ctrl.filters.collapsed.about.filters = false;
 				ctrl.filters.collapsed.about.prefs = false;
 				ctrl.filters.collapsed.about.duebacks = false;
-				ctrl.filters.collapsed.about.tables = false;
+				ctrl.filters.collapsed.about.summaries = false;
 				ctrl.filters.collapsed.about.other = false;
 			}
 		}
