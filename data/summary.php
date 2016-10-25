@@ -206,23 +206,31 @@
 				$week->endWeek 			= $row->endWeek;
 				$week->shifts 			= (int)		$row->shifts;
 
-				$week->campHours 		= (float)	$row->campHours;
-				$week->sales 			= (float)	$row->sales;
-				$week->tipout 			= (int)		$row->tipout;
-				$week->transfers 		= (int)		$row->transfers;
-				$week->covers 			= (int)		$row->covers;
+				$week->avgHours 		= (float) 	$row->avgHours;
+				$week->totHours 		= (float) 	$row->totHours;
+				$week->avgWage 			= (float) 	$row->avgWage;
+				$week->totWage 			= (float) 	$row->totWage;
+				$week->avgTips 			= (float) 	$row->avgTips;
+				$week->totTips 			= (int) 	$row->totTips;
+				$week->avgEarned 		= (float) 	$row->avgEarned;
+				$week->totEarned 		= (float) 	$row->totEarned;
+				$week->avgTipout 		= (float) 	$row->avgTipout;
+				$week->totTipout 		= (int) 	$row->totTipout;
+				$week->avgTransfers 	= (float) 	$row->avgTransfers;
+				$week->totTransfers 	= (int) 	$row->totTransfers;
+				$week->avgSales 		= (float) 	$row->avgSales;
+				$week->totSales 		= (float) 	$row->totSales;
+				$week->avgCovers 		= (float) 	$row->avgCovers;
+				$week->totCovers 		= (int) 	$row->totCovers;
+				$week->avgCampHours 	= (float) 	$row->avgCampHours;
+				$week->totCampHours 	= (float) 	$row->totCampHours;
+				$week->salesPerHour 	= (float) 	$row->salesPerHour;
+				$week->salesPerCover 	= (float) 	$row->salesPerCover;
+				$week->tipsPercent 		= (float) 	$row->tipsPercent;
+				$week->tipoutPercent 	= (float) 	$row->tipoutPercent;
+				$week->tipsVsWage 		= (int) 	$row->tipsVsWage;
+				$week->hourly 			= (float) 	$row->hourly;
 
-				$week->hours 			= (float)	$row->hours;
-				$week->earnedWage 		= (float)	$row->earnedWage;
-				$week->earnedTips 		= (int)		$row->earnedTips;
-				$week->earnedTotal 		= (float)	$row->earnedTotal;
-
-				$week->tipsVsWage 		= (int)		$row->tipsVsWage;
-				$week->salesPerHour 	= (float)	$row->salesPerHour;
-				$week->salesPerCover 	= (float)	$row->salesPerCover;
-				$week->tipsPercent 		= (float)	$row->tipsPercent;
-				$week->tipoutPercent 	= (float)	$row->tipoutPercent;
-				$week->hourly 			= (float)	$row->hourly;
 				$return->list[] = $week;
 			}
 			$stmt->close();
@@ -262,23 +270,31 @@
 				$month->monthname 		= substr($row->monthname,0,3);
 				$month->shifts 			= (int)		$row->shifts;
 
-				$month->campHours 		= (float)	$row->campHours;
-				$month->sales 			= (float)	$row->sales;
-				$month->tipout 			= (int)		$row->tipout;
-				$month->transfers 		= (int)		$row->transfers;
-				$month->covers 			= (int)		$row->covers;
+				$month->avgHours 		= (float) 	$row->avgHours;
+				$month->totHours 		= (float) 	$row->totHours;
+				$month->avgWage 		= (float) 	$row->avgWage;
+				$month->totWage 		= (float) 	$row->totWage;
+				$month->avgTips 		= (float) 	$row->avgTips;
+				$month->totTips 		= (int) 	$row->totTips;
+				$month->avgEarned 		= (float) 	$row->avgEarned;
+				$month->totEarned 		= (float) 	$row->totEarned;
+				$month->avgTipout 		= (float) 	$row->avgTipout;
+				$month->totTipout 		= (int) 	$row->totTipout;
+				$month->avgTransfers 	= (float) 	$row->avgTransfers;
+				$month->totTransfers 	= (int) 	$row->totTransfers;
+				$month->avgSales 		= (float) 	$row->avgSales;
+				$month->totSales 		= (float) 	$row->totSales;
+				$month->avgCovers 		= (float) 	$row->avgCovers;
+				$month->totCovers 		= (int) 	$row->totCovers;
+				$month->avgCampHours 	= (float) 	$row->avgCampHours;
+				$month->totCampHours 	= (float) 	$row->totCampHours;
+				$month->salesPerHour 	= (float) 	$row->salesPerHour;
+				$month->salesPerCover 	= (float) 	$row->salesPerCover;
+				$month->tipsPercent 	= (float) 	$row->tipsPercent;
+				$month->tipoutPercent 	= (float) 	$row->tipoutPercent;
+				$month->tipsVsWage 		= (int) 	$row->tipsVsWage;
+				$month->hourly 			= (float) 	$row->hourly;
 
-				$month->hours 			= (float)	$row->hours;
-				$month->earnedWage 		= (float)	$row->earnedWage;
-				$month->earnedTips 		= (int)		$row->earnedTips;
-				$month->earnedTotal 	= (float)	$row->earnedTotal;
-
-				$month->tipsVsWage 		= (int)		$row->tipsVsWage;
-				$month->salesPerHour 	= (float)	$row->salesPerHour;
-				$month->salesPerCover 	= (float)	$row->salesPerCover;
-				$month->tipsPercent 	= (float)	$row->tipsPercent;
-				$month->tipoutPercent 	= (float)	$row->tipoutPercent;
-				$month->hourly 			= (float)	$row->hourly;
 				$return->list[] = $month;
 			}
 			$stmt->close();

@@ -317,8 +317,8 @@ DROP PROCEDURE IF EXISTS getSummary;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -334,7 +334,7 @@ DROP PROCEDURE IF EXISTS getSummary;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
@@ -443,8 +443,8 @@ DROP PROCEDURE IF EXISTS getSummaryFiltered;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -460,7 +460,7 @@ DROP PROCEDURE IF EXISTS getSummaryFiltered;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND UPPER(lunchDinner) LIKE v_lunchDinner
@@ -503,8 +503,8 @@ DROP PROCEDURE IF EXISTS getSummaryByLunchDinner;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -520,7 +520,7 @@ DROP PROCEDURE IF EXISTS getSummaryByLunchDinner;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -563,8 +563,8 @@ DROP PROCEDURE IF EXISTS getSummaryByDayOfWeek;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -580,7 +580,7 @@ DROP PROCEDURE IF EXISTS getSummaryByDayOfWeek;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -623,8 +623,8 @@ DROP PROCEDURE IF EXISTS getSummaryBySection;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -640,7 +640,7 @@ DROP PROCEDURE IF EXISTS getSummaryBySection;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -682,8 +682,8 @@ DROP PROCEDURE IF EXISTS getSummaryByStartTime;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -699,7 +699,7 @@ DROP PROCEDURE IF EXISTS getSummaryByStartTime;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -741,8 +741,8 @@ DROP PROCEDURE IF EXISTS getSummaryByCut;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -758,7 +758,7 @@ DROP PROCEDURE IF EXISTS getSummaryByCut;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -800,8 +800,8 @@ DROP PROCEDURE IF EXISTS getSummaryByHalfhours;
 			ROUND(SUM(earnedWage)	,0) as totWage,
 			ROUND(AVG(earnedTips)	,2) as avgTips,
 			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
 			ROUND(AVG(tipout)		,2) as avgTipout,
 			ROUND(SUM(tipout)		,0) as totTipout,
 			ROUND(AVG(transfers)	,2) as avgTransfers,
@@ -817,7 +817,7 @@ DROP PROCEDURE IF EXISTS getSummaryByHalfhours;
 			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
 			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
 			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND user_id LIKE v_user_id
@@ -832,80 +832,6 @@ DROP PROCEDURE IF EXISTS getSummaryByHalfhours;
 DROP PROCEDURE IF EXISTS getSummaryWeekly;
 	DELIMITER //
 	CREATE PROCEDURE getSummaryWeekly (p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
-	BEGIN
-		CALL calculateWeeks(p_user_id, p_dateFrom, p_dateTo, p_lunchDinner);
-		SELECT
-			COUNT(id) as count,
-			ROUND(AVG(shifts)		,1) as avgShifts,
-			ROUND(SUM(shifts)		,0) as totShifts,
-			ROUND(AVG(hours)		,2) as avgHours,
-			ROUND(SUM(hours)		,0) as totHours,
-			ROUND(AVG(earnedWage)	,2) as avgWage,
-			ROUND(SUM(earnedWage)	,0) as totWage,
-			ROUND(AVG(earnedTips)	,2) as avgTips,
-			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
-			ROUND(AVG(tipout)		,2) as avgTipout,
-			ROUND(SUM(tipout)		,0) as totTipout,
-			ROUND(AVG(transfers)	,2) as avgTransfers,
-			ROUND(SUM(transfers)	,0) as totTransfers,
-			ROUND(AVG(sales)		,0) as avgSales,
-			ROUND(SUM(sales)		,0) as totSales,
-			ROUND(AVG(covers)		,1) as avgCovers,
-			ROUND(SUM(covers)		,0) as totCovers,
-			ROUND(AVG(campHours)	,2) as avgCampHours,
-			ROUND(SUM(campHours)	,2) as totCampHours,
-			ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
-			ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
-			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
-			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
-			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
-		FROM week;
-	END //
-	DELIMITER ;
-
-DROP PROCEDURE IF EXISTS getSummaryMonthly;
-	DELIMITER //
-	CREATE PROCEDURE getSummaryMonthly (p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
-	BEGIN
-		CALL calculateMonths(p_user_id, p_dateFrom, p_dateTo, p_lunchDinner);
-		SELECT
-			COUNT(id) as count,
-			ROUND(AVG(shifts)		,1) as avgShifts,
-			ROUND(SUM(shifts)		,0) as totShifts,
-			ROUND(AVG(hours)		,2) as avgHours,
-			ROUND(SUM(hours)		,0) as totHours,
-			ROUND(AVG(earnedWage)	,2) as avgWage,
-			ROUND(SUM(earnedWage)	,0) as totWage,
-			ROUND(AVG(earnedTips)	,2) as avgTips,
-			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedWage + earnedTips)	,2) as avgEarned,
-			ROUND(SUM(earnedWage + earnedTips)	,0) as totEarned,
-			ROUND(AVG(tipout)		,2) as avgTipout,
-			ROUND(SUM(tipout)		,0) as totTipout,
-			ROUND(AVG(transfers)	,2) as avgTransfers,
-			ROUND(SUM(transfers)	,0) as totTransfers,
-			ROUND(AVG(sales)		,0) as avgSales,
-			ROUND(SUM(sales)		,0) as totSales,
-			ROUND(AVG(covers)		,1) as avgCovers,
-			ROUND(SUM(covers)		,0) as totCovers,
-			ROUND(AVG(campHours)	,2) as avgCampHours,
-			ROUND(SUM(campHours)	,2) as totCampHours,
-			ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
-			ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
-			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
-			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
-			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND((SUM(earnedWage) + SUM(earnedTips)) / SUM(hours) 	,2)	as hourly
-		FROM month;
-	END //
-	DELIMITER ;
-
-DROP PROCEDURE IF EXISTS calculateWeeks;
-	DELIMITER //
-	CREATE PROCEDURE calculateWeeks(p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 	BEGIN
 		-- VARCHAR(11) is highest int value, which is what a user_id can be
 		DECLARE v_user_id		VARCHAR(11);
@@ -936,36 +862,250 @@ DROP PROCEDURE IF EXISTS calculateWeeks;
 				SET v_lunchDinner = '%';
 		END IF;
 
-		TRUNCATE TABLE week;
-		INSERT INTO week (yearweek, startWeek, endWeek, shifts, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly)
+		DROP TEMPORARY TABLE IF EXISTS tmp_week;
+		CREATE TEMPORARY TABLE tmp_week
+		(
+			yearweek		CHAR(6),
+			startWeek		DATE,
+			endWeek			DATE,
+			shifts			INT,
+
+			avgHours 		DECIMAL(5,2),
+			totHours 		DECIMAL(7,2),
+			avgWage 		DECIMAL(5,2),
+			totWage 		DECIMAL(7,2),
+			avgTips 		DECIMAL(5,2),
+			totTips 		INT,
+			avgEarned 		DECIMAL(5,2),
+			totEarned 		INT,
+			avgTipout 		DECIMAL(5,2),
+			totTipout 		INT,
+			avgTransfers 	DECIMAL(5,2),
+			totTransfers 	INT,
+			avgSales 		DECIMAL(7,2),
+			totSales 		DECIMAL(10,2),
+			avgCovers 		DECIMAL(5,2),
+			totCovers 		INT,
+			avgCampHours 	DECIMAL(4,2),
+			totCampHours 	DECIMAL(8,2),
+			salesPerHour 	DECIMAL(7,2),
+			salesPerCover 	DECIMAL(7,2),
+			tipsPercent 	DECIMAL(4,1),
+			tipoutPercent 	DECIMAL(4,1),
+			tipsVsWage 		INT,
+			hourly 			DECIMAL(5,2),
+
+			id INT NOT NULL AUTO_INCREMENT,
+			PRIMARY KEY (id)
+		);
+
+		INSERT INTO tmp_week (yearweek, startWeek, endWeek, shifts, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgEarned, totEarned, avgTipout, totTipout, avgTransfers, totTransfers, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourly)
 		SELECT 
 			YEARWEEK(date, 3) as yearweek, 
 			STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Monday'), '%x%v %W') as startWeek,
 			STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Sunday'), '%x%v %W') as endWeek,
 			COUNT(id) AS shifts,
 
-			SUM(campHours) AS campHours,
-			SUM(sales) AS sales,
-			SUM(tipout) AS tipout,
-			SUM(transfers) AS transfers,
-			SUM(covers) AS covers,
-
-			SUM(hours) AS hours,
-			SUM(earnedWage) AS earnedWage,
-			SUM(earnedTips) AS earnedTips,
-			SUM(earnedTotal) AS earnedTotal,
-
-			SUM(earnedTips) * 100 / SUM(earnedWage) AS tipsVsWage,
-			SUM(sales) / SUM(hours)  AS salesPerHour,
-			SUM(sales) / SUM(covers) AS salesPerCover,
-			SUM(earnedTips) * 100 / SUM(sales) AS tipsPercent,
-			SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
-			SUM(earnedTotal) / SUM(hours) AS hourly
+			ROUND(AVG(hours)		,2) as avgHours,
+			ROUND(SUM(hours)		,0) as totHours,
+			ROUND(AVG(earnedWage)	,2) as avgWage,
+			ROUND(SUM(earnedWage)	,0) as totWage,
+			ROUND(AVG(earnedTips)	,2) as avgTips,
+			ROUND(SUM(earnedTips)	,0) as totTips,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
+			ROUND(AVG(tipout)		,2) as avgTipout,
+			ROUND(SUM(tipout)		,0) as totTipout,
+			ROUND(AVG(transfers)	,2) as avgTransfers,
+			ROUND(SUM(transfers)	,0) as totTransfers,
+			ROUND(AVG(sales)		,0) as avgSales,
+			ROUND(SUM(sales)		,0) as totSales,
+			ROUND(AVG(covers)		,1) as avgCovers,
+			ROUND(SUM(covers)		,0) as totCovers,
+			ROUND(AVG(campHours)	,2) as avgCampHours,
+			ROUND(SUM(campHours)	,2) as totCampHours,
+			ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+			ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE YEARWEEK(date, 3) BETWEEN YEARWEEK(v_dateFrom, 3) AND YEARWEEK(v_dateTo, 3)
 			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
 			AND user_id LIKE v_user_id
 		GROUP BY YEARWEEK(date, 3);
+
+		SELECT
+			COUNT(id) as count,
+			ROUND(AVG(shifts)		,1) as avgShifts,
+			ROUND(SUM(shifts)		,0) as totShifts,
+			ROUND(AVG(totHours)		,2) as avgHours,
+			ROUND(SUM(totHours)		,0) as totHours,
+			ROUND(AVG(totWage)		,2) as avgWage,
+			ROUND(SUM(totWage)		,0) as totWage,
+			ROUND(AVG(totTips)		,2) as avgTips,
+			ROUND(SUM(totTips)		,0) as totTips,
+			ROUND(AVG(totEarned)	,2) as avgEarned,
+			ROUND(SUM(totEarned)	,0) as totEarned,
+			ROUND(AVG(totTipout)	,2) as avgTipout,
+			ROUND(SUM(totTipout)	,0) as totTipout,
+			ROUND(AVG(totTransfers)	,2) as avgTransfers,
+			ROUND(SUM(totTransfers)	,0) as totTransfers,
+			ROUND(AVG(totSales)		,0) as avgSales,
+			ROUND(SUM(totSales)		,0) as totSales,
+			ROUND(AVG(totCovers)	,1) as avgCovers,
+			ROUND(SUM(totCovers)	,0) as totCovers,
+			ROUND(AVG(totCampHours)	,2) as avgCampHours,
+			ROUND(SUM(totCampHours)	,2) as totCampHours,
+			ROUND(SUM(totSales) / SUM(totHours)			,2)	as salesPerHour,
+			ROUND(SUM(totSales) / SUM(totCovers)		,2)	as salesPerCover,
+			ROUND(SUM(totTips) * 100 / SUM(totSales) 	,1)	as tipsPercent,
+			ROUND(SUM(totTipout) * 100 / SUM(totSales) 	,1)	as tipoutPercent,
+			ROUND(SUM(totTips) * 100 / SUM(totWage)		,0)	as tipsVsWage,
+			ROUND(SUM(totEarned) / SUM(totHours) 		,2)	as hourly
+		FROM tmp_week;
+	END //
+	DELIMITER ;
+
+DROP PROCEDURE IF EXISTS getSummaryMonthly;
+	DELIMITER //
+	CREATE PROCEDURE getSummaryMonthly (p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+	BEGIN
+		-- VARCHAR(11) is highest int value, which is what a user_id can be
+		DECLARE v_user_id		VARCHAR(11);
+		DECLARE v_dateFrom		DATE;
+		DECLARE v_dateTo		DATE;
+		DECLARE v_lunchDinner	CHAR(1);
+
+		IF (p_user_id IS NULL)
+			THEN SET v_user_id := '%';
+			ELSE SET v_user_id := p_user_id;
+		END IF;
+
+		-- get first day of the month
+		IF (p_dateFrom IS NULL)
+			THEN SET v_dateFrom := '1000-01-01';
+			ELSE SET v_dateFrom := SUBDATE(p_dateFrom, (DAY(p_dateFrom)-1));
+		END IF;
+
+		-- get last day of the month
+		IF (p_dateTo IS NULL)
+			THEN SET v_dateTo := '9999-12-31';
+			ELSE SET v_dateTo := LAST_DAY(p_dateTo);
+		END IF;
+
+		IF (p_lunchDinner = 'L') 
+			THEN SET v_lunchDinner = 'L';
+			ELSEIF (p_lunchDinner = 'D') 
+				THEN SET v_lunchDinner = 'D';
+			ELSE 
+				SET v_lunchDinner = '%';
+		END IF;
+
+		DROP TEMPORARY TABLE IF EXISTS tmp_month;
+		CREATE TEMPORARY TABLE tmp_month
+		(
+			year			CHAR(4),
+			month			CHAR(2),
+			monthname		CHAR(3),
+			shifts			INT,
+
+			avgHours 		DECIMAL(5,2),
+			totHours 		DECIMAL(7,2),
+			avgWage 		DECIMAL(5,2),
+			totWage 		DECIMAL(7,2),
+			avgTips 		DECIMAL(5,2),
+			totTips 		INT,
+			avgEarned 		DECIMAL(5,2),
+			totEarned 		INT,
+			avgTipout 		DECIMAL(5,2),
+			totTipout 		INT,
+			avgTransfers 	DECIMAL(5,2),
+			totTransfers 	INT,
+			avgSales 		DECIMAL(7,2),
+			totSales 		DECIMAL(10,2),
+			avgCovers 		DECIMAL(5,2),
+			totCovers 		INT,
+			avgCampHours 	DECIMAL(4,2),
+			totCampHours 	DECIMAL(8,2),
+			salesPerHour 	DECIMAL(7,2),
+			salesPerCover 	DECIMAL(7,2),
+			tipsPercent 	DECIMAL(4,1),
+			tipoutPercent 	DECIMAL(4,1),
+			tipsVsWage 		INT,
+			hourly 			DECIMAL(5,2),
+
+			id INT NOT NULL AUTO_INCREMENT,
+			PRIMARY KEY (id)
+		);
+
+		INSERT INTO tmp_month (year, month, monthname, shifts, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgEarned, totEarned, avgTipout, totTipout, avgTransfers, totTransfers, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourly)
+		SELECT 
+			YEAR(DATE) AS year,
+			MONTH(date) as month,
+			MONTHNAME(date) as monthname,
+			COUNT(id) AS shifts,
+
+			ROUND(AVG(hours)		,2) as avgHours,
+			ROUND(SUM(hours)		,0) as totHours,
+			ROUND(AVG(earnedWage)	,2) as avgWage,
+			ROUND(SUM(earnedWage)	,0) as totWage,
+			ROUND(AVG(earnedTips)	,2) as avgTips,
+			ROUND(SUM(earnedTips)	,0) as totTips,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
+			ROUND(AVG(tipout)		,2) as avgTipout,
+			ROUND(SUM(tipout)		,0) as totTipout,
+			ROUND(AVG(transfers)	,2) as avgTransfers,
+			ROUND(SUM(transfers)	,0) as totTransfers,
+			ROUND(AVG(sales)		,0) as avgSales,
+			ROUND(SUM(sales)		,0) as totSales,
+			ROUND(AVG(covers)		,1) as avgCovers,
+			ROUND(SUM(covers)		,0) as totCovers,
+			ROUND(AVG(campHours)	,2) as avgCampHours,
+			ROUND(SUM(campHours)	,2) as totCampHours,
+			ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+			ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
+		FROM shift
+		WHERE date BETWEEN v_dateFrom AND v_dateTo
+			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+			AND user_id LIKE v_user_id
+		GROUP BY YEAR(date), MONTH(date);
+
+		SELECT
+			COUNT(id) as count,
+			ROUND(AVG(shifts)		,1) as avgShifts,
+			ROUND(SUM(shifts)		,0) as totShifts,
+			ROUND(AVG(totHours)		,2) as avgHours,
+			ROUND(SUM(totHours)		,0) as totHours,
+			ROUND(AVG(totWage)		,2) as avgWage,
+			ROUND(SUM(totWage)		,0) as totWage,
+			ROUND(AVG(totTips)		,2) as avgTips,
+			ROUND(SUM(totTips)		,0) as totTips,
+			ROUND(AVG(totEarned)	,2) as avgEarned,
+			ROUND(SUM(totEarned)	,0) as totEarned,
+			ROUND(AVG(totTipout)	,2) as avgTipout,
+			ROUND(SUM(totTipout)	,0) as totTipout,
+			ROUND(AVG(totTransfers)	,2) as avgTransfers,
+			ROUND(SUM(totTransfers)	,0) as totTransfers,
+			ROUND(AVG(totSales)		,0) as avgSales,
+			ROUND(SUM(totSales)		,0) as totSales,
+			ROUND(AVG(totCovers)	,1) as avgCovers,
+			ROUND(SUM(totCovers)	,0) as totCovers,
+			ROUND(AVG(totCampHours)	,2) as avgCampHours,
+			ROUND(SUM(totCampHours)	,2) as totCampHours,
+			ROUND(SUM(totSales) / SUM(totHours)			,2)	as salesPerHour,
+			ROUND(SUM(totSales) / SUM(totCovers)		,2)	as salesPerCover,
+			ROUND(SUM(totTips) * 100 / SUM(totSales) 	,1)	as tipsPercent,
+			ROUND(SUM(totTipout) * 100 / SUM(totSales) 	,1)	as tipoutPercent,
+			ROUND(SUM(totTips) * 100 / SUM(totWage)		,0)	as tipsVsWage,
+			ROUND(SUM(totEarned) / SUM(totHours) 		,2)	as hourly
+		FROM tmp_month;
 	END //
 	DELIMITER ;
 
@@ -1008,96 +1148,35 @@ DROP PROCEDURE IF EXISTS getWeeks;
 			STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Sunday'), '%x%v %W') as endWeek,
 			COUNT(id) AS shifts,
 
-			SUM(campHours) AS campHours,
-			SUM(sales) AS sales,
-			SUM(tipout) AS tipout,
-			SUM(transfers) AS transfers,
-			SUM(covers) AS covers,
-
-			SUM(hours) AS hours,
-			SUM(earnedWage) AS earnedWage,
-			SUM(earnedTips) AS earnedTips,
-			SUM(earnedTotal) AS earnedTotal,
-
-			SUM(earnedTips) * 100 / SUM(earnedWage) AS tipsVsWage,
-			SUM(sales) / SUM(hours)  AS salesPerHour,
-			SUM(sales) / SUM(covers) AS salesPerCover,
-			SUM(earnedTips) * 100 / SUM(sales) AS tipsPercent,
-			SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
-			SUM(earnedTotal) / SUM(hours) AS hourly
+			ROUND(AVG(hours)		,2) as avgHours,
+			ROUND(SUM(hours)		,0) as totHours,
+			ROUND(AVG(earnedWage)	,2) as avgWage,
+			ROUND(SUM(earnedWage)	,0) as totWage,
+			ROUND(AVG(earnedTips)	,2) as avgTips,
+			ROUND(SUM(earnedTips)	,0) as totTips,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
+			ROUND(AVG(tipout)		,2) as avgTipout,
+			ROUND(SUM(tipout)		,0) as totTipout,
+			ROUND(AVG(transfers)	,2) as avgTransfers,
+			ROUND(SUM(transfers)	,0) as totTransfers,
+			ROUND(AVG(sales)		,0) as avgSales,
+			ROUND(SUM(sales)		,0) as totSales,
+			ROUND(AVG(covers)		,1) as avgCovers,
+			ROUND(SUM(covers)		,0) as totCovers,
+			ROUND(AVG(campHours)	,2) as avgCampHours,
+			ROUND(SUM(campHours)	,2) as totCampHours,
+			ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+			ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE YEARWEEK(date, 3) BETWEEN YEARWEEK(v_dateFrom, 3) AND YEARWEEK(v_dateTo, 3)
 			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
 			AND user_id LIKE v_user_id
 		GROUP BY YEARWEEK(date, 3);
-	END //
-	DELIMITER ;
-
-DROP PROCEDURE IF EXISTS calculateMonths;
-	DELIMITER //
-	CREATE PROCEDURE calculateMonths(p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
-	BEGIN
-		-- VARCHAR(11) is highest int value, which is what a user_id can be
-		DECLARE v_user_id		VARCHAR(11);
-		DECLARE v_dateFrom		DATE;
-		DECLARE v_dateTo		DATE;
-		DECLARE v_lunchDinner	CHAR(1);
-
-		IF (p_user_id IS NULL)
-			THEN SET v_user_id := '%';
-			ELSE SET v_user_id := p_user_id;
-		END IF;
-
-		-- get first day of the month
-		IF (p_dateFrom IS NULL)
-			THEN SET v_dateFrom := '1000-01-01';
-			ELSE SET v_dateFrom := SUBDATE(p_dateFrom, (DAY(p_dateFrom)-1));
-		END IF;
-
-		-- get last day of the month
-		IF (p_dateTo IS NULL)
-			THEN SET v_dateTo := '9999-12-31';
-			ELSE SET v_dateTo := LAST_DAY(p_dateTo);
-		END IF;
-
-		IF (p_lunchDinner = 'L') 
-			THEN SET v_lunchDinner = 'L';
-			ELSEIF (p_lunchDinner = 'D') 
-				THEN SET v_lunchDinner = 'D';
-			ELSE 
-				SET v_lunchDinner = '%';
-		END IF;
-
-		TRUNCATE TABLE month;
-		INSERT INTO month (year, month, monthname, shifts, campHours, sales, tipout, transfers, covers, hours, earnedWage, earnedTips, earnedTotal, tipsVsWage, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, hourly)
-		SELECT 
-			YEAR(DATE) AS year,
-			MONTH(date) as month,
-			MONTHNAME(date) as monthname,
-			COUNT(id) AS shifts,
-
-			SUM(campHours) AS campHours,
-			SUM(sales) AS sales,
-			SUM(tipout) AS tipout,
-			SUM(transfers) AS transfers,
-			SUM(covers) AS covers,
-
-			SUM(hours) AS hours,
-			SUM(earnedWage) AS earnedWage,
-			SUM(earnedTips) AS earnedTips,
-			SUM(earnedTotal) AS earnedTotal,
-
-			SUM(earnedTips) * 100 / SUM(earnedWage) AS tipsVsWage,
-			SUM(sales) / SUM(hours)  AS salesPerHour,
-			SUM(sales) / SUM(covers) AS salesPerCover,
-			SUM(earnedTips) * 100 / SUM(sales) AS tipsPercent,
-			SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
-			SUM(earnedTotal) / SUM(hours) AS hourly
-		FROM shift
-		WHERE date BETWEEN v_dateFrom AND v_dateTo
-			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
-			AND user_id LIKE v_user_id
-		GROUP BY YEAR(date), MONTH(date);
 	END //
 	DELIMITER ;
 
@@ -1142,23 +1221,30 @@ DROP PROCEDURE IF EXISTS getMonths;
 			MONTHNAME(date) as monthname,
 			COUNT(id) AS shifts,
 
-			SUM(campHours) AS campHours,
-			SUM(sales) AS sales,
-			SUM(tipout) AS tipout,
-			SUM(transfers) AS transfers,
-			SUM(covers) AS covers,
-
-			SUM(hours) AS hours,
-			SUM(earnedWage) AS earnedWage,
-			SUM(earnedTips) AS earnedTips,
-			SUM(earnedTotal) AS earnedTotal,
-
-			SUM(earnedTips) * 100 / SUM(earnedWage) AS tipsVsWage,
-			SUM(sales) / SUM(hours)  AS salesPerHour,
-			SUM(sales) / SUM(covers) AS salesPerCover,
-			SUM(earnedTips) * 100 / SUM(sales) AS tipsPercent,
-			SUM(tipout) * 100 / SUM(sales) AS tipoutPercent,
-			SUM(earnedTotal) / SUM(hours) AS hourly
+			ROUND(AVG(hours)		,2) as avgHours,
+			ROUND(SUM(hours)		,0) as totHours,
+			ROUND(AVG(earnedWage)	,2) as avgWage,
+			ROUND(SUM(earnedWage)	,0) as totWage,
+			ROUND(AVG(earnedTips)	,2) as avgTips,
+			ROUND(SUM(earnedTips)	,0) as totTips,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
+			ROUND(AVG(tipout)		,2) as avgTipout,
+			ROUND(SUM(tipout)		,0) as totTipout,
+			ROUND(AVG(transfers)	,2) as avgTransfers,
+			ROUND(SUM(transfers)	,0) as totTransfers,
+			ROUND(AVG(sales)		,0) as avgSales,
+			ROUND(SUM(sales)		,0) as totSales,
+			ROUND(AVG(covers)		,1) as avgCovers,
+			ROUND(SUM(covers)		,0) as totCovers,
+			ROUND(AVG(campHours)	,2) as avgCampHours,
+			ROUND(SUM(campHours)	,2) as totCampHours,
+			ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+			ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
 		FROM shift
 		WHERE date BETWEEN v_dateFrom AND v_dateTo
 			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
@@ -1203,164 +1289,164 @@ DROP PROCEDURE IF EXISTS login;
 	DELIMITER ;
 
 DROP PROCEDURE IF EXISTS saveUserPrefs;
-DELIMITER //
-CREATE PROCEDURE saveUserPrefs 
-(
-	p_user_id INT, l_lunchDinner BIT, l_dayOfWeek BIT, l_startTime BIT, l_endTime BIT, l_hours BIT, l_earnedWage BIT, l_earnedTips BIT, l_earnedTotal BIT, l_firstTable BIT, l_sales BIT, l_tipout BIT, l_transfers BIT, l_covers BIT, l_campHours BIT, l_salesPerHour BIT, l_salesPerCover BIT, l_tipsPercent BIT, l_tipoutPercent BIT, l_tipsVsWage BIT, l_hourly BIT, l_cash BIT, l_due BIT, l_dueCheck BIT, l_cut BIT, l_section BIT, l_notes BIT, l_noCampHourly BIT, g_startTime BIT, g_endTime BIT, g_sales BIT, g_earnedTips BIT, g_tipsPercent BIT, g_hourly BIT, g_hours BIT, g_wage BIT, g_earnedWage BIT, g_earnedTotal BIT, g_tipout BIT, g_transfers BIT, g_covers BIT, g_campHours BIT, g_salesPerHour BIT, g_salesPerCover BIT, g_tipoutPercent BIT, g_tipsVsWage BIT, g_cash BIT, g_due BIT, g_dueCheck BIT, g_cut BIT, g_section BIT, g_noCampHourly BIT, s_hours BIT, s_earnedWage BIT, s_earnedTips BIT, s_earnedTotal BIT, s_sales BIT, s_tipout BIT, s_covers BIT, s_campHours BIT, s_salesPerHour BIT, s_salesPerCover BIT, s_tipsPercent BIT, s_tipoutPercent BIT, s_tipsVsWage BIT, s_hourly BIT, s_transfers BIT, s_noCampHourly BIT, p_shifts BIT, p_hours BIT, p_earnedWage BIT, p_earnedTips BIT, p_earnedTotal BIT, p_sales BIT, p_tipout BIT, p_covers BIT, p_campHours BIT, p_salesPerHour BIT, p_salesPerCover BIT, p_tipsPercent BIT, p_tipoutPercent BIT, p_tipsVsWage BIT, p_hourly BIT, p_transfers BIT, p_noCampHourly BIT, a_wage BIT, a_startTime BIT, a_endTime BIT, a_firstTable BIT, a_campHours BIT, a_sales BIT, a_covers BIT, a_tipout BIT, a_transfers BIT, a_cash BIT, a_due BIT, a_section BIT, a_cut BIT, a_notes BIT, e_wage BIT, e_startTime BIT, e_endTime BIT, e_firstTable BIT, e_campHours BIT, e_sales BIT, e_covers BIT, e_tipout BIT, e_transfers BIT, e_cash BIT, e_due BIT, e_section BIT, e_cut BIT, e_notes BIT, v_startTime BIT, v_endTime BIT, v_hours BIT, v_wage BIT, v_sales BIT, v_covers BIT, v_salesPerHour BIT, v_salesPerCover BIT, v_tipout BIT, v_tipoutPercent BIT, v_transfers BIT, v_cash BIT, v_due BIT, v_earnedWage BIT, v_earnedTips BIT, v_tipsPercent BIT, v_earnedTotal BIT, v_tipsVsWage BIT, v_hourly BIT, v_firstTable BIT, v_campHours BIT, v_section BIT, v_cut BIT, v_notes BIT, v_noCampHourly BIT
-)
-BEGIN
-	INSERT INTO prefs (id, l_lunchDinner, l_dayOfWeek, l_startTime, l_endTime, l_hours, l_earnedWage, l_earnedTips, l_earnedTotal, l_firstTable, l_sales, l_tipout, l_transfers, l_covers, l_campHours, l_salesPerHour, l_salesPerCover, l_tipsPercent, l_tipoutPercent, l_tipsVsWage, l_hourly, l_cash, l_due, l_dueCheck, l_cut, l_section, l_notes, l_noCampHourly, g_startTime, g_endTime, g_sales, g_earnedTips, g_tipsPercent, g_hourly, g_hours, g_wage, g_earnedWage, g_earnedTotal, g_tipout, g_transfers, g_covers, g_campHours, g_salesPerHour, g_salesPerCover, g_tipoutPercent, g_tipsVsWage, g_cash, g_due, g_dueCheck, g_cut, g_section, g_noCampHourly, s_hours, s_earnedWage, s_earnedTips, s_earnedTotal, s_sales, s_tipout, s_covers, s_campHours, s_salesPerHour, s_salesPerCover, s_tipsPercent, s_tipoutPercent, s_tipsVsWage, s_hourly, s_transfers, s_noCampHourly, p_shifts, p_hours, p_earnedWage, p_earnedTips, p_earnedTotal, p_sales, p_tipout, p_covers, p_campHours, p_salesPerHour, p_salesPerCover, p_tipsPercent, p_tipoutPercent, p_tipsVsWage, p_hourly, p_transfers, p_noCampHourly, a_wage, a_startTime, a_endTime, a_firstTable, a_campHours, a_sales, a_covers, a_tipout, a_transfers, a_cash, a_due, a_section, a_cut, a_notes, e_wage, e_startTime, e_endTime, e_firstTable, e_campHours, e_sales, e_covers, e_tipout, e_transfers, e_cash, e_due, e_section, e_cut, e_notes, v_startTime, v_endTime, v_hours, v_wage, v_sales, v_covers, v_salesPerHour, v_salesPerCover, v_tipout, v_tipoutPercent, v_transfers, v_cash, v_due, v_earnedWage, v_earnedTips, v_tipsPercent, v_earnedTotal, v_tipsVsWage, v_hourly, v_firstTable, v_campHours, v_section, v_cut, v_notes, v_noCampHourly)
-		VALUES(p_user_id, l_lunchDinner, l_dayOfWeek, l_startTime, l_endTime, l_hours, l_earnedWage, l_earnedTips, l_earnedTotal, l_firstTable, l_sales, l_tipout, l_transfers, l_covers, l_campHours, l_salesPerHour, l_salesPerCover, l_tipsPercent, l_tipoutPercent, l_tipsVsWage, l_hourly, l_cash, l_due, l_dueCheck, l_cut, l_section, l_notes, l_noCampHourly, g_startTime, g_endTime, g_sales, g_earnedTips, g_tipsPercent, g_hourly, g_hours, g_wage, g_earnedWage, g_earnedTotal, g_tipout, g_transfers, g_covers, g_campHours, g_salesPerHour, g_salesPerCover, g_tipoutPercent, g_tipsVsWage, g_cash, g_due, g_dueCheck, g_cut, g_section, g_noCampHourly, s_hours, s_earnedWage, s_earnedTips, s_earnedTotal, s_sales, s_tipout, s_covers, s_campHours, s_salesPerHour, s_salesPerCover, s_tipsPercent, s_tipoutPercent, s_tipsVsWage, s_hourly, s_transfers, s_noCampHourly, p_shifts, p_hours, p_earnedWage, p_earnedTips, p_earnedTotal, p_sales, p_tipout, p_covers, p_campHours, p_salesPerHour, p_salesPerCover, p_tipsPercent, p_tipoutPercent, p_tipsVsWage, p_hourly, p_transfers, p_noCampHourly, a_wage, a_startTime, a_endTime, a_firstTable, a_campHours, a_sales, a_covers, a_tipout, a_transfers, a_cash, a_due, a_section, a_cut, a_notes, e_wage, e_startTime, e_endTime, e_firstTable, e_campHours, e_sales, e_covers, e_tipout, e_transfers, e_cash, e_due, e_section, e_cut, e_notes, v_startTime, v_endTime, v_hours, v_wage, v_sales, v_covers, v_salesPerHour, v_salesPerCover, v_tipout, v_tipoutPercent, v_transfers, v_cash, v_due, v_earnedWage, v_earnedTips, v_tipsPercent, v_earnedTotal, v_tipsVsWage, v_hourly, v_firstTable, v_campHours, v_section, v_cut, v_notes, v_noCampHourly)
-		ON DUPLICATE KEY UPDATE 
-			l_lunchDinner = l_lunchDinner,
-			l_dayOfWeek = l_dayOfWeek,
-			l_startTime = l_startTime,
-			l_endTime = l_endTime,
-			l_hours = l_hours,
-			l_earnedWage = l_earnedWage,
-			l_earnedTips = l_earnedTips,
-			l_earnedTotal = l_earnedTotal,
-			l_firstTable = l_firstTable,
-			l_sales = l_sales,
-			l_tipout = l_tipout,
-			l_transfers = l_transfers,
-			l_covers = l_covers,
-			l_campHours = l_campHours,
-			l_salesPerHour = l_salesPerHour,
-			l_salesPerCover = l_salesPerCover,
-			l_tipsPercent = l_tipsPercent,
-			l_tipoutPercent = l_tipoutPercent,
-			l_tipsVsWage = l_tipsVsWage,
-			l_hourly = l_hourly,
-			l_cash = l_cash,
-			l_due = l_due,
-			l_dueCheck = l_dueCheck,
-			l_cut = l_cut,
-			l_section = l_section,
-			l_notes = l_notes,
-			l_noCampHourly = l_noCampHourly,
-			g_startTime = g_startTime,
-			g_endTime = g_endTime,
-			g_sales = g_sales,
-			g_earnedTips = g_earnedTips,
-			g_tipsPercent = g_tipsPercent,
-			g_hourly = g_hourly,
-			g_hours = g_hours,
-			g_wage = g_wage,
-			g_earnedWage = g_earnedWage,
-			g_earnedTotal = g_earnedTotal,
-			g_tipout = g_tipout,
-			g_transfers = g_transfers,
-			g_covers = g_covers,
-			g_campHours = g_campHours,
-			g_salesPerHour = g_salesPerHour,
-			g_salesPerCover = g_salesPerCover,
-			g_tipoutPercent = g_tipoutPercent,
-			g_tipsVsWage = g_tipsVsWage,
-			g_cash = g_cash,
-			g_due = g_due,
-			g_dueCheck = g_dueCheck,
-			g_cut = g_cut,
-			g_section = g_section,
-			g_noCampHourly = g_noCampHourly,
-			s_hours = s_hours,
-			s_earnedWage = s_earnedWage,
-			s_earnedTips = s_earnedTips,
-			s_earnedTotal = s_earnedTotal,
-			s_sales = s_sales,
-			s_tipout = s_tipout,
-			s_covers = s_covers,
-			s_campHours = s_campHours,
-			s_salesPerHour = s_salesPerHour,
-			s_salesPerCover = s_salesPerCover,
-			s_tipsPercent = s_tipsPercent,
-			s_tipoutPercent = s_tipoutPercent,
-			s_tipsVsWage = s_tipsVsWage,
-			s_hourly = s_hourly,
-			s_transfers = s_transfers,
-			s_noCampHourly = s_noCampHourly,
-			p_shifts = p_shifts,
-			p_hours = p_hours,
-			p_earnedWage = p_earnedWage,
-			p_earnedTips = p_earnedTips,
-			p_earnedTotal = p_earnedTotal,
-			p_sales = p_sales,
-			p_tipout = p_tipout,
-			p_covers = p_covers,
-			p_campHours = p_campHours,
-			p_salesPerHour = p_salesPerHour,
-			p_salesPerCover = p_salesPerCover,
-			p_tipsPercent = p_tipsPercent,
-			p_tipoutPercent = p_tipoutPercent,
-			p_tipsVsWage = p_tipsVsWage,
-			p_hourly = p_hourly,
-			p_transfers = p_transfers,
-			p_noCampHourly = p_noCampHourly,
-			a_wage = a_wage,
-			a_startTime = a_startTime,
-			a_endTime = a_endTime,
-			a_firstTable = a_firstTable,
-			a_campHours = a_campHours,
-			a_sales = a_sales,
-			a_covers = a_covers,
-			a_tipout = a_tipout,
-			a_transfers = a_transfers,
-			a_cash = a_cash,
-			a_due = a_due,
-			a_section = a_section,
-			a_cut = a_cut,
-			a_notes = a_notes,
-			e_wage = e_wage,
-			e_startTime = e_startTime,
-			e_endTime = e_endTime,
-			e_firstTable = e_firstTable,
-			e_campHours = e_campHours,
-			e_sales = e_sales,
-			e_covers = e_covers,
-			e_tipout = e_tipout,
-			e_transfers = e_transfers,
-			e_cash = e_cash,
-			e_due = e_due,
-			e_section = e_section,
-			e_cut = e_cut,
-			e_notes = e_notes,
-			v_startTime = v_startTime,
-			v_endTime = v_endTime,
-			v_hours = v_hours,
-			v_wage = v_wage,
-			v_sales = v_sales,
-			v_covers = v_covers,
-			v_salesPerHour = v_salesPerHour,
-			v_salesPerCover = v_salesPerCover,
-			v_tipout = v_tipout,
-			v_tipoutPercent = v_tipoutPercent,
-			v_transfers = v_transfers,
-			v_cash = v_cash,
-			v_due = v_due,
-			v_earnedWage = v_earnedWage,
-			v_earnedTips = v_earnedTips,
-			v_tipsPercent = v_tipsPercent,
-			v_earnedTotal = v_earnedTotal,
-			v_tipsVsWage = v_tipsVsWage,
-			v_hourly = v_hourly,
-			v_firstTable = v_firstTable,
-			v_campHours = v_campHours,
-			v_section = v_section,
-			v_cut = v_cut,
-			v_notes = v_notes,
-			v_noCampHourly = v_noCampHourly;
-END //
-DELIMITER ;
+	DELIMITER //
+	CREATE PROCEDURE saveUserPrefs 
+	(
+		p_user_id INT, l_lunchDinner BIT, l_dayOfWeek BIT, l_startTime BIT, l_endTime BIT, l_hours BIT, l_earnedWage BIT, l_earnedTips BIT, l_earnedTotal BIT, l_firstTable BIT, l_sales BIT, l_tipout BIT, l_transfers BIT, l_covers BIT, l_campHours BIT, l_salesPerHour BIT, l_salesPerCover BIT, l_tipsPercent BIT, l_tipoutPercent BIT, l_tipsVsWage BIT, l_hourly BIT, l_cash BIT, l_due BIT, l_dueCheck BIT, l_cut BIT, l_section BIT, l_notes BIT, l_noCampHourly BIT, g_startTime BIT, g_endTime BIT, g_sales BIT, g_earnedTips BIT, g_tipsPercent BIT, g_hourly BIT, g_hours BIT, g_wage BIT, g_earnedWage BIT, g_earnedTotal BIT, g_tipout BIT, g_transfers BIT, g_covers BIT, g_campHours BIT, g_salesPerHour BIT, g_salesPerCover BIT, g_tipoutPercent BIT, g_tipsVsWage BIT, g_cash BIT, g_due BIT, g_dueCheck BIT, g_cut BIT, g_section BIT, g_noCampHourly BIT, s_hours BIT, s_earnedWage BIT, s_earnedTips BIT, s_earnedTotal BIT, s_sales BIT, s_tipout BIT, s_covers BIT, s_campHours BIT, s_salesPerHour BIT, s_salesPerCover BIT, s_tipsPercent BIT, s_tipoutPercent BIT, s_tipsVsWage BIT, s_hourly BIT, s_transfers BIT, s_noCampHourly BIT, p_shifts BIT, p_hours BIT, p_earnedWage BIT, p_earnedTips BIT, p_earnedTotal BIT, p_sales BIT, p_tipout BIT, p_covers BIT, p_campHours BIT, p_salesPerHour BIT, p_salesPerCover BIT, p_tipsPercent BIT, p_tipoutPercent BIT, p_tipsVsWage BIT, p_hourly BIT, p_transfers BIT, p_noCampHourly BIT, a_wage BIT, a_startTime BIT, a_endTime BIT, a_firstTable BIT, a_campHours BIT, a_sales BIT, a_covers BIT, a_tipout BIT, a_transfers BIT, a_cash BIT, a_due BIT, a_section BIT, a_cut BIT, a_notes BIT, e_wage BIT, e_startTime BIT, e_endTime BIT, e_firstTable BIT, e_campHours BIT, e_sales BIT, e_covers BIT, e_tipout BIT, e_transfers BIT, e_cash BIT, e_due BIT, e_section BIT, e_cut BIT, e_notes BIT, v_startTime BIT, v_endTime BIT, v_hours BIT, v_wage BIT, v_sales BIT, v_covers BIT, v_salesPerHour BIT, v_salesPerCover BIT, v_tipout BIT, v_tipoutPercent BIT, v_transfers BIT, v_cash BIT, v_due BIT, v_earnedWage BIT, v_earnedTips BIT, v_tipsPercent BIT, v_earnedTotal BIT, v_tipsVsWage BIT, v_hourly BIT, v_firstTable BIT, v_campHours BIT, v_section BIT, v_cut BIT, v_notes BIT, v_noCampHourly BIT
+	)
+	BEGIN
+		INSERT INTO prefs (id, l_lunchDinner, l_dayOfWeek, l_startTime, l_endTime, l_hours, l_earnedWage, l_earnedTips, l_earnedTotal, l_firstTable, l_sales, l_tipout, l_transfers, l_covers, l_campHours, l_salesPerHour, l_salesPerCover, l_tipsPercent, l_tipoutPercent, l_tipsVsWage, l_hourly, l_cash, l_due, l_dueCheck, l_cut, l_section, l_notes, l_noCampHourly, g_startTime, g_endTime, g_sales, g_earnedTips, g_tipsPercent, g_hourly, g_hours, g_wage, g_earnedWage, g_earnedTotal, g_tipout, g_transfers, g_covers, g_campHours, g_salesPerHour, g_salesPerCover, g_tipoutPercent, g_tipsVsWage, g_cash, g_due, g_dueCheck, g_cut, g_section, g_noCampHourly, s_hours, s_earnedWage, s_earnedTips, s_earnedTotal, s_sales, s_tipout, s_covers, s_campHours, s_salesPerHour, s_salesPerCover, s_tipsPercent, s_tipoutPercent, s_tipsVsWage, s_hourly, s_transfers, s_noCampHourly, p_shifts, p_hours, p_earnedWage, p_earnedTips, p_earnedTotal, p_sales, p_tipout, p_covers, p_campHours, p_salesPerHour, p_salesPerCover, p_tipsPercent, p_tipoutPercent, p_tipsVsWage, p_hourly, p_transfers, p_noCampHourly, a_wage, a_startTime, a_endTime, a_firstTable, a_campHours, a_sales, a_covers, a_tipout, a_transfers, a_cash, a_due, a_section, a_cut, a_notes, e_wage, e_startTime, e_endTime, e_firstTable, e_campHours, e_sales, e_covers, e_tipout, e_transfers, e_cash, e_due, e_section, e_cut, e_notes, v_startTime, v_endTime, v_hours, v_wage, v_sales, v_covers, v_salesPerHour, v_salesPerCover, v_tipout, v_tipoutPercent, v_transfers, v_cash, v_due, v_earnedWage, v_earnedTips, v_tipsPercent, v_earnedTotal, v_tipsVsWage, v_hourly, v_firstTable, v_campHours, v_section, v_cut, v_notes, v_noCampHourly)
+			VALUES(p_user_id, l_lunchDinner, l_dayOfWeek, l_startTime, l_endTime, l_hours, l_earnedWage, l_earnedTips, l_earnedTotal, l_firstTable, l_sales, l_tipout, l_transfers, l_covers, l_campHours, l_salesPerHour, l_salesPerCover, l_tipsPercent, l_tipoutPercent, l_tipsVsWage, l_hourly, l_cash, l_due, l_dueCheck, l_cut, l_section, l_notes, l_noCampHourly, g_startTime, g_endTime, g_sales, g_earnedTips, g_tipsPercent, g_hourly, g_hours, g_wage, g_earnedWage, g_earnedTotal, g_tipout, g_transfers, g_covers, g_campHours, g_salesPerHour, g_salesPerCover, g_tipoutPercent, g_tipsVsWage, g_cash, g_due, g_dueCheck, g_cut, g_section, g_noCampHourly, s_hours, s_earnedWage, s_earnedTips, s_earnedTotal, s_sales, s_tipout, s_covers, s_campHours, s_salesPerHour, s_salesPerCover, s_tipsPercent, s_tipoutPercent, s_tipsVsWage, s_hourly, s_transfers, s_noCampHourly, p_shifts, p_hours, p_earnedWage, p_earnedTips, p_earnedTotal, p_sales, p_tipout, p_covers, p_campHours, p_salesPerHour, p_salesPerCover, p_tipsPercent, p_tipoutPercent, p_tipsVsWage, p_hourly, p_transfers, p_noCampHourly, a_wage, a_startTime, a_endTime, a_firstTable, a_campHours, a_sales, a_covers, a_tipout, a_transfers, a_cash, a_due, a_section, a_cut, a_notes, e_wage, e_startTime, e_endTime, e_firstTable, e_campHours, e_sales, e_covers, e_tipout, e_transfers, e_cash, e_due, e_section, e_cut, e_notes, v_startTime, v_endTime, v_hours, v_wage, v_sales, v_covers, v_salesPerHour, v_salesPerCover, v_tipout, v_tipoutPercent, v_transfers, v_cash, v_due, v_earnedWage, v_earnedTips, v_tipsPercent, v_earnedTotal, v_tipsVsWage, v_hourly, v_firstTable, v_campHours, v_section, v_cut, v_notes, v_noCampHourly)
+			ON DUPLICATE KEY UPDATE 
+				l_lunchDinner = l_lunchDinner,
+				l_dayOfWeek = l_dayOfWeek,
+				l_startTime = l_startTime,
+				l_endTime = l_endTime,
+				l_hours = l_hours,
+				l_earnedWage = l_earnedWage,
+				l_earnedTips = l_earnedTips,
+				l_earnedTotal = l_earnedTotal,
+				l_firstTable = l_firstTable,
+				l_sales = l_sales,
+				l_tipout = l_tipout,
+				l_transfers = l_transfers,
+				l_covers = l_covers,
+				l_campHours = l_campHours,
+				l_salesPerHour = l_salesPerHour,
+				l_salesPerCover = l_salesPerCover,
+				l_tipsPercent = l_tipsPercent,
+				l_tipoutPercent = l_tipoutPercent,
+				l_tipsVsWage = l_tipsVsWage,
+				l_hourly = l_hourly,
+				l_cash = l_cash,
+				l_due = l_due,
+				l_dueCheck = l_dueCheck,
+				l_cut = l_cut,
+				l_section = l_section,
+				l_notes = l_notes,
+				l_noCampHourly = l_noCampHourly,
+				g_startTime = g_startTime,
+				g_endTime = g_endTime,
+				g_sales = g_sales,
+				g_earnedTips = g_earnedTips,
+				g_tipsPercent = g_tipsPercent,
+				g_hourly = g_hourly,
+				g_hours = g_hours,
+				g_wage = g_wage,
+				g_earnedWage = g_earnedWage,
+				g_earnedTotal = g_earnedTotal,
+				g_tipout = g_tipout,
+				g_transfers = g_transfers,
+				g_covers = g_covers,
+				g_campHours = g_campHours,
+				g_salesPerHour = g_salesPerHour,
+				g_salesPerCover = g_salesPerCover,
+				g_tipoutPercent = g_tipoutPercent,
+				g_tipsVsWage = g_tipsVsWage,
+				g_cash = g_cash,
+				g_due = g_due,
+				g_dueCheck = g_dueCheck,
+				g_cut = g_cut,
+				g_section = g_section,
+				g_noCampHourly = g_noCampHourly,
+				s_hours = s_hours,
+				s_earnedWage = s_earnedWage,
+				s_earnedTips = s_earnedTips,
+				s_earnedTotal = s_earnedTotal,
+				s_sales = s_sales,
+				s_tipout = s_tipout,
+				s_covers = s_covers,
+				s_campHours = s_campHours,
+				s_salesPerHour = s_salesPerHour,
+				s_salesPerCover = s_salesPerCover,
+				s_tipsPercent = s_tipsPercent,
+				s_tipoutPercent = s_tipoutPercent,
+				s_tipsVsWage = s_tipsVsWage,
+				s_hourly = s_hourly,
+				s_transfers = s_transfers,
+				s_noCampHourly = s_noCampHourly,
+				p_shifts = p_shifts,
+				p_hours = p_hours,
+				p_earnedWage = p_earnedWage,
+				p_earnedTips = p_earnedTips,
+				p_earnedTotal = p_earnedTotal,
+				p_sales = p_sales,
+				p_tipout = p_tipout,
+				p_covers = p_covers,
+				p_campHours = p_campHours,
+				p_salesPerHour = p_salesPerHour,
+				p_salesPerCover = p_salesPerCover,
+				p_tipsPercent = p_tipsPercent,
+				p_tipoutPercent = p_tipoutPercent,
+				p_tipsVsWage = p_tipsVsWage,
+				p_hourly = p_hourly,
+				p_transfers = p_transfers,
+				p_noCampHourly = p_noCampHourly,
+				a_wage = a_wage,
+				a_startTime = a_startTime,
+				a_endTime = a_endTime,
+				a_firstTable = a_firstTable,
+				a_campHours = a_campHours,
+				a_sales = a_sales,
+				a_covers = a_covers,
+				a_tipout = a_tipout,
+				a_transfers = a_transfers,
+				a_cash = a_cash,
+				a_due = a_due,
+				a_section = a_section,
+				a_cut = a_cut,
+				a_notes = a_notes,
+				e_wage = e_wage,
+				e_startTime = e_startTime,
+				e_endTime = e_endTime,
+				e_firstTable = e_firstTable,
+				e_campHours = e_campHours,
+				e_sales = e_sales,
+				e_covers = e_covers,
+				e_tipout = e_tipout,
+				e_transfers = e_transfers,
+				e_cash = e_cash,
+				e_due = e_due,
+				e_section = e_section,
+				e_cut = e_cut,
+				e_notes = e_notes,
+				v_startTime = v_startTime,
+				v_endTime = v_endTime,
+				v_hours = v_hours,
+				v_wage = v_wage,
+				v_sales = v_sales,
+				v_covers = v_covers,
+				v_salesPerHour = v_salesPerHour,
+				v_salesPerCover = v_salesPerCover,
+				v_tipout = v_tipout,
+				v_tipoutPercent = v_tipoutPercent,
+				v_transfers = v_transfers,
+				v_cash = v_cash,
+				v_due = v_due,
+				v_earnedWage = v_earnedWage,
+				v_earnedTips = v_earnedTips,
+				v_tipsPercent = v_tipsPercent,
+				v_earnedTotal = v_earnedTotal,
+				v_tipsVsWage = v_tipsVsWage,
+				v_hourly = v_hourly,
+				v_firstTable = v_firstTable,
+				v_campHours = v_campHours,
+				v_section = v_section,
+				v_cut = v_cut,
+				v_notes = v_notes,
+				v_noCampHourly = v_noCampHourly;
+	END //
+	DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getUserPrefs;
-DELIMITER //
-CREATE PROCEDURE getUserPrefs(p_user_id INT)
-BEGIN
-	SELECT id, l_lunchDinner, l_dayOfWeek, l_startTime, l_endTime, l_hours, l_earnedWage, l_earnedTips, l_earnedTotal, l_firstTable, l_sales, l_tipout, l_transfers, l_covers, l_campHours, l_salesPerHour, l_salesPerCover, l_tipsPercent, l_tipoutPercent, l_tipsVsWage, l_hourly, l_cash, l_due, l_dueCheck, l_cut, l_section, l_notes, l_noCampHourly, g_startTime, g_endTime, g_sales, g_earnedTips, g_tipsPercent, g_hourly, g_hours, g_wage, g_earnedWage, g_earnedTotal, g_tipout, g_transfers, g_covers, g_campHours, g_salesPerHour, g_salesPerCover, g_tipoutPercent, g_tipsVsWage, g_cash, g_due, g_dueCheck, g_cut, g_section, g_noCampHourly, s_hours, s_earnedWage, s_earnedTips, s_earnedTotal, s_sales, s_tipout, s_covers, s_campHours, s_salesPerHour, s_salesPerCover, s_tipsPercent, s_tipoutPercent, s_tipsVsWage, s_hourly, s_transfers, s_noCampHourly, p_shifts, p_hours, p_earnedWage, p_earnedTips, p_earnedTotal, p_sales, p_tipout, p_covers, p_campHours, p_salesPerHour, p_salesPerCover, p_tipsPercent, p_tipoutPercent, p_tipsVsWage, p_hourly, p_transfers, p_noCampHourly, a_wage, a_startTime, a_endTime, a_firstTable, a_campHours, a_sales, a_covers, a_tipout, a_transfers, a_cash, a_due, a_section, a_cut, a_notes, e_wage, e_startTime, e_endTime, e_firstTable, e_campHours, e_sales, e_covers, e_tipout, e_transfers, e_cash, e_due, e_section, e_cut, e_notes, v_startTime, v_endTime, v_hours, v_wage, v_sales, v_covers, v_salesPerHour, v_salesPerCover, v_tipout, v_tipoutPercent, v_transfers, v_cash, v_due, v_earnedWage, v_earnedTips, v_tipsPercent, v_earnedTotal, v_tipsVsWage, v_hourly, v_firstTable, v_campHours, v_section, v_cut, v_notes, v_noCampHourly
-	FROM prefs
-	WHERE id = p_user_id;
-END //
-DELIMITER ;
+	DELIMITER //
+	CREATE PROCEDURE getUserPrefs(p_user_id INT)
+	BEGIN
+		SELECT id, l_lunchDinner, l_dayOfWeek, l_startTime, l_endTime, l_hours, l_earnedWage, l_earnedTips, l_earnedTotal, l_firstTable, l_sales, l_tipout, l_transfers, l_covers, l_campHours, l_salesPerHour, l_salesPerCover, l_tipsPercent, l_tipoutPercent, l_tipsVsWage, l_hourly, l_cash, l_due, l_dueCheck, l_cut, l_section, l_notes, l_noCampHourly, g_startTime, g_endTime, g_sales, g_earnedTips, g_tipsPercent, g_hourly, g_hours, g_wage, g_earnedWage, g_earnedTotal, g_tipout, g_transfers, g_covers, g_campHours, g_salesPerHour, g_salesPerCover, g_tipoutPercent, g_tipsVsWage, g_cash, g_due, g_dueCheck, g_cut, g_section, g_noCampHourly, s_hours, s_earnedWage, s_earnedTips, s_earnedTotal, s_sales, s_tipout, s_covers, s_campHours, s_salesPerHour, s_salesPerCover, s_tipsPercent, s_tipoutPercent, s_tipsVsWage, s_hourly, s_transfers, s_noCampHourly, p_shifts, p_hours, p_earnedWage, p_earnedTips, p_earnedTotal, p_sales, p_tipout, p_covers, p_campHours, p_salesPerHour, p_salesPerCover, p_tipsPercent, p_tipoutPercent, p_tipsVsWage, p_hourly, p_transfers, p_noCampHourly, a_wage, a_startTime, a_endTime, a_firstTable, a_campHours, a_sales, a_covers, a_tipout, a_transfers, a_cash, a_due, a_section, a_cut, a_notes, e_wage, e_startTime, e_endTime, e_firstTable, e_campHours, e_sales, e_covers, e_tipout, e_transfers, e_cash, e_due, e_section, e_cut, e_notes, v_startTime, v_endTime, v_hours, v_wage, v_sales, v_covers, v_salesPerHour, v_salesPerCover, v_tipout, v_tipoutPercent, v_transfers, v_cash, v_due, v_earnedWage, v_earnedTips, v_tipsPercent, v_earnedTotal, v_tipsVsWage, v_hourly, v_firstTable, v_campHours, v_section, v_cut, v_notes, v_noCampHourly
+		FROM prefs
+		WHERE id = p_user_id;
+	END //
+	DELIMITER ;
 
 DROP PROCEDURE IF EXISTS checkUsers;
 	DELIMITER //
