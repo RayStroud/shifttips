@@ -833,80 +833,6 @@ DROP PROCEDURE IF EXISTS getSummaryWeekly;
 	DELIMITER //
 	CREATE PROCEDURE getSummaryWeekly (p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
 	BEGIN
-		CALL calculateWeeks(p_user_id, p_dateFrom, p_dateTo, p_lunchDinner);
-		SELECT
-			COUNT(id) as count,
-			ROUND(AVG(shifts)		,1) as avgShifts,
-			ROUND(SUM(shifts)		,0) as totShifts,
-			ROUND(AVG(totHours)		,2) as avgHours,
-			ROUND(SUM(totHours)		,0) as totHours,
-			ROUND(AVG(totWage)		,2) as avgWage,
-			ROUND(SUM(totWage)		,0) as totWage,
-			ROUND(AVG(totTips)		,2) as avgTips,
-			ROUND(SUM(totTips)		,0) as totTips,
-			ROUND(AVG(totEarned)	,2) as avgEarned,
-			ROUND(SUM(totEarned)	,0) as totEarned,
-			ROUND(AVG(totTipout)	,2) as avgTipout,
-			ROUND(SUM(totTipout)	,0) as totTipout,
-			ROUND(AVG(totTransfers)	,2) as avgTransfers,
-			ROUND(SUM(totTransfers)	,0) as totTransfers,
-			ROUND(AVG(totSales)		,0) as avgSales,
-			ROUND(SUM(totSales)		,0) as totSales,
-			ROUND(AVG(totCovers)	,1) as avgCovers,
-			ROUND(SUM(totCovers)	,0) as totCovers,
-			ROUND(AVG(totCampHours)	,2) as avgCampHours,
-			ROUND(SUM(totCampHours)	,2) as totCampHours,
-			ROUND(SUM(totSales) / SUM(totHours)			,2)	as salesPerHour,
-			ROUND(SUM(totSales) / SUM(totCovers)		,2)	as salesPerCover,
-			ROUND(SUM(totTips) * 100 / SUM(totSales) 	,1)	as tipsPercent,
-			ROUND(SUM(totTipout) * 100 / SUM(totSales) 	,1)	as tipoutPercent,
-			ROUND(SUM(totTips) * 100 / SUM(totWage)		,0)	as tipsVsWage,
-			ROUND(SUM(totEarned) / SUM(totHours) 		,2)	as hourly
-		FROM week;
-	END //
-	DELIMITER ;
-
-DROP PROCEDURE IF EXISTS getSummaryMonthly;
-	DELIMITER //
-	CREATE PROCEDURE getSummaryMonthly (p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
-	BEGIN
-		CALL calculateMonths(p_user_id, p_dateFrom, p_dateTo, p_lunchDinner);
-		SELECT
-			COUNT(id) as count,
-			ROUND(AVG(shifts)		,1) as avgShifts,
-			ROUND(SUM(shifts)		,0) as totShifts,
-			ROUND(AVG(totHours)		,2) as avgHours,
-			ROUND(SUM(totHours)		,0) as totHours,
-			ROUND(AVG(totWage)		,2) as avgWage,
-			ROUND(SUM(totWage)		,0) as totWage,
-			ROUND(AVG(totTips)		,2) as avgTips,
-			ROUND(SUM(totTips)		,0) as totTips,
-			ROUND(AVG(totEarned)	,2) as avgEarned,
-			ROUND(SUM(totEarned)	,0) as totEarned,
-			ROUND(AVG(totTipout)	,2) as avgTipout,
-			ROUND(SUM(totTipout)	,0) as totTipout,
-			ROUND(AVG(totTransfers)	,2) as avgTransfers,
-			ROUND(SUM(totTransfers)	,0) as totTransfers,
-			ROUND(AVG(totSales)		,0) as avgSales,
-			ROUND(SUM(totSales)		,0) as totSales,
-			ROUND(AVG(totCovers)	,1) as avgCovers,
-			ROUND(SUM(totCovers)	,0) as totCovers,
-			ROUND(AVG(totCampHours)	,2) as avgCampHours,
-			ROUND(SUM(totCampHours)	,2) as totCampHours,
-			ROUND(SUM(totSales) / SUM(totHours)			,2)	as salesPerHour,
-			ROUND(SUM(totSales) / SUM(totCovers)		,2)	as salesPerCover,
-			ROUND(SUM(totTips) * 100 / SUM(totSales) 	,1)	as tipsPercent,
-			ROUND(SUM(totTipout) * 100 / SUM(totSales) 	,1)	as tipoutPercent,
-			ROUND(SUM(totTips) * 100 / SUM(totWage)		,0)	as tipsVsWage,
-			ROUND(SUM(totEarned) / SUM(totHours) 		,2)	as hourly
-		FROM month;
-	END //
-	DELIMITER ;
-
-DROP PROCEDURE IF EXISTS calculateWeeks;
-	DELIMITER //
-	CREATE PROCEDURE calculateWeeks(p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
-	BEGIN
 		-- VARCHAR(11) is highest int value, which is what a user_id can be
 		DECLARE v_user_id		VARCHAR(11);
 		DECLARE v_dateFrom		DATE;
@@ -936,8 +862,44 @@ DROP PROCEDURE IF EXISTS calculateWeeks;
 				SET v_lunchDinner = '%';
 		END IF;
 
-		TRUNCATE TABLE week;
-		INSERT INTO week (yearweek, startWeek, endWeek, shifts, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgEarned, totEarned, avgTipout, totTipout, avgTransfers, totTransfers, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourly)
+		DROP TEMPORARY TABLE IF EXISTS tmp_week;
+		CREATE TEMPORARY TABLE tmp_week
+		(
+			yearweek		CHAR(6),
+			startWeek		DATE,
+			endWeek			DATE,
+			shifts			INT,
+
+			avgHours 		DECIMAL(5,2),
+			totHours 		DECIMAL(7,2),
+			avgWage 		DECIMAL(5,2),
+			totWage 		DECIMAL(7,2),
+			avgTips 		DECIMAL(5,2),
+			totTips 		INT,
+			avgEarned 		DECIMAL(5,2),
+			totEarned 		INT,
+			avgTipout 		DECIMAL(5,2),
+			totTipout 		INT,
+			avgTransfers 	DECIMAL(5,2),
+			totTransfers 	INT,
+			avgSales 		DECIMAL(7,2),
+			totSales 		DECIMAL(10,2),
+			avgCovers 		DECIMAL(5,2),
+			totCovers 		INT,
+			avgCampHours 	DECIMAL(4,2),
+			totCampHours 	DECIMAL(8,2),
+			salesPerHour 	DECIMAL(7,2),
+			salesPerCover 	DECIMAL(7,2),
+			tipsPercent 	DECIMAL(4,1),
+			tipoutPercent 	DECIMAL(4,1),
+			tipsVsWage 		INT,
+			hourly 			DECIMAL(5,2),
+
+			id INT NOT NULL AUTO_INCREMENT,
+			PRIMARY KEY (id)
+		);
+
+		INSERT INTO tmp_week (yearweek, startWeek, endWeek, shifts, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgEarned, totEarned, avgTipout, totTipout, avgTransfers, totTransfers, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourly)
 		SELECT 
 			YEARWEEK(date, 3) as yearweek, 
 			STR_TO_DATE(CONCAT(YEARWEEK(date,3), ' Monday'), '%x%v %W') as startWeek,
@@ -973,6 +935,177 @@ DROP PROCEDURE IF EXISTS calculateWeeks;
 			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
 			AND user_id LIKE v_user_id
 		GROUP BY YEARWEEK(date, 3);
+
+		SELECT
+			COUNT(id) as count,
+			ROUND(AVG(shifts)		,1) as avgShifts,
+			ROUND(SUM(shifts)		,0) as totShifts,
+			ROUND(AVG(totHours)		,2) as avgHours,
+			ROUND(SUM(totHours)		,0) as totHours,
+			ROUND(AVG(totWage)		,2) as avgWage,
+			ROUND(SUM(totWage)		,0) as totWage,
+			ROUND(AVG(totTips)		,2) as avgTips,
+			ROUND(SUM(totTips)		,0) as totTips,
+			ROUND(AVG(totEarned)	,2) as avgEarned,
+			ROUND(SUM(totEarned)	,0) as totEarned,
+			ROUND(AVG(totTipout)	,2) as avgTipout,
+			ROUND(SUM(totTipout)	,0) as totTipout,
+			ROUND(AVG(totTransfers)	,2) as avgTransfers,
+			ROUND(SUM(totTransfers)	,0) as totTransfers,
+			ROUND(AVG(totSales)		,0) as avgSales,
+			ROUND(SUM(totSales)		,0) as totSales,
+			ROUND(AVG(totCovers)	,1) as avgCovers,
+			ROUND(SUM(totCovers)	,0) as totCovers,
+			ROUND(AVG(totCampHours)	,2) as avgCampHours,
+			ROUND(SUM(totCampHours)	,2) as totCampHours,
+			ROUND(SUM(totSales) / SUM(totHours)			,2)	as salesPerHour,
+			ROUND(SUM(totSales) / SUM(totCovers)		,2)	as salesPerCover,
+			ROUND(SUM(totTips) * 100 / SUM(totSales) 	,1)	as tipsPercent,
+			ROUND(SUM(totTipout) * 100 / SUM(totSales) 	,1)	as tipoutPercent,
+			ROUND(SUM(totTips) * 100 / SUM(totWage)		,0)	as tipsVsWage,
+			ROUND(SUM(totEarned) / SUM(totHours) 		,2)	as hourly
+		FROM tmp_week;
+	END //
+	DELIMITER ;
+
+DROP PROCEDURE IF EXISTS getSummaryMonthly;
+	DELIMITER //
+	CREATE PROCEDURE getSummaryMonthly (p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
+	BEGIN
+		-- VARCHAR(11) is highest int value, which is what a user_id can be
+		DECLARE v_user_id		VARCHAR(11);
+		DECLARE v_dateFrom		DATE;
+		DECLARE v_dateTo		DATE;
+		DECLARE v_lunchDinner	CHAR(1);
+
+		IF (p_user_id IS NULL)
+			THEN SET v_user_id := '%';
+			ELSE SET v_user_id := p_user_id;
+		END IF;
+
+		-- get first day of the month
+		IF (p_dateFrom IS NULL)
+			THEN SET v_dateFrom := '1000-01-01';
+			ELSE SET v_dateFrom := SUBDATE(p_dateFrom, (DAY(p_dateFrom)-1));
+		END IF;
+
+		-- get last day of the month
+		IF (p_dateTo IS NULL)
+			THEN SET v_dateTo := '9999-12-31';
+			ELSE SET v_dateTo := LAST_DAY(p_dateTo);
+		END IF;
+
+		IF (p_lunchDinner = 'L') 
+			THEN SET v_lunchDinner = 'L';
+			ELSEIF (p_lunchDinner = 'D') 
+				THEN SET v_lunchDinner = 'D';
+			ELSE 
+				SET v_lunchDinner = '%';
+		END IF;
+
+		DROP TEMPORARY TABLE IF EXISTS tmp_month;
+		CREATE TEMPORARY TABLE tmp_month
+		(
+			year			CHAR(4),
+			month			CHAR(2),
+			monthname		CHAR(3),
+			shifts			INT,
+
+			avgHours 		DECIMAL(5,2),
+			totHours 		DECIMAL(7,2),
+			avgWage 		DECIMAL(5,2),
+			totWage 		DECIMAL(7,2),
+			avgTips 		DECIMAL(5,2),
+			totTips 		INT,
+			avgEarned 		DECIMAL(5,2),
+			totEarned 		INT,
+			avgTipout 		DECIMAL(5,2),
+			totTipout 		INT,
+			avgTransfers 	DECIMAL(5,2),
+			totTransfers 	INT,
+			avgSales 		DECIMAL(7,2),
+			totSales 		DECIMAL(10,2),
+			avgCovers 		DECIMAL(5,2),
+			totCovers 		INT,
+			avgCampHours 	DECIMAL(4,2),
+			totCampHours 	DECIMAL(8,2),
+			salesPerHour 	DECIMAL(7,2),
+			salesPerCover 	DECIMAL(7,2),
+			tipsPercent 	DECIMAL(4,1),
+			tipoutPercent 	DECIMAL(4,1),
+			tipsVsWage 		INT,
+			hourly 			DECIMAL(5,2),
+
+			id INT NOT NULL AUTO_INCREMENT,
+			PRIMARY KEY (id)
+		);
+
+		INSERT INTO tmp_month (year, month, monthname, shifts, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgEarned, totEarned, avgTipout, totTipout, avgTransfers, totTransfers, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourly)
+		SELECT 
+			YEAR(DATE) AS year,
+			MONTH(date) as month,
+			MONTHNAME(date) as monthname,
+			COUNT(id) AS shifts,
+
+			ROUND(AVG(hours)		,2) as avgHours,
+			ROUND(SUM(hours)		,0) as totHours,
+			ROUND(AVG(earnedWage)	,2) as avgWage,
+			ROUND(SUM(earnedWage)	,0) as totWage,
+			ROUND(AVG(earnedTips)	,2) as avgTips,
+			ROUND(SUM(earnedTips)	,0) as totTips,
+			ROUND(AVG(earnedTotal)	,2) as avgEarned,
+			ROUND(SUM(earnedTotal)	,0) as totEarned,
+			ROUND(AVG(tipout)		,2) as avgTipout,
+			ROUND(SUM(tipout)		,0) as totTipout,
+			ROUND(AVG(transfers)	,2) as avgTransfers,
+			ROUND(SUM(transfers)	,0) as totTransfers,
+			ROUND(AVG(sales)		,0) as avgSales,
+			ROUND(SUM(sales)		,0) as totSales,
+			ROUND(AVG(covers)		,1) as avgCovers,
+			ROUND(SUM(covers)		,0) as totCovers,
+			ROUND(AVG(campHours)	,2) as avgCampHours,
+			ROUND(SUM(campHours)	,2) as totCampHours,
+			ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
+			ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
+			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
+			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
+			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
+			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
+		FROM shift
+		WHERE date BETWEEN v_dateFrom AND v_dateTo
+			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
+			AND user_id LIKE v_user_id
+		GROUP BY YEAR(date), MONTH(date);
+
+		SELECT
+			COUNT(id) as count,
+			ROUND(AVG(shifts)		,1) as avgShifts,
+			ROUND(SUM(shifts)		,0) as totShifts,
+			ROUND(AVG(totHours)		,2) as avgHours,
+			ROUND(SUM(totHours)		,0) as totHours,
+			ROUND(AVG(totWage)		,2) as avgWage,
+			ROUND(SUM(totWage)		,0) as totWage,
+			ROUND(AVG(totTips)		,2) as avgTips,
+			ROUND(SUM(totTips)		,0) as totTips,
+			ROUND(AVG(totEarned)	,2) as avgEarned,
+			ROUND(SUM(totEarned)	,0) as totEarned,
+			ROUND(AVG(totTipout)	,2) as avgTipout,
+			ROUND(SUM(totTipout)	,0) as totTipout,
+			ROUND(AVG(totTransfers)	,2) as avgTransfers,
+			ROUND(SUM(totTransfers)	,0) as totTransfers,
+			ROUND(AVG(totSales)		,0) as avgSales,
+			ROUND(SUM(totSales)		,0) as totSales,
+			ROUND(AVG(totCovers)	,1) as avgCovers,
+			ROUND(SUM(totCovers)	,0) as totCovers,
+			ROUND(AVG(totCampHours)	,2) as avgCampHours,
+			ROUND(SUM(totCampHours)	,2) as totCampHours,
+			ROUND(SUM(totSales) / SUM(totHours)			,2)	as salesPerHour,
+			ROUND(SUM(totSales) / SUM(totCovers)		,2)	as salesPerCover,
+			ROUND(SUM(totTips) * 100 / SUM(totSales) 	,1)	as tipsPercent,
+			ROUND(SUM(totTipout) * 100 / SUM(totSales) 	,1)	as tipoutPercent,
+			ROUND(SUM(totTips) * 100 / SUM(totWage)		,0)	as tipsVsWage,
+			ROUND(SUM(totEarned) / SUM(totHours) 		,2)	as hourly
+		FROM tmp_month;
 	END //
 	DELIMITER ;
 
@@ -1044,81 +1177,6 @@ DROP PROCEDURE IF EXISTS getWeeks;
 			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
 			AND user_id LIKE v_user_id
 		GROUP BY YEARWEEK(date, 3);
-	END //
-	DELIMITER ;
-
-DROP PROCEDURE IF EXISTS calculateMonths;
-	DELIMITER //
-	CREATE PROCEDURE calculateMonths(p_user_id INT, p_dateFrom DATE, p_dateTo DATE, p_lunchDinner CHAR(1))
-	BEGIN
-		-- VARCHAR(11) is highest int value, which is what a user_id can be
-		DECLARE v_user_id		VARCHAR(11);
-		DECLARE v_dateFrom		DATE;
-		DECLARE v_dateTo		DATE;
-		DECLARE v_lunchDinner	CHAR(1);
-
-		IF (p_user_id IS NULL)
-			THEN SET v_user_id := '%';
-			ELSE SET v_user_id := p_user_id;
-		END IF;
-
-		-- get first day of the month
-		IF (p_dateFrom IS NULL)
-			THEN SET v_dateFrom := '1000-01-01';
-			ELSE SET v_dateFrom := SUBDATE(p_dateFrom, (DAY(p_dateFrom)-1));
-		END IF;
-
-		-- get last day of the month
-		IF (p_dateTo IS NULL)
-			THEN SET v_dateTo := '9999-12-31';
-			ELSE SET v_dateTo := LAST_DAY(p_dateTo);
-		END IF;
-
-		IF (p_lunchDinner = 'L') 
-			THEN SET v_lunchDinner = 'L';
-			ELSEIF (p_lunchDinner = 'D') 
-				THEN SET v_lunchDinner = 'D';
-			ELSE 
-				SET v_lunchDinner = '%';
-		END IF;
-
-		TRUNCATE TABLE month;
-		INSERT INTO month (year, month, monthname, shifts, avgHours, totHours, avgWage, totWage, avgTips, totTips, avgEarned, totEarned, avgTipout, totTipout, avgTransfers, totTransfers, avgSales, totSales, avgCovers, totCovers, avgCampHours, totCampHours, salesPerHour, salesPerCover, tipsPercent, tipoutPercent, tipsVsWage, hourly)
-		SELECT 
-			YEAR(DATE) AS year,
-			MONTH(date) as month,
-			MONTHNAME(date) as monthname,
-			COUNT(id) AS shifts,
-
-			ROUND(AVG(hours)		,2) as avgHours,
-			ROUND(SUM(hours)		,0) as totHours,
-			ROUND(AVG(earnedWage)	,2) as avgWage,
-			ROUND(SUM(earnedWage)	,0) as totWage,
-			ROUND(AVG(earnedTips)	,2) as avgTips,
-			ROUND(SUM(earnedTips)	,0) as totTips,
-			ROUND(AVG(earnedTotal)	,2) as avgEarned,
-			ROUND(SUM(earnedTotal)	,0) as totEarned,
-			ROUND(AVG(tipout)		,2) as avgTipout,
-			ROUND(SUM(tipout)		,0) as totTipout,
-			ROUND(AVG(transfers)	,2) as avgTransfers,
-			ROUND(SUM(transfers)	,0) as totTransfers,
-			ROUND(AVG(sales)		,0) as avgSales,
-			ROUND(SUM(sales)		,0) as totSales,
-			ROUND(AVG(covers)		,1) as avgCovers,
-			ROUND(SUM(covers)		,0) as totCovers,
-			ROUND(AVG(campHours)	,2) as avgCampHours,
-			ROUND(SUM(campHours)	,2) as totCampHours,
-			ROUND(SUM(sales) / SUM(hours)	,2)	as salesPerHour,
-			ROUND(SUM(sales) / SUM(covers)	,2)	as salesPerCover,
-			ROUND(SUM(earnedTips) * 100 / SUM(sales) 	,1)	as tipsPercent,
-			ROUND(SUM(tipout) * 100 / SUM(sales) 		,1)	as tipoutPercent,
-			ROUND(SUM(earnedTips) * 100 / SUM(earnedWage) 			,0)	as tipsVsWage,
-			ROUND(SUM(earnedTotal) / SUM(hours) 	,2)	as hourly
-		FROM shift
-		WHERE date BETWEEN v_dateFrom AND v_dateTo
-			AND UPPER(lunchDinner) LIKE UPPER(v_lunchDinner)
-			AND user_id LIKE v_user_id
-		GROUP BY YEAR(date), MONTH(date);
 	END //
 	DELIMITER ;
 
