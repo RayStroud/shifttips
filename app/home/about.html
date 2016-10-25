@@ -202,7 +202,7 @@
 					Each table has a header row with a dark-grey background and white text, which is the categories of the information that is displayed underneath. Any header that can be sorted will lighten when the cursor hovers over. Clicking any of these header names will change the background to blue and sort the information based on that category. Initially, there will be a black bar on the bottom of the header name, which indicates that the information is sorted alphabetically or numerically from lowest to highest. Clicking the blue sorted-header name will move the black bar to the top of the header name and flip the direction of the sorted information.
 				</p>
 				<p>
-					At the bottom of each table is a summary row with a medium-grey background and black and grey text. The averages of all the information in each category are in the top row in black text, and the totals are in the bottom row in grey text. 
+					At the bottom of each table is a summary row with a medium-grey background and black and grey text. The averages of all the shifts are in the top row in black text, and the totals are in the bottom row in grey text. On the <a class="link" href="#/summary/period">Period Summary</a> page, the summary row lists the averages of all of the periods which is different than the averages of all of the shifts, although the totals are the same for the periods as would be for the shifts of those periods. 
 				</p>
 				<p>
 					On the <a class="link" href="#/shifts/">Shifts List</a> page, hovering over a row will highlight the row in blue. Clicking on the row will navigate to the Shift Details page for that shift. 
@@ -270,6 +270,9 @@
 			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.summaries : summaries">
 				<p>
 					On the <a class="link" href="#/summary">Summary</a> page and the <a class="link" href="#/summary/period">Period Summary</a> page, there are tables that show calculated averages and totals based on a selection of shifts. Click a button in the <span class="filter-group-header">Summary Type</span> or <span class="filter-group-header">Period Type</span> section to change how the summary information is grouped. The <span class="filter-group-header">Row Type</span> section toggles what information is displayed in each row: averages ( <i>AVG</i> ), totals ( <i>TOT</i> ), or both. A row of averages will show the information for one average shift in that particular summary group (<i>e.g. a Monday shift is on average 5 hours long, or an August 2016 shift has an average of $1150 in sales</i>). A row of totals will show the information for all shifts in that particular summary group (<i>e.g. Monday shift is on average 5 hours long, or an August 2016 shift has an average of $1150 in sales</i>). When both buttons are white, both types of rows are displayed. Clicking a white buttons will change the button to blue and display only that type of row. Clicking a blue button will change the button to white and show both types of rows. 
+				</p>
+				<p>
+					The medium-grey summary row on the bottom of the table is different on the <a class="link" href="#/summary/period">Period Summary</a> page: it lists the averages of all of the periods which is different than the averages of all of the shifts, although the totals are the same for the periods as would be for the shifts of those periods.
 				</p>
 			</div>
 			<h5 ng-model="other" ng-click="other=!other; filtersCtrl.toggleCollapsed('about','other');">
