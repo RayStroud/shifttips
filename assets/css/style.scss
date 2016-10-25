@@ -727,7 +727,7 @@
 		flex-wrap: wrap;
 		div.mobile-table {
 			flex: 1 1 200px;
-			&.size0 {flex-basis: 75px; .wage-input{max-width: 40px;}}
+			&.size0 {flex-basis: 120px; .wage-input{max-width: 40px;}}
 			&.size1 {flex-basis: 150px; .wage-input{max-width: 68px;}}
 			&.size3 {flex-basis: 250px; .wage-input{max-width: 110px;}}
 		}
