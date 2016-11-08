@@ -81,10 +81,25 @@
 	}
 	function login($db, $name, $email)
 	{
-		if($stmt = $db->prepare('CALL login(?,?)'))
+		$ip = $_SERVER['REMOTE_ADDR'];
+		if($stmt = $db->prepare('CALL loginIP(?,?,?)'))
 		{
-			//* DEBUG */ echo '<p>name:' . $name . '|email:' . $email . '</p>';
-			$stmt->bind_param('ss', $name, $email);
+			$stmt->bind_param('sss', $name, $email, $ip);
+			$stmt->execute();
+			$stmt->bind_result($id);
+			$stmt->fetch();
+			echo $id;
+			$stmt->free_result();
+			$stmt->close();
+		}
+		else {http_response_code(500);}
+	}
+	function silentLogin($db, $name, $email, $uid)
+	{
+		$ip = $_SERVER['REMOTE_ADDR'];
+		if($stmt = $db->prepare('CALL silentLoginIP(?,?,?,?)'))
+		{
+			$stmt->bind_param('sssi', $name, $email, $ip, $uid);
 			$stmt->execute();
 			$stmt->bind_result($id);
 			$stmt->fetch();
@@ -102,8 +117,14 @@
 			case 'GET':
 				if (isset($_GET['name']) && isset($_GET['email']))
 				{
-					//* DEBUG */ echo 'name:' . $_GET['name'] . '|email:' . $_GET['email'];
-					login($db, $_GET['name'], $_GET['email']);
+					if(isset($_GET['uid']) && isset($_GET['silent']))
+					{
+						silentLogin($db, $_GET['name'], $_GET['email'], $_GET['uid']);
+					}
+					else
+					{
+						login($db, $_GET['name'], $_GET['email']);
+					}
 				}
 				else if(isset($_GET['id']))
 				{

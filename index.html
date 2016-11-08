@@ -56,6 +56,7 @@
 			<div ng-view ng-if="userCtrl.isLoggedIn()"></div>
 			<div ng-if="!userCtrl.isLoggedIn()">
 				<div ng-show="!userCtrl.showAbout">
+					<div class="centered error message-box" ng-show="userCtrl.silentLoginError">{{userCtrl.silentLoginError}} <a class="link" href="mailto:ray.stroud@gmail.com?subject=ShiftTips%20Login%20Error&body=Hello,%0D%0A%0D%0AShift%20Tips%20would%20not%20login%20on%20my%20device%20using%20the%20stored%20name%20and%20email.%0D%0A%0D%0AThanks,%0D%0A%0D%0A[ENTER%20NAME%20HERE]" target="_blank">Please Contact the Administrator</a></div>
 					<div ng-show="userCtrl.newAccount==false">
 						<h1>Login</h1>
 						<form name="loginForm" class="login-form" novalidate
