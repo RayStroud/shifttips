@@ -82,9 +82,10 @@
 	function login($db, $name, $email)
 	{
 		$ip = $_SERVER['REMOTE_ADDR'];
-		if($stmt = $db->prepare('CALL loginIP(?,?,?)'))
+		$userAgent = $_SERVER['HTTP_USER_AGENT'];
+		if($stmt = $db->prepare('CALL loginIP(?,?,?,?)'))
 		{
-			$stmt->bind_param('sss', $name, $email, $ip);
+			$stmt->bind_param('ssss', $name, $email, $ip, $userAgent);
 			$stmt->execute();
 			$stmt->bind_result($id);
 			$stmt->fetch();
@@ -97,9 +98,10 @@
 	function silentLogin($db, $name, $email, $uid)
 	{
 		$ip = $_SERVER['REMOTE_ADDR'];
-		if($stmt = $db->prepare('CALL silentLoginIP(?,?,?,?)'))
+		$userAgent = $_SERVER['HTTP_USER_AGENT'];
+		if($stmt = $db->prepare('CALL silentLoginIP(?,?,?,?,?)'))
 		{
-			$stmt->bind_param('sssi', $name, $email, $ip, $uid);
+			$stmt->bind_param('ssssi', $name, $email, $ip, $userAgent, $uid);
 			$stmt->execute();
 			$stmt->bind_result($id);
 			$stmt->fetch();
