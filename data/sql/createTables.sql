@@ -24,9 +24,9 @@ CREATE TABLE loginAttempt
 (
 	name				VARCHAR(35),
 	email				VARCHAR(254),
-	ip					VARCHAR(40),
 	silent_id			INT,
 	valid_id			INT,
+	ip					VARCHAR(40),
 	timestamp			TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
 	id INT NOT NULL AUTO_INCREMENT,
