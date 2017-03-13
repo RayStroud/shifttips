@@ -35,13 +35,14 @@ angular.module('shiftTips')
 	ctrl.silentLogin = function() {
 		var storedUser = localStorageService.get('user') || ctrl.getNullUser();	//get stored user
 
-		var response = $http.get(backend.domain + 'users.php?name=' + storedUser.name + '&email=' + storedUser.email)
+		var response = $http.get(backend.domain + 'users.php?silent&uid=' + storedUser.uid + '&name=' + storedUser.name + '&email=' + storedUser.email)
 		.success(function (data, status, headers, config) {
 			if(data > 0) {	//if the uid is VALID
 				ctrl.user = {"name":storedUser.name,"email":storedUser.email,"uid":data};
 				localStorageService.set('user', ctrl.user);
 				ctrl.isSilentLoggedIn = true;
 			} else {		//if the uid is INVALID
+				ctrl.invalidUser = storedUser.name ? storedUser : null;	// if there was a stored user name that failed, record it
 				ctrl.user = ctrl.getNullUser();
 				localStorageService.set('user', ctrl.getNullUser());
 				ctrl.isSilentLoggedIn = true;
@@ -68,16 +69,16 @@ angular.module('shiftTips')
 		.success(function (data, status, headers, config) {
 			ctrl.silentLoginResponse = {result: 'success', data: data, status: status, headers: headers, config: config};
 			ctrl.user = userService.getUser();
-			if(ctrl.user.uid == 0) {
-				ctrl.silentLoginError = "Sorry, that name and email is not registered or cannot be validated at this time. Confirm the information is correct and try again, or register a new account."
+			if(ctrl.user.uid > 0) {
+				ctrl.silentLoginError = "";
 			}
 			else {
-				ctrl.silentLoginError = "";
+				ctrl.silentLoginError = userService.invalidUser ? "Sorry, the stored name (" + userService.invalidUser.name + ") and email (" + userService.invalidUser.email + ") is not valid. Please try to login again, or register a new account. Need Help? " : "";				
 			}
 		})
 		.error(function (data, status, headers, config) {
 			ctrl.silentLoginResponse = {result: 'error', data: data, status: status, headers: headers, config: config};
-			ctrl.error = 'Oops! Something bad happened. Login failed.';
+			ctrl.silentLoginError = 'Oops! Something bad happened. Login failed.';
 		});
 	};
 

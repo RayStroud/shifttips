@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS week;
 DROP TABLE IF EXISTS summary;
 DROP TABLE IF EXISTS shift;
 DROP TABLE IF EXISTS prefs;
+DROP TABLE IF EXISTS loginAttempt;
 DROP TABLE IF EXISTS user;
 
 CREATE TABLE user
@@ -14,6 +15,20 @@ CREATE TABLE user
 	active			TIMESTAMP,
 
 	-- UNIQUE(email),
+
+	id INT NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id)	
+);
+
+CREATE TABLE loginAttempt
+(
+	name				VARCHAR(35),
+	email				VARCHAR(254),
+	silent_id			INT,
+	valid_id			INT,
+	timestamp			TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	ip					VARCHAR(40),
+	user_agent			VARCHAR(250),
 
 	id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id)	

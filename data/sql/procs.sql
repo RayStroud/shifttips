@@ -1277,13 +1277,52 @@ DROP PROCEDURE IF EXISTS login;
 	DELIMITER //
 	CREATE PROCEDURE login(p_name VARCHAR(35), p_email VARCHAR(254))
 	BEGIN
-		DECLARE v_user_id		VARCHAR(11);
+		DECLARE v_user_id		INT;
 
 		SELECT id FROM user WHERE email = p_email AND name = p_name INTO v_user_id;
+		INSERT INTO loginAttempt (name, email, valid_id) VALUES (p_name, p_email, v_user_id);
 
 		IF v_user_id > 0
 			THEN SELECT v_user_id AS id; UPDATE user SET active = CURRENT_TIMESTAMP WHERE id = v_user_id;
 			ELSE SELECT 0 as id;
+		END IF;
+	END //
+	DELIMITER ;
+
+DROP PROCEDURE IF EXISTS loginIP;
+	DELIMITER //
+	CREATE PROCEDURE loginIP(p_name VARCHAR(35), p_email VARCHAR(254), p_ip VARCHAR(40), p_user_agent VARCHAR(250))
+	BEGIN
+		DECLARE v_user_id		INT;
+
+		SELECT id FROM user WHERE email = p_email AND name = p_name INTO v_user_id;
+		INSERT INTO loginAttempt (name, email, ip, user_agent, valid_id) VALUES (p_name, p_email, p_ip, p_user_agent, v_user_id);
+
+		IF v_user_id > 0
+			THEN 
+				UPDATE user SET active = CURRENT_TIMESTAMP WHERE id = v_user_id;
+				SELECT v_user_id AS id; 
+			ELSE 
+				SELECT 0 as id;
+		END IF;
+	END //
+	DELIMITER ;
+
+DROP PROCEDURE IF EXISTS silentLoginIP;
+	DELIMITER //
+	CREATE PROCEDURE silentLoginIP(p_name VARCHAR(35), p_email VARCHAR(254), p_ip VARCHAR(40), p_user_agent VARCHAR(250), p_user_id INT)
+	BEGIN
+		DECLARE v_user_id		INT;
+
+		SELECT id FROM user WHERE email = p_email AND name = p_name INTO v_user_id;
+		INSERT INTO loginAttempt (name, email, ip, user_agent, valid_id, silent_id) VALUES (p_name, p_email, p_ip, p_user_agent, v_user_id, p_user_id);
+
+		IF v_user_id > 0 && v_user_id = p_user_id
+			THEN 
+				UPDATE user SET active = CURRENT_TIMESTAMP WHERE id = v_user_id;
+				SELECT v_user_id AS id; 
+			ELSE 
+				SELECT 0 as id;
 		END IF;
 	END //
 	DELIMITER ;
