@@ -163,6 +163,10 @@
 										<div class="label">Section</div>
 										<div class="value tiny-value">{{shift.section | placeholder:'-'}}</div>
 									</div>
+									<div class="shift-info" ng-if="ctrl.prefs.location">
+										<div class="label">Location</div>
+										<div class="value tiny-value">{{shift.location | placeholder:'-'}}</div>
+									</div>
 									<a href="#/shift/{{shift.id}}"><span class="link-spanner"></span></a>
 								</div>
 							</div>

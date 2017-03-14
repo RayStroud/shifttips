@@ -3,13 +3,40 @@
 
 	<div class="centered button-group">
 		<button class="link-button" ng-click="userCtrl.logout()"><span class="fa fa-fw fa-sign-out"></span> Logout</button>
-		<button class="link-button" ng-click="ctrl.saveCustomPrefs()"><span class="fa fa-fw fa-upload"></span> Save Current View Settings</button>
 	</div>
-	<div class="error message-box centered" ng-show="ctrl.saveError">{{ctrl.saveError}}</div>
-	<div class="success message-box centered" ng-show="ctrl.saveMessage">{{ctrl.saveMessage}}</div>
+
+		<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
+			<table class="summary-table">
+			<tr>
+				<th colspan="2">Set Location</th>
+			</tr>
+			<tr>
+				<td>Location</td>
+				<td>{{ctrl.location | placeholder:'Not Set'}}</td>
+			</tr>
+			<tr>
+				<td><input class="wage-input" ng-model="ctrl.newLocation" type="text" name="location"/></td>
+				<td>
+					<button class="link-button" ng-click="ctrl.setLocation(ctrl.newLocation); ctrl.newLocation = null;"><span class="fa fa-fw fa-upload"></span></button>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2">Set Wage</th>
+			</tr>
+			<tr>
+				<td>Wage</td>
+				<td>{{ctrl.wage | currency:undefined:2 | placeholder:'Not Set'}}</td>
+			</tr>
+			<tr>
+				<td><input class="wage-input" ng-model="ctrl.newWage" type="number" name="wage" min="0" step="0.01" placeholder="$"/></td>
+				<td>
+					<button class="link-button" ng-click="ctrl.setWage(ctrl.newWage); ctrl.newWage = null;"><span class="fa fa-fw fa-upload"></span></button>
+				</td>
+			</tr>
+		</table>
+
 
 	<h2>Change Device View Settings</h2>
-	<div class="error message-box centered" ng-show="ctrl.getError">{{ctrl.getError}}</div>
 
 	<div ng-controller="FiltersController as filtersCtrl">
 		<form class="filter-form">
@@ -42,6 +69,15 @@
 				</div>
 			</div>
 		</form>
+
+
+		<div class="centered button-group">
+			<button class="link-button" ng-click="ctrl.saveCustomPrefs()"><span class="fa fa-fw fa-upload"></span> Save Current View Settings</button>
+		</div>
+
+		<div class="error message-box centered" ng-show="ctrl.saveError">{{ctrl.saveError}}</div>
+		<div class="success message-box centered" ng-show="ctrl.saveMessage">{{ctrl.saveMessage}}</div>
+		<div class="error message-box centered" ng-show="ctrl.getError">{{ctrl.getError}}</div>
 	
 		<div class="mobile-table-wrap">
 			<div class="mobile-table" ng-class="{'size0':filtersCtrl.filters.fontSize == 0, 'size1':filtersCtrl.filters.fontSize == 1, 'size2':filtersCtrl.filters.fontSize == 2, 'size3':filtersCtrl.filters.fontSize == 3}">
@@ -51,114 +87,108 @@
 					</thead>
 					<tbody ng-hide="filtersCtrl.filters.collapsed.account.add">
 						<tr>
-							<th colspan="2">Set Wage</th>
-						</tr>
-						<tr>
-							<td>Wage</td>
-							<td>{{ctrl.wage | currency:undefined:2 | placeholder:'Not Set'}}</td>
-						</tr>
-						<tr>
-							<td><input class="wage-input" ng-model="ctrl.newWage" type="number" name="wage" min="0" step="0.01" placeholder="$"/></td>
-							<td>
-								<button class="link-button" ng-click="ctrl.setWage(ctrl.newWage); ctrl.newWage = null;"><span class="fa fa-fw fa-upload"></span></button>
-							</td>
-						</tr>
-						<tr>
 							<th>Field</th>
 							<th>Visible</th>
 						</tr>
 						<tr>
+							<td>Location</td>
+							<td>
+								<button ng-if="ctrl.prefs.add.location" class="link-button button-green" ng-click="ctrl.setPref('add', 'location', false)"><span class="fa fa-fw fa-check"></span></button>
+								<button ng-if="!ctrl.prefs.add.location" class="link-button button-red" ng-click="ctrl.setPref('add', 'location', true)"><span class="fa fa-fw fa-times"></span></button>
+							</td>
+						</tr>
+						<tr class="alt">
 							<td>Wage</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.wage" class="link-button button-green" ng-click="ctrl.setPref('add', 'wage', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.wage" class="link-button button-red" ng-click="ctrl.setPref('add', 'wage', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Start Time</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.startTime" class="link-button button-green" ng-click="ctrl.setPref('add', 'startTime', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.startTime" class="link-button button-red" ng-click="ctrl.setPref('add', 'startTime', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>End Time</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.endTime" class="link-button button-green" ng-click="ctrl.setPref('add', 'endTime', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.endTime" class="link-button button-red" ng-click="ctrl.setPref('add', 'endTime', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>First Table</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.firstTable" class="link-button button-green" ng-click="ctrl.setPref('add', 'firstTable', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.firstTable" class="link-button button-red" ng-click="ctrl.setPref('add', 'firstTable', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Camp Hours</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.campHours" class="link-button button-green" ng-click="ctrl.setPref('add', 'campHours', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.campHours" class="link-button button-red" ng-click="ctrl.setPref('add', 'campHours', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Sales</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.sales" class="link-button button-green" ng-click="ctrl.setPref('add', 'sales', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.sales" class="link-button button-red" ng-click="ctrl.setPref('add', 'sales', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Covers</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.covers" class="link-button button-green" ng-click="ctrl.setPref('add', 'covers', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.covers" class="link-button button-red" ng-click="ctrl.setPref('add', 'covers', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Tipout</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.tipout" class="link-button button-green" ng-click="ctrl.setPref('add', 'tipout', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.tipout" class="link-button button-red" ng-click="ctrl.setPref('add', 'tipout', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Transfers</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.transfers" class="link-button button-green" ng-click="ctrl.setPref('add', 'transfers', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.transfers" class="link-button button-red" ng-click="ctrl.setPref('add', 'transfers', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Cash</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.cash" class="link-button button-green" ng-click="ctrl.setPref('add', 'cash', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.cash" class="link-button button-red" ng-click="ctrl.setPref('add', 'cash', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Due</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.due" class="link-button button-green" ng-click="ctrl.setPref('add', 'due', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.due" class="link-button button-red" ng-click="ctrl.setPref('add', 'due', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Section</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.section" class="link-button button-green" ng-click="ctrl.setPref('add', 'section', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.section" class="link-button button-red" ng-click="ctrl.setPref('add', 'section', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Cut</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.cut" class="link-button button-green" ng-click="ctrl.setPref('add', 'cut', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.add.cut" class="link-button button-red" ng-click="ctrl.setPref('add', 'cut', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Notes</td>
 							<td>
 								<button ng-if="ctrl.prefs.add.notes" class="link-button button-green" ng-click="ctrl.setPref('add', 'notes', false)"><span class="fa fa-fw fa-check"></span></button>
@@ -180,97 +210,104 @@
 							<th>Visible</th>
 						</tr>
 						<tr>
+							<td>Location</td>
+							<td>
+								<button ng-if="ctrl.prefs.edit.location" class="link-button button-green" ng-click="ctrl.setPref('edit', 'location', false)"><span class="fa fa-fw fa-check"></span></button>
+								<button ng-if="!ctrl.prefs.edit.location" class="link-button button-red" ng-click="ctrl.setPref('edit', 'location', true)"><span class="fa fa-fw fa-times"></span></button>
+							</td>
+						</tr>
+						<tr class="alt">
 							<td>Wage</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.wage" class="link-button button-green" ng-click="ctrl.setPref('edit', 'wage', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.wage" class="link-button button-red" ng-click="ctrl.setPref('edit', 'wage', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Start Time</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.startTime" class="link-button button-green" ng-click="ctrl.setPref('edit', 'startTime', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.startTime" class="link-button button-red" ng-click="ctrl.setPref('edit', 'startTime', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>End Time</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.endTime" class="link-button button-green" ng-click="ctrl.setPref('edit', 'endTime', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.endTime" class="link-button button-red" ng-click="ctrl.setPref('edit', 'endTime', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>First Table</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.firstTable" class="link-button button-green" ng-click="ctrl.setPref('edit', 'firstTable', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.firstTable" class="link-button button-red" ng-click="ctrl.setPref('edit', 'firstTable', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Camp Hours</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.campHours" class="link-button button-green" ng-click="ctrl.setPref('edit', 'campHours', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.campHours" class="link-button button-red" ng-click="ctrl.setPref('edit', 'campHours', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Sales</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.sales" class="link-button button-green" ng-click="ctrl.setPref('edit', 'sales', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.sales" class="link-button button-red" ng-click="ctrl.setPref('edit', 'sales', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Covers</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.covers" class="link-button button-green" ng-click="ctrl.setPref('edit', 'covers', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.covers" class="link-button button-red" ng-click="ctrl.setPref('edit', 'covers', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Tipout</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.tipout" class="link-button button-green" ng-click="ctrl.setPref('edit', 'tipout', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.tipout" class="link-button button-red" ng-click="ctrl.setPref('edit', 'tipout', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Transfers</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.transfers" class="link-button button-green" ng-click="ctrl.setPref('edit', 'transfers', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.transfers" class="link-button button-red" ng-click="ctrl.setPref('edit', 'transfers', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Cash</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.cash" class="link-button button-green" ng-click="ctrl.setPref('edit', 'cash', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.cash" class="link-button button-red" ng-click="ctrl.setPref('edit', 'cash', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Due</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.due" class="link-button button-green" ng-click="ctrl.setPref('edit', 'due', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.due" class="link-button button-red" ng-click="ctrl.setPref('edit', 'due', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Section</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.section" class="link-button button-green" ng-click="ctrl.setPref('edit', 'section', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.section" class="link-button button-red" ng-click="ctrl.setPref('edit', 'section', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Cut</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.cut" class="link-button button-green" ng-click="ctrl.setPref('edit', 'cut', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.edit.cut" class="link-button button-red" ng-click="ctrl.setPref('edit', 'cut', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Notes</td>
 							<td>
 								<button ng-if="ctrl.prefs.edit.notes" class="link-button button-green" ng-click="ctrl.setPref('edit', 'notes', false)"><span class="fa fa-fw fa-check"></span></button>
@@ -497,125 +534,132 @@
 							</td>
 						</tr>
 						<tr class="alt">
+							<td>Location</td>
+							<td>
+								<button ng-if="ctrl.prefs.grid.location" class="link-button button-green" ng-click="ctrl.setPref('grid', 'location', false)"><span class="fa fa-fw fa-check"></span></button>
+								<button ng-if="!ctrl.prefs.grid.location" class="link-button button-red" ng-click="ctrl.setPref('grid', 'location', true)"><span class="fa fa-fw fa-times"></span></button>
+							</td>
+						</tr>
+						<tr>
 							<td>Wage</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.wage" class="link-button button-green" ng-click="ctrl.setPref('grid', 'wage', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.wage" class="link-button button-red" ng-click="ctrl.setPref('grid', 'wage', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Sales</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.sales" class="link-button button-green" ng-click="ctrl.setPref('grid', 'sales', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.sales" class="link-button button-red" ng-click="ctrl.setPref('grid', 'sales', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Covers</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.covers" class="link-button button-green" ng-click="ctrl.setPref('grid', 'covers', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.covers" class="link-button button-red" ng-click="ctrl.setPref('grid', 'covers', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Sales/Hour</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.salesPerHour" class="link-button button-green" ng-click="ctrl.setPref('grid', 'salesPerHour', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.salesPerHour" class="link-button button-red" ng-click="ctrl.setPref('grid', 'salesPerHour', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Sales/Cover</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.salesPerCover" class="link-button button-green" ng-click="ctrl.setPref('grid', 'salesPerCover', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.salesPerCover" class="link-button button-red" ng-click="ctrl.setPref('grid', 'salesPerCover', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Tipout</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.tipout" class="link-button button-green" ng-click="ctrl.setPref('grid', 'tipout', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.tipout" class="link-button button-red" ng-click="ctrl.setPref('grid', 'tipout', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Tipout Percent</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.tipoutPercent" class="link-button button-green" ng-click="ctrl.setPref('grid', 'tipoutPercent', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.tipoutPercent" class="link-button button-red" ng-click="ctrl.setPref('grid', 'tipoutPercent', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Transfers</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.transfers" class="link-button button-green" ng-click="ctrl.setPref('grid', 'transfers', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.transfers" class="link-button button-red" ng-click="ctrl.setPref('grid', 'transfers', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Tips</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.earnedTips" class="link-button button-green" ng-click="ctrl.setPref('grid', 'earnedTips', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.earnedTips" class="link-button button-red" ng-click="ctrl.setPref('grid', 'earnedTips', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Tips Percent</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.tipsPercent" class="link-button button-green" ng-click="ctrl.setPref('grid', 'tipsPercent', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.tipsPercent" class="link-button button-red" ng-click="ctrl.setPref('grid', 'tipsPercent', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Wage Earned</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.earnedWage" class="link-button button-green" ng-click="ctrl.setPref('grid', 'earnedWage', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.earnedWage" class="link-button button-red" ng-click="ctrl.setPref('grid', 'earnedWage', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Total Earned</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.earnedTotal" class="link-button button-green" ng-click="ctrl.setPref('grid', 'earnedTotal', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.earnedTotal" class="link-button button-red" ng-click="ctrl.setPref('grid', 'earnedTotal', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Tips vs Wage</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.tipsVsWage" class="link-button button-green" ng-click="ctrl.setPref('grid', 'tipsVsWage', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.tipsVsWage" class="link-button button-red" ng-click="ctrl.setPref('grid', 'tipsVsWage', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Hourly</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.hourly" class="link-button button-green" ng-click="ctrl.setPref('grid', 'hourly', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.hourly" class="link-button button-red" ng-click="ctrl.setPref('grid', 'hourly', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Cut</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.cut" class="link-button button-green" ng-click="ctrl.setPref('grid', 'cut', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.cut" class="link-button button-red" ng-click="ctrl.setPref('grid', 'cut', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Camp Hours</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.campHours" class="link-button button-green" ng-click="ctrl.setPref('grid', 'campHours', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.campHours" class="link-button button-red" ng-click="ctrl.setPref('grid', 'campHours', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Section</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.section" class="link-button button-green" ng-click="ctrl.setPref('grid', 'section', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.grid.section" class="link-button button-red" ng-click="ctrl.setPref('grid', 'section', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Due</td>
 							<td>
 								<button ng-if="ctrl.prefs.grid.due" class="link-button button-green" ng-click="ctrl.setPref('grid', 'due', false)"><span class="fa fa-fw fa-check"></span></button>
@@ -674,146 +718,153 @@
 							</td>
 						</tr>
 						<tr class="alt">
+							<td>Location</td>
+							<td>
+								<button ng-if="ctrl.prefs.view.location" class="link-button button-green" ng-click="ctrl.setPref('view', 'location', false)"><span class="fa fa-fw fa-check"></span></button>
+								<button ng-if="!ctrl.prefs.view.location" class="link-button button-red" ng-click="ctrl.setPref('view', 'location', true)"><span class="fa fa-fw fa-times"></span></button>
+							</td>
+						</tr>
+						<tr>
 							<td>Wage</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.wage" class="link-button button-green" ng-click="ctrl.setPref('view', 'wage', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.wage" class="link-button button-red" ng-click="ctrl.setPref('view', 'wage', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Sales</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.sales" class="link-button button-green" ng-click="ctrl.setPref('view', 'sales', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.sales" class="link-button button-red" ng-click="ctrl.setPref('view', 'sales', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Covers</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.covers" class="link-button button-green" ng-click="ctrl.setPref('view', 'covers', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.covers" class="link-button button-red" ng-click="ctrl.setPref('view', 'covers', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Sales/Hour</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.salesPerHour" class="link-button button-green" ng-click="ctrl.setPref('view', 'salesPerHour', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.salesPerHour" class="link-button button-red" ng-click="ctrl.setPref('view', 'salesPerHour', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Sales/Cover</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.salesPerCover" class="link-button button-green" ng-click="ctrl.setPref('view', 'salesPerCover', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.salesPerCover" class="link-button button-red" ng-click="ctrl.setPref('view', 'salesPerCover', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Tipout</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.tipout" class="link-button button-green" ng-click="ctrl.setPref('view', 'tipout', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.tipout" class="link-button button-red" ng-click="ctrl.setPref('view', 'tipout', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Tipout Percent</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.tipoutPercent" class="link-button button-green" ng-click="ctrl.setPref('view', 'tipoutPercent', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.tipoutPercent" class="link-button button-red" ng-click="ctrl.setPref('view', 'tipoutPercent', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Transfers</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.transfers" class="link-button button-green" ng-click="ctrl.setPref('view', 'transfers', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.transfers" class="link-button button-red" ng-click="ctrl.setPref('view', 'transfers', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Cash</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.cash" class="link-button button-green" ng-click="ctrl.setPref('view', 'cash', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.cash" class="link-button button-red" ng-click="ctrl.setPref('view', 'cash', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Due</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.due" class="link-button button-green" ng-click="ctrl.setPref('view', 'due', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.due" class="link-button button-red" ng-click="ctrl.setPref('view', 'due', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Wage Earned</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.earnedWage" class="link-button button-green" ng-click="ctrl.setPref('view', 'earnedWage', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.earnedWage" class="link-button button-red" ng-click="ctrl.setPref('view', 'earnedWage', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Tips</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.earnedTips" class="link-button button-green" ng-click="ctrl.setPref('view', 'earnedTips', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.earnedTips" class="link-button button-red" ng-click="ctrl.setPref('view', 'earnedTips', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Tips Percent</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.tipsPercent" class="link-button button-green" ng-click="ctrl.setPref('view', 'tipsPercent', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.tipsPercent" class="link-button button-red" ng-click="ctrl.setPref('view', 'tipsPercent', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Total Earned</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.earnedTotal" class="link-button button-green" ng-click="ctrl.setPref('view', 'earnedTotal', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.earnedTotal" class="link-button button-red" ng-click="ctrl.setPref('view', 'earnedTotal', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Tips vs Wage</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.tipsVsWage" class="link-button button-green" ng-click="ctrl.setPref('view', 'tipsVsWage', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.tipsVsWage" class="link-button button-red" ng-click="ctrl.setPref('view', 'tipsVsWage', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Hourly</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.hourly" class="link-button button-green" ng-click="ctrl.setPref('view', 'hourly', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.hourly" class="link-button button-red" ng-click="ctrl.setPref('view', 'hourly', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>First Table</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.firstTable" class="link-button button-green" ng-click="ctrl.setPref('view', 'firstTable', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.firstTable" class="link-button button-red" ng-click="ctrl.setPref('view', 'firstTable', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Camp Hours</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.campHours" class="link-button button-green" ng-click="ctrl.setPref('view', 'campHours', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.campHours" class="link-button button-red" ng-click="ctrl.setPref('view', 'campHours', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Section</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.section" class="link-button button-green" ng-click="ctrl.setPref('view', 'section', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.section" class="link-button button-red" ng-click="ctrl.setPref('view', 'section', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr>
+						<tr class="alt">
 							<td>Cut</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.cut" class="link-button button-green" ng-click="ctrl.setPref('view', 'cut', false)"><span class="fa fa-fw fa-check"></span></button>
 								<button ng-if="!ctrl.prefs.view.cut" class="link-button button-red" ng-click="ctrl.setPref('view', 'cut', true)"><span class="fa fa-fw fa-times"></span></button>
 							</td>
 						</tr>
-						<tr class="alt">
+						<tr>
 							<td>Notes</td>
 							<td>
 								<button ng-if="ctrl.prefs.view.notes" class="link-button button-green" ng-click="ctrl.setPref('view', 'notes', false)"><span class="fa fa-fw fa-check"></span></button>

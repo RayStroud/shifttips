@@ -68,7 +68,7 @@ CREATE TABLE prefs
 	l_notes 		BIT		,
 	l_noCampHourly 	BIT		,
 	-- -----------------------
-	-- grid" 
+	-- grid
 	-- -----------------------
 	g_startTime 	BIT		,
 	g_endTime 		BIT		,
@@ -78,6 +78,7 @@ CREATE TABLE prefs
 	g_hourly 		BIT		,
 
 	g_hours 		BIT		,
+	g_location		BIT		,
 	g_wage 			BIT		,
 	g_earnedWage 	BIT		,
 	g_earnedTotal 	BIT		,
@@ -139,6 +140,7 @@ CREATE TABLE prefs
 	-- -----------------------
 	-- add
 	-- -----------------------
+	a_location		BIT		,
 	a_wage 			BIT		,
 	a_startTime 	BIT		,
 	a_endTime 		BIT		,
@@ -156,6 +158,7 @@ CREATE TABLE prefs
 	-- -----------------------
 	-- edit
 	-- -----------------------
+	e_location		BIT		,
 	e_wage 			BIT		,
 	e_startTime 	BIT		,
 	e_endTime 		BIT		,
@@ -176,6 +179,7 @@ CREATE TABLE prefs
 	v_startTime 	BIT		,
 	v_endTime 		BIT		,
 	v_hours 		BIT		,
+	v_location		BIT		,
 	v_wage 			BIT		,
 	v_sales 		BIT		,
 	v_covers 		BIT		,
@@ -207,6 +211,7 @@ CREATE TABLE prefs
 
 CREATE TABLE shift
 (
+	location		VARCHAR(50),
 	wage 			DECIMAL(5,2),
 	date			DATE 			NOT NULL,
 	startTime		TIME,
