@@ -51,6 +51,12 @@ angular.module('shiftTips')
 					"sort": ["-lunchDinner", "halfhours"]
 				}
 				break;
+			case "location": 
+				return {
+					"name": "Location",
+					"sort": ["-lunchDinner", "location"]
+				}
+				break;
 		}
 	};
 	ctrl.getPeriodTypeValues = function(name) {
