@@ -93,6 +93,11 @@
 				<div class="value">{{ctrl.shift.cut | placeholder:'-'}}</div>
 			</div>
 
+			<div ng-if="ctrl.prefs.location" class="shift-info full-width">
+				<div class="label">Location</div>
+				<div class="value">{{ctrl.shift.location | placeholder:'-'}}</div>
+			</div>
+
 			<div ng-if="ctrl.prefs.notes" class="shift-info full-width">
 				<div class="label">Notes</div>
 				<div class="value">{{ctrl.shift.notes | placeholder:'-'}}</div>

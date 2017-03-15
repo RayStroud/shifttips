@@ -1,7 +1,7 @@
 angular.module('shiftTips')
 .service('filterService', ['$http', 'backend', 'localStorageService', function($http, backend, localStorageService) {
 	var ctrl = this;
-	ctrl.dataVersion = '2016-10-25';
+	ctrl.dataVersion = '2016-03-13';
 
 	//constants for list sort and summary type
 	ctrl.listSortValues = { 
@@ -49,6 +49,12 @@ angular.module('shiftTips')
 				return {
 					"name": "Shift Length",
 					"sort": ["-lunchDinner", "halfhours"]
+				}
+				break;
+			case "location": 
+				return {
+					"name": "Location",
+					"sort": ["-lunchDinner", "location"]
 				}
 				break;
 		}
@@ -181,6 +187,7 @@ angular.module('shiftTips')
 				"hourly"		: true	,
 
 				"hours"			: false	,
+				"location"		: false	,
 				"wage"			: false	,
 				"earnedWage"	: false	,
 				"earnedTotal"	: false	,
@@ -239,6 +246,7 @@ angular.module('shiftTips')
 				"noCampHourly"	: false
 			},
 			"add" : {
+				"location"		: false	,
 				"wage"			: true	,
 				"startTime"		: true	,
 				"endTime"		: true	,
@@ -255,6 +263,7 @@ angular.module('shiftTips')
 				"notes"			: true		
 			},
 			"edit" : {
+				"location"		: false	,
 				"wage"			: true	,
 				"startTime"		: true	,
 				"endTime"		: true	,
@@ -274,6 +283,7 @@ angular.module('shiftTips')
 				"startTime"		: true	,
 				"endTime"		: true	,
 				"hours"			: true	,
+				"location"		: false	,
 				"wage"			: true	,
 				"sales"			: true	,
 				"covers"		: true	,
@@ -343,6 +353,7 @@ angular.module('shiftTips')
 				"hourly"		: true	,
 
 				"hours"			: true	,
+				"location"		: true	,
 				"wage"			: true	,
 				"earnedWage"	: true	,
 				"earnedTotal"	: true	,
@@ -401,6 +412,7 @@ angular.module('shiftTips')
 				"noCampHourly"	: true
 			},
 			"add" : {
+				"location"		: true	,
 				"wage"			: true	,
 				"startTime"		: true	,
 				"endTime"		: true	,
@@ -417,6 +429,7 @@ angular.module('shiftTips')
 				"notes"			: true		
 			},
 			"edit" : {
+				"location"		: true	,
 				"wage"			: true	,
 				"startTime"		: true	,
 				"endTime"		: true	,
@@ -436,6 +449,7 @@ angular.module('shiftTips')
 				"startTime"		: true	,
 				"endTime"		: true	,
 				"hours"			: true	,
+				"location"		: true	,
 				"wage"			: true	,
 				"sales"			: true	,
 				"covers"		: true	,
@@ -505,6 +519,7 @@ angular.module('shiftTips')
 				"hourly"		: true	,
 
 				"hours"			: false	,
+				"location"		: false	,
 				"wage"			: false	,
 				"earnedWage"	: false	,
 				"earnedTotal"	: false	,
@@ -563,6 +578,7 @@ angular.module('shiftTips')
 				"noCampHourly"	: false
 			},
 			"add" : {
+				"location"		: false	,
 				"wage"			: false	,
 				"startTime"		: true	,
 				"endTime"		: true	,
@@ -579,6 +595,7 @@ angular.module('shiftTips')
 				"notes"			: true		
 			},
 			"edit" : {
+				"location"		: false	,
 				"wage"			: false	,
 				"startTime"		: true	,
 				"endTime"		: true	,
@@ -598,6 +615,7 @@ angular.module('shiftTips')
 				"startTime"		: true	,
 				"endTime"		: true	,
 				"hours"			: true	,
+				"location"		: false	,
 				"wage"			: false	,
 				"sales"			: true	,
 				"covers"		: false	,
@@ -638,6 +656,10 @@ angular.module('shiftTips')
 		var storedWages = localStorageService.get('wages') || {};
 		return storedWages.hasOwnProperty(uid) ? storedWages[uid] : {};
 	};
+	ctrl.getUserLocation = function(uid) {
+		var storedLocations = localStorageService.get('locations') || {};
+		return storedLocations.hasOwnProperty(uid) ? storedLocations[uid] : {};
+	};
 
 	ctrl.updateUserFilters = function(uid, userFilters) {
 		var storedFilters = localStorageService.get('filters') || {"version":ctrl.dataVersion};
@@ -653,6 +675,11 @@ angular.module('shiftTips')
 		var storedWages = localStorageService.get('wages') || {};
 		storedWages[uid] = userWage;
 		localStorageService.set('wages', storedWages);
+	};
+	ctrl.updateUserLocation = function(uid, userLocation) {
+		var storedLocations = localStorageService.get('locations') || {};
+		storedLocations[uid] = userLocation;
+		localStorageService.set('locations', storedLocations);
 	};
 
 	ctrl.resetUserFilters = function(uid) {
@@ -674,6 +701,9 @@ angular.module('shiftTips')
 	};
 	ctrl.resetUserWage = function(uid) {
 		ctrl.updateUserWage(uid, {});
+	};
+	ctrl.resetUserLocation = function(uid) {
+		ctrl.updateUserLocation(uid, {});
 	};
 
 	ctrl.getCustomPrefs = function(uid) {
@@ -715,6 +745,7 @@ angular.module('shiftTips')
 		if(prefs.grid.tipsPercent) {prefsString += '&g_tipsPercent';} 
 		if(prefs.grid.hourly) {prefsString += '&g_hourly';} 
 		if(prefs.grid.hours) {prefsString += '&g_hours';} 
+		if(prefs.grid.location) {prefsString += '&g_location';} 
 		if(prefs.grid.wage) {prefsString += '&g_wage';} 
 		if(prefs.grid.earnedWage) {prefsString += '&g_earnedWage';} 
 		if(prefs.grid.earnedTotal) {prefsString += '&g_earnedTotal';} 
@@ -765,6 +796,7 @@ angular.module('shiftTips')
 		if(prefs.period.hourly) {prefsString += '&p_hourly';} 
 		if(prefs.period.transfers) {prefsString += '&p_transfers';} 
 		if(prefs.period.noCampHourly) {prefsString += '&p_noCampHourly';} 
+		if(prefs.add.location) {prefsString += '&a_location';} 
 		if(prefs.add.wage) {prefsString += '&a_wage';} 
 		if(prefs.add.startTime) {prefsString += '&a_startTime';} 
 		if(prefs.add.endTime) {prefsString += '&a_endTime';} 
@@ -779,6 +811,7 @@ angular.module('shiftTips')
 		if(prefs.add.section) {prefsString += '&a_section';} 
 		if(prefs.add.cut) {prefsString += '&a_cut';} 
 		if(prefs.add.notes) {prefsString += '&a_notes';} 
+		if(prefs.edit.location) {prefsString += '&e_location';} 
 		if(prefs.edit.wage) {prefsString += '&e_wage';} 
 		if(prefs.edit.startTime) {prefsString += '&e_startTime';} 
 		if(prefs.edit.endTime) {prefsString += '&e_endTime';} 
@@ -796,6 +829,7 @@ angular.module('shiftTips')
 		if(prefs.view.startTime) {prefsString += '&v_startTime';} 
 		if(prefs.view.endTime) {prefsString += '&v_endTime';} 
 		if(prefs.view.hours) {prefsString += '&v_hours';} 
+		if(prefs.view.location) {prefsString += '&v_location';} 
 		if(prefs.view.wage) {prefsString += '&v_wage';} 
 		if(prefs.view.sales) {prefsString += '&v_sales';} 
 		if(prefs.view.covers) {prefsString += '&v_covers';} 
@@ -841,6 +875,7 @@ angular.module('shiftTips')
 	ctrl.uid = userService.getUser().uid;
 	ctrl.prefs = filterService.getUserPrefs(ctrl.uid);
 	ctrl.wage = filterService.getUserWage(ctrl.uid);
+	ctrl.location = filterService.getUserLocation(ctrl.uid);
 
 	ctrl.setPref = function(page, field, value) {
 		ctrl.prefs.type = null;
@@ -853,6 +888,10 @@ angular.module('shiftTips')
 		ctrl.wage = value;
 		filterService.updateUserWage(ctrl.uid, ctrl.wage);
 	};
+	ctrl.setLocation = function(value) {
+		ctrl.location = value;
+		filterService.updateUserLocation(ctrl.uid, ctrl.location);
+	};
 
 	ctrl.resetPrefs = function(type) {
 		filterService.resetUserPrefs(ctrl.uid, type);
@@ -862,7 +901,11 @@ angular.module('shiftTips')
 	};
 	ctrl.resetWage = function() {
 		filterService.resetUserWage(ctrl.uid);
-		ctrl.wage = filterService.getUseWage(ctrl.uid);
+		ctrl.wage = filterService.getUserWage(ctrl.uid);
+	};
+	ctrl.resetLocation = function() {
+		filterService.resetUserLocation(ctrl.uid);
+		ctrl.location = filterService.getUserLocation(ctrl.uid);
 	};
 
 	ctrl.getCustomPrefs = function() {

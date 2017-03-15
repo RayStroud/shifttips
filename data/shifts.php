@@ -3,6 +3,7 @@
 	function shiftRowToObject($row) {
 		$object = new stdClass();
 
+		$object->location 	= $row->location;
 		$object->wage 		= is_null($row->wage) 		? null : (float) $row->wage;
 		$object->date 		= $row->date;
 		$object->startTime 	= $row->startTime;
@@ -79,9 +80,9 @@
 	}
 	function insert($db, $shift)
 	{
-		if($stmt = $db->prepare('CALL saveShift(?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
+		if($stmt = $db->prepare('CALL saveShift(?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
 		{
-			$stmt->bind_param('idssssddiiiisisss', $shift->user_id, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->dueCheck, $shift->covers, $shift->cut, $shift->section, $shift->notes);
+			$stmt->bind_param('isdssssddiiiisisss', $shift->user_id, $shift->location, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->dueCheck, $shift->covers, $shift->cut, $shift->section, $shift->notes);
 			$stmt->execute();
 			$stmt->bind_result($id);
 			$stmt->fetch();
@@ -93,9 +94,9 @@
 	}
 	function update($db, $shift)
 	{
-		if($stmt = $db->prepare('CALL saveShift(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
+		if($stmt = $db->prepare('CALL saveShift(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'))
 		{
-			$stmt->bind_param('iidssssddiiiisisss', $shift->user_id, $shift->id, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->dueCheck, $shift->covers, $shift->cut, $shift->section, $shift->notes);
+			$stmt->bind_param('iisdssssddiiiisisss', $shift->user_id, $shift->id, $shift->location, $shift->wage, $shift->date, $shift->startTime, $shift->endTime, $shift->firstTable, $shift->campHours, $shift->sales, $shift->tipout, $shift->transfers, $shift->cash, $shift->due, $shift->dueCheck, $shift->covers, $shift->cut, $shift->section, $shift->notes);
 			$stmt->execute();
 			echo $stmt->affected_rows;
 			$stmt->free_result();

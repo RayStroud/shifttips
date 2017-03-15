@@ -165,6 +165,27 @@
 		header('Content-Type: application/json');
 		echo json_encode($summaries);
 	}
+	function getSummaryByLocation($db, $p_user_id, $p_dateFrom, $p_dateTo)
+	{
+		$summaries = [];
+		if($stmt = $db->prepare('CALL getSummaryByLocation(?,?,?)'))
+		{
+			$stmt->bind_param('iss', $p_user_id, $p_dateFrom, $p_dateTo);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			while($row = $result->fetch_object())
+			{
+				$summary = summaryRowToObject($row);
+				$summary->location 		= $row->location;
+				$summary->lunchDinner 	= $row->lunchDinner;
+				$summaries[] = $summary;
+			}
+			$stmt->close();
+		}
+		else {http_response_code(500);}
+		header('Content-Type: application/json');
+		echo json_encode($summaries);
+	}
 	function getSummaryByDayOfWeek($db, $p_user_id, $p_dateFrom, $p_dateTo)
 	{
 		$summaries = [];
@@ -390,6 +411,10 @@
 		else if(isset($_GET['halfhours']))
 		{
 			getSummaryByHalfhours($db, $p_uid, $p_dateFrom, $p_dateTo);
+		}
+		else if(isset($_GET['location']))
+		{
+			getSummaryByLocation($db, $p_uid, $p_dateFrom, $p_dateTo);
 		}
 		else if(isset($_GET['week']) 
 			|| isset($_GET['weeks']) 

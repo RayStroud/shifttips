@@ -258,7 +258,7 @@ angular.module('shiftTips')
 	var ctrl = this;
 	ctrl.uid = userService.getUser().uid;
 	ctrl.prefs = filterService.getUserPrefs(ctrl.uid).add;
-	ctrl.shift = {user_id: ctrl.uid, wage: filterService.getUserWage(ctrl.uid)};
+	ctrl.shift = {user_id: ctrl.uid, wage: filterService.getUserWage(ctrl.uid), location: filterService.getUserLocation(ctrl.uid)};
 
 	ctrl.addShift = function() {
 		//remove the timezone information that angular adds during its validation
@@ -426,11 +426,11 @@ angular.module('shiftTips')
 
 .filter('placeholder', function() {
 	return function(input, placeholder, prefix, suffix) {
-		if (input == undefined || input == null) {
+		if (input == undefined || input == null || angular.equals(input,{}) || input == "") {
 			return placeholder;
 		} else {
 			var output = '';
-			if(prefix != undefined && prefix != null) { output += prefix; } 
+			if(prefix != undefined && prefix != null) { output = prefix + output; }
 			output += input;
 			if(suffix != undefined && suffix != null) { output += suffix; }
 			return output;
