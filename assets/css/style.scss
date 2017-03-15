@@ -107,7 +107,8 @@
 		font-family: $serif-font;
 		font-weight: bold;
 		font-size: 1.8em;
-		margin: 2% 1%;
+		// margin: 2% 1%;
+		margin: 1em 0 0.5em;
 	}
 	h2 {
 		font-family: $sans-font;
@@ -192,7 +193,8 @@
 	}
 	#wrapper {
 		//max-width: 1300px;
-		margin: 2% auto;
+		// margin: 2% auto;
+		margin: 1em auto;
 	}
 	#footer {
 		padding: 0.5em;
@@ -245,8 +247,6 @@
 	.icon-black {color: lighten(black,30%);}
 
 	@media screen and (max-width: 600px) {
-		h1 {margin: 1em 0 0.5em;}
-		#wrapper {margin-bottom: 1em;}
 		#header {
 			.name {
 				font-size: 2em; 
@@ -410,7 +410,8 @@
 ############################################ */
 	.shift-detailed {
 		max-width: 450px;
-		margin: 2% auto 1%;
+		// margin: 2% auto 1%;
+		margin: 0.5em auto 0.5em;
 		background-color: white;
 		border: 1px solid $border-color;
 		.shift-date {
@@ -587,7 +588,10 @@
 		margin: 0 10%;
 		width: 80%;
 	}
-	.wage-input {max-width: 80px;}
+	.wage-input {
+		// max-width: 80px;
+		width: 100%;
+	}
 	.message-box {
 		display: table;
 		background-color: white;
@@ -622,7 +626,8 @@
 	$padding-unit: 0.5em;
 
 	form.filter-form {
-		margin: 2% -1*$padding-unit 1%;
+		// margin: 2% -1*$padding-unit 1%;
+		// margin: $padding-unit -1*$padding-unit $padding-unit;
 		input[type=date] {min-width: 165px;}
 		display: flex;
 		display: -webkit-flex;
@@ -738,11 +743,24 @@
 	div.mobile-table {
 		width: 100%;
 		overflow-x: auto;
-		&.size0 {font-size: 60%; td {padding: 0 2px; line-height: 1.6;}}
-		&.size1 {font-size: 80%; td {padding: 0 0.35em; line-height: 1.6;}}
-		&.size3 {font-size: 140%;}
 		.header-spacer {line-height: 18px; color: transparent;}	//to make sure headers are at least 16px tall
 	}
+
+	.size0 {font-size: 60%; td {padding: 0 2px; line-height: 1.6;}}
+	.size1 {font-size: 80%; td {padding: 0 0.35em; line-height: 1.6;}}
+	.size3 {font-size: 140%;}
+
+	table.wrappable {
+		max-width: 100%;
+		td.wrappable {
+			white-space: -o-pre-wrap; 
+			word-wrap: break-word;
+			white-space: pre-wrap; 
+			white-space: -moz-pre-wrap; 
+			white-space: -pre-wrap;
+		}
+	}
+	
 	.summary-table {
 		margin: 0 auto;
 		tr {
@@ -793,6 +811,12 @@
 		}
 		thead.sort-reverse th.sort-field, span.th.sort-reverse {
 			box-shadow: inset 0 4px 0 0 black;	
+		}
+		&.transparent {
+			th, tr, td {background-color: transparent;}
+		}
+		td.wrappable, th.wrappable {
+			word-wrap: break-word;
 		}
 	}
 

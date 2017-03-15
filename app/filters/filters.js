@@ -1066,6 +1066,7 @@ angular.module('shiftTips')
 				ctrl.filters.collapsed.about.tables = true;
 				ctrl.filters.collapsed.about.filters = true;
 				ctrl.filters.collapsed.about.prefs = true;
+				ctrl.filters.collapsed.about.defaults = true;
 				ctrl.filters.collapsed.about.duebacks = true;
 				ctrl.filters.collapsed.about.summaries = true;
 				ctrl.filters.collapsed.about.other = true;
@@ -1092,6 +1093,7 @@ angular.module('shiftTips')
 				ctrl.filters.collapsed.about.tables = false;
 				ctrl.filters.collapsed.about.filters = false;
 				ctrl.filters.collapsed.about.prefs = false;
+				ctrl.filters.collapsed.about.defaults = false;
 				ctrl.filters.collapsed.about.duebacks = false;
 				ctrl.filters.collapsed.about.summaries = false;
 				ctrl.filters.collapsed.about.other = false;
