@@ -66,7 +66,7 @@ h1 {
   font-family: Cambria, Caladea, CaladeaBold, Georgia, serif;
   font-weight: bold;
   font-size: 1.8em;
-  margin: 2% 1%; }
+  margin: 1em 0 0.5em; }
 
 h2 {
   font-family: Calibri, Carlito, CarlitoRegular, "Trebuchet MS", Tahoma, Arial, Helvetica, sans-serif;
@@ -146,7 +146,7 @@ a.link, span.link {
   overflow: hidden; }
 
 #wrapper {
-  margin: 2% auto; }
+  margin: 1em auto; }
 
 #footer {
   padding: 0.5em;
@@ -219,12 +219,6 @@ div.centered {
   color: #4d4d4d; }
 
 @media screen and (max-width: 600px) {
-  h1 {
-    margin: 1em 0 0.5em; }
-
-  #wrapper {
-    margin-bottom: 1em; }
-
   #header .name {
     font-size: 2em;
     padding: 0.1em 0.15em 0.15em;
@@ -410,7 +404,7 @@ hr {
 ############################################ */
 .shift-detailed {
   max-width: 450px;
-  margin: 2% auto 1%;
+  margin: 0.5em auto 0.5em;
   background-color: white;
   border: 1px solid lightgray; }
   .shift-detailed .shift-date {
@@ -600,7 +594,7 @@ form.login-form {
   width: 80%; }
 
 .wage-input {
-  max-width: 80px; }
+  width: 100%; }
 
 .message-box {
   display: table;
@@ -633,7 +627,6 @@ input.ng-dirty.ng-valid, textarea.ng-dirty.ng-valid, form.submitted input.ng-val
 #	FILTER FORM
 ############################################ */
 form.filter-form {
-  margin: 2% -0.5em 1%;
   display: flex;
   display: -webkit-flex;
   justify-content: center;
@@ -837,21 +830,33 @@ div.mobile-table-wrap {
 div.mobile-table {
   width: 100%;
   overflow-x: auto; }
-  div.mobile-table.size0 {
-    font-size: 60%; }
-    div.mobile-table.size0 td {
-      padding: 0 2px;
-      line-height: 1.6; }
-  div.mobile-table.size1 {
-    font-size: 80%; }
-    div.mobile-table.size1 td {
-      padding: 0 0.35em;
-      line-height: 1.6; }
-  div.mobile-table.size3 {
-    font-size: 140%; }
   div.mobile-table .header-spacer {
     line-height: 18px;
     color: transparent; }
+
+.size0 {
+  font-size: 60%; }
+  .size0 td {
+    padding: 0 2px;
+    line-height: 1.6; }
+
+.size1 {
+  font-size: 80%; }
+  .size1 td {
+    padding: 0 0.35em;
+    line-height: 1.6; }
+
+.size3 {
+  font-size: 140%; }
+
+table.wrappable {
+  max-width: 100%; }
+  table.wrappable td.wrappable {
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap; }
 
 .summary-table {
   margin: 0 auto; }
@@ -903,6 +908,10 @@ div.mobile-table {
     font-variant: small-caps; }
   .summary-table thead.sort-reverse th.sort-field, .summary-table span.th.sort-reverse {
     box-shadow: inset 0 4px 0 0 black; }
+  .summary-table.transparent th, .summary-table.transparent tr, .summary-table.transparent td {
+    background-color: transparent; }
+  .summary-table td.wrappable, .summary-table th.wrappable {
+    word-wrap: break-word; }
 
 tr.clickable-row:hover {
   cursor: pointer;

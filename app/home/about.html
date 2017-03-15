@@ -54,7 +54,7 @@
 			</h5>
 			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.crud : crud">
 				<p>
-					To add a shift, visit the <a class="link" href="#/add">Add Shift</a> page. To view a shift that has already been added, visit the <a class="link" href="#/shifts">Shifts</a> page and click on the desired shift to visit the Shift Details page. On the Shift Details page, the information can be modified by pressing either the Edit ( <span class="fa fa-edit"></span> ) button or Delete ( <span class="fa fa-trash"></span> ) button. 
+					To add a shift, visit the <a class="link" href="#/shifts/add">Add Shift</a> page. To view a shift that has already been added, visit the <a class="link" href="#/shifts">Shifts</a> page and click on the desired shift to visit the Shift Details page. On the Shift Details page, the information can be modified by pressing either the Edit ( <span class="fa fa-edit"></span> ) button or Delete ( <span class="fa fa-trash"></span> ) button. 
 				</p>
 				<p>
 					On the Add Shift or Edit Shift pages, enter or adjust whichever information is intended to be tracked, and click the Save ( <span class="fa fa-upload"></span> ) button to submit the information. To disregard the new information, either navigate away from the page, or click the Cancel ( <span class="fa fa-times"></span> ) button on the Edit page to return to the Shift Details page. 
@@ -70,65 +70,69 @@
 			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.glossary : glossary">
 				<table class="glossary">
 					<tr>
-						<th colspan="2">Input Fields <i>(Add / Edit Shift Pages)</i></th>
+						<th colspan="2">Input Fields</th>
 					</tr>
 					<tr>
-						<td class="term">Wage <br /><i>(on Add / Edit Shift pages)</i></td>
-						<td>This is the hourly wage, or what gets paid by the employer for each hour worked. It can be filled out every time a shift is added, or it can be set on the <a class="link" href="#/account">Account</a> page, which will automatically fill it out on the <a class="link" href="#/add">Add Shift</a> page.</td>
+						<td class="term">Location</td>
+						<td>This is the name assigned to the restaurant. It is used to differentiate between two different restaurant jobs. The name can be up to 50 characters. It can be filled out every time a shift is added, or it can be set on the <a class="link" href="#/account">Account</a> page, which will automatically fill it out on the <a class="link" href="#/shifts/add">Add Shift</a> page.</td>
 					</tr>
 					<tr class="alt">
+						<td class="term">Wage</td>
+						<td>This is the hourly wage, or what gets paid by the employer for each hour worked. It is rounded to the nearest cent. It can be filled out every time a shift is added, or it can be set on the <a class="link" href="#/account">Account</a> page, which will automatically fill it out on the <a class="link" href="#/shifts/add">Add Shift</a> page.</td>
+					</tr>
+					<tr>
 						<td class="term">Date</td>
 						<td>This is the date of the shift. It is the only <b class="icon-red">REQUIRED</b> field to enter. It must be in the form YYYY-MM-DD, where YYYY is the four-digit year, MM is the two-digit month, and DD is the two-digit day (e.g. 2016-05-18). Note, dashes ( - ) must be used to separate the digits, not periods ( . ) or slashes ( / ). <i>Some browsers have their own date-selector controls</i>.</td>
 					</tr>
-					<tr>
-						<td class="term">Start Time, Start</td>
+					<tr class="alt">
+						<td class="term">Start Time (Start)</td>
 						<td>This is the time the shift starts. It is used to calculate Hours. It must be in the form HH:MM and it must be in 24 hour format (e.g. 4:00 PM is 16:00). <i>Some browsers have their own time-selector controls</i>.</td>
 					</tr>
-					<tr class="alt">
-						<td class="term">End Time, End</td>
+					<tr>
+						<td class="term">End Time (End)</td>
 						<td>This is the time the shift ends. It is used to calculate Hours. It must be in the form HH:MM and it must be in 24 hour format (e.g. 11:00 PM is 23:00). <i>Some browsers have their own time-selector controls</i>.</td>
 					</tr>
-					<tr>
+					<tr class="alt">
 						<td class="term">First Table</td>
 						<td>This is the time when the first table was sat in the section. This is mostly irrelevant, so fill it out for curiousity's sake only. It might eventually lead to seeing "how many hours spent waiting for a table". It must be in the form HH:MM and it must be in 24 hour format (e.g. 4:00 PM is 16:00). <i>Some browsers have their own time-selector controls</i>.</td>
 					</tr>
-					<tr class="alt">
-						<td class="term">Camp Hours, Camp</td>
+					<tr>
+						<td class="term">Camp Hours (Camp)</td>
 						<td>This is the hours spent waiting for a table to leave before able to go home. It is recommended to track in 0.5 hour increments, although it is rounded to the nearest 0.01 hours.</td>
 					</tr>
-					<tr>
+					<tr class="alt">
 						<td class="term">Sales</td>
 						<td>This is the sales during the shift. It is used to calculate %Tips, %T/O, Sales/h, Sales/cov. It is rounded to the nearest cent.</td>
 					</tr>
-					<tr class="alt">
-						<td class="term">Covers, Cov</td>
-						<td>This is the amount of covers, or the amount of people served during the shift. It is used to calculate Sales/cov. It must be a whole number with no decimals.</td>
-					</tr>
 					<tr>
-						<td class="term">Tipout, T/O</td>
+						<td class="term">Covers (Cov)</td>
+						<td>This is the amount of covers, or the amount of people served during the shift. It is used to calculate Sales/cov. It is rounded to a whole number with no decimals.</td>
+					</tr>
+					<tr class="alt">
+						<td class="term">Tipout (T/O)</td>
 						<td>This is the amount of tips that are shared with other coworkers, usually a set percentage of sales, which is determined by the restaurant's policies. It is used to calculate %T/O. It is rounded to the nearest dollar.</td>
 					</tr>
-					<tr class="alt">
-						<td class="term">Transfer, Tsfr</td>
+					<tr>
+						<td class="term">Transfer (Tsfr)</td>
 						<td>This is the amount of tips that are shared with other coworkers as a result of transfers, which is when people move to a different server. It may or may not apply based on the restaurant's policies. It is rounded to the nearest dollar.</td>
 					</tr>
-					<tr>
+					<tr class="alt">
 						<td class="term">Cash</td>
 						<td>This is the amount of cash that was earned after sharing tips (i.e. after tipout and/or transfers) <b>not</b> including tips that are held as a dueback. It is rounded to the nearest dollar. <i>It may be $0 if the restaurant has a "dueback policy", where tips received by card payments are not distributed until a later date</i>.</td>
 					</tr>
-					<tr class="alt">
-						<td class="term">Due, Dueback</td>
+					<tr>
+						<td class="term">Due or Dueback</td>
 						<td>This is the amount of money to be retrieved later because of tips left by card payments. It may or may not apply based on the restaurant's policies. It is rounded to the nearest dollar.</td>
 					</tr>
-					<tr>
+					<tr class="alt">
 						<td class="term">Section</td>
 						<td>This is the section assigned for the shift. It is recommended to use table numbers seperated by commas and no spaces (e.g. 1,2,3,4). There is a limit of 25 characters.</td>
 					</tr>
-					<tr class="alt">
+					<tr>
 						<td class="term">Cut</td>
 						<td>This is a classification describing when a server was "cut", or stopped being seated for the night. It is a single letter or number, which is used as an abbreviation. Common terms: [S]tay, [G]o, [O]pen, [C]lose, [/] for split, etc.</td>
 					</tr>
-					<tr>
+					<tr class="alt">
 						<td class="term">Notes</td>
 						<td>This is for any notes about the shift. It is used for recording any information that is not recorded in other fields. There is a limit of 1000 characters.</td>
 					</tr>
@@ -138,51 +142,51 @@
 					<tr>
 						<th colspan="2">Calculated Fields</th>
 					</tr>
-					<tr class="alt">
+					<tr>
 						<td class="term">Hours</td>
 						<td>This is the hours worked during the shift. It is calculated by the difference between the Start and End times.</td>
 					</tr>
-					<tr>
-						<td class="term">Wage</td>
-						<td>This is the total dollars that were earned due to the hourly wage. It is calculated using the Wage and Hours.</td>
-					</tr>
 					<tr class="alt">
+						<td class="term">Wage Earned (Wage)</td>
+						<td>This is the total dollars that were earned due to the hourly wage. It is calculated using the Wage and Hours. Despite sometimes using the same name, it is different from the other Wage field, which is what gets paid by the employer for each hour worked.</td>
+					</tr>
+					<tr>
 						<td class="term">Tips</td>
 						<td>This is the total dollars that were earned from tips. It is calculated using Cash and Due.</td>
 					</tr>
-					<tr>
-						<td class="term">Earned</td>
+					<tr class="alt">
+						<td class="term">Total Earned (Earned)</td>
 						<td>This is the total dollars earned due to both the hourly wage and tips. It is calculated using Wage and Tips (which are calculated using Wage, Start, End, Cash, and Due).</td>
 					</tr>
-					<tr class="alt">
+					<tr>
 						<td class="term">%Tips</td>
 						<td>This is the percentage of dollars earned in tips compared to sales. It is calculated using Sales and Tips (which is calculated using Cash and Due).</td>
 					</tr>
-					<tr>
+					<tr class="alt">
 						<td class="term">%T/O</td>
 						<td>This is the percentage of dollars of tips shared with staff compared to sales. It is generally a fixed amount based on restaurant's policies. It is calculated using Sales and Tipout.</td>
 					</tr>
-					<tr class="alt">
+					<tr>
 						<td class="term">%TvW</td>
 						<td>This is the percent of dollars earned by tips compared to wage, e.g. a %TvW of 200% means that twice as much was earned in tips compared to wage. It is calculated using Wage and Tips (which are calculated using Wage, Start, End, Cash, and Due).</td>
 					</tr>
-					<tr>
+					<tr class="alt">
 						<td class="term">Sales/h</td>
 						<td>This is the sales per hour. It is calculated using Sales and Hours (which is calculated using Start and End).</td>
 					</tr>
-					<tr class="alt">
+					<tr>
 						<td class="term">Sales/cov</td>
 						<td>This is the sales per cover, also known as "average guest check", which is how much each guest ordered that shift, on average. It is calculated using Sales and Covers.</td>
 					</tr>
-					<tr>
+					<tr class="alt">
 						<td class="term">$/h</td>
 						<td>This is the total dollars earned per hour, including tips and wage. It is calculated using Tips, Wage, and Hours (which are calculated using Wage, Start, End, Cash, and Due)</td>
 					</tr>
-					<tr class="alt">
+					<tr>
 						<td class="term">L/D</td>
 						<td>This is an abbreviation for Lunch and Dinner. Lunch shifts are any shift that starts before 2PM. Shifts are separated into lunch and dinner shifts because Sales and %Tips are usually much different between them.</td>
 					</tr>
-					<tr>
+					<tr class="alt">
 						<td class="term">Shifts <br /><i>(on Summary, Period pages)</i></td>
 						<td>This is how many shifts are in each summary group (e.g. there are 8 shifts in the "D Mon" summary group, which means that there are 8 Monday Dinner shifts.)</td>
 					</tr>
@@ -220,7 +224,7 @@
 					To filter the information further (by date, day, and time), expand the <span class="filter-group-header">Filters</span> bar by pressing the View ( <span class="fa fa-eye"></span> ) button. After selecting the filters, the menu can be collapsed by pressing the Hide ( <span class="fa fa-eye-slash"></span> ) button. The text size of the information can be adjusted by clicking the Text Size ( <span class="fa fa-font"></span> ) button. At any point, the filters can be reset by pressing the Reset ( <span class="fa fa-undo"></span> ) button. On the <a class="link" href="#/shifts/grid">Shifts Grid</a> page, the weeks can be arranged either chronologically ( <span class="fa fa-sort-amount-asc"></span> ) or reverse-chronologically ( <span class="fa fa-sort-amount-desc"></span> ).
 				</p>
 				<p>
-					The <span class="filter-group-header">Date Range</span> filters limit shifts from a start period to an end period, e.g. selecting all the shifts of a certain month or year. The dates must be entered in a YYYY-MM-DD format, where YYYY is the four-digit year, MM is the two-digit month, and DD is the two-digit day (e.g. 2016-05-18). Note, dashes ( - ) must be used to separate the digits, not periods ( . ) or slashes ( / ).
+					The <span class="filter-group-header">Date Range</span> filters limit shifts from a start period to an end period, e.g. selecting all the shifts of a certain month or year. The dates must be entered in a YYYY-MM-DD format, where YYYY is the four-digit year, MM is the two-digit month, and DD is the two-digit day (e.g. 2016-05-18). Note, dashes ( - ) must be used to separate the digits, not periods ( . ) or slashes ( / ). <i>Some browsers have their own date-selector controls</i>.
 				</p>
 				<p>
 					The <span class="filter-group-header">Lun/Din</span> filter limits shifts to either Lunch ( L ), Dinner ( D ), or both. Lunch shifts are any shifts that start before 2PM. When a button is white, it is disabled, and clicking the button will enable it and change its color. When a button is colored, it is enabled, and clicking the button will disable it and change it to white. They are toggle buttons, which means only one can be selected at a time, so enabling one button will automatically disable the other button. 
@@ -231,11 +235,11 @@
 			</div>
 			<h5 ng-model="prefs" ng-click="prefs=!prefs; filtersCtrl.toggleCollapsed('about','prefs');">
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.prefs : !prefs" class="fa fa-fw fa-caret-right"></span>
-				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.prefs : prefs" class="fa fa-fw fa-caret-down"></span> How to use the view settings?
+				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.prefs : prefs" class="fa fa-fw fa-caret-down"></span> How to use the device view settings?
 			</h5>
 			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.prefs : prefs">
 				<p>
-					On the <a class="link" href="#/account">Account</a> page, the View Settings affect what fields are displayed on <b>this device</b> and <b>this browser</b> only. If the device or browser memories are cleared, it will return to the default settings. Use the Save Current View Settings ( <span class="fa fa-fw fa-upload"></span> ) button to upload the current settings to be able to download them on other devices or browsers. Sometimes the settings will reset if the app's internal settings have been changed by the developer.
+					On the <a class="link" href="#/account">Account</a> page, the Device View Settings affect what fields are displayed on <b>this device</b> and <b>this browser</b> only. If the device or browser memories are cleared, it will return to the default settings. Use the Save Current View Settings ( <span class="fa fa-fw fa-upload"></span> ) button to upload the current settings to be able to download them on other devices or browsers. Sometimes the settings will reset if the app's internal settings have been changed by the developer.
 				</p>
 				<p>
 					There are prearranged settings buttons in the <span class="filter-group-header">View Settings Type</span> area, including custom settings that were Saved by the user. In the <span class="filter-group-header">Table Controls</span>, use the Expand All ( <span class="fa fa-caret-down"></span> ) and Collapse All ( <span class="fa fa-caret-right"></span> ) buttons to easily navigate through the tables. The buttons will turn blue when they are activated, and they will turn white when deactivated. The text size of the tables can be adjusted by clicking the Text Size ( <span class="fa fa-font"></span> ) button.
@@ -243,8 +247,14 @@
 				<p>
 					The View Settings are arranged into different tables corresponding to pages within the app. Each table will determine which fields are displayed on the corresponding page. Clicking the table title will either collapse ( <span class="fa fa-caret-right"></span> ) or expand ( <span class="fa fa-caret-down"></span> ) the table to reveal the fields corresponding to that page. Clicking the button beside each field will toggle between the green Visible ( <span class="fa fa-fw fa-check"></span> ) button and the red Hidden ( <span class="fa fa-fw fa-times"></span> ) button.
 				</p>
+			</div>
+			<h5 ng-model="defaults" ng-click="defaults=!defaults; filtersCtrl.toggleCollapsed('about','defaults');">
+				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.defaults : !defaults" class="fa fa-fw fa-caret-right"></span>
+				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.defaults : defaults" class="fa fa-fw fa-caret-down"></span> How to set default values?
+			</h5>
+			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.defaults : defaults">
 				<p>
-					The Set Wage area in the Add Shift Page table controls the default wage that is entered on the <a class="link" href="#/shifts/add">Add Shift</a> page. To change the default Wage value, enter a decimal value in the white input box, then click the Save ( <span class="fa fa-upload"></span> ) button to submit the value. The current default Wage value, if there is one, is displayed above the Save button. This is different than the Wage field and Visible button below which controls whether the Wage field is displayed on the Add Shift page.
+					On the <a class="link" href="#/account">Account</a> page, the Change Default Values section controls the default values that are automatically entered on the <a class="link" href="#/shifts/add">Add Shift</a> page. To change a default value, enter the value in the white input box, then click the Save ( <span class="fa fa-upload"></span> ) button to submit the value. The Location value can be a name up to 50 characters, and the Wage value is rounded to the nearest cent. The current default values, if there are any, are displayed above the input and Save button. Note, the default values are different than the fields with Visible ( <span class="fa fa-fw fa-check"></span> ) buttons below (which controls whether the field is displayed on the corresponding pages).
 				</p>
 			</div>
 			<h5 ng-model="duebacks" ng-click="duebacks=!duebacks; filtersCtrl.toggleCollapsed('about','duebacks');">
