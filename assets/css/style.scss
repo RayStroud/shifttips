@@ -512,8 +512,12 @@
 		text-align: center;
 		background-color: $body-bgcolor;
 		color: $header-text-color;
-		border: 1px solid $border-color;
-		&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 15%);}
+		border: 1px solid darken($body-bgcolor,4%);
+		&:hover {
+			cursor: pointer; 
+			background-color: lighten($body-bgcolor, 15%);
+			border-color: lighten(darken($body-bgcolor,4%),15%);
+		}
 	}
 	.link-button.tiny-button {padding: 0 0.1em;}
 
@@ -548,38 +552,71 @@
 	.link-button.button-inverse {
 		background-color: $header-text-color;
 		color: $body-bgcolor;
-		&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 45%);}
+		border-color: $border-color;
+		&:hover {
+			cursor: pointer; 
+			background-color: lighten($body-bgcolor, 45%);
+			border-color: darken(lighten($body-bgcolor, 45%), 5%);
+		}
 	}
 	.link-button.button-cyan {
-		background-color: desaturate(cyan, 50%);
+		background-color: desaturate(cyan, 50%); 
 		color: white;
-		&:hover {cursor: pointer; background-color: lighten(desaturate(cyan, 50%), 10%);}
+		border-color: darken(desaturate(cyan, 50%),4%);
+		&:hover {
+			cursor: pointer; 
+			background-color: lighten(desaturate(cyan, 50%), 10%);
+			border-color: lighten(darken(desaturate(cyan, 50%),4%),10%);
+		}
 	}
 	.link-button.button-red {
 		background-color: desaturate(red, 50%);
 		color: white;
-		&:hover {cursor: pointer; background-color: lighten(desaturate(red, 50%), 10%);}
+		border-color: darken(desaturate(red, 50%),4%);
+		&:hover {
+			cursor: pointer; 
+			background-color: lighten(desaturate(red, 50%), 10%);
+			border-color: lighten(darken(desaturate(red, 50%),4%),10%);
+		}
 	}
 	.link-button.button-green {
 		background-color: desaturate(lime, 60%);
 		color: white;
-		&:hover {cursor: pointer; background-color: lighten(desaturate(lime, 60%), 10%);}
+		border-color: darken(desaturate(lime, 60%),4%);
+		&:hover {
+			cursor: pointer; 
+			background-color: lighten(desaturate(lime, 60%), 10%);			
+			border-color: lighten(darken(desaturate(lime, 60%),4%),10%);
+		}
 	}
 	.link-button.button-amber {
 		background-color: desaturate(orange, 30%);
 		color: white;
-		&:hover {cursor: pointer; background-color: lighten(desaturate(orange, 30%), 10%);}
+		border-color: darken(desaturate(orange, 30%),4%);
+		&:hover {
+			cursor: pointer; 
+			background-color: lighten(desaturate(orange, 30%), 10%);
+			border-color: lighten(darken(desaturate(orange, 30%),4%),10%);
+		}
 	}
 	.link-button.button-black {
-		background-color: desaturate(black, 50%);
+		background-color: lighten(black,20%);
 		color: white;
-		&:hover {cursor: pointer; background-color: lighten(desaturate(black, 50%), 10%);}
+		border-color: darken(lighten(black,20%),4%);
+		&:hover {
+			cursor: pointer; 
+			background-color: lighten(lighten(black,20%), 10%);
+			border-color: lighten(darken(lighten(black,20%),4%),10%);
+		}
 	}
 	.link-button.button-invisible {
 		background-color: transparent;
 		color: black;
 		border-color: transparent;
-		&:hover {cursor: default; background-color: transparent;}
+		&:hover {
+			cursor: default; 
+			background-color: transparent;
+		}
 	}
 	.button-narrow {
 		margin: 0 25%;

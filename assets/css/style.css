@@ -498,11 +498,12 @@ a.link-button {
   text-align: center;
   background-color: #337ab7;
   color: white;
-  border: 1px solid lightgray; }
+  border: 1px solid #2f6fa7; }
   .link-button:hover,
   a.link-button:hover {
     cursor: pointer;
-    background-color: #63a0d4; }
+    background-color: #63a0d4;
+    border-color: #5396cf; }
 
 .link-button.tiny-button {
   padding: 0 0.1em; }
@@ -540,45 +541,57 @@ form.login-form {
 
 .link-button.button-inverse {
   background-color: white;
-  color: #337ab7; }
+  color: #337ab7;
+  border-color: lightgray; }
   .link-button.button-inverse:hover {
     cursor: pointer;
-    background-color: #dbe9f5; }
+    background-color: #dbe9f5;
+    border-color: #c7ddef; }
 
 .link-button.button-cyan {
   background-color: #40bfbf;
-  color: white; }
+  color: white;
+  border-color: #3bb0b0; }
   .link-button.button-cyan:hover {
     cursor: pointer;
-    background-color: #66cccc; }
+    background-color: #66cccc;
+    border-color: #57c7c7; }
 
 .link-button.button-red {
   background-color: #bf4040;
-  color: white; }
+  color: white;
+  border-color: #b03b3b; }
   .link-button.button-red:hover {
     cursor: pointer;
-    background-color: #cc6666; }
+    background-color: #cc6666;
+    border-color: #c75757; }
 
 .link-button.button-green {
   background-color: #4db34d;
-  color: white; }
+  color: white;
+  border-color: #46a446; }
   .link-button.button-green:hover {
     cursor: pointer;
-    background-color: #70c270; }
+    background-color: #70c270;
+    border-color: #62bc62; }
 
 .link-button.button-amber {
   background-color: #d99a26;
-  color: white; }
+  color: white;
+  border-color: #c78d23; }
   .link-button.button-amber:hover {
     cursor: pointer;
-    background-color: #e0ae52; }
+    background-color: #e0ae52;
+    border-color: #dda640; }
 
 .link-button.button-black {
-  background-color: black;
-  color: white; }
+  background-color: #333333;
+  color: white;
+  border-color: #292929; }
   .link-button.button-black:hover {
     cursor: pointer;
-    background-color: #1a1a1a; }
+    background-color: #4d4d4d;
+    border-color: #424242; }
 
 .link-button.button-invisible {
   background-color: transparent;
