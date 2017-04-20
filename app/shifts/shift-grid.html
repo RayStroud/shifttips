@@ -129,10 +129,11 @@
 									<div class="shift-info" ng-if="ctrl.prefs.due">
 										<div class="label">Due</div>
 										<div class="value">{{shift.due | currency:undefined:0 | placeholder:'-'}}
-											<span ng-if="shift.dueCheck == '!'" class="fa fa-fw fa-exclamation icon-amber"></span></span>
+											<span ng-if="shift.dueCheck == 'N'" class="fa fa-fw fa-envelope icon-blue"></span></span>
 											<span ng-if="shift.dueCheck == 'Y'" class="fa fa-fw fa-check icon-green"></span></span>
-											<span ng-if="shift.dueCheck == '?'" class="fa fa-fw fa-question icon-blue"></span></span>
-											<span ng-if="shift.dueCheck == 'N'" class="fa fa-fw fa-times icon-red"></span></span>
+											<span ng-if="shift.dueCheck == '?'" class="fa fa-fw fa-question icon-cyan"></span></span>
+											<span ng-if="shift.dueCheck == '!'" class="fa fa-fw fa-exclamation icon-amber"></span></span>
+											<span ng-if="shift.dueCheck == 'X'" class="fa fa-fw fa-times icon-red"></span></span>
 										</div>
 									</div>
 									<div class="shift-info" ng-if="ctrl.prefs.earnedWage">

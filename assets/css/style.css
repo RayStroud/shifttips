@@ -207,10 +207,13 @@ div.centered {
   color: #bf4040; }
 
 .icon-blue {
-  color: #339999; }
+  color: #337ab7; }
 
 .icon-green {
   color: #40bf40; }
+
+.icon-cyan {
+  color: #339999; }
 
 .icon-amber {
   color: #bf9240; }
@@ -542,10 +545,10 @@ form.login-form {
     cursor: pointer;
     background-color: #dbe9f5; }
 
-.link-button.button-blue {
+.link-button.button-cyan {
   background-color: #40bfbf;
   color: white; }
-  .link-button.button-blue:hover {
+  .link-button.button-cyan:hover {
     cursor: pointer;
     background-color: #66cccc; }
 
