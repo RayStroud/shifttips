@@ -414,7 +414,7 @@ angular.module('shiftTips')
 					}
 					break;	
 				case 'unretrieved':
-					if (shift.dueCheck == '!') {
+					if (shift.dueCheck == 'N') {
 						filteredShifts.push(shift);
 					}
 					break;	
