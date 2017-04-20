@@ -241,8 +241,9 @@
 	.reset-spacing { padding: 0 !important; margin: 0 !important;}
 	.full-width {width: 100%;}
 	.icon-red {color: desaturate(red,50%);}
-	.icon-blue {color: darken(desaturate(cyan,50%),10%);}
+	.icon-blue {color: $blue;}
 	.icon-green {color: desaturate(lime,50%);}
+	.icon-cyan {color: darken(desaturate(cyan,50%),10%);}
 	.icon-amber {color: desaturate(orange,50%);}
 	.icon-black {color: lighten(black,30%);}
 
@@ -549,7 +550,7 @@
 		color: $body-bgcolor;
 		&:hover {cursor: pointer; background-color: lighten($body-bgcolor, 45%);}
 	}
-	.link-button.button-blue {
+	.link-button.button-cyan {
 		background-color: desaturate(cyan, 50%);
 		color: white;
 		&:hover {cursor: pointer; background-color: lighten(desaturate(cyan, 50%), 10%);}
