@@ -25,7 +25,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.what : !what" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.what : what" class="fa fa-fw fa-caret-down"></span> What is Shift Tips?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.what : what">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.what : what">
 				<p>
 					Shift Tips is a web app developed by <a class="link" href="http://raystroud.ca">Ray Stroud</a>, a seasoned restaurant worker and a beginner web developer. It was made to keep track of restaurant job statistics, like hours, tips, sales, time spent waiting around for people to leave to be able to go home - the important stuff. It started as a spreadsheet, but it grew into an app in order to see weekly earnings and to figure out which days of the week were the best to work.
 				</p>
@@ -34,7 +34,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.use : !use" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.use : use" class="fa fa-fw fa-caret-down"></span> How to use Shift Tips?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.use : use">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.use : use">
 				<p>
 					After every shift, add whichever information is intended to be tracked (e.g. start/end times, tips, sales, covers, section, etc). It will immediately calculate some relevant information (e.g. hours worked, tip percentage, sales per hour, sales per cover, etc). As more shifts are entered, summaries can be viewed, like weekly and monthly statistics, or statistics by day of the week.
 				</p>
@@ -43,7 +43,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.login : !login" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.login : login" class="fa fa-fw fa-caret-down"></span> How to login to Shift Tips?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.login : login">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.login : login">
 				<p>
 					There are no passwords for Shift Tips accounts. The credentials are simply a Name and an associated unique Email address. To create an account, enter a Name and any valid and unique Email address into the New Account box, then click the Sign Up ( <span class="fa fa-user-plus"></span> ) button. The email must not have been previously used for another account. To use an existing account, enter the Name and Email that were used during account creation into the Existing Account box, then click the Login ( <span class="fa fa-sign-in"></span> ) button. To logout, visit the <a class="link" href="#/account">Account</a> page and click the Logout ( <span class="fa fa-sign-out"></span> ) button. If there are any concerns about accounts (e.g. the Name and/or associated Email have been forgotten), please <a class="link" href="mailto:ray.stroud@gmail.com?subject=ShiftTips" target="_top">Email the Administrator</a> for help. 
 				</p>
@@ -52,7 +52,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.crud : !crud" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.crud : crud" class="fa fa-fw fa-caret-down"></span> How to view/add/edit/delete a shift?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.crud : crud">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.crud : crud">
 				<p>
 					To add a shift, visit the <a class="link" href="#/shifts/add">Add Shift</a> page. To view a shift that has already been added, visit the <a class="link" href="#/shifts">Shifts</a> page and click on the desired shift to visit the Shift Details page. On the Shift Details page, the information can be modified by pressing either the Edit ( <span class="fa fa-edit"></span> ) button or Delete ( <span class="fa fa-trash"></span> ) button. 
 				</p>
@@ -67,7 +67,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.glossary : !glossary" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.glossary : glossary" class="fa fa-fw fa-caret-down"></span> What do all the fields mean?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.glossary : glossary">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.glossary : glossary">
 				<table class="glossary">
 					<tr>
 						<th colspan="2">Input Fields</th>
@@ -196,7 +196,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.tables : !tables" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.tables : tables" class="fa fa-fw fa-caret-down"></span> How to use the table functions?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.tables : tables">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.tables : tables">
 				<p>
 					<span class="summary-table"><span class="th">header</span></span>
 					<span class="summary-table"><span class="th sort-field">sort</span></span>
@@ -216,7 +216,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.filters : !filters" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.filters : filters" class="fa fa-fw fa-caret-down"></span> How to use the filters?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.filters : filters">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.filters : filters">
 				<p>
 					On the <a class="link" href="#/shifts">Shifts</a> page, there is a choice of <span class="filter-group-header">View Style</span>, which displays shift information as either a list ( <span class="fa fa-table"></span> ) or as a weekly grid ( <span class="fa fa-th-large"></span> ). On the <a class="link" href="#/summary">Summary</a> and <a class="link" href="#/summary/period">Period</a> pages, there is a choice of <span class="filter-group-header">Summary Type</span> and <span class="filter-group-header">Period Type</span>, which changes how the information is grouped in the summaries. 
 				</p>
@@ -237,7 +237,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.prefs : !prefs" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.prefs : prefs" class="fa fa-fw fa-caret-down"></span> How to use the device view settings?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.prefs : prefs">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.prefs : prefs">
 				<p>
 					On the <a class="link" href="#/account">Account</a> page, the Device View Settings affect what fields are displayed on <b>this device</b> and <b>this browser</b> only. If the device or browser memories are cleared, it will return to the default settings. Use the Save Current View Settings ( <span class="fa fa-fw fa-upload"></span> ) button to upload the current settings to be able to download them on other devices or browsers. Sometimes the settings will reset if the app's internal settings have been changed by the developer.
 				</p>
@@ -252,7 +252,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.defaults : !defaults" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.defaults : defaults" class="fa fa-fw fa-caret-down"></span> How to set default values?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.defaults : defaults">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.defaults : defaults">
 				<p>
 					On the <a class="link" href="#/account">Account</a> page, the Change Default Values section controls the default values that are automatically entered on the <a class="link" href="#/shifts/add">Add Shift</a> page. To change a default value, enter the value in the white input box, then click the Save ( <span class="fa fa-upload"></span> ) button to submit the value. The Location value can be a name up to 50 characters, and the Wage value is rounded to the nearest cent. The current default values, if there are any, are displayed above the input and Save button. Note, the default values are different than the fields with Visible ( <span class="fa fa-fw fa-check"></span> ) buttons below (which controls whether the field is displayed on the corresponding pages).
 				</p>
@@ -261,7 +261,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.duebacks : !duebacks" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.duebacks : duebacks" class="fa fa-fw fa-caret-down"></span> How to keep track of duebacks?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.duebacks : duebacks">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.duebacks : duebacks">
 				<p>
 					When adding a shift with a non-zero amount in the Due field, it will assign the shift a Not Retrieved ( <span class="fa fa-envelope"></span> ) icon that shows that the dueback has to be retrieved. Duebacks can be managed shift-by-shift on the Shift Details pages, or they can be managed on the <a class="link" href="#/shifts/due">Duebacks</a> page. 
 				</p>
@@ -277,7 +277,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.summaries : !summaries" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.summaries : summaries" class="fa fa-fw fa-caret-down"></span> How to use the summaries?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.summaries : summaries">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.summaries : summaries">
 				<p>
 					On the <a class="link" href="#/summary">Summary</a> page and the <a class="link" href="#/summary/period">Period Summary</a> page, there are tables that show calculated averages and totals based on a group of shifts. Click a button in the <span class="filter-group-header">Summary Type</span> or <span class="filter-group-header">Period Type</span> section to change how the summary information is grouped. The <span class="filter-group-header">Row Type</span> section toggles what information is displayed in each row: averages ( <i>AVG</i> ), totals ( <i>TOT</i> ), or both. When both buttons are white, both types of rows are displayed. Clicking a white buttons will change the button to blue and display only that type of row. Clicking a blue button will change the button to white and show both types of rows. 
 				</p>
@@ -292,7 +292,7 @@
 				<span ng-show="userCtrl.isLoggedIn() ? filtersCtrl.filters.collapsed.about.other : !other" class="fa fa-fw fa-caret-right"></span>
 				<span ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.other : other" class="fa fa-fw fa-caret-down"></span> Other questions, comments, suggestions, or requests?
 			</h5>
-			<div ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.other : other">
+			<div class="faq-collapse" ng-show="userCtrl.isLoggedIn() ? !filtersCtrl.filters.collapsed.about.other : other">
 				<p>
 					If there are any other questions, problems, bugs, or errors, please <a class="link" href="mailto:ray.stroud@gmail.com?subject=ShiftTips" target="_top">Email the Administrator</a> for help. If there are other features that will benefit the app, please send an email to suggest it.
 				</p>

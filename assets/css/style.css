@@ -270,6 +270,9 @@ div.centered.button-group {
 #about div.size3 {
   font-size: 140%; }
 
+div.faq-collapse {
+  margin-top: -1em; }
+
 table.glossary {
   margin: 1em 0; }
   table.glossary tr {
